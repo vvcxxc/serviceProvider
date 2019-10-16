@@ -11,7 +11,7 @@ const config: IConfig =  {
       dynamicImport: false,
       title: 'serviceProvider',
       dll: false,
-      
+
       routes: {
         exclude: [
           /models\//,
@@ -23,6 +23,7 @@ const config: IConfig =  {
       },
     }],
   ],
+  hash: true
 }
 
 export default config;

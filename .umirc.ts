@@ -6,6 +6,7 @@ const config: IConfig =  {
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
+      hd: true,
       antd: true,
       dva: true,
       dynamicImport: false,

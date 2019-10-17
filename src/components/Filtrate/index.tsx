@@ -12,7 +12,7 @@ interface Props {
 }
 
 // 使用须知
-// 传入标题———二级标题dataList,没做超出屏幕左右滑动处理，传个三四个筛选条件就好，不要太过分
+// 传入标题———二级标题dataList,没做超出屏幕左右滑动处理，传个两三个筛选条件就好，不要太过分
 //onSearch:按搜索按钮触发，返回选中条件文本
 //closeNum触发关闭选中状态，写啥都可以能有变化就行，值变化触发componentWillReceiveProps生命周期
 export default class Filtrate extends Component<Props>{

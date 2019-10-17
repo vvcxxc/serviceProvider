@@ -74,7 +74,7 @@ export default class Filtrate extends Component<Props>{
                 {
                     this.state.dataList && this.state.dataList.length > 0 ? this.state.dataList.map((item: any, index: any) => {
                         return (
-                            <div key={index} className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} style={{ color: item.select ? '#bdb03f' : '#666666' }}>{item.title}
+                            <div key={index} className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} >{item.title}
                                 {item.select ? <Icon className={styles.filtrate_icon} type="up" /> : <Icon className={styles.filtrate_icon} type="down" />}
                                 <div className={styles.filtrate_value_box} style={{ display: item.select ? 'block' : 'none' }}>
                                     <ul className={styles.filtrate_value_ul} onClick={this.selectKey.bind(this, item.index)} >

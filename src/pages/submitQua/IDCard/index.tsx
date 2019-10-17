@@ -99,6 +99,17 @@ class IDCard extends Component {
         })
     }
 
+    /**
+     * 隐藏身份证示例
+     */
+    handleHideModal = (e:any) => {
+        if(e.target == e.currentTarget) {
+            this.setState({
+                isShowModal: false
+            })
+        }
+    }
+
 
     /**
      * 上传身份证正反面
@@ -199,7 +210,7 @@ class IDCard extends Component {
 
                 {/* IDModal */}
                 {
-                    isShowModal ? (<div className={styles.modal_wrap}>
+                    isShowModal ? (<div className={styles.modal_wrap} onClick={this.handleHideModal}>
                         <div className={styles.modal_container}>
                             <div className={styles.modal_exeample}>
                                 <div className={styles.modal_title}>证件上传示例</div>

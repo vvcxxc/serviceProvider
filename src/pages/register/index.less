@@ -1,14 +1,49 @@
+@height:96px;
 .register_screen {
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 208px;
     .register_wrap {
         height: 50vh;
         width: 100%;
         padding: 0 36px;
         box-sizing: border-box;
-        margin-top: 208px;
         display: flex;
-        .register_phone {
-            height: 96px;
-            width: 100%;
+        flex-direction: column;
+        .register_phone,.register_code,.register_password  {
+            height: @height;
+            font-size: 28px;
+            padding:0 0 0 15px;
+            border:1px solid #bbb;
+        }
+        .register_phone,.register_code{
+            margin-bottom: 40px;
+        }
+        .register_password {
+            margin-bottom: 64px;
+        }
+        .register_code_wrap {
+            height: @height;
+            margin-bottom: 40px;
+            display: flex;
+            .register_code {
+                width: 372px;
+            }
+            .register_send_code {
+                height: @height;
+                line-height: @height;
+                border-radius:0;
+                font-size: 28px;
+                width: calc(100% - 372px);
+                border: 1px solid #bbb;
+            }
+        }
+        .register_btn {
+            height: 94px;
+            line-height: 94px;
+            font-size: 36px;
+            background-color: #1AAD19;
+            color: #fff;
         }
     }
 }

@@ -1,0 +1,75 @@
+.chooseid_wrap {
+    width: 100%;
+    height: 100vh;
+    .chooseid_title {
+        height: 120px;
+        line-height: 120px;
+        padding: 0 30px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #ccc;
+        color: #101010;
+        font-size: 28px;
+    }
+    .radio_group {
+        .service_item {
+            padding: 0 30px;
+            border-bottom: 1px solid #ccc;
+            height: 88px;
+            line-height: 88px;
+            font-size: 34px;
+            font-weight: 500;
+
+            input[type="radio"] + label::after {
+                content: "";
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 36px;
+                width: 36px;
+                height: 36px;
+                margin-right: .4em;
+                border-radius: 50%;
+                border: 1px solid #5677fc;
+                text-indent: .15em;
+                line-height: 1; 
+            }
+            input[type="radio"]:checked + label::after {
+                background-color: #5677fc;
+                background-clip: content-box;
+                padding: .2em;
+                font-size: 40px;
+                width: 40px;
+                height: 40px;
+                box-sizing: border-box;
+            }
+            input[type="radio"] {
+                position: absolute;
+                clip: rect(0, 0, 0, 0);
+            }
+
+            label {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+    .next_step_wrap {
+        // padding: 0 30px;
+        width: 100%;
+        height: 94px;
+        position: absolute;
+        bottom: 124px;
+        .next_step {
+            padding: 0 30px;
+            .next_step_btn {
+                // width: 100%;
+                height: 94px;
+                background-color: #1AAD19;
+                color: #fff;
+                font-size: 36px;
+                line-height: 94px;
+            }
+        }
+        
+    }
+}

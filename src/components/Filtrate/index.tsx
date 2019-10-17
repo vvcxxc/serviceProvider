@@ -47,11 +47,12 @@ export default class Filtrate extends Component<Props>{
         }
         // console.log(returntList);
         this.props.onSearch && this.props.onSearch(returntList);
-          e.stopPropagation();
+        e.stopPropagation();
     }
 
     selectKey = (index: any, e: any) => {
         let tempList = this.state.dataList;
+        let tempstyle = tempList[index].select;
         for (let i = 0; i < tempList.length; i++) {
             tempList[i].select = false;
             // tempList[i].title = tempList[i].key;
@@ -60,12 +61,12 @@ export default class Filtrate extends Component<Props>{
             console.log(e.target.innerText)
             tempList[index].title = e.target.innerText;
         } else {
-            tempList[index].select = true;
-
+            tempList[index].select = !tempstyle;
         }
         this.setState({ dataList: tempList })
         e.stopPropagation();
     }
+
 
 
     render() {

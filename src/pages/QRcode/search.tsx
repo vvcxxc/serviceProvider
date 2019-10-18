@@ -15,8 +15,16 @@ export default class Search extends Component {
 
 
 
-    handleclose = (query: any) => {
+    handleclose = () => {
         this.setState({ invitationShow: false })
+    }
+    KeySubmit = (e: any) => {
+        e.persist();
+        console.log(e.keyCode);
+        if (e.keyCode == '13') {
+            console.log('键盘确定');
+        }
+        e.preventDefault();
     }
 
     render() {
@@ -28,7 +36,7 @@ export default class Search extends Component {
                         <div className={styles.ServiceProvider_searchBox_icon}>
                             <Icon type="search" />
                         </div>
-                        <input type="text" className={styles.ServiceProvider_input} placeholder='输入服务商名称或手机号' />
+                        <input type="text" className={styles.ServiceProvider_input} placeholder='输入店铺名称' onKeyPress={this.KeySubmit.bind(this)} />
 
 
                     </div>
@@ -37,10 +45,10 @@ export default class Search extends Component {
                 <div className={styles.QRcode_content}>
 
 
-                <div className={styles.QRcode_item}>
+                    <div className={styles.QRcode_item}>
                         <div className={styles.QRcode_item_left}>
                             <div className={styles.QRcode_item_name}>二维码序列号</div>
-                            <div className={styles.QRcode_item_date}>点的名字</div>
+                            {/* <div className={styles.QRcode_item_date}>店的名字</div> */}
                         </div>
                         <div className={styles.QRcode_item_right}>
 

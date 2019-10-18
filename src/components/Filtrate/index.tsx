@@ -8,7 +8,7 @@ import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 interface Props {
     dataList: any,
     onSearch: any,
-    closeNum:any
+    closeNum: any
 }
 
 // 使用须知
@@ -35,7 +35,7 @@ export default class Filtrate extends Component<Props>{
         ]
     }
 
-    componentWillReceiveProps(){
+    componentWillReceiveProps() {
         let tempList = this.state.dataList;
         for (let i = 0; i < tempList.length; i++) {
             tempList[i].select = false;
@@ -48,15 +48,14 @@ export default class Filtrate extends Component<Props>{
     }
 
 
-    submit = (e: any) => {
+    submit = () => {
         let tempList = this.state.dataList;
         let returntList = [];
         for (let i = 0; i < tempList.length; i++) {
             returntList.push(tempList[i].title);
         }
-        console.log(returntList);
+        // console.log(returntList);
         this.props.onSearch && this.props.onSearch(returntList);
-        e.stopPropagation();
     }
 
     selectKey = (index: any, e: any) => {
@@ -67,12 +66,15 @@ export default class Filtrate extends Component<Props>{
             // tempList[i].title = tempList[i].key;
         }
         if (e.target.nodeName == 'LI') {
-            console.log(e.target.innerText)
+            // console.log(e.target.innerText)
             tempList[index].title = e.target.innerText;
+            this.submit();
         } else {
             tempList[index].select = !tempstyle;
+
         }
-        this.setState({ dataList: tempList })
+        this.setState({ dataList: tempList });
+
         e.stopPropagation();
     }
 

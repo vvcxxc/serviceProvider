@@ -30,7 +30,6 @@ export default class Invitation extends Component<Props>{
                     <div className={styles.share_box_title}>邀请服务商</div>
                     <div className={styles.share_box_imgBox}>
                         <img  className={styles.share_box_imgBox_img} src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571379516234&di=474ccfe10db359bdab1ef32e21792921&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F17e9533c4c7dec81443998aba5aa848e99200b29.jpg' />
-                        {/* <img className={styles.share_box_imgBox_img} src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2393875007,1468156503&fm=15&gp=0.jpg' /> */}
                     </div>
                     <div className={styles.share_box_handleBox}>
                         <div className={styles.share_box_cancle} onClick={this.handleclose.bind(this)} >取消</div>

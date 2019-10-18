@@ -31,7 +31,8 @@ export default class InvitationServiceProvider extends Component {
     }
 
     searchPayload = (query: any) => {
-        router.push({ pathname: '/InvitationServiceProvider/search', query: query })
+        console.log('lll',query)
+        // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     }
 
     handleclose = (query: any) => {

@@ -31,7 +31,9 @@ export default class QRcode extends Component {
     }
 
     searchPayload = (query: any) => {
-        router.push({ pathname: '/QRcode/search', query: query })
+        console.log('lll',query)
+
+        // router.push({ pathname: '/QRcode/search', query: query })
     }
 
     handleclose = (query: any) => {

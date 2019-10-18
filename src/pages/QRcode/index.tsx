@@ -12,18 +12,12 @@ export default class QRcode extends Component {
     state = {
         dataList: [
             {
-                index: 0,
                 key: '排序',
-                title: '排序',
                 value: ['排序', '收益', '邀请人数', '邀请时间'],
-                select: false
             },
             {
-                index: 1,
                 key: '铺设状态',
-                title: '铺设状态',
                 value: ['排序2', '收益2', '邀请人数2', '邀请时间2'],
-                select: false
             }
         ],
         invitationShow: false,

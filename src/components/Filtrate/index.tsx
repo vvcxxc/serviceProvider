@@ -8,7 +8,7 @@ import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 interface Props {
     dataList: any,
     onSearch: any,
-    closeNum: any,
+    closeNum?: any,
     searchPath?: any
 }
 
@@ -21,18 +21,12 @@ export default class Filtrate extends Component<Props>{
     state = {
         dataList: [
             // {
-            //     index: 0,
             //     key: '排序',
-            //     title: '排序',
             //     value: ['排序', '收益', '邀请人数', '邀请时间'],
-            //     select: false
             // },
             // {
-            //     index: 1,
             //     key: '铺设状态',
-            //     title: '铺设状态',
             //     value: ['排序', '收益', '邀请人数', '邀请时间'],
-            //     select: false
             // }
         ]
     }
@@ -46,6 +40,11 @@ export default class Filtrate extends Component<Props>{
 
     componentDidMount() {
         let FiltrateList = this.props.dataList;
+        for (let i = 0; i < FiltrateList.length; i++) {
+            FiltrateList[i].index = i;
+            FiltrateList[i].title = '';
+            FiltrateList[i].select = false;
+        }
         this.setState({ dataList: FiltrateList })
     }
 
@@ -54,7 +53,9 @@ export default class Filtrate extends Component<Props>{
         let tempList = this.state.dataList;
         let returntList = [];
         for (let i = 0; i < tempList.length; i++) {
-            returntList.push(tempList[i].title);
+            if (tempList[i].title != "") {
+                returntList.push(tempList[i].title);
+            }
         }
         // console.log(returntList);
         this.props.onSearch && this.props.onSearch(returntList);
@@ -88,7 +89,7 @@ export default class Filtrate extends Component<Props>{
                 {
                     this.state.dataList && this.state.dataList.length > 0 ? this.state.dataList.map((item: any, index: any) => {
                         return (
-                            <div key={index} className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} >{item.title}
+                            <div key={index} className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} >{item.title ? item.title : item.key}
                                 {item.select ? <Icon className={styles.filtrate_icon} type="up" /> : <Icon className={styles.filtrate_icon} type="down" />}
                                 <div className={styles.filtrate_value_box} style={{ display: item.select ? 'block' : 'none' }}>
                                     <ul className={styles.filtrate_value_ul} onClick={this.selectKey.bind(this, item.index)} >

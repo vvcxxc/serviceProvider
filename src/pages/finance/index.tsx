@@ -2,17 +2,43 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank } from 'antd-mobile'
 import Item from './item'
+import Filtrate from '@/components/Filtrate/index';
 export default class Finance extends Component {
   state = {
-
+    dataList: [
+      {
+        index: 0,
+        key: '排序',
+        title: '排序',
+        value: ['筛选', '二维码收入', '邀请人分成', '提现'],
+        select: false
+      },
+      {
+        index: 1,
+        key: '本月',
+        title: '本月',
+        value: ['排序2', '收益2', '邀请人数2', '邀请时间2'],
+        select: false
+      }
+    ],
+    invitationShow: false,
+    closeNum: 1
+  }
+  searchPayload = (a: Array<string>) => {
+    console.log(a)
   }
 
-  render (){
+  render() {
     return (
       <div className={styles.finance_page}>
+        <Filtrate
+          dataList={this.state.dataList}
+          onSearch={this.searchPayload}
+          closeNum={this.state.closeNum}
+        />
         <Flex className={styles.finance_header}>
-          <WingBlank style={{width: '100%'}}>
-            <Flex justify='between' style={{width: '100%'}}>
+          <WingBlank style={{ width: '100%' }}>
+            <Flex justify='between' style={{ width: '100%' }}>
               <div>收款￥1000</div>
               <div>提现￥800</div>
             </Flex>

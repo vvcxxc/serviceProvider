@@ -37,12 +37,12 @@ export default class InvitationServiceProvider extends Component {
         return (
             <div className={styles.InvitationServiceProvider} onClick={() => {this.setState({ closeNum: this.state.closeNum + 1 })}} >
 
-                <Filtrate 
+                {/* <Filtrate 
                 dataList={this.state.dataList} 
                 onSearch={this.searchPayload} 
                 closeNum={this.state.closeNum}  
                 searchPath={'/InvitationServiceProvider/search'}
-                />
+                /> */}
                 <div className={styles.InvitationServiceProvider_total}>
                     <div className={styles.totalPeople}>共100人</div>
                     <div className={styles.totalMoney}>带来收益￥23333</div>

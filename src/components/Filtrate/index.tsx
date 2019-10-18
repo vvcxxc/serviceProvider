@@ -8,13 +8,15 @@ import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 interface Props {
     dataList: any,
     onSearch: any,
-    closeNum: any
+    closeNum: any,
+    searchPath?: any
 }
 
 // 使用须知
 // 传入标题———二级标题dataList,没做超出屏幕左右滑动处理，传个两三个筛选条件就好，不要太过分
 //onSearch:按搜索按钮触发，返回选中条件文本
 //closeNum触发关闭选中状态，写啥都可以能有变化就行，值变化触发componentWillReceiveProps生命周期
+//searchPath可选，跳转路径
 export default class Filtrate extends Component<Props>{
     state = {
         dataList: [
@@ -71,14 +73,15 @@ export default class Filtrate extends Component<Props>{
             this.submit();
         } else {
             tempList[index].select = !tempstyle;
-
         }
         this.setState({ dataList: tempList });
-
         e.stopPropagation();
     }
 
-
+    routerGo = (e: any) => {
+        router.push({ pathname: this.props.searchPath })
+        e.stopPropagation();
+    }
     render() {
         return (
             <div className={styles.filtrate}>
@@ -98,8 +101,9 @@ export default class Filtrate extends Component<Props>{
                                         }
                                     </ul>
                                 </div>
-
-                                <div className={styles.filtrate_search_btn} onClick={this.submit.bind(this)}> 搜索</div>
+                                {
+                                    this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}> 搜索</div> : null
+                                }
                             </div>
                         )
                     }) : null

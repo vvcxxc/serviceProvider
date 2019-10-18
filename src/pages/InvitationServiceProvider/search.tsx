@@ -15,8 +15,16 @@ export default class Search extends Component {
 
 
 
-    handleclose = (query: any) => {
+    handleclose = () => {
         this.setState({ invitationShow: false })
+    }
+    KeySubmit = (e: any) => {
+        e.persist();
+        console.log(e.keyCode);
+        if (e.keyCode == '13') {
+            console.log('键盘确定');
+        }
+        // e.preventDefault();
     }
 
     render() {
@@ -28,7 +36,7 @@ export default class Search extends Component {
                         <div className={styles.ServiceProvider_searchBox_icon}>
                             <Icon type="search" />
                         </div>
-                        <input type="text" className={styles.ServiceProvider_input} placeholder='输入服务商名称或手机号' />
+                        <input type="text" className={styles.ServiceProvider_input} placeholder='输入服务商名称或手机号' onKeyPress={this.KeySubmit.bind(this)} />
 
 
                     </div>

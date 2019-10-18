@@ -8,7 +8,7 @@ import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 interface Props {
     dataList: any,
     onSearch: any,
-    closeNum: any,
+    closeNum?: any,
     searchPath?: any
 }
 
@@ -21,18 +21,12 @@ export default class Filtrate extends Component<Props>{
     state = {
         dataList: [
             // {
-            //     index: 0,
             //     key: '排序',
-            //     title: '',
             //     value: ['排序', '收益', '邀请人数', '邀请时间'],
-            //     select: false
             // },
             // {
-            //     index: 1,
             //     key: '铺设状态',
-            //     title: '',
             //     value: ['排序', '收益', '邀请人数', '邀请时间'],
-            //     select: false
             // }
         ]
     }

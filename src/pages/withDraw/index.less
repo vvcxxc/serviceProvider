@@ -23,6 +23,14 @@
       font-size: 36px;
     }
   }
+  .withdraw_header_no_bind {
+    padding-left: 66px;
+    width: 100%;
+    height: 120px;
+    background: #fff;
+    margin-top: 30px;
+    font-size: 32px;
+  }
   .withdraw_main {
     width: 100%;
     height: 348px;
@@ -48,6 +56,11 @@
       input {
         width: 100%;
         height: 120px;
+        font-size: 70px;
+        border: none;
+      }
+      :global .am-list-item:not(:last-child) .am-list-line {
+        border: none;
       }
       .all {
         width: 130px;
@@ -56,6 +69,14 @@
         line-height: 80px;
         text-align: center;
       }
+    }
+    .tips {
+      padding: 0 60px;
+      color: #999;
+    }
+    .tips_err {
+      padding: 0 32px;
+      color: #E51C23;
     }
   }
 }

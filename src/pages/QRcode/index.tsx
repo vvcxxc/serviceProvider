@@ -13,11 +13,11 @@ export default class QRcode extends Component {
         dataList: [
             {
                 key: '排序',
-                value: ['排序', '收益', '邀请人数', '邀请时间'],
+                value: [ '收益', '邀请人数', '邀请时间'],
             },
             {
                 key: '铺设状态',
-                value: ['排序2', '收益2', '邀请人数2', '邀请时间2'],
+                value: ['全部', '已铺设', '未铺设'],
             }
         ],
         invitationShow: false,

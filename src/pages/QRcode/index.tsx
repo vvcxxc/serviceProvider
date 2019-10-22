@@ -13,11 +13,11 @@ export default class QRcode extends Component {
         dataList: [
             {
                 key: '排序',
-                value: ['排序', '收益', '邀请人数', '邀请时间'],
+                value: [ '收益', '邀请人数', '邀请时间'],
             },
             {
                 key: '铺设状态',
-                value: ['排序2', '收益2', '邀请人数2', '邀请时间2'],
+                value: ['全部', '已铺设', '未铺设'],
             }
         ],
         invitationShow: false,
@@ -42,7 +42,7 @@ export default class QRcode extends Component {
                     dataList={this.state.dataList}
                     onSearch={this.searchPayload}
                     closeNum={this.state.closeNum}
-                    searchPath={'/QRcode/search'}
+                    // searchPath={'/QRcode/search'}
                 />
                 <div className={styles.QRcode_total}>
                     <div className={styles.totalPeople}>共30个码，10个已铺设</div>

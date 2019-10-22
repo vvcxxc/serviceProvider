@@ -3,6 +3,8 @@ import { Button, InputItem, List, Flex, Toast } from 'antd-mobile';
 import styles from './index.less';
 import { connect } from 'dva';
 import Request from '@/service/request';
+import axios from 'axios';
+import qs from 'qs';
 
 
 export default connect(({ register }: any) => register)(
@@ -101,38 +103,41 @@ export default connect(({ register }: any) => register)(
             const { phone } = this.props;
             let wait = 60;
             if (phone) {
-                // Request({
-                //     url: 'verifyCode',
-                //     method: 'POST',
-                //     data: {
-                //         phone: phone
-                //     }
-                // }).then(res => {
-                //     console.log(res)
-                // })
-                let timer = setInterval(() => {
-                    if (wait == 0) {
-                        this.setState({ is_ok: true });
-                        this.props.dispatch({
-                            type: 'register/registered',
-                            payload: {
-                                is_ok: true
+                Request({
+                    url: 'verifyCode',
+                    method: 'post',
+                    data: qs.stringify({
+                        phone
+                    })
+                }).then(res => {
+                    if (res.code == 200) {
+                        let timer = setInterval(() => {
+                            if (wait == 0) {
+                                this.setState({ is_ok: true });
+                                this.props.dispatch({
+                                    type: 'register/registered',
+                                    payload: {
+                                        is_ok: true
+                                    }
+                                })
+                                clearInterval(timer)
+                            } else {
+                                wait--;
+                                this.setState({ is_ok: false, wait });
+                                this.props.dispatch({
+                                    type: 'register/registered',
+                                    payload: {
+                                        is_ok: false,
+                                        wait
+                                    }
+                                })
+                                clearInterval();
                             }
-                        })
-                        clearInterval(timer)
+                        }, 1000);
                     } else {
-                        wait--;
-                        this.setState({ is_ok: false, wait });
-                        this.props.dispatch({
-                            type: 'register/registered',
-                            payload: {
-                                is_ok: false,
-                                wait
-                            }
-                        })
-                        clearInterval();
+                        Toast.fail(res.message)
                     }
-                }, 1000);
+                })
             } else {
                 Toast.fail('请输入手机号', 1)
             }
@@ -178,8 +183,8 @@ export default connect(({ register }: any) => register)(
                                 this.props.is_ok ? (
                                     <Button className={styles.register_send_code} onClick={this.getCode.bind(this)}>发送验证码</Button>
                                 ) : (
-                                    <Button className={styles.register_send_code} disabled >{this.props.wait}秒</Button>
-                                )
+                                        <Button className={styles.register_send_code} disabled >{this.props.wait}秒</Button>
+                                    )
                             }
                         </div>
 

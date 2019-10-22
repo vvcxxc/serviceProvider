@@ -1,0 +1,121 @@
+.PersonalInformation {
+    height: auto;
+    min-height: 100vh;
+    width: 100%;
+    background: #f2f2f2;
+
+    .balanceBox {
+        width: 100%;
+        height: 245px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        .BalanceAuditStatus {
+            position: absolute;
+            left: 30px;
+            top: 48px;
+            font-size: 28px;
+            color: #666666;
+        }
+
+        .balanceBox_moneyBox {
+            height: 100%;
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+
+            .balanceBox_moneyBox_font {
+                font-size: 28px;
+            }
+
+            .balanceBox_moneyBox_num {
+                font-size: 52px;
+            }
+
+            .balanceBox_moneyBox_btn {
+                height: 60px;
+                width: 230px;
+                line-height: 60px;
+                font-size: 32px;
+                text-align: center;
+                background: #fff;
+                border-radius: 8px;
+            }
+        }
+    }
+
+    .Personal_information_content {
+        height: auto;
+        width: 100%;
+        padding: 48px 0;
+        .information_box {
+            background: #fff;
+            width: 100%;
+            height: 88px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            border-top: 1px solid #E5E5E5;
+            border-bottom: 1px solid #E5E5E5;
+
+            .information_box_title {
+                font-size: 34px;
+                color: #000;
+            }
+
+            .information_msg_box {
+                font-size: 34px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+
+                .information_msg {
+                    color: #888888;
+                }
+
+                .information_icon {
+                    color: #C7C7CC;
+                    margin-left: 20px;
+                }
+            }
+        }
+
+        .information_box_highter {
+            width: 100%;
+            height: 48px;
+        }
+    }
+
+    .logout_button_box {
+        width: 100%;
+        height: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 120px;
+
+        .logout_button {
+            height: 88px;
+            line-height: 88px;
+            width: 100%;
+            text-align: center;
+            background: #fff;
+            border: 1px solid rgba(153, 153, 153, 1);
+            color: #999999;
+            border-radius: 10px;
+            font-size: 36px;
+        }
+    }
+
+}

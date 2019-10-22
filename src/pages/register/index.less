@@ -1,23 +1,25 @@
 @height:96px;
 .register_screen {
-    height: 100vh;
+    min-height: 100%;
     box-sizing: border-box;
-    padding-top: 208px;
+    padding-top: 150px;
     .register_wrap {
-        height: 50vh;
+        // height: 50vh;
         width: 100%;
         padding: 0 36px;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        .register_phone,.register_code,.register_password {
+        .register_phone,.register_code,.register_password,.register_inviter, .register_username {
             border: 1px solid #ccc;
         }
-        .register_phone {
+        .register_phone,.register_username,.register_password {
             margin-bottom: 40px;
         }
         .register_password {
             margin-top: 40px;
+        }
+        .register_inviter {
             margin-bottom: 64px;
         }
         .register_code_wrap {

@@ -13,13 +13,15 @@ export default class Finance extends Component {
       },
     ],
     invitationShow: false,
-    closeNum: 1
+    closeNum: 1,
+    is_data: false
   }
   searchPayload = (a: Array<string>) => {
     console.log(a)
   }
 
   render() {
+
     return (
       <div className={styles.finance_page}>
         <Filtrate
@@ -35,7 +37,14 @@ export default class Finance extends Component {
             </Flex>
           </WingBlank>
         </Flex>
-        <Item money='+10' name='大声道d' date='2019-10-18 10:00:00' />
+
+        {
+          this.state.is_data ? <Item money='+10' name='大声道d' date='2019-10-18 10:00:00' /> : (
+            <div className={styles.no_data}>
+              暂无账单数据统计
+            </div>
+          )
+        }
       </div>
     )
   }

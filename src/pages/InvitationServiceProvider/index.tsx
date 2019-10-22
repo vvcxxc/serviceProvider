@@ -57,7 +57,7 @@ export default class InvitationServiceProvider extends Component {
                 </div>
                 
                 <div className={styles.on_list} >无记录</div>
-                <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div>
+                {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}
                 {
                     this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
 

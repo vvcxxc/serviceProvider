@@ -19,6 +19,9 @@ export default class Finance extends Component {
   searchPayload = (a: Array<string>) => {
     console.log(a)
   }
+  componentDidMount(){
+    console.log(process.env.apiUrl)
+  }
 
   render() {
 

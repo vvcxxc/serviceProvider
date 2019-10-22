@@ -1,7 +1,7 @@
 /**title: 我的码 */
 import React, { Component } from 'react';
-import Filtrate from '../components/Filtrate/index';
-import Invitation from '../components/Invitation/index';
+import Filtrate from '../../components/Filtrate/index';
+import Invitation from '../../components/Invitation/index';
 
 import styles from './index.less';
 import router from 'umi/router';
@@ -12,18 +12,12 @@ export default class QRcode extends Component {
     state = {
         dataList: [
             {
-                index: 0,
                 key: '排序',
-                title: '排序',
                 value: [ '收益', '邀请人数', '邀请时间'],
-                select: false
             },
             {
-                index: 1,
                 key: '铺设状态',
-                title: '铺设状态',
                 value: ['全部', '已铺设', '未铺设'],
-                select: false
             }
         ],
         invitationShow: false,
@@ -31,7 +25,7 @@ export default class QRcode extends Component {
     }
 
     searchPayload = (query: any) => {
-        console.log('lll',query)
+        console.log('lll', query)
 
         // router.push({ pathname: '/QRcode/search', query: query })
     }
@@ -42,9 +36,14 @@ export default class QRcode extends Component {
 
     render() {
         return (
-            <div className={styles.QRcode} onClick={() => {this.setState({ closeNum: this.state.closeNum + 1 })}}>
+            <div className={styles.QRcode} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }}>
 
-                <Filtrate dataList={this.state.dataList} onSearch={this.searchPayload} closeNum={this.state.closeNum} />
+                <Filtrate
+                    dataList={this.state.dataList}
+                    onSearch={this.searchPayload}
+                    closeNum={this.state.closeNum}
+                    // searchPath={'/QRcode/search'}
+                />
                 <div className={styles.QRcode_total}>
                     <div className={styles.totalPeople}>共30个码，10个已铺设</div>
                     <div className={styles.totalMoney}>带来总收益￥23333</div>
@@ -67,7 +66,7 @@ export default class QRcode extends Component {
                     </div>
 
                 </div>
-                
+
                 <div className={styles.on_list} >无记录</div>
                 {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}
                 {

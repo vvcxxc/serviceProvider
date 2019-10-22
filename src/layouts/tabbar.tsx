@@ -19,14 +19,14 @@ export default withRouter(
 			pushHome = (): any => {
 				this.props.dispatch(
 					routerRedux.push({
-						pathname: '/a'
+						pathname: '/dataPage'
 					})
 				);
 			};
 			pushFinance = (): any => {
 				this.props.dispatch(
 					routerRedux.push({
-						pathname: '/b'
+						pathname: '/finance'
 					})
 				);
 			};

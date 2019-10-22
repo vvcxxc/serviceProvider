@@ -5,7 +5,7 @@ const model: Model = {
   state: {
     active: 0,
     show: false,
-    pages: ['/', '/b', '/QRcode', '/InvitationServiceProvider','/PersonalInformation'],
+    pages: ['/', '/dataPage', '/finance', '/InvitationServiceProvider','/PersonalInformation'],
   },
   reducers: {
     setShow(state, { payload }) {
@@ -34,7 +34,7 @@ const model: Model = {
     history({ dispatch, history }) {
       let url = location.href;
       sessionStorage.setItem('url', url)
-      
+
       history.listen(() =>
         dispatch({
           type: 'setShow',

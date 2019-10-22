@@ -1,80 +1,83 @@
+.QRcode {
+    height: auto;
+    min-height: 100vh;
+    width: 100%;
+    background: #E1E1E1;
+    padding-top: 80px;
 
-.pageIndex {
-  padding: 300px 34px 0px 34px;
-  text-align: center;
-  .inputBox{
-     width: 652px;
-  }
-  .operation{
-     width: 652px;
-  }
+    .QRcode_total {
+        height: 60px;
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        background: #E1E1E1;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 28px;
+    }
+
+    .QRcode_content {
+        background: #fff;
+        height: auto;
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+
+        .QRcode_item {
+            height: 150px;
+            border-bottom: 1px solid #979797;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .QRcode_item_left {
+                font-size: 28px;
+
+                .QRcode_item_name {}
+
+                .QRcode_item_date {
+                    margin-top: 20px;
+                }
+
+            }
+
+            .QRcode_item_right {
+                font-size: 28px;
+            }
+
+        }
+    }
 }
 
-
- .inputBox{
-   width: 652px;
-    input {
-      width: 652px;
-      padding-left: 10px;
-      color: rgba(136, 136, 136, 1);
-      border:none;
-      outline: none;
-      color: rgba(136, 136, 136, 1);
-      font-family: Microsoft Yahei;
-      font-size: 28px;
-      }
-    .inputBox_text{
-      display: flex;
-      width: 652px;
-      height: 106px;
-      border: 2px solid rgba(187, 187, 187, 1);
-      overflow: hidden;
-      margin-bottom: 56px;
-    }
-    .inputBox_password{
-      display: flex;
-      width: 652px;
-      height: 106px;
-      border: 2px solid rgba(187, 187, 187, 1);
-      overflow: hidden;
-      margin-bottom: 26px;
-    }
-    .forgotten{
-      display: block;
-      height: 40px;
-      padding-right: 40px;
-      font-size: 28px;
-      text-align: right;
-      font-family: SourceHanSansSC-regular;
-      color: rgba(16, 16, 16, 1);
-    }
-  }
-
-.operation{
-  .landing{
-    width: 644px;
-    padding: 22px 0px;
-    margin-bottom: 60px;
-    font-size: 36px;
-    font-family: PingFangSC-regular;
+.on_list {
     text-align: center;
-    border: 2px solid rgba(5, 5, 5, 0.08);
-    border-radius: 10px 10px 10px 10px;
-    background-color: rgba(26, 173, 25, 1);
-    color: rgba(255, 255, 255, 1);
-    text-align: center;
-  }
-  .registered{
-    width: 644px;
-    padding: 22px 0px;
-    border-radius: 10px 10px 10px 10px;
-    background-color: rgba(26, 173, 25, 1);
-    text-align: center;
-    border: 2px solid rgba(5, 5, 5, 0.08);
-    color: rgba(255, 255, 255, 1);
-    font-size: 36px;
-    text-align: center;
-    font-family: PingFangSC-regular;
-  }
+    height: 50px;
+    line-height: 50px;
+    width: 200px;
+    font-size: 28px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -100px;
+    margin-top: -25px;
+    z-index: 1;
 }
 
+.invitation {
+    background: #fff;
+    height: 76px;
+    width: 76px;
+    border-radius: 38px;
+    border: 1px solid #666666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    position: fixed;
+    right: 50px;
+    bottom: 200px;
+    z-index: 2;
+}

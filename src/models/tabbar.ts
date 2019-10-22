@@ -5,7 +5,7 @@ const model: Model = {
   state: {
     active: 0,
     show: false,
-    pages: ['/', '/finance', '/order', '/my'],
+    pages: ['/', '/b', '/QRcode', '/InvitationServiceProvider','/PersonalInformation'],
   },
   reducers: {
     setShow(state, { payload }) {

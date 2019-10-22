@@ -37,13 +37,13 @@ export default class QRcode extends Component {
     render() {
         return (
             <div className={styles.QRcode} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }}>
-{/* 
+
                 <Filtrate
                     dataList={this.state.dataList}
                     onSearch={this.searchPayload}
                     closeNum={this.state.closeNum}
-                    searchPath={'/QRcode/search'}
-                /> */}
+                    // searchPath={'/QRcode/search'}
+                />
                 <div className={styles.QRcode_total}>
                     <div className={styles.totalPeople}>共30个码，10个已铺设</div>
                     <div className={styles.totalMoney}>带来总收益￥23333</div>

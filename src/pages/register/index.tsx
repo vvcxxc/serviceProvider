@@ -3,7 +3,6 @@ import { Button, InputItem, List, Flex, Toast } from 'antd-mobile';
 import styles from './index.less';
 import { connect } from 'dva';
 import Request from '@/service/request';
-import axios from 'axios';
 import qs from 'qs';
 
 
@@ -15,7 +14,7 @@ export default connect(({ register }: any) => register)(
             phone: "",
             code: "",
             password: "",
-            inviter: "",
+            inviter_phone: "",
 
             is_ok: true,
             wait: ""
@@ -84,14 +83,14 @@ export default connect(({ register }: any) => register)(
         /**
          * 邀请人
          */
-        handleChangeInviter = (e: any) => {
+        handleChangeInviterPhone = (e: any) => {
             this.setState({
-                inviter: e
+                inviter_phone: e
             })
             this.props.dispatch({
                 type: 'register/registered',
                 payload: {
-                    inviter: e
+                    inviter_phone: e
                 }
             })
         }
@@ -149,7 +148,32 @@ export default connect(({ register }: any) => register)(
          */
 
         handleRegister = () => {
-
+            const { username, phone, code, password, inviter_phone } = this.props;
+            if (username && phone && code && password) {
+                let data = qs.stringify({
+                    name: username,
+                    account: phone,
+                    password,
+                    verify_code: code,
+                    from_phone: inviter_phone
+                })
+                Request({
+                    url: 'register',
+                    method: 'post',
+                    data
+                }).then(res => {
+                    let { code, message } = res;
+                    if (code == 200) {
+                        Toast.success('注册成功', 2, () => {
+                            localStorage.setItem('token', 'Bearer ' + res.access_token);
+                        })
+                    } else {
+                        Toast.fail(message)
+                    }
+                })
+            } else {
+                Toast.fail('请将信息填写完整', 2)
+            }
         }
 
         render() {
@@ -198,10 +222,10 @@ export default connect(({ register }: any) => register)(
                         ></InputItem>
                         <InputItem
                             clear
-                            placeholder="邀请人（非必填）"
-                            className={styles.register_inviter}
-                            value={this.props.inviter}
-                            onChange={this.handleChangeInviter.bind(this)}
+                            placeholder="邀请人手机号（非必填）"
+                            className={styles.register_inviter_phone}
+                            value={this.props.inviter_phone}
+                            onChange={this.handleChangeInviterPhone.bind(this)}
                         ></InputItem>
 
                         <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>

@@ -10,7 +10,7 @@ interface Register {
      /**验证码 */
      code:string,
      /**邀请人 */
-     inviter:string|number,
+     inviter_phone:string|number,
      /**限制发验证码的次数，每分钟可发一次 */
      is_ok:true,
      wait: '',
@@ -31,7 +31,7 @@ const model: Model = {
         /**验证码 */
         code: '',
         /**邀请人 */
-        inviter: '',
+        inviter_phone: '',
         /**限制发验证码的次数，每分钟可发一次 */
         is_ok: true,
         wait: '',

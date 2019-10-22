@@ -7,19 +7,10 @@ export default class Finance extends Component {
   state = {
     dataList: [
       {
-        index: 0,
         key: '排序',
-        title: '排序',
         value: ['筛选', '二维码收入', '邀请人分成', '提现'],
         select: false
       },
-      {
-        index: 1,
-        key: '本月',
-        title: '本月',
-        value: ['排序2', '收益2', '邀请人数2', '邀请时间2'],
-        select: false
-      }
     ],
     invitationShow: false,
     closeNum: 1

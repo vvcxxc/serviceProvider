@@ -9,7 +9,8 @@ interface Props {
     dataList: any,
     onSearch: any,
     closeNum?: any,
-    searchPath?: any
+    searchPath?: any,
+    isDate?: boolean
 }
 
 // 使用须知

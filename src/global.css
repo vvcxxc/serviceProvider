@@ -2,7 +2,31 @@ html, body, #root {
   height: 100%;
 }
 
+html > .am-flexbox > .am-flexbox-item,
+body > .am-flexbox > .am-flexbox-item,
+#root > .am-flexbox > .am-flexbox-item,
+html > .am-flexbox > div,
+body > .am-flexbox > div,
+#root > .am-flexbox > div {
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   margin: 0;
   background-color: #fff;
+}
+
+.am-tab-bar-bar .am-tab-bar-tab-icon img {
+	width: 68px;
+	height: 68px;
+}
+
+.am-tab-bar {
+	width: 100%;
+	height: auto !important;
+}
+
+.am-tab-bar-bar {
+  height: 1rem !important;
+  bottom: 0 !important;
 }

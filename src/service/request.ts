@@ -25,7 +25,14 @@ export default function request(options: Options) {
     console.log(token, 'sad')
     /**合并headers */
     // options.headers = { ...options.headers, Authorization: "Bearer " + token };
-    token ? options.headers = { ...options.headers, Authorization: "Bearer "+token } : options.headers = { ...options.headers }
+    // token ? options.headers = { ...options.headers, Authorization: "Bearer "+token } : options.headers = { ...options.headers }
+    if(token){
+      console.log(123)
+      options.headers = { ...options.headers, Authorization: "Bearer "+token }
+    }else{
+      console.log(234)
+      options.headers = { ...options.headers }
+    }
     /**拼接接口地址 */
     options.url = options.host ? options.host + options.url : host + options.url;
     /**请求超时 */

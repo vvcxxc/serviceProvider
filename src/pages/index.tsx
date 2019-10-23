@@ -34,7 +34,7 @@ export default class QRcode extends Component {
     componentDidMount() {
         Request({
             url: 'qrCodeList',
-            method: 'post',
+            method: 'get',
         }).then(res => {
             console.log(res)
         })

@@ -69,7 +69,7 @@ export default withRouter(
 						{
 							this.props.show ? (
 								<TabBar
-									tintColor="#000"
+									tintColor="#00bfff"
 									noRenderContent={true}
 									tabBarPosition="bottom"
 								>

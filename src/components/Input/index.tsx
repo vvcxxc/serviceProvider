@@ -3,7 +3,7 @@ import styles from './index.less';
 import { Icon } from 'antd-mobile';
 
 interface Props {
-  type?: string,                  //想要什么类型的输入框
+  type: string,                  //想要什么类型的输入框
   placeholder?: string,           //默认提示什么
   value?: string | number,        // 用户输入的数据
   onDelete: () => void,           //用户点击删除函数 会删除输入框里面的数据
@@ -13,7 +13,8 @@ interface Props {
 
 export default class MyInput extends Component<Props>{
   state = {
-    inpText:''
+    inpText: '',
+    inpPassword:''
   }
 
   handelChange = (e: any) => {
@@ -23,7 +24,7 @@ export default class MyInput extends Component<Props>{
     }, )
   }
 
-  onDelete = () => {
+  onDelete = (e:any) => {
     this.props.onDelete()
     this.setState({
       inpText:''
@@ -44,7 +45,7 @@ export default class MyInput extends Component<Props>{
           onChange={this.handelChange.bind(this)}
         />
         {
-          inpText.length > 0 ? <div className={styles.icon} onClick={this.onDelete}>
+          inpText.length > 0 ? <div className={styles.icon} onClick={this.onDelete.bind(this)}>
             <Icon type="cross-circle" />
           </div>:null
         }

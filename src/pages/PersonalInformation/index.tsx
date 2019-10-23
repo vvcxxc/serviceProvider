@@ -40,13 +40,13 @@ export default class PersonalInformation extends Component {
                             <Icon className={styles.information_icon} type="right" size={'lg'} />
                         </div>
                     </div>
-                    <div className={styles.information_box} >
-                        <div className={styles.information_box_title} >修改密码</div>
+                    {/* <div className={styles.information_box} >
+                        <div className={styles.information_box_title} >身份证信息</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >已验证</div>
                             <Icon className={styles.information_icon} type="right" size={'lg'} />
                         </div>
-                    </div>
+                    </div> */}
                     <div className={styles.information_box_highter}></div>
                     <div className={styles.information_box} >
                         <div className={styles.information_box_title} >我的银行卡</div>

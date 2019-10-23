@@ -16,9 +16,9 @@ body {
   background-color: #fff;
 }
 
-.am-tab-bar-bar .am-tab-bar-tab-icon img {
-	width: 68px;
-	height: 68px;
+:global .am-tab-bar-bar .am-tab-bar-tab-icon img {
+	width: 48px;
+	height: 48px;
 }
 
 .am-tab-bar {

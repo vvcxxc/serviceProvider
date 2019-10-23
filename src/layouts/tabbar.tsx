@@ -19,7 +19,7 @@ export default withRouter(
 			pushHome = (): any => {
 				this.props.dispatch(
 					routerRedux.push({
-						pathname: '/'
+						pathname: '/dataPage'
 					})
 				);
 			};
@@ -30,71 +30,99 @@ export default withRouter(
 					})
 				);
 			};
-			pushOrder = (): any => {
+			pushQRcode = (): any => {
 				this.props.dispatch(
 					routerRedux.push({
-						pathname: '/order'
+						// pathname: '/QRcode'
+						pathname: '/'
 					})
 				);
 			};
-			pushMy = (): any => {
+			pushInvitationServiceProvider = (): any => {
 				this.props.dispatch(
 					routerRedux.push({
-						pathname: '/my'
+						pathname: '/InvitationServiceProvider'
 					})
 				);
 			};
-
+			pushPersonalInformation = (): any => {
+				this.props.dispatch(
+					routerRedux.push({
+						pathname: '/PersonalInformation'
+					})
+				);
+			};
 			render() {
-				const homeIcon = <img src={require('../assets/tabbar/home@2x.png')} />;
-				const homeSelectIcon = <img src={require('../assets/tabbar/home_active@2x.png')} />;
-				const financeIcon = <img src={require('../assets/tabbar/finance@2x.png')} />;
-				const financeSelectIcon = <img src={require('../assets/tabbar/finance_active@2x.png')} />;
-				const orderIcon = <img src={require('../assets/tabbar/order@2x.png')} />;
-				const orderSelectIcon = <img src={require('../assets/tabbar/order_active@2x.png')} />;
-				const myIcon = <img src={require('../assets/tabbar/my@2x.png')} />;
-				const mySelectIcon = <img src={require('../assets/tabbar/my_active@2x.png')} />;
+				const img1 = <img src={require('../assets/tabbar/1.png')} />;
+				const img2 = <img src={require('../assets/tabbar/2.png')} />;
+				const img3 = <img src={require('../assets/tabbar/3.png')} />;
+				const img4 = <img src={require('../assets/tabbar/4.png')} />;
+				const img5 = <img src={require('../assets/tabbar/5.png')} />;
+				const img6 = <img src={require('../assets/tabbar/6.png')} />;
+				const img7 = <img src={require('../assets/tabbar/7.png')} />;
+				const img8 = <img src={require('../assets/tabbar/8.png')} />;
+				const img9 = <img src={require('../assets/tabbar/9.png')} />;
+				const img10 = <img src={require('../assets/tabbar/10.png')} />;
 				return (
 					<Flex direction="column" style={{ height: '100%' }}>
 						<Flex.Item style={{ width: '100%', overflow: 'auto' }}>{this.props.children}</Flex.Item>
 						{
 							this.props.show ? (
 								<TabBar
-									tintColor="#000"
+									tintColor="#00bfff"
 									noRenderContent={true}
 									tabBarPosition="bottom"
 								>
 									<TabBarItem
-										icon={homeIcon}
-										selectedIcon={homeSelectIcon}
-										title="首页"
+										icon={img3}
+										selectedIcon={img8}
+										title="二维码"
+										onPress={this.pushQRcode}
 										key={0}
-										onPress={this.pushHome}
 										selected={this.props.active === 0}
 									/>
+
+
 									<TabBarItem
-										icon={financeIcon}
-										selectedIcon={financeSelectIcon}
-										title="财务"
+										icon={img1}
+										selectedIcon={img6}
+										title="数据"
 										key={1}
+										onPress={this.pushHome}
 										selected={this.props.active === 1}
-										onPress={this.pushFinance}
 									/>
 									<TabBarItem
-										icon={orderIcon}
-										selectedIcon={orderSelectIcon}
-										title="订单"
-										onPress={this.pushOrder}
+										icon={img2}
+										selectedIcon={img7}
+										title="账单"
 										key={2}
 										selected={this.props.active === 2}
+										onPress={this.pushFinance}
 									/>
+
+									{/* <TabBarItem
+										icon={img3}
+										selectedIcon={img8}
+										title="二维码"
+										onPress={this.pushQRcode}
+										key={2}
+										selected={this.props.active === 2}
+									/> */}
 									<TabBarItem
-										icon={myIcon}
-										selectedIcon={mySelectIcon}
-										title="我的"
+										icon={img4}
+										selectedIcon={img9}
+										title="我的邀请"
 										key={3}
 										selected={this.props.active === 3}
-										onPress={this.pushMy}
+										onPress={this.pushInvitationServiceProvider}
+									/>
+									<TabBarItem
+										icon={img5}
+										selectedIcon={img10}
+										title="个人信息"
+										key={4}
+										selected={this.props.active === 4}
+										onPress={this.pushPersonalInformation}
 									/>
 								</TabBar>
 							) : null

@@ -5,6 +5,7 @@ import upload from '@/service/oss';
 import Axios from 'axios';
 import Cookies from 'js-cookie';
 import Request from '@/service/request';
+import router from 'umi/router';
 
 class BankCard extends Component {
 
@@ -28,12 +29,15 @@ class BankCard extends Component {
 
         isShowSubBranch: false,
         subBranchBankArr: [],
+
+        // 银行卡列表
+        bankList: []
     }
 
     componentDidMount() {
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
-            console.log(res)
+            // console.log(res)
             let { data } = res.data;
             let oss_data = {
                 policy: data.policy,
@@ -84,9 +88,13 @@ class BankCard extends Component {
 
 
         Request({
-            url: 'getBanks',
+            url: 'auth/getBanks',
             method: 'get'
         }).then(res => {
+          console.log(res)
+          this.setState({
+            bankList: res.data
+          })
         })
     }
 
@@ -222,14 +230,14 @@ class BankCard extends Component {
         this.setState({
             subBranchBank: e,
         })
-        Axios.get("http://test.api.supplier.tdianyi.com/v3/bankAddress").then(res => {
-            if (res.data.date.length != 0) {
-                this.setState({
-                    isShowSubBranch: true,
-                    subBranchBankArr: res.data.date
-                })
-            }
-        })
+        // Axios.get("http://test.api.supplier.tdianyi.com/v3/bankAddress").then(res => {
+        //     if (res.data.date.length != 0) {
+        //         this.setState({
+        //             isShowSubBranch: true,
+        //             subBranchBankArr: res.data.date
+        //         })
+        //     }
+        // })
     }
 
     /**
@@ -237,9 +245,9 @@ class BankCard extends Component {
      */
     hanldeSubBranchBlur = () => {
         window.scrollTo(0, 0);
-        this.setState({
-            isShowSubBranch: false
-        })
+        // this.setState({
+        //     isShowSubBranch: false
+        // })
     }
 
     /**
@@ -247,7 +255,23 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        console.log('下一步')
+        const {bankCard, User, subBranchBankArr, img_url_behind, img_url_front} = this.state
+        Request({
+          method: 'post',
+          url: 'auth/setBankInfo',
+          params: {
+            bankcard_no: bankCard,
+            branch_address: subBranchBankArr,
+            owner_name: User,
+            bankcard_face_img: img_url_front,
+            bankcard_back_img: img_url_behind
+          }
+        }).then(res => {
+          console.log(res)
+          if(res.code == 200){
+            router.push('/')
+          }
+        })
     }
 
     render() {

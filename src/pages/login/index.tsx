@@ -19,9 +19,9 @@ export default class PageIndex extends Component {
   }
 
 
-  
 
-  landingData = (e:any) => {
+
+  landingData = (e: any) => {
     //  router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     Request({
       url: 'auth/login',
@@ -32,24 +32,27 @@ export default class PageIndex extends Component {
       })
     }).then(res => {
       const { code, access_token, message } = res
-      
-      if (code !== 200 ) {
+
+      if (code !== 200) {
         error('登录失败', message)
         return
       }
+      console.log(access_token)
+      localStorage.setItem('token', access_token)
       success('登录成功')
+
+
       setTimeout(() => {
         router.push({ pathname: '/' })
       }, 1000);
-     
+
       // setTimeout(() => {
-      //   // localStorage.setItem('token', access_token)
       //   router.push({ pathname: './' })
       // }, 1000);
       // code !== 200 ?
       //   error('登录失败') : success('登录成功')
 
-    })  
+    })
   }
 
   delete = () => {
@@ -123,7 +126,7 @@ export default class PageIndex extends Component {
             <div className={styles.landing} onClick={this.landingData.bind(this)}>登录</div>
             <div className={styles.registered} onClick={this.delete}>注册</div>
           </div>
-       </div>
+        </div>
         <div id="my_success"></div>
       </div>
 

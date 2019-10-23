@@ -39,21 +39,26 @@ export let success = (text: string | number, text2?: string | number, timeout?: 
 export let error = (text: string | number, text2?: string,timeout?: number) => {
 
   let data = <div className={styles.hint}>
-    {
+    {/* {
       text2 ? <div className={styles.errorBox}>
-        <div className={styles.rowOne}>{text ? text : '登录失败'}</div>
-        <div className={styles.rowTwo}>{text2 ? text2 : '登录失败'}</div>
+        <div className={styles.rowOne}>{text}</div>
+        <div className={styles.rowTwo}>{text2}</div>
       </div> : <div className={styles.errorBox}>
           <div>{text ? text : '登录失败'}</div>
         </div>
     }
-    
+     */}
+    <div className={styles.errorBox}>
+      <div className={styles.rowOne}>{text}</div>
+      <div className={styles.rowTwo}>{text2}</div>
+    </div>
   </div>
 
   ReactDOM.render(
-    data, document.getElementById('success'), () => {
+    data, document.getElementById('my_success')
+    , () => {
       setTimeout(() => {
-        let dom: any = document.getElementById('success')
+        let dom: any = document.getElementById('my_success')
         ReactDOM.unmountComponentAtNode(dom)
       }, timeout ? timeout * 1000 : 1000);
     }

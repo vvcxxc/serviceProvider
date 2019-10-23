@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank } from 'antd-mobile'
+import { Flex, WingBlank, List, DatePickerView } from 'antd-mobile'
 import Item from './item'
 import Filtrate from '@/components/Filtrate/index';
 export default class Finance extends Component {
@@ -14,7 +14,7 @@ export default class Finance extends Component {
     ],
     invitationShow: false,
     closeNum: 1,
-    is_data: false
+    is_data: false,
   }
   searchPayload = (a: Array<string>) => {
     console.log(a)
@@ -48,6 +48,7 @@ export default class Finance extends Component {
             </div>
           )
         }
+
       </div>
     )
   }

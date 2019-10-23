@@ -7,7 +7,7 @@ export default class MyBank extends Component {
 
   }
   toChangeBank = () => {
-    router.push('/')
+    router.push('/submitQua/BankCard')
   }
   render (){
     return (

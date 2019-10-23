@@ -16,7 +16,7 @@ export default class PageIndex extends Component {
     inpText: '',
     inpPassword:''
   }
-  
+
 
   forgetPassword = () => {
     // router.push({ pathname:'/changePassword/retrieve_password'})
@@ -24,7 +24,7 @@ export default class PageIndex extends Component {
     // router.push({ pathname: '/changePhoneNumber/new_phoneNumber' })
     // let data = new Date(year, month, day).getDay();
 
-    // 根据获取到的年 ， 然后获取到每个月，再根据每天 获取到周几 
+    // 根据获取到的年 ， 然后获取到每个月，再根据每天 获取到周几
     // 如果根据年数，算到实际月
     // let data = new Date
     // console.log(data.getDay(),'333');//今天是周几的意思么 0代表是星期天
@@ -32,7 +32,7 @@ export default class PageIndex extends Component {
     // console.log(data.getDate(), '333')//获取到今天是多少号
     // console.log(data.toLocaleDateString());
     // let dd = data.setFullYear(20)
-    
+
     // console.log(data.getMonth() );//获取到月份
     // let mounth = data.getMonth()
 
@@ -53,7 +53,7 @@ export default class PageIndex extends Component {
     let data = new Date()
     let year = data.getFullYear()
     console.log(data.getMilliseconds(),'豪迈o');
-    
+
     this.calculateMonth(year,data)
   }
 
@@ -66,14 +66,14 @@ export default class PageIndex extends Component {
     // data.setMonth(0)
     // data.setDate(0)
     // console.log(data.getDate());
-    
+
     // this.calculateDay()
     // console.log(data.getMonth());//错的月份
     // new Date('2015-09-27').getDay()
     let meta = data.getFullYear() + '-' + data.getMonth() + '-' + data.getDate()
-    // let meta = 
+    // let meta =
     // console.log(meta,',eta');
-    
+
     console.log(new Date(meta).getDay(),'444');
     this.calculateDay();
   }
@@ -98,7 +98,7 @@ export default class PageIndex extends Component {
       inpText: e.target.value
     })
     // console.log(e.target.value,'333');
-    
+
   }
 
   handelChangePassword = (e: any) => {
@@ -109,7 +109,7 @@ export default class PageIndex extends Component {
   }
 
   landingData = () => {
-    
+
      // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     Request({
       url: 'auth/login',
@@ -124,7 +124,7 @@ export default class PageIndex extends Component {
         inpText: null,
         inpPassword: ''
       })
-     
+
       if (code !== 200 ) {
         error('登录失败')
         return
@@ -135,7 +135,7 @@ export default class PageIndex extends Component {
       }, 800);
       // code !== 200 ?
       //   error('登录失败') : success('登录成功')
-      
+
     })
 
   }
@@ -145,58 +145,6 @@ export default class PageIndex extends Component {
     const { day, showMounthTitle} = this.state
     return (
       <div className={styles.pageIndex}>
-{/*         
-        <div className={styles.Page}> 
-          <div className={styles.calendar}>
-            
-            <div className={styles.title}>
-              <div className={styles.titleLeft}>活动时间</div>
-              <div className={styles.titleCenter}>
-                <div className={styles.showTime}>2019/10/22</div>
-                <div className={styles.division}>_</div>
-                <div className={styles.showTime}>2019/10/22</div>
-              </div>
-              <div className={styles.titleRight}>
-                <img src={require('../assets/error.png')} alt=""/>
-              </div>
-            </div>
-            <div className={styles.hint}>
-              <div>
-                <span className={styles.dot}></span>
-                <span>已开设满减活动的日期不可选取</span>
-              </div>
-              <div>
-                <span className={styles.dot}></span>
-                <span>选取的时间段内不可包含已开设活动的日期</span>
-              </div>
-            </div>
-
-            <div className={styles.header}>
-              <div className={styles.headerTitle}>
-                <div>上个月</div>
-                <div className={styles.headerCenter}>2019年10月</div>
-                <div>下个月</div>
-              </div>
-              <div className={styles.headerContent}>
-                {
-                  this.state.mounthTitle.map((item:string,index:number) => {
-                    return <div onClick={this.onClickMounthTitle.bind(this, index)} className={showMounthTitle === index ? styles.showMounthTitle:null}>{item}</div>
-                  })
-                }
-              </div>
-            </div>
-            <div className={styles.content}>
-              <div className={styles.weekTime}>
-                {
-                  this.state.weekTime
-                }
-              </div>
-            </div>
-            <div className={styles.foot}></div>
-          </div>
-        </div> */}
-
-        
         <div className={styles.pageContent}>
           <div className={styles.inputBox}>
             <div className={styles.inputBox_text}>
@@ -209,7 +157,7 @@ export default class PageIndex extends Component {
           </div>
           <div className={styles.operation}>
             <div className={styles.landing} onClick={this.landingData}>登录</div>
-            <div className={styles.registered}>注册</div>
+            <div className={styles.registered} onClick={()=> router.push('/register')}>注册</div>
           </div>
        </div>
 

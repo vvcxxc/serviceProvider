@@ -2,7 +2,6 @@
   "private": true,
   "scripts": {
     "start": "umi dev",
-    "testing": "cross-env UMI_ENV=test umi build",
     "build": "umi build",
     "test": "umi test",
     "lint:es": "eslint --ext .js src mock tests",
@@ -24,7 +23,6 @@
     "@types/react-dom": "^16.0.11",
     "@types/react-test-renderer": "^16.0.3",
     "babel-eslint": "^9.0.0",
-    "cross-env": "^6.0.3",
     "eslint": "^5.4.0",
     "eslint-config-umi": "^1.4.0",
     "eslint-plugin-flowtype": "^2.50.0",

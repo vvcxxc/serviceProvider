@@ -15,7 +15,7 @@ export default class PageIndex extends Component {
     mounthTitle: ['一个月', '三个月', '半年', '一年'],
     showMounthTitle: 0,
     inpText: '',
-    inpPassword:''
+    inpPassword: ''
   }
 
 
@@ -54,9 +54,9 @@ export default class PageIndex extends Component {
 
   delete = () => {
     console.log('chufa ');
-    
+
     this.setState({
-      inpText:''
+      inpText: ''
     })
   }
 

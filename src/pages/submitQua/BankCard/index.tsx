@@ -255,13 +255,14 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const {bankCard, User, subBranchBankArr, img_url_behind, img_url_front} = this.state
+        const {bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName} = this.state
         Request({
           method: 'post',
           url: 'auth/setBankInfo',
           params: {
+            bank_name: bankName,
             bankcard_no: bankCard,
-            branch_address: subBranchBankArr,
+            branch_address: subBranchBank,
             owner_name: User,
             bankcard_face_img: img_url_front,
             bankcard_back_img: img_url_behind

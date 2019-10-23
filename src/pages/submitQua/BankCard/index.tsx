@@ -81,6 +81,13 @@ class BankCard extends Component {
                 subBranchBank: Cookies.get("subBranchBank")
             })
         ) : "";
+
+
+        Request({
+            url: 'getBanks',
+            method: 'get'
+        }).then(res => {
+        })
     }
 
     /**
@@ -219,7 +226,7 @@ class BankCard extends Component {
             if (res.data.date.length != 0) {
                 this.setState({
                     isShowSubBranch: true,
-                    subBranchBankArr : res.data.date
+                    subBranchBankArr: res.data.date
                 })
             }
         })

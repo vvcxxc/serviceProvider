@@ -21,39 +21,46 @@ export let success = (text: string | number, text2?: string | number, timeout?: 
       <img src={require('../../assets/correct.png')} alt="" />
       <div>{text ? text : '登录成功'}</div>
       <div style={{
-        paddingTop:5+'px'
-      }}>{text2 ? text2:null}</div>
+        paddingTop: 5 + 'px'
+      }}>{text2 ? text2 : null}</div>
     </div>
   </div>
 
   ReactDOM.render(
-    data, document.getElementById('success'), () => {
+    data, document.getElementById('my_success'), () => {
       setTimeout(() => {
-        let dom: any = document.getElementById('success')
+        let dom: any = document.getElementById('my_success')
         ReactDOM.unmountComponentAtNode(dom)
-      }, timeout ? timeout*1000:1000);
+      }, timeout ? timeout * 1000 : 1000);
     }
   )
 }
 
-export let error = (text: string | number, text2?: string,timeout?: number) => {
+export let error = (text: string | number, text2?: string, timeout?: number) => {
 
-  let data = <div className={styles.hint}>
-    {
-      text2 ? <div className={styles.errorBox}>
-        <div className={styles.rowOne}>{text ? text : '登录失败'}</div>
-        <div className={styles.rowTwo}>{text2 ? text2 : '登录失败'}</div>
-      </div> : <div className={styles.errorBox}>
-          <div>{text ? text : '登录失败'}</div>
-        </div>
-    }
-    
-  </div>
+  let data = text2 ? <div className={styles.hint}>
+    <div className={styles.errorBox}>
+      <div className={styles.rowOne}>{text}</div>
+      <div className={styles.rowTwo}>{text2}</div>
+    </div>
+  </div> :
+    <div className={styles.hint}>
+      <div className={styles.errorBox}>
+        <div>{text ? text : '登录失败'}</div>
+      </div>
+    </div>
+
+  //   {/* <div className={styles.errorBox}>
+  //     <div className={styles.rowOne}>{text}</div>
+  //     <div className={styles.rowTwo}>{text2}</div>
+  //   </div>
+  // </div> */}
 
   ReactDOM.render(
-    data, document.getElementById('success'), () => {
+    data, document.getElementById('my_success')
+    , () => {
       setTimeout(() => {
-        let dom: any = document.getElementById('success')
+        let dom: any = document.getElementById('my_success')
         ReactDOM.unmountComponentAtNode(dom)
       }, timeout ? timeout * 1000 : 1000);
     }

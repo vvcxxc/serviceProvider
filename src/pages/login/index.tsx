@@ -19,11 +19,10 @@ export default class PageIndex extends Component {
   }
 
 
+  
 
-
-  landingData = () => {
-    // error('登录失败|??', '2333')
-    // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
+  landingData = (e:any) => {
+    //  router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     Request({
       url: 'auth/login',
       method: 'post',
@@ -33,12 +32,16 @@ export default class PageIndex extends Component {
       })
     }).then(res => {
       const { code, access_token, message } = res
-      if (code !== 200) {
-        error('登录失败', '45345')
+      
+      if (code !== 200 ) {
+        error('登录失败', message)
         return
       }
       success('登录成功')
-
+      setTimeout(() => {
+        router.push({ pathname: '/' })
+      }, 1000);
+     
       // setTimeout(() => {
       //   // localStorage.setItem('token', access_token)
       //   router.push({ pathname: './' })
@@ -46,8 +49,7 @@ export default class PageIndex extends Component {
       // code !== 200 ?
       //   error('登录失败') : success('登录成功')
 
-    })
-
+    })  
   }
 
   delete = () => {
@@ -115,66 +117,16 @@ export default class PageIndex extends Component {
               onChange={this.onChangePassword}
               mb={26}
             />
-            <div className={styles.forgotten} >忘记密码</div>
+            <div className={styles.forgotten}>忘记密码</div>
           </div>
           <div className={styles.operation}>
             <div className={styles.landing} onClick={this.landingData.bind(this)}>登录</div>
             <div className={styles.registered} onClick={this.delete}>注册</div>
           </div>
-        </div>
-        <div id="success"></div>
+       </div>
+        <div id="my_success"></div>
       </div>
 
-
-      // <div className={styles.Page}> 
-      //   <div className={styles.calendar}>
-
-      //     <div className={styles.title}>
-      //       <div className={styles.titleLeft}>活动时间</div>
-      //       <div className={styles.titleCenter}>
-      //         <div className={styles.showTime}>2019/10/22</div>
-      //         <div className={styles.division}>_</div>
-      //         <div className={styles.showTime}>2019/10/22</div>
-      //       </div>
-      //       <div className={styles.titleRight}>
-      //         <img src={require('../assets/error.png')} alt=""/>
-      //       </div>
-      //     </div>
-      //     <div className={styles.hint}>
-      //       <div>
-      //         <span className={styles.dot}></span>
-      //         <span>已开设满减活动的日期不可选取</span>
-      //       </div>
-      //       <div>
-      //         <span className={styles.dot}></span>
-      //         <span>选取的时间段内不可包含已开设活动的日期</span>
-      //       </div>
-      //     </div>
-
-      //     <div className={styles.header}>
-      //       <div className={styles.headerTitle}>
-      //         <div>上个月</div>
-      //         <div className={styles.headerCenter}>2019年10月</div>
-      //         <div>下个月</div>
-      //       </div>
-      //       <div className={styles.headerContent}>
-      //         {
-      //           this.state.mounthTitle.map((item:string,index:number) => {
-      //             return <div onClick={this.onClickMounthTitle.bind(this, index)} className={showMounthTitle === index ? styles.showMounthTitle:null}>{item}</div>
-      //           })
-      //         }
-      //       </div>
-      //     </div>
-      //     <div className={styles.content}>
-      //       <div className={styles.weekTime}>
-      //         {
-      //           this.state.weekTime
-      //         }
-      //       </div>
-      //     </div>
-      //     <div className={styles.foot}></div>
-      //   </div>
-      // </div> 
     )
   }
 }

@@ -4,11 +4,17 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import router from 'umi/router';
 import { Icon } from 'antd-mobile';
-import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
-
+import Request from '@/service/request';
 export default class PersonalInformation extends Component {
     state = {
 
+    }
+    componentDidMount (){
+      Request({
+        method: 'get',
+      }).then(res => {
+        console.log(res)
+      })
     }
 
 

@@ -15,7 +15,7 @@ export default class PageIndex extends Component {
     mounthTitle: ['一个月', '三个月', '半年', '一年'],
     showMounthTitle: 0,
     inpText: '',
-    inpPassword:''
+    inpPassword: ''
   }
 
 
@@ -53,17 +53,17 @@ export default class PageIndex extends Component {
   calculateYear = () => {
     let data = new Date()
     let year = data.getFullYear()
-    console.log(data.getMilliseconds(),'豪迈o');
+    console.log(data.getMilliseconds(), '豪迈o');
 
-    this.calculateMonth(year,data)
+    this.calculateMonth(year, data)
   }
 
   //计算月
-  calculateMonth = (year:number,data:any) => {
+  calculateMonth = (year: number, data: any) => {
     // let data = new Date()
     data.setFullYear(year)
     // console.log('yuefen ', data.getMonth());
-    data.setMonth(data.getMonth()+1)//正确的月份
+    data.setMonth(data.getMonth() + 1)//正确的月份
     // data.setMonth(0)
     // data.setDate(0)
     // console.log(data.getDate());
@@ -75,7 +75,7 @@ export default class PageIndex extends Component {
     // let meta =
     // console.log(meta,',eta');
 
-    console.log(new Date(meta).getDay(),'444');
+    console.log(new Date(meta).getDay(), '444');
     this.calculateDay();
   }
 
@@ -89,9 +89,9 @@ export default class PageIndex extends Component {
     })
   }
 
-  onClickMounthTitle = (index:number) => {
-    console.log(index,'e3');
-    this.setState({ showMounthTitle:index})
+  onClickMounthTitle = (index: number) => {
+    console.log(index, 'e3');
+    this.setState({ showMounthTitle: index })
   }
 
   // handelChange=(e:any)=> {
@@ -99,7 +99,7 @@ export default class PageIndex extends Component {
   //     inpText: e.target.value
   //   })
   //   // console.log(e.target.value,'333');
-    
+
   // }
 
   // handelChangePassword = (e: any) => {
@@ -110,8 +110,8 @@ export default class PageIndex extends Component {
   // }
 
   landingData = () => {
-
-     // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
+    // error('登录失败', '2333')
+    // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     Request({
       url: 'auth/login',
       method: 'post',
@@ -120,22 +120,17 @@ export default class PageIndex extends Component {
         password: this.state.inpPassword
       })
     }).then(res => {
-      const { code, access_token } = res
-      this.setState({
-        inpText: null,
-        inpPassword: ''
-      })
-
-      if (code !== 200 ) {
-        error('登录失败')
+      const { code, access_token,message } = res
+      if (code !== 200) {
+        error('登录失败', message)
         return
       }
       success('登录成功')
-     
-      setTimeout(() => {
-        // localStorage.setItem('token', access_token)
-        router.push({ pathname: './' })
-      }, 1000);
+
+      // setTimeout(() => {
+      //   // localStorage.setItem('token', access_token)
+      //   router.push({ pathname: './' })
+      // }, 1000);
       // code !== 200 ?
       //   error('登录失败') : success('登录成功')
 
@@ -145,20 +140,23 @@ export default class PageIndex extends Component {
 
   delete = () => {
     console.log('chufa ');
-    
+
     this.setState({
-      inpText:''
+      inpText: ''
     })
   }
 
   //账号输入
-  onChangeText = (value:any) => {
+  onChangeText = (value: any) => {
+    console.log(1);
     this.setState({
       inpText: value
     })
   }
   //账号删除
   onDeleteText = () => {
+    console.log(1);
+    
     this.setState({
       inpText: ''
     })
@@ -166,6 +164,8 @@ export default class PageIndex extends Component {
 
   // 密码输入
   onChangePassword = (value: any) => {
+    
+    console.log(2);
     this.setState({
       inpPassword: value
     })
@@ -173,6 +173,7 @@ export default class PageIndex extends Component {
 
   // 密码删除
   onDeletePassword = () => {
+    console.log(2);
     this.setState({
       inpPassword: ''
     })

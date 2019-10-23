@@ -17,7 +17,7 @@ export default class PageIndex extends Component {
     inpText: '',
     inpPassword:''
   }
-  
+
 
   forgetPassword = () => {
     // router.push({ pathname:'/changePassword/retrieve_password'})
@@ -25,7 +25,7 @@ export default class PageIndex extends Component {
     // router.push({ pathname: '/changePhoneNumber/new_phoneNumber' })
     // let data = new Date(year, month, day).getDay();
 
-    // 根据获取到的年 ， 然后获取到每个月，再根据每天 获取到周几 
+    // 根据获取到的年 ， 然后获取到每个月，再根据每天 获取到周几
     // 如果根据年数，算到实际月
     // let data = new Date
     // console.log(data.getDay(),'333');//今天是周几的意思么 0代表是星期天
@@ -33,7 +33,7 @@ export default class PageIndex extends Component {
     // console.log(data.getDate(), '333')//获取到今天是多少号
     // console.log(data.toLocaleDateString());
     // let dd = data.setFullYear(20)
-    
+
     // console.log(data.getMonth() );//获取到月份
     // let mounth = data.getMonth()
 
@@ -54,7 +54,7 @@ export default class PageIndex extends Component {
     let data = new Date()
     let year = data.getFullYear()
     console.log(data.getMilliseconds(),'豪迈o');
-    
+
     this.calculateMonth(year,data)
   }
 
@@ -67,14 +67,14 @@ export default class PageIndex extends Component {
     // data.setMonth(0)
     // data.setDate(0)
     // console.log(data.getDate());
-    
+
     // this.calculateDay()
     // console.log(data.getMonth());//错的月份
     // new Date('2015-09-27').getDay()
     let meta = data.getFullYear() + '-' + data.getMonth() + '-' + data.getDate()
-    // let meta = 
+    // let meta =
     // console.log(meta,',eta');
-    
+
     console.log(new Date(meta).getDay(),'444');
     this.calculateDay();
   }
@@ -110,7 +110,7 @@ export default class PageIndex extends Component {
   // }
 
   landingData = () => {
-    
+
      // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     Request({
       url: 'auth/login',
@@ -125,7 +125,7 @@ export default class PageIndex extends Component {
         inpText: null,
         inpPassword: ''
       })
-     
+
       if (code !== 200 ) {
         error('登录失败')
         return
@@ -138,7 +138,7 @@ export default class PageIndex extends Component {
       }, 1000);
       // code !== 200 ?
       //   error('登录失败') : success('登录成功')
-      
+
     })
 
   }

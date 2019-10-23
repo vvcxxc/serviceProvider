@@ -30,29 +30,29 @@ export default class PersonalInformation extends Component {
                     <div className={styles.information_box} >
                         <div className={styles.information_box_title} >修改密码</div>
                         <div className={styles.information_msg_box} >
-                            <Icon className={styles.information_icon} type="right" size={'lg'} />
+                            <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div>
                     <div className={styles.information_box} >
                         <div className={styles.information_box_title} >绑定手机</div>
                         <div className={styles.information_msg_box} >
-                            <div className={styles.information_msg} >020-13412345678</div>
-                            <Icon className={styles.information_icon} type="right" size={'lg'} />
+                            <div className={styles.information_msg} >13412345678</div>
+                            <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div>
-                    <div className={styles.information_box} >
-                        <div className={styles.information_box_title} >修改密码</div>
+                    {/* <div className={styles.information_box} >
+                        <div className={styles.information_box_title} >身份证信息</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >已验证</div>
-                            <Icon className={styles.information_icon} type="right" size={'lg'} />
+                            <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
-                    </div>
+                    </div> */}
                     <div className={styles.information_box_highter}></div>
                     <div className={styles.information_box} >
                         <div className={styles.information_box_title} >我的银行卡</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >已绑定</div>
-                            <Icon className={styles.information_icon} type="right" size={'lg'} />
+                            <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div>
                 </div>

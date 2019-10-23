@@ -110,7 +110,7 @@ export default class PageIndex extends Component {
   // }
 
   landingData = () => {
-
+    // error('登录失败', '2333')
      // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     Request({
       url: 'auth/login',
@@ -120,22 +120,17 @@ export default class PageIndex extends Component {
         password: this.state.inpPassword
       })
     }).then(res => {
-      const { code, access_token } = res
-      this.setState({
-        inpText: null,
-        inpPassword: ''
-      })
-
+      const { code, access_token,message } = res
       if (code !== 200 ) {
-        error('登录失败')
+        error('登录失败', message)
         return
       }
       success('登录成功')
      
-      setTimeout(() => {
-        // localStorage.setItem('token', access_token)
-        router.push({ pathname: './' })
-      }, 1000);
+      // setTimeout(() => {
+      //   // localStorage.setItem('token', access_token)
+      //   router.push({ pathname: './' })
+      // }, 1000);
       // code !== 200 ?
       //   error('登录失败') : success('登录成功')
 
@@ -152,13 +147,16 @@ export default class PageIndex extends Component {
   }
 
   //账号输入
-  onChangeText = (value:any) => {
+  onChangeText = (value: any) => {
+    console.log(1);
     this.setState({
       inpText: value
     })
   }
   //账号删除
   onDeleteText = () => {
+    console.log(1);
+    
     this.setState({
       inpText: ''
     })
@@ -166,6 +164,8 @@ export default class PageIndex extends Component {
 
   // 密码输入
   onChangePassword = (value: any) => {
+    
+    console.log(2);
     this.setState({
       inpPassword: value
     })
@@ -173,6 +173,7 @@ export default class PageIndex extends Component {
 
   // 密码删除
   onDeletePassword = () => {
+    console.log(2);
     this.setState({
       inpPassword: ''
     })

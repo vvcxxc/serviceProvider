@@ -36,12 +36,18 @@ export let success = (text: string | number, text2?: string | number, timeout?: 
   )
 }
 
-export let error = (text: string | number, timeout?: number) => {
+export let error = (text: string | number, text2?: string,timeout?: number) => {
 
   let data = <div className={styles.hint}>
-    <div className={styles.errorBox}>
-      <div>{text ? text : '登录失败'}</div>
-    </div>
+    {
+      text2 ? <div className={styles.errorBox}>
+        <div className={styles.rowOne}>{text ? text : '登录失败'}</div>
+        <div className={styles.rowTwo}>{text2 ? text2 : '登录失败'}</div>
+      </div> : <div className={styles.errorBox}>
+          <div>{text ? text : '登录失败'}</div>
+        </div>
+    }
+    
   </div>
 
   ReactDOM.render(

@@ -38,6 +38,9 @@ export default class PageIndex extends Component {
         return
       }
       success('登录成功')
+      setTimeout(() => {
+        router.push({ pathname: '/' })
+      }, 1000);
      
       // setTimeout(() => {
       //   // localStorage.setItem('token', access_token)
@@ -47,7 +50,6 @@ export default class PageIndex extends Component {
       //   error('登录失败') : success('登录成功')
 
     })  
-    success('登录成功')
   }
 
   delete = () => {

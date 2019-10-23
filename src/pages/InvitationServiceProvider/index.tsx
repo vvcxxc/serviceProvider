@@ -39,7 +39,7 @@ export default class InvitationServiceProvider extends Component {
                 closeNum={this.state.closeNum}  
                 searchPath={'/InvitationServiceProvider/search'}
                 />
-                <div className={styles.InvitationServiceProvider_total}>
+                {/* <div className={styles.InvitationServiceProvider_total}>
                     <div className={styles.totalPeople}>共100人</div>
                     <div className={styles.totalMoney}>带来收益￥23333</div>
                 </div>
@@ -54,7 +54,7 @@ export default class InvitationServiceProvider extends Component {
                         <div className={styles.InvitationServiceProvider_item_right}>带来收益：88</div>
                     </div>
 
-                </div>
+                </div> */}
                 
                 <div className={styles.on_list} >无记录</div>
                 {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}

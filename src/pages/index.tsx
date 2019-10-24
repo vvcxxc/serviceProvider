@@ -47,6 +47,9 @@ export default class QRcode extends Component {
         Request({
             url: 'qrCodeList',
             method: 'GET',
+            data: {
+                page: 1
+            }
         }).then(res => {
             this.setState({ data: res.data })
             console.log(res)
@@ -64,8 +67,8 @@ export default class QRcode extends Component {
     }
 
 
-    handleMore=()=>{
-console.log(this.state.data.list.last_page)
+    handleMore = () => {
+        console.log(this.state.data.list.last_page)
     }
 
     render() {
@@ -81,7 +84,7 @@ console.log(this.state.data.list.last_page)
                     {
                         this.state.data.list.data && this.state.data.list.data.length > 0 ? this.state.data.list.data.map((item: any, index: any) => {
                             return (
-                                <div className={styles.QRcode_item}>
+                                <div className={styles.QRcode_item} key={index}>
                                     <div className={styles.QRcode_item_left}>
                                         <div className={styles.QRcode_item_name}>{item.qrcode_sn}</div>
                                         <div className={styles.QRcode_item_date}>{item.shop_name}</div>

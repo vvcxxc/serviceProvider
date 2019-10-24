@@ -6,7 +6,7 @@ import router from 'umi/router';
 
 class ChooseId extends Component {
   state = {
-    type: ''
+    type: 1
   }
     handleSelectType = (e: any) => {
         console.log(e.target.value)

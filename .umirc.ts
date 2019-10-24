@@ -10,7 +10,7 @@ const config: IConfig =  {
       antd: true,
       dva: true,
       dynamicImport: false,
-      title: 'serviceProvider',
+      title: '服务商管理后台',
       dll: false,
 
       routes: {

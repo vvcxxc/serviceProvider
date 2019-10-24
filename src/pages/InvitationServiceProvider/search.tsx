@@ -45,19 +45,19 @@ export default class Search extends Component {
                 <div className={styles.InvitationServiceProvider_content}>
 
 
-                    <div className={styles.InvitationServiceProvider_item}>
+                    {/* <div className={styles.InvitationServiceProvider_item}>
                         <div className={styles.InvitationServiceProvider_item_left}>
                             <div className={styles.InvitationServiceProvider_item_name}>服务商A</div>
                             <div className={styles.InvitationServiceProvider_item_date}>2019-7-1 12:00:00</div>
                         </div>
                         <div className={styles.InvitationServiceProvider_item_right}>带来收益：88</div>
-                    </div>
+                    </div> */}
 
                 </div>
 
                 <div className={styles.on_list} >无记录</div>
 
-                <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div>
+                {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}
                 {
                     this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
 

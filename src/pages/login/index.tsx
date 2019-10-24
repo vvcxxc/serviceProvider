@@ -33,9 +33,9 @@ export default class PageIndex extends Component {
         error('登录失败', message)
         return
       }
+      localStorage.setItem('token', access_token)
       success('登录成功')
       setTimeout(() => {
-        // localStorage.setItem('token', access_token)
         router.push({ pathname: '/' })
       }, 1000);
     })

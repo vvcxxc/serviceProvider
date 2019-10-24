@@ -4,6 +4,7 @@ import styles from './index.less';
 import { connect } from 'dva';
 import Request from '@/service/request';
 import qs from 'qs';
+import router from 'umi/router';
 
 
 export default connect(({ register }: any) => register)(
@@ -166,6 +167,7 @@ export default connect(({ register }: any) => register)(
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
                             localStorage.setItem('token', 'Bearer ' + res.access_token);
+                            router.push('/chooseid')
                         })
                     } else {
                         Toast.fail(message)

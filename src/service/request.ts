@@ -7,12 +7,8 @@ interface Options extends AxiosRequestConfig {
     host?: string;
 }
 
-declare global {
-    interface Window { api: string; }
-}
 
-const host = window.api ? window.api : 'http://192.168.2.151/';
-// const host = window.api ? window.api : 'http://release.api.supplier.tdianyi.com/';
+const host = process.env.apiUrl ? process.env.apiUrl : 'http://test.service_provider_api.tdianyi.com/';
 
 /**发起请求
  *

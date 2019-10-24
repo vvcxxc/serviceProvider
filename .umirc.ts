@@ -10,9 +10,9 @@ const config: IConfig =  {
       antd: true,
       dva: true,
       dynamicImport: false,
-      title: 'serviceProvider',
+      title: '服务商管理后台',
       dll: false,
-      
+
       routes: {
         exclude: [
           /models\//,
@@ -24,6 +24,7 @@ const config: IConfig =  {
       },
     }],
   ],
+  hash: true
 }
 
 export default config;

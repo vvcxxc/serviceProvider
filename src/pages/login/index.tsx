@@ -38,7 +38,7 @@ export default class PageIndex extends Component {
       success('登录成功')
       setTimeout(() => {
         router.push({ pathname: '/' })
-      }, 1000);
+      }, 1100);
     })
   }
 
@@ -101,7 +101,7 @@ export default class PageIndex extends Component {
               onChange={this.onChangePassword}
               mb={26}
             />
-            <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div>
+            {/* <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div> */}
           </div>
           <div className={styles.operation}>
             <Green_button
@@ -111,7 +111,7 @@ export default class PageIndex extends Component {
             />
             <Green_button
               data={'注册'}
-              onClick={this.delete}
+              onClick={()=>router.push('/register')}
             />
           </div>
         </div>

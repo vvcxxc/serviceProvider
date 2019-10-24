@@ -1,3 +1,4 @@
+/**title: 注册 */
 import React, { Component } from 'react';
 import { Button, InputItem, List, Flex, Toast } from 'antd-mobile';
 import styles from './index.less';
@@ -5,7 +6,7 @@ import { connect } from 'dva';
 import Request from '@/service/request';
 import qs from 'qs';
 import router from 'umi/router';
-
+let timer = null;
 
 export default connect(({ register }: any) => register)(
     class Register extends Component<any> {
@@ -111,7 +112,7 @@ export default connect(({ register }: any) => register)(
                     })
                 }).then(res => {
                     if (res.code == 200) {
-                        let timer = setInterval(() => {
+                        timer = setInterval(() => {
                             if (wait == 0) {
                                 this.setState({ is_ok: true });
                                 this.props.dispatch({
@@ -166,7 +167,7 @@ export default connect(({ register }: any) => register)(
                     let { code, message } = res;
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
-                            localStorage.setItem('token', 'Bearer ' + res.access_token);
+                            localStorage.setItem('token',res.access_token);
                             router.push('/chooseid')
                         })
                     } else {
@@ -176,6 +177,11 @@ export default connect(({ register }: any) => register)(
             } else {
                 Toast.fail('请将信息填写完整', 2)
             }
+        }
+
+        // 销毁定时器
+        componentWillUnmount (){
+          clearInterval(timer)
         }
 
         render() {

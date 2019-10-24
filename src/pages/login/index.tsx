@@ -30,11 +30,8 @@ export default class PageIndex extends Component {
 
   //账号输入
   onChangeText = (value: any) => {
-    // let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/;
     this.setState({
       inpText: value
-    }, () => {
-        this.setState({ textPrompt: '' })
     })
   }
   //账号删除
@@ -48,11 +45,6 @@ export default class PageIndex extends Component {
   onChangePassword = (value: any) => {
     this.setState({
       inpPassword: value
-    }, () => {
-        if (this.state.inpPassword.length < 6) {
-          this.setState({ passwordPrompt: '' })
-          return
-        }
     })
   }
 
@@ -66,14 +58,11 @@ export default class PageIndex extends Component {
   landingData = () => {
     const { inpText, inpPassword } = this.state
     let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/;
-    if (!reg.test(inpText)) {
-      this.setState({ textPrompt: '请输入正确的手机号码' })
+    if (!inpText || !inpPassword) {
+      error('当前字段不能为空,请重新输入')
       return
     }
-    if (inpPassword.length < 6) {
-      this.setState({ passwordPrompt: '请输入不少于6位数的密码' })
-      return
-    }
+
     Request({
       url: 'auth/login',
       method: 'post',
@@ -108,12 +97,12 @@ export default class PageIndex extends Component {
           {/* <Calendar></Calendar> */}
           <div className={styles.inputBox}>
             <MyInput
-              placeholder="请输入账号"
+              placeholder="请输入手机号"
               type="text"
               onDelete={this.onDeleteText}
               onChange={this.onChangeText}
               mb={56}
-              prompt={textPrompt}
+              // prompt={textPrompt}
             />
             <MyInput
               placeholder="请输入密码"
@@ -121,7 +110,7 @@ export default class PageIndex extends Component {
               onDelete={this.onDeletePassword}
               onChange={this.onChangePassword}
               mb={26}
-              prompt={passwordPrompt}
+              // prompt={passwordPrompt}
             />
             {/* <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div> */}
           </div>

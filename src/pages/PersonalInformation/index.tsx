@@ -23,6 +23,11 @@ export default class PersonalInformation extends Component {
         })
     }
 
+    //修改密码
+    onChangePassword = () => {
+        router.push({ pathname:'/PersonalInformation/changePassword'})
+    }
+
     logOut = (e) => {
         Request({
             url: 'auth/logout',
@@ -53,7 +58,7 @@ export default class PersonalInformation extends Component {
 
 
                 <div className={styles.Personal_information_content} >
-                    {/* <div className={styles.information_box} >
+                    <div className={styles.information_box} onClick={this.onChangePassword} >
                         <div className={styles.information_box_title} >修改密码</div>
                         <div className={styles.information_msg_box} >
                             <Icon className={styles.information_icon} type="right" size={'md'} />

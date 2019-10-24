@@ -1,8 +1,8 @@
 /**title: 找回密码 */
 import React, { Component } from 'react';
-import styles from './retrieve_password.less'
+import styles from './index.less'
 import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
-import { success, error, sigh } from "../../components/Hint";
+import { success, error, sigh } from "@/components/Hint";
 import MyInput from "@/components/Input";
 import Green_button from "@/components/Green_button"
 import VerifyInput from "@/components/VerifyInput"

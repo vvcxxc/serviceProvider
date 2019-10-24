@@ -8,7 +8,8 @@ interface Props {
   value?: string | number,        // 用户输入的数据
   onDelete: () => void,           //用户点击删除函数 会删除输入框里面的数据
   onChange: (value: any) => void, //输入框输入触发
-  mb?:number                      //底部外边距
+  mb?: number,                     //底部外边距
+  prompt?:number|string            //输入框信息提示
 }
 
 export default class MyInput extends Component<Props>{
@@ -18,9 +19,9 @@ export default class MyInput extends Component<Props>{
   }
 
   handelChange = (e: any) => {
-    this.props.onChange(e.target.value)
+    this.props.onChange(e.target.value.trim())
     this.setState({
-      inpText: e.target.value
+      inpText: e.target.value.trim()
     }, )
   }
 
@@ -33,7 +34,7 @@ export default class MyInput extends Component<Props>{
 
   render() {
     const { inpText } = this.state
-    const { type, placeholder, value,mb} = this.props
+    const { type, placeholder, value, mb, prompt} = this.props
     return (
       <div className={styles.inputBox_text} style={{
         marginBottom: mb ? mb+'px':'0px'
@@ -49,6 +50,10 @@ export default class MyInput extends Component<Props>{
             <Icon type="cross-circle" />
           </div>:null
         }
+        {
+          prompt ? <div className={styles.error_message}>{prompt}</div>:null
+        }
+        
       </div>
     )
   }

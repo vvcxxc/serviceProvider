@@ -7,7 +7,10 @@ import styles from './index.less';
 import router from 'umi/router';
 import { Icon } from 'antd-mobile';
 import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
-
+declare global {
+  interface Window { api: string; }
+}
+const host = window.api
 export default class QRcode extends Component {
     state = {
         dataList: [
@@ -47,7 +50,7 @@ export default class QRcode extends Component {
 
     componentDidMount() {
         this.requestList()
-        console.log(window.api)
+        console.log(host)
     }
 
     requestList = () => {

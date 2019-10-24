@@ -65,7 +65,7 @@ export default class QRcode extends Component {
 
 
     handleMore=()=>{
-console.log(this.state.data.list.last_page*)
+// console.log(this.state.data.list.last_page*)
     }
 
     render() {

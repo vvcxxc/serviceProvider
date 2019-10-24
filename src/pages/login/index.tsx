@@ -1,4 +1,4 @@
-/**title: 登陆 */
+/**title: 登录 */
 import React, { Component } from 'react';
 import styles from './index.less'
 import { Toast, WhiteSpace, WingBlank, Button, Icon } from 'antd-mobile';

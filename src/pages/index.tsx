@@ -28,23 +28,50 @@ export default class QRcode extends Component {
         ],
         invitationShow: false,
         closeNum: 1,
-        data: []
+        listPage: 1,
+        data: {
+            layout: 0,
+            list: {
+                current_page: 1,
+                data: [
+                ],
+                last_page: 99,
+                path: "",
+                per_page: 0,
+                total: 0,
+            },
+            money_total: 0
+        },
+        resDataList: []
     }
 
-
     componentDidMount() {
+        this.requestList()
+        console.log(window.api)
+    }
+
+    requestList = () => {
+        if (this.state.listPage - 1 > this.state.data.list.last_page) {
+            return
+        }
+        Toast.loading('');
         Request({
             url: 'qrCodeList',
-            method: 'get',
+            method: 'GET',
+            params: {
+                page: this.state.listPage
+            }
         }).then(res => {
-            console.log(res)
+            // setTimeout(()=>{ Toast.hide();},200)
+            Toast.hide();
+            let tempList = this.state.resDataList.concat(res.data.list.data);
+            this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
         })
     }
 
 
     searchPayload = (query: any) => {
         console.log('lll', query)
-
         // router.push({ pathname: '/QRcode/search', query: query })
     }
 
@@ -52,35 +79,46 @@ export default class QRcode extends Component {
         this.setState({ invitationShow: false })
     }
 
+
     render() {
         return (
             <div className={styles.QRcode} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }}>
-
                 {/* <Filtrate dataList={this.state.dataList} onSearch={this.searchPayload} closeNum={this.state.closeNum} /> */}
+
                 <div className={styles.QRcode_total}>
-                    <div className={styles.totalPeople}>共30个码，10个已铺设</div>
-                    <div className={styles.totalMoney}>带来总收益￥23333</div>
+                    <div className={styles.totalPeople}>共{this.state.data.list.total}个码，{this.state.data.layout}个已铺设</div>
+                    <div className={styles.totalMoney}>带来总收益￥{this.state.data.money_total}</div>
                 </div>
-                <div className={styles.QRcode_content}>
-
-
-                    <div className={styles.QRcode_item}>
-                        <div className={styles.QRcode_item_left}>
-                            <div className={styles.QRcode_item_name}>二维码序列号</div>
-                            <div className={styles.QRcode_item_date}>点的名字</div>
+                {
+                    this.state.resDataList && this.state.resDataList.length > 0 ? <div className={styles.QRcode_content}>
+                        {
+                            this.state.resDataList.map((item: any, index: any) => {
+                                return (
+                                    <div className={styles.QRcode_item} key={index}>
+                                        <div className={styles.QRcode_item_left}>
+                                            <div className={styles.QRcode_item_name}>{item.qrcode_sn}</div>
+                                            <div className={styles.QRcode_item_date}>{item.shop_name}</div>
+                                        </div>
+                                        <div className={styles.QRcode_item_right}>
+                                            <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div>
+                                            <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div>
+                                            <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                        <div className={styles.loadingMore_button_box} onClick={this.requestList}>
+                            {
+                                this.state.listPage - 1 <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
+                            }
                         </div>
-                        <div className={styles.QRcode_item_right}>
+                    </div> : null
+                }
+                {
+                    this.state.resDataList && this.state.resDataList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
+                }
 
-                            <div className={styles.QRcode_item_toDay}>今日收益100</div>
-                            <div className={styles.QRcode_item_toMonth}>本月收益2333</div>
-                            <div className={styles.QRcode_item_total}>总收益2555</div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div className={styles.on_list} >无记录</div>
                 {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}
                 {
                     this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}

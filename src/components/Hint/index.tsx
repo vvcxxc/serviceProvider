@@ -31,7 +31,7 @@ export let success = (text: string | number, text2?: string | number, timeout?: 
       setTimeout(() => {
         let dom: any = document.getElementById('my_success')
         ReactDOM.unmountComponentAtNode(dom)
-      }, timeout ? timeout * 1000 : 1000);
+      }, timeout ? timeout * 900 : 900);
     }
   )
 }
@@ -50,19 +50,13 @@ export let error = (text: string | number, text2?: string, timeout?: number) => 
       </div>
     </div>
 
-  //   {/* <div className={styles.errorBox}>
-  //     <div className={styles.rowOne}>{text}</div>
-  //     <div className={styles.rowTwo}>{text2}</div>
-  //   </div>
-  // </div> */}
-
   ReactDOM.render(
     data, document.getElementById('my_success')
     , () => {
       setTimeout(() => {
         let dom: any = document.getElementById('my_success')
         ReactDOM.unmountComponentAtNode(dom)
-      }, timeout ? timeout * 1000 : 1000);
+      }, timeout ? timeout * 900 : 900);
     }
   )
 }
@@ -83,7 +77,7 @@ export let sigh = (text: string | number, timeout?: number) => {
       setTimeout(() => {
         let dom: any = document.getElementById('success')
         ReactDOM.unmountComponentAtNode(dom)
-      }, timeout ? timeout * 1000 : 1000);
+      }, timeout ? timeout * 900 : 900);
     }
   )
 }

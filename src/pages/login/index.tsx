@@ -75,16 +75,22 @@ export default class PageIndex extends Component {
         password: this.state.inpPassword
       })
     }).then(res => {
-      const { code, access_token, message } = res
-      if (code !== 200) {
+      const { code, access_token, message, checkout_status } = res
+      if (code !== 200) {//1 首页, 2去修改
         error('登录失败', message)
         return
       }
       localStorage.setItem('token', access_token)
-      success('登录成功')
-      setTimeout(() => {
-        router.push({ pathname: '/' })
-      }, 1100);
+      if (checkout_status==1) {
+        success('登录成功')
+        setTimeout(() => {
+          router.push({ pathname: '/' })
+        }, 1100);
+      } else {
+        setTimeout(() => {
+          router.push({ pathname: '/submitQua/BankCard' })
+        }, 1100);
+      }
     })
   }
 
@@ -106,7 +112,6 @@ export default class PageIndex extends Component {
               onDelete={this.onDeleteText}
               onChange={this.onChangeText}
               mb={56}
-              // prompt={textPrompt}
             />
             <MyInput
               placeholder="请输入密码"
@@ -114,9 +119,8 @@ export default class PageIndex extends Component {
               onDelete={this.onDeletePassword}
               onChange={this.onChangePassword}
               mb={26}
-              // prompt={passwordPrompt}
             />
-            {/* <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div> */}
+            <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div>
           </div>
           <div className={styles.operation}>
             <Green_button

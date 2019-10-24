@@ -62,7 +62,7 @@ export default class QRcode extends Component {
                 page: this.state.listPage
             }
         }).then(res => {
-            // setInterval(()=>{ Toast.hide();},2000)
+            // setTimeout(()=>{ Toast.hide();},200)
             Toast.hide();
             let tempList = this.state.resDataList.concat(res.data.list.data);
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })

@@ -65,7 +65,7 @@ export default class QRcode extends Component {
 
 
     handleMore=()=>{
-console.log(this.state.data.list.last_page)
+      console.log(this.state.data.list.last_page)
     }
 
     render() {
@@ -90,7 +90,6 @@ console.log(this.state.data.list.last_page)
                                         <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div>
                                         <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div>
                                         <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div>
-
                                     </div>
                                 </div>
                             )

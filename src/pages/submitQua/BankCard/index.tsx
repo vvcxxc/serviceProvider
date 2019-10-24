@@ -337,7 +337,7 @@ class BankCard extends Component {
         const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state;
 
         if (!(/^([\u4e00-\u9fa5]){2,}$/.test(User))) {
-            Toast.fail('请输入中文用户名', 1);
+            Toast.fail('请输入中文开户人名称', 1);
             return;
         }
 

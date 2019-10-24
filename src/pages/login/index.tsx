@@ -7,6 +7,7 @@ import router from "umi/router";
 import Request from '@/service/request';
 import qs from 'qs';
 import MyInput from "@/components/Input";
+import Green_button from "@/components/Green_button"
 export default class PageIndex extends Component {
 
   state = {
@@ -18,11 +19,7 @@ export default class PageIndex extends Component {
     inpPassword: ''
   }
 
-
-
-
-  landingData = (e: any) => {
-    //  router.push({ pathname: '/InvitationServiceProvider/search', query: query })
+  landingData = () => {
     Request({
       url: 'auth/login',
       method: 'post',
@@ -32,32 +29,19 @@ export default class PageIndex extends Component {
       })
     }).then(res => {
       const { code, access_token, message } = res
-
       if (code !== 200) {
         error('登录失败', message)
         return
       }
-      console.log(access_token)
       localStorage.setItem('token', access_token)
       success('登录成功')
-
-
       setTimeout(() => {
         router.push({ pathname: '/' })
       }, 1100);
-
-      // setTimeout(() => {
-      //   router.push({ pathname: './' })
-      // }, 1000);
-      // code !== 200 ?
-      //   error('登录失败') : success('登录成功')
-
     })
   }
 
   delete = () => {
-    console.log('chufa ');
-
     this.setState({
       inpText: ''
     })
@@ -65,15 +49,12 @@ export default class PageIndex extends Component {
 
   //账号输入
   onChangeText = (value: any) => {
-    console.log(1);
     this.setState({
       inpText: value
     })
   }
   //账号删除
   onDeleteText = () => {
-    console.log(1);
-
     this.setState({
       inpText: ''
     })
@@ -81,8 +62,6 @@ export default class PageIndex extends Component {
 
   // 密码输入
   onChangePassword = (value: any) => {
-
-    console.log(2);
     this.setState({
       inpPassword: value
     })
@@ -90,21 +69,21 @@ export default class PageIndex extends Component {
 
   // 密码删除
   onDeletePassword = () => {
-    console.log(2);
     this.setState({
       inpPassword: ''
     })
   }
 
-
-
+  //忘记密码
+  forgetPassword = () => {
+    router.push({ pathname: '/changePassword/retrieve_password' })
+  }
 
   render() {
     const { day, showMounthTitle } = this.state
     return (
       <div className={styles.pageIndex}>
         <div className={styles.pageContent}>
-
           <div className={styles.inputBox}>
             <MyInput
               placeholder="请输入账号"
@@ -120,11 +99,18 @@ export default class PageIndex extends Component {
               onChange={this.onChangePassword}
               mb={26}
             />
-            <div className={styles.forgotten}>忘记密码</div>
+            <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div>
           </div>
           <div className={styles.operation}>
-            <div className={styles.landing} onClick={this.landingData.bind(this)}>登录</div>
-            <div className={styles.registered} onClick={this.delete}>注册</div>
+            <Green_button
+              data={'登录'}
+              mb={60}
+              onClick={this.landingData}
+            />
+            <Green_button
+              data={'注册'}
+              onClick={this.delete}
+            />
           </div>
         </div>
         <div id="my_success"></div>

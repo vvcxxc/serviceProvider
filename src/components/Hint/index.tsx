@@ -50,12 +50,6 @@ export let error = (text: string | number, text2?: string, timeout?: number) => 
       </div>
     </div>
 
-  //   {/* <div className={styles.errorBox}>
-  //     <div className={styles.rowOne}>{text}</div>
-  //     <div className={styles.rowTwo}>{text2}</div>
-  //   </div>
-  // </div> */}
-
   ReactDOM.render(
     data, document.getElementById('my_success')
     , () => {

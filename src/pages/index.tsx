@@ -28,6 +28,7 @@ export default class QRcode extends Component {
         ],
         invitationShow: false,
         closeNum: 1,
+        listPage: 1,
         data: {
             layout: 0,
             list: {
@@ -40,18 +41,24 @@ export default class QRcode extends Component {
                 total: 0,
             },
             money_total: 0
-        }
+        },
+        resDataList:[]
     }
 
     componentDidMount() {
+        this.requestList()
+    }
+
+    requestList = () => {
         Request({
             url: 'qrCodeList',
             method: 'GET',
-            data: {
-                page: 1
+            params: {
+                page: this.state.listPage
             }
         }).then(res => {
-            this.setState({ data: res.data })
+            let tempList=this.state.resDataList.concat(res.data.list.data)
+            this.setState({ data: tempList, resDataList:tempList,listPage: Number(this.state.listPage) + 1 })
             console.log(res)
         })
     }
@@ -67,10 +74,6 @@ export default class QRcode extends Component {
     }
 
 
-    handleMore = () => {
-        console.log(this.state.data.list.last_page)
-    }
-
     render() {
         return (
             <div className={styles.QRcode} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }}>
@@ -82,7 +85,7 @@ export default class QRcode extends Component {
                 </div>
                 <div className={styles.QRcode_content}>
                     {
-                        this.state.data.list.data && this.state.data.list.data.length > 0 ? this.state.data.list.data.map((item: any, index: any) => {
+                        this.state.resDataList && this.state.resDataList.length > 0 ? this.state.resDataList.map((item: any, index: any) => {
                             return (
                                 <div className={styles.QRcode_item} key={index}>
                                     <div className={styles.QRcode_item_left}>
@@ -98,8 +101,11 @@ export default class QRcode extends Component {
                             )
                         }) : null
                     }
-                    <div className={styles.loadingMore_button_box} onClick={this.handleMore}>
-                        点击加载更多
+                    <div className={styles.loadingMore_button_box} onClick={this.requestList}>
+                        {
+                            this.state.listPage>this.state.data.list.last_page?' 点击加载更多':'暂无更多数据'
+                        }
+                       
                     </div>
 
                 </div>

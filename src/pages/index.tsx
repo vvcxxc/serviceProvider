@@ -50,7 +50,7 @@ export default class QRcode extends Component {
     }
 
     requestList = () => {
-        if (this.state.listPage > this.state.data.list.last_page) {
+        if (this.state.listPage-1 > this.state.data.list.last_page) {
             return
         }
         Request({
@@ -61,9 +61,7 @@ export default class QRcode extends Component {
             }
         }).then(res => {
             let tempList = this.state.resDataList.concat(res.data.list.data);
-            console.log(tempList)
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
-            console.log(res)
         })
     }
 
@@ -107,7 +105,7 @@ export default class QRcode extends Component {
                     }
                     <div className={styles.loadingMore_button_box} onClick={this.requestList}>
                         {
-                            this.state.listPage <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
+                            this.state.listPage-1 <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
                         }
 
                     </div>

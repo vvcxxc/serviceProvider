@@ -33,7 +33,7 @@ export default class PersonalInformation extends Component {
             url: 'auth/logout',
             method: 'post',
         }).then(res => {
-            if (res.code == 200) {
+            if (res.code == 401) {
                 Toast.success('退出登录成功', 1);
                 localStorage.removeItem('token');
                 setTimeout(() => {

@@ -109,7 +109,7 @@ export default class PageIndex extends Component {
             />
             <Green_button
               data={'注册'}
-              onClick={this.delete}
+              onClick={()=>router.push('/register')}
             />
           </div>
         </div>

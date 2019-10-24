@@ -8,6 +8,7 @@ import Request from '@/service/request';
 import qs from 'qs';
 import MyInput from "@/components/Input";
 import Green_button from "@/components/Green_button"
+import Calendar from "@/components/Calendar"
 export default class PageIndex extends Component {
 
   state = {
@@ -84,6 +85,7 @@ export default class PageIndex extends Component {
     return (
       <div className={styles.pageIndex}>
         <div className={styles.pageContent}>
+          {/* <Calendar></Calendar> */}
           <div className={styles.inputBox}>
             <MyInput
               placeholder="请输入账号"

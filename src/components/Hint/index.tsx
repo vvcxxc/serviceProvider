@@ -64,7 +64,7 @@ export let error = (text: string | number, text2?: string, timeout?: number) => 
 export let sigh = (text: string | number, timeout?: number) => {
 
   let data = <div className={styles.hint}>
-    <div className={styles.errorBox}>
+    <div className={styles.hintBox}>
       <div>
         <img src={require('../../assets/sigh.png')} alt="" />
       </div>
@@ -73,9 +73,9 @@ export let sigh = (text: string | number, timeout?: number) => {
   </div>
 
   ReactDOM.render(
-    data, document.getElementById('success'), () => {
+    data, document.getElementById('my_success'), () => {
       setTimeout(() => {
-        let dom: any = document.getElementById('success')
+        let dom: any = document.getElementById('my_success')
         ReactDOM.unmountComponentAtNode(dom)
       }, timeout ? timeout * 1000 : 1000);
     }

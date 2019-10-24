@@ -1,3 +1,4 @@
+/**title: 账单 */
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, WingBlank, List, DatePickerView } from 'antd-mobile'

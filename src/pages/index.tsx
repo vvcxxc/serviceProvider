@@ -28,14 +28,41 @@ export default class QRcode extends Component {
         ],
         invitationShow: false,
         closeNum: 1,
-        data: []
+        layout: 0,
+        list: {
+            current_page: 1,
+            data: [],
+            first_page_url: "http://192.168.2.151/qrCodeList?page=1",
+            from: 1,
+        },
+        current_page: 1,
+        data: [
+            {
+                month_count: 0,
+                qrcode_sn: "BrwZ9T7J8q",
+                shop_name: "维涛网络有限公司",
+                today_count: 0,
+                total_income_money: 0
+            }
+        ],
+        first_page_url: '',
+        from: 1,
+        last_page: 1,
+        last_page_url: "http://192.168.2.151/qrCodeList?page=1",
+        next_page_url: null,
+        path: "http://192.168.2.151/qrCodeList",
+        per_page: 10,
+        prev_page_url: null,
+        to: 5,
+        total: 5,
+        money_total: 0,
     }
 
 
     componentDidMount() {
         Request({
             url: 'qrCodeList',
-            method: 'get',
+            method: 'GET',
         }).then(res => {
             console.log(res)
         })

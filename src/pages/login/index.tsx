@@ -44,7 +44,7 @@ export default class PageIndex extends Component {
 
       setTimeout(() => {
         router.push({ pathname: '/' })
-      }, 1000);
+      }, 1100);
 
       // setTimeout(() => {
       //   router.push({ pathname: './' })

@@ -6,6 +6,7 @@ import Axios from 'axios';
 import Cookies from 'js-cookie';
 import Request from '@/service/request';
 import router from 'umi/router';
+import camera from '@/assets/upload_icon/camera.jpg';
 
 class BankCard extends Component {
 
@@ -31,10 +32,14 @@ class BankCard extends Component {
         subBranchBankArr: [],
 
         // 银行卡列表
-        bankList: []
+        bankList: [],
+        // 信息
+        userBankinfo: {},
+        // 判断是否为修改状态
+        is_edit: false,
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
             // console.log(res)
@@ -51,51 +56,118 @@ class BankCard extends Component {
             window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
         })
 
+        await Request({
+            url: 'auth/getBankInfo',
+            method: 'get'
+        }).then(res => {
+            const { code, message } = res;
+            if (code == 200) {
+                this.setState({
+                    // bankList: res.data
+                    userBankinfo: res.data.userBankinfo,
+                    is_edit: true
+                })
+            }
+        });
+
 
         // 判断Cookie是否有数据
-        Cookies.get("ImgUrlFront") ? (
+        /**
+         * 正面身份证
+         */
+        Cookies.get("ImgUrlFront") && JSON.parse(Cookies.get("ImgUrlFront")) == "" ? (
+            this.setState({
+                img_url_front: "",
+                isHaveImgFront: false
+            })
+        ) : Cookies.get("ImgUrlFront") ? (
             this.setState({
                 img_url_front: JSON.parse(Cookies.get("ImgUrlFront")),
                 isHaveImgFront: true
             })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                img_url_front: this.state.userBankinfo.bankcard_face_img,
+                isHaveImgFront: true
+            })
         ) : "";
-        Cookies.get("ImgUrlBehind") ? (
+
+
+        /**
+         * 反面身份证
+         */
+        Cookies.get("ImgUrlBehind") && JSON.parse(Cookies.get("ImgUrlBehind")) == "" ? (
+            this.setState({
+                img_url_behind: "",
+                isHaveImgBehind: false
+            })
+        ) : Cookies.get("ImgUrlBehind") ? (
             this.setState({
                 img_url_behind: JSON.parse(Cookies.get("ImgUrlBehind")),
                 isHaveImgBehind: true
             })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                img_url_behind: this.state.userBankinfo.bankcard_back_img,
+                isHaveImgBehind: true
+            })
         ) : "";
-        Cookies.get("User") ? (
+
+
+        /**
+         * 开户人
+         */
+        Cookies.get("User") || Cookies.get("User") == "" ? (
             this.setState({
                 User: Cookies.get("User")
             })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                User: this.state.userBankinfo.owner_name,
+            })
         ) : "";
-        Cookies.get("bankCard") ? (
+
+
+        /**
+         * 银行卡号
+         */
+        Cookies.get("bankCard") || Cookies.get("bankCard") == "" ? (
             this.setState({
                 bankCard: Cookies.get("bankCard")
             })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                bankCard: this.state.userBankinfo.bankcard_no,
+            })
         ) : "";
-        Cookies.get("bankName") ? (
+
+
+        /**
+         * 开户银行
+         */
+        Cookies.get("bankName") || Cookies.get("bankName") == "" ? (
             this.setState({
                 bankName: Cookies.get("bankName")
             })
-        ) : "";
-        Cookies.get("subBranchBank") ? (
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
             this.setState({
-                subBranchBank: Cookies.get("subBranchBank")
+                bankName: this.state.userBankinfo.bank_name,
             })
         ) : "";
 
 
-        Request({
-            url: 'auth/getBanks',
-            method: 'get'
-        }).then(res => {
-          console.log(res)
-          this.setState({
-            bankList: res.data
-          })
-        })
+        /**
+         * 支行
+         */
+        Cookies.get("subBranchBank") || Cookies.get("subBranchBank") == "" ? (
+            this.setState({
+                subBranchBank: Cookies.get("subBranchBank")
+            })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                subBranchBank: this.state.userBankinfo.branch_address,
+            })
+        ) : "";
     }
 
     /**
@@ -138,7 +210,7 @@ class BankCard extends Component {
             img_url_front: "",
             isHaveImgFront: false
         })
-        Cookies.remove("ImgUrlFront")
+        Cookies.set("ImgUrlFront", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -180,7 +252,7 @@ class BankCard extends Component {
             img_url_behind: "",
             isHaveImgBehind: false
         })
-        Cookies.remove("ImgUrlBehind")
+        Cookies.set("ImgUrlBehind", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -255,24 +327,52 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const {bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName} = this.state
-        Request({
-          method: 'post',
-          url: 'auth/setBankInfo',
-          params: {
-            bank_name: bankName,
-            bankcard_no: bankCard,
-            branch_address: subBranchBank,
-            owner_name: User,
-            bankcard_face_img: img_url_front,
-            bankcard_back_img: img_url_behind
-          }
-        }).then(res => {
-          console.log(res)
-          if(res.code == 200){
-            router.push('/')
-          }
-        })
+        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state
+        if (is_edit) {
+            Request({
+                method: 'post',
+                url: 'auth/setBankInfo',
+                params: {
+                    bank_name: bankName,
+                    bankcard_no: bankCard,
+                    branch_address: subBranchBank,
+                    owner_name: User,
+                    bankcard_face_img: img_url_front,
+                    bankcard_back_img: img_url_behind,
+                    is_edit: 1
+                }
+            }).then(res => {
+                // console.log(res)
+                if (res.code == 200) {
+                    Toast.success(res.message, 1);
+                    router.push('/')
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        } else {
+            Request({
+                method: 'post',
+                url: 'auth/setBankInfo',
+                params: {
+                    bank_name: bankName,
+                    bankcard_no: bankCard,
+                    branch_address: subBranchBank,
+                    owner_name: User,
+                    bankcard_face_img: img_url_front,
+                    bankcard_back_img: img_url_behind
+                }
+            }).then(res => {
+                // console.log(res)
+                if (res.code == 200) {
+                    Toast.success(res.message, 1);
+                    router.push('/')
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        }
+
     }
 
     render() {
@@ -299,7 +399,7 @@ class BankCard extends Component {
                                     length={1}
                                     className={styles.image_picker_comp}
                                 />
-                                <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571227609035&di=c295506efa7eddae0ec2a1554cec2d4c&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F22%2F84%2F5922466411644_610.jpg" alt="" />
+                                <img src={camera} alt="" />
                                 <div className={styles.image_desc}>拍摄银行卡正面</div>
                             </div>
                     }
@@ -317,7 +417,7 @@ class BankCard extends Component {
                                     length={1}
                                     className={styles.image_picker_comp}
                                 />
-                                <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571227609035&di=c295506efa7eddae0ec2a1554cec2d4c&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F22%2F84%2F5922466411644_610.jpg" alt="" />
+                                <img src={camera} alt="" />
                                 <div className={styles.image_desc}>拍摄银行卡反面</div>
                             </div>
                     }

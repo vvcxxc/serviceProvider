@@ -150,6 +150,23 @@ export default connect(({ register }: any) => register)(
 
         handleRegister = () => {
             const { username, phone, code, password, inviter_phone } = this.props;
+            if (!(/^([a-zA-Z\u4e00-\u9fa5]){1,8}$/.test(username))) {
+                Toast.fail('请输入中文，字母名称且不超过8个字符', 1);
+                return;
+            }
+            if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                Toast.fail('请输入11位有效手机号', 1);
+                return;
+            }
+            if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(password))) {
+                Toast.fail('请输入数字，字母组合不低于6位密码', 1);
+                return;
+            }
+            if (!(/^1[3456789]\d{9}$/.test(inviter_phone))) {
+                Toast.fail('请输入11位有效手机号', 1);
+                return;
+            }
+
             if (username && phone && code && password) {
                 let data = qs.stringify({
                     name: username,
@@ -179,8 +196,8 @@ export default connect(({ register }: any) => register)(
         }
 
         // 销毁定时器
-        componentWillUnmount (){
-          clearInterval(timer)
+        componentWillUnmount() {
+            clearInterval(timer)
         }
 
         render() {

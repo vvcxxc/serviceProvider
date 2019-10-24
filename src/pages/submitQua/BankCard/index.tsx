@@ -37,6 +37,8 @@ class BankCard extends Component {
         userBankinfo: {},
         // 判断是否为修改状态
         is_edit: false,
+        checkout_status: 0,
+        checkout_comment: ""
     }
 
     async componentDidMount() {
@@ -65,7 +67,9 @@ class BankCard extends Component {
                 this.setState({
                     // bankList: res.data
                     userBankinfo: res.data.userBankinfo,
-                    is_edit: true
+                    is_edit: true,
+                    checkout_status: res.data.userBankinfo.checkout_status,
+                    checkout_comment: res.data.userBankinfo.checkout_comment
                 })
             }
         });
@@ -327,7 +331,28 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state
+        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state;
+
+        if (!(/^([\u4e00-\u9fa5]){2,}$/.test(User))) {
+            Toast.fail('请输入中文用户名', 1);
+            return;
+        }
+
+        if (!(/^\d{15}|\d{18}$/.test(bankCard))) {
+            Toast.fail('请输入有效银行卡', 1);
+            return;
+        }
+
+        if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(bankName))) {
+            Toast.fail('请输入开户银行', 1);
+            return;
+        }
+
+        if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(subBranchBank))) {
+            Toast.fail('请输入支行地址', 1);
+            return;
+        }
+
         if (is_edit) {
             Request({
                 method: 'post',
@@ -345,7 +370,7 @@ class BankCard extends Component {
                 // console.log(res)
                 if (res.code == 200) {
                     Toast.success(res.message, 1);
-                    router.push('/')
+                    router.push('/login')
                 } else {
                     Toast.fail(res.message, 1);
                 }
@@ -376,7 +401,7 @@ class BankCard extends Component {
     }
 
     render() {
-        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr } = this.state;
+        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, checkout_status, checkout_comment } = this.state;
         return (
             <div className={styles.bankcard_wrap}>
                 <div className={styles.bankcard_title}>
@@ -446,6 +471,14 @@ class BankCard extends Component {
                         }
                     </div>
                 </List>
+
+                {
+                    checkout_status == 0 ? (
+                        <div className={styles.reject_reason}>
+                            <p>拒绝原因：{checkout_comment}</p>
+                        </div>
+                    ) : ''
+                }
 
 
                 <div className={styles.next_step_wrap}>

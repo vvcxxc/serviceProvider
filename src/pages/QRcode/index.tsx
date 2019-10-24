@@ -42,7 +42,7 @@ export default class QRcode extends Component {
                     dataList={this.state.dataList}
                     onSearch={this.searchPayload}
                     closeNum={this.state.closeNum}
-                    searchPath={'/QRcode/search'}
+                    // searchPath={'/QRcode/search'}
                 />
                 <div className={styles.QRcode_total}>
                     <div className={styles.totalPeople}>共30个码，10个已铺设</div>
@@ -68,7 +68,7 @@ export default class QRcode extends Component {
                 </div>
 
                 <div className={styles.on_list} >无记录</div>
-                <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div>
+                {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}
                 {
                     this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
 

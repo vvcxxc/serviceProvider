@@ -11,7 +11,8 @@ declare global {
     interface Window { api: string; }
 }
 
-const host = window.api ? window.api : 'http://service.com/';
+const host = window.api ? window.api : 'http://192.168.2.151/';
+// const host = window.api ? window.api : 'http://release.api.supplier.tdianyi.com/';
 
 /**发起请求
  *
@@ -22,17 +23,17 @@ const host = window.api ? window.api : 'http://service.com/';
 export default function request(options: Options) {
     /**验证token */
     const token = localStorage.getItem('token');
-    console.log(token, 'sad')
+    // console.log(token, 'sad')
     /**合并headers */
-    // options.headers = { ...options.headers, Authorization: "Bearer " + token };
-    // token ? options.headers = { ...options.headers, Authorization: "Bearer "+token } : options.headers = { ...options.headers }
     if(token){
-      console.log(123)
-      options.headers = { ...options.headers, Authorization: "Bearer "+token }
+      // console.log(123)
+      options.headers = { ...options.headers, Authorization: "Bearer "+token, }
+    //   console.log(options.headers)
     }else{
-      console.log(234)
+      // console.log(234)
       options.headers = { ...options.headers }
     }
+    // options.headers = { ...options.headers, Authorization: token };
     /**拼接接口地址 */
     options.url = options.host ? options.host + options.url : host + options.url;
     /**请求超时 */

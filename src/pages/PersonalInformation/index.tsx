@@ -52,7 +52,7 @@ export default class PersonalInformation extends Component {
                     <div className={styles.balanceBox_moneyBox} >
                         <div className={styles.balanceBox_moneyBox_font} >余额</div>
                         <div className={styles.balanceBox_moneyBox_num} >{this.state.data.usable_money}</div>
-                        <div className={styles.balanceBox_moneyBox_btn} >提现</div>
+                        {/* <div className={styles.balanceBox_moneyBox_btn} >提现</div> */}
                     </div>
                 </div>
 

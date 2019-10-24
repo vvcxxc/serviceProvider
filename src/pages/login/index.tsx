@@ -81,16 +81,32 @@ export default class PageIndex extends Component {
         return
       }
       localStorage.setItem('token', access_token)
-      if (checkout_status==1) {
-        success('登录成功')
-        setTimeout(() => {
-          router.push({ pathname: '/' })
-        }, 1100);
-      } else {
-        setTimeout(() => {
+      switch(checkout_status){
+        case 1:
+          success('登录成功')
+          setTimeout(() => {
+            router.push({ pathname: '/' })
+          }, 1100);
+          break;
+        case 2:
           router.push({ pathname: '/submitQua/BankCard' })
-        }, 1100);
+          break;
+        case 1001:
+          router.push('/chooseid')
+          break;
+        case 1002:
+          router.push('/submitQua/BankCard')
       }
+      // if (checkout_status==1) {
+      //   success('登录成功')
+      //   setTimeout(() => {
+      //     router.push({ pathname: '/' })
+      //   }, 1100);
+      // } else {
+      //   setTimeout(() => {
+      //     router.push({ pathname: '/submitQua/BankCard' })
+      //   }, 1100);
+      // }
     })
   }
 

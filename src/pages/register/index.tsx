@@ -95,7 +95,7 @@ export default connect(({ register }: any) => register)(
                     inviter_phone: e
                 }
             })
-        }
+        } 
 
         /**
          * 获取验证码

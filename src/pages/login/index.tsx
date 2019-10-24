@@ -140,7 +140,7 @@ export default class PageIndex extends Component {
               onChange={this.onChangePassword}
               mb={26}
             />
-            <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div>
+            {/* <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div> */}
           </div>
           <div className={styles.operation}>
             <Green_button

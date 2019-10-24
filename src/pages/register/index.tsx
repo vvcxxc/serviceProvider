@@ -102,6 +102,10 @@ export default connect(({ register }: any) => register)(
          */
         getCode = () => {
             const { phone } = this.props;
+            if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                Toast.fail('请输入11位有效手机号', 1);
+                return;
+            }
             let wait = 60;
             if (phone) {
                 Request({
@@ -184,7 +188,7 @@ export default connect(({ register }: any) => register)(
                     let { code, message } = res;
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
-                            localStorage.setItem('token',res.access_token);
+                            localStorage.setItem('token', res.access_token);
                             router.push('/chooseid')
                         })
                     } else {

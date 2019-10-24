@@ -211,7 +211,7 @@ export default connect(({ register }: any) => register)(
                     <div className={styles.register_wrap}>
                         <InputItem
                             clear
-                            placeholder="输入中文账号名称"
+                            placeholder="请输入中文名称"
                             className={styles.register_username}
                             value={this.props.username}
                             onChange={this.handleChangeUsername.bind(this)}

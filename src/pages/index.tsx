@@ -47,6 +47,7 @@ export default class QRcode extends Component {
 
     componentDidMount() {
         this.requestList()
+        console.log(process.env.apiUrl)
     }
 
     requestList = () => {
@@ -105,7 +106,7 @@ export default class QRcode extends Component {
                         {
                             this.state.listPage>this.state.data.list.last_page?' 点击加载更多':'暂无更多数据'
                         }
-                       
+
                     </div>
 
                 </div>

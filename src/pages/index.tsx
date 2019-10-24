@@ -51,9 +51,10 @@ export default class QRcode extends Component {
     }
 
     requestList = () => {
-        if (this.state.listPage > this.state.data.list.last_page) {
+        if (this.state.listPage - 1 > this.state.data.list.last_page) {
             return
         }
+        Toast.loading('');
         Request({
             url: 'qrCodeList',
             method: 'GET',
@@ -61,10 +62,10 @@ export default class QRcode extends Component {
                 page: this.state.listPage
             }
         }).then(res => {
+            // setInterval(()=>{ Toast.hide();},2000)
+            Toast.hide();
             let tempList = this.state.resDataList.concat(res.data.list.data);
-            console.log(tempList)
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
-            console.log(res)
         })
     }
 
@@ -88,32 +89,32 @@ export default class QRcode extends Component {
                     <div className={styles.totalPeople}>共{this.state.data.list.total}个码，{this.state.data.layout}个已铺设</div>
                     <div className={styles.totalMoney}>带来总收益￥{this.state.data.money_total}</div>
                 </div>
-                <div className={styles.QRcode_content}>
-                    {
-                        this.state.resDataList && this.state.resDataList.length > 0 ? this.state.resDataList.map((item: any, index: any) => {
-                            return (
-                                <div className={styles.QRcode_item} key={index}>
-                                    <div className={styles.QRcode_item_left}>
-                                        <div className={styles.QRcode_item_name}>{item.qrcode_sn}</div>
-                                        <div className={styles.QRcode_item_date}>{item.shop_name}</div>
-                                    </div>
-                                    <div className={styles.QRcode_item_right}>
-                                        <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div>
-                                        <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div>
-                                        <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div>
-                                    </div>
-                                </div>
-                            )
-                        }) : null
-                    }
-                    <div className={styles.loadingMore_button_box} onClick={this.requestList}>
+                {
+                    this.state.resDataList && this.state.resDataList.length > 0 ? <div className={styles.QRcode_content}>
                         {
-                            this.state.listPage <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
+                            this.state.resDataList.map((item: any, index: any) => {
+                                return (
+                                    <div className={styles.QRcode_item} key={index}>
+                                        <div className={styles.QRcode_item_left}>
+                                            <div className={styles.QRcode_item_name}>{item.qrcode_sn}</div>
+                                            <div className={styles.QRcode_item_date}>{item.shop_name}</div>
+                                        </div>
+                                        <div className={styles.QRcode_item_right}>
+                                            <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div>
+                                            <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div>
+                                            <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })
                         }
-
-                    </div>
-
-                </div>
+                        <div className={styles.loadingMore_button_box} onClick={this.requestList}>
+                            {
+                                this.state.listPage - 1 <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
+                            }
+                        </div>
+                    </div> : null
+                }
                 {
                     this.state.resDataList && this.state.resDataList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
                 }

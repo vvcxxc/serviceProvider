@@ -391,7 +391,7 @@ class BankCard extends Component {
                 // console.log(res)
                 if (res.code == 200) {
                     Toast.success(res.message, 1);
-                    router.push('/')
+                    router.push('/login')
                 } else {
                     Toast.fail(res.message, 1);
                 }

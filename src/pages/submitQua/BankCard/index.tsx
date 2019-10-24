@@ -38,7 +38,8 @@ class BankCard extends Component {
         // 判断是否为修改状态
         is_edit: false,
         checkout_status: 0,
-        checkout_comment: ""
+        checkout_comment: "",
+        is_show: true
     }
 
     async componentDidMount() {
@@ -71,6 +72,8 @@ class BankCard extends Component {
                     checkout_status: res.data.userBankinfo.checkout_status,
                     checkout_comment: res.data.userBankinfo.checkout_comment
                 })
+            } else if (code == 403){
+              this.setState({is_show: false})
             }
         });
 
@@ -473,11 +476,11 @@ class BankCard extends Component {
                 </List>
 
                 {
-                    checkout_status == 0 ? (
+                    this.state.is_show ? checkout_status == 0 ? (
                         <div className={styles.reject_reason}>
                             <p>拒绝原因：{checkout_comment}</p>
                         </div>
-                    ) : ''
+                    ) : '' : null
                 }
 
 

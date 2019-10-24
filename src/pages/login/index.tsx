@@ -82,6 +82,9 @@ export default class PageIndex extends Component {
       }
       localStorage.setItem('token', access_token)
       switch(checkout_status){
+        case 0:
+          error('登录失败', message)
+          break
         case 1:
           success('登录成功')
           setTimeout(() => {

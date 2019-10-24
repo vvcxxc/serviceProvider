@@ -35,14 +35,14 @@ export default class QRcode extends Component {
                 current_page: 1,
                 data: [
                 ],
-                last_page: 0,
+                last_page: 99,
                 path: "",
                 per_page: 0,
                 total: 0,
             },
             money_total: 0
         },
-        resDataList:[]
+        resDataList: []
     }
 
     componentDidMount() {
@@ -51,6 +51,9 @@ export default class QRcode extends Component {
     }
 
     requestList = () => {
+        if (this.state.listPage > this.state.data.list.last_page) {
+            return
+        }
         Request({
             url: 'qrCodeList',
             method: 'GET',
@@ -58,8 +61,9 @@ export default class QRcode extends Component {
                 page: this.state.listPage
             }
         }).then(res => {
-            let tempList=this.state.resDataList.concat(res.data.list.data)
-            this.setState({ data: tempList, resDataList:tempList,listPage: Number(this.state.listPage) + 1 })
+            let tempList = this.state.resDataList.concat(res.data.list.data);
+            console.log(tempList)
+            this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
             console.log(res)
         })
     }
@@ -104,14 +108,14 @@ export default class QRcode extends Component {
                     }
                     <div className={styles.loadingMore_button_box} onClick={this.requestList}>
                         {
-                            this.state.listPage>this.state.data.list.last_page?' 点击加载更多':'暂无更多数据'
+                            this.state.listPage <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
                         }
 
                     </div>
 
                 </div>
                 {
-                    this.state.data.list.data && this.state.data.list.data.length == 0 ? <div className={styles.on_list} >无记录</div> : null
+                    this.state.resDataList && this.state.resDataList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
                 }
 
                 {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}

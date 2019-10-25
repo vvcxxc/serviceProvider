@@ -108,6 +108,34 @@ export default connect(({ register }: any) => register)(
             }
             let wait = 60;
             if (phone) {
+                let _this = this;
+                function resend() {
+                    if (wait == 0) {
+                        _this.setState({ is_ok: true });
+                        _this.props.dispatch({
+                            type: 'register/registered',
+                            payload: {
+                                is_ok: true
+                            }
+                        })
+                        clearInterval(timer)
+                    } else {
+                        wait--;
+                        _this.setState({ is_ok: false, wait });
+                        _this.props.dispatch({
+                            type: 'register/registered',
+                            payload: {
+                                is_ok: false,
+                                wait
+                            }
+                        })
+                        clearInterval();
+                    }
+                }
+                resend();
+                timer = setInterval(() => {
+                    resend()
+                }, 1000);
                 Request({
                     url: 'verifyCode',
                     method: 'post',
@@ -116,31 +144,17 @@ export default connect(({ register }: any) => register)(
                     })
                 }).then(res => {
                     if (res.code == 200) {
-                        timer = setInterval(() => {
-                            if (wait == 0) {
-                                this.setState({ is_ok: true });
-                                this.props.dispatch({
-                                    type: 'register/registered',
-                                    payload: {
-                                        is_ok: true
-                                    }
-                                })
-                                clearInterval(timer)
-                            } else {
-                                wait--;
-                                this.setState({ is_ok: false, wait });
-                                this.props.dispatch({
-                                    type: 'register/registered',
-                                    payload: {
-                                        is_ok: false,
-                                        wait
-                                    }
-                                })
-                                clearInterval();
-                            }
-                        }, 1000);
+
                     } else {
-                        Toast.fail(res.message)
+                        _this.setState({ is_ok: true });
+                        _this.props.dispatch({
+                            type: 'register/registered',
+                            payload: {
+                                is_ok: true
+                            }
+                        })
+                        clearInterval(timer);
+                        Toast.fail(res.message);
                     }
                 })
             } else {

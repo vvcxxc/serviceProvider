@@ -101,19 +101,19 @@ export default class QRcode extends Component {
                                         <div className={styles.QRcode_item_left}>
                                             <div className={styles.QRcode_item_name}>二维码序列号：{item.qrcode_sn}</div>
                                             {
-                                                item.shop_name && item.shop_name != "" ? <div className={styles.QRcode_item_date}>店铺：{item.shop_name}</div> : null
+                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_date}>店铺：{item.shop_name}</div> : null
                                             }
                                         </div>
                                         <div className={styles.QRcode_item_right}>
                                             {
-                                                item.shop_name && item.shop_name != "" ? <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div> : null
+                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div> : null
                                             }
 
                                             {
-                                                item.shop_name && item.shop_name != "" ? <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div> : null
+                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div> : null
                                             }
                                             {
-                                                item.shop_name && item.shop_name != "" ? <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div> : null
+                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div> : null
                                             }
 
                                         </div>

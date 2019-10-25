@@ -101,6 +101,8 @@ export default class PageIndex extends Component {
         case 1002:
           router.push('/submitQua/BankCard')
           break
+        case 1003:
+            error('登录失败', '账号已禁用，请联系代理商', 2)
         default:
           router.push({ pathname: '/' })
       }

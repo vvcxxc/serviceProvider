@@ -100,6 +100,9 @@ export default class PageIndex extends Component {
           break;
         case 1002:
           router.push('/submitQua/BankCard')
+          break
+        default:
+          router.push({ pathname: '/' })
       }
       // if (checkout_status==1) {
       //   success('登录成功')

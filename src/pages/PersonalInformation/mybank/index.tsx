@@ -20,7 +20,7 @@ export default class MyBank extends Component {
     }).then(res => {
       if (res.data){
         // 存在银行卡
-        this.setState({is_show: true, bank_info: res.data})
+        this.setState({is_show: true, bank_info: res.data.userBankinfo})
       }else{
         // 没有银行卡
         console.log(123)

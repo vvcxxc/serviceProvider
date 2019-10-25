@@ -156,7 +156,7 @@ export default connect(({ register }: any) => register)(
                         clearInterval(timer);
                         Toast.fail(res.message);
                     }
-                })
+                }) 
             } else {
                 Toast.fail('请输入手机号', 1)
             }

@@ -476,11 +476,11 @@ class BankCard extends Component {
                 </List>
 
                 {
-                    this.state.is_show ? checkout_status == 0 ? (
+                    this.state.is_show ? (checkout_status == 2 ? (
                         <div className={styles.reject_reason}>
                             <p>拒绝原因：{checkout_comment}</p>
                         </div>
-                    ) : '' : null
+                    ) : '' ): null
                 }
 
 

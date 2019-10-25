@@ -44,6 +44,7 @@ export default class MyInput extends Component<Props>{
           placeholder={placeholder ? placeholder : "请输入账号"}
           value={this.state.inpText}
           onChange={this.handelChange.bind(this)}
+          onBlur={()=>window.scrollTo(0,0)}
         />
         {
           inpText.length > 0 ? <div className={styles.icon} onClick={this.onDelete.bind(this)}>
@@ -53,7 +54,7 @@ export default class MyInput extends Component<Props>{
         {
           prompt ? <div className={styles.error_message}>{prompt}</div>:null
         }
-        
+
       </div>
     )
   }

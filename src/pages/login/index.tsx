@@ -103,6 +103,7 @@ export default class PageIndex extends Component {
           break
         case 1003:
             error('登录失败', '账号已禁用，请联系代理商', 2)
+            break
         default:
           router.push({ pathname: '/' })
       }

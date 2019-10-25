@@ -372,8 +372,9 @@ class BankCard extends Component {
             }).then(res => {
                 // console.log(res)
                 if (res.code == 200) {
-                    Toast.success(res.message, 1);
+                  Toast.success(res.message, 2,()=>{
                     router.push('/login')
+                  });
                 } else {
                     Toast.fail(res.message, 1);
                 }
@@ -393,8 +394,9 @@ class BankCard extends Component {
             }).then(res => {
                 // console.log(res)
                 if (res.code == 200) {
-                    Toast.success(res.message, 1);
-                    router.push('/login')
+                    Toast.success(res.message, 2,()=>{
+                      router.push('/login')
+                    });
                 } else {
                     Toast.fail(res.message, 1);
                 }

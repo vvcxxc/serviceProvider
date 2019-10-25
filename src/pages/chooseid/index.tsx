@@ -34,10 +34,9 @@ class ChooseId extends Component {
       }
     }).then(res => {
       if (res.code == 200) {
-        Toast.success(res.message, 1);
-        setTimeout(() => {
+        Toast.success(res.message, 1, ()=>{
           router.push('/submitQua/BankCard');
-        }, 1000)
+        });
       } else {
         Toast.fail(res.message, 1);
       }

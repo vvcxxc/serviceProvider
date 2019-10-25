@@ -108,6 +108,7 @@ export default class PageIndex extends Component {
 
   //忘记密码
   forgetPassword = () => {
+
     router.push({ pathname: '/changePassword/retrieve_password' })
   }
 

@@ -486,7 +486,7 @@ class BankCard extends Component {
 
                 <div className={styles.next_step_wrap}>
                     <div className={styles.next_step}>
-                        <Button className={styles.next_step_btn} onClick={this.handleNextStep.bind(this)}>下一步</Button>
+                        <Button className={styles.next_step_btn} onClick={this.handleNextStep.bind(this)}>提交</Button>
                     </div>
                 </div>
 

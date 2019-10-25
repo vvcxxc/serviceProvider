@@ -72,8 +72,8 @@ class BankCard extends Component {
                     checkout_status: res.data.userBankinfo.checkout_status,
                     checkout_comment: res.data.userBankinfo.checkout_comment
                 })
-            } else if (code == 403){
-              this.setState({is_show: false})
+            } else if (code == 403) {
+                this.setState({ is_show: false })
             }
         });
 
@@ -335,24 +335,28 @@ class BankCard extends Component {
 
     handleNextStep = () => {
         const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state;
-
-        if (!(/^([\u4e00-\u9fa5]){2,}$/.test(User))) {
-            Toast.fail('请输入中文开户人名称', 1);
+        if (!img_url_front || !img_url_behind) {
+            Toast.fail('请上传银行卡正反面信息', 1);
             return;
         }
 
-        if (!(/^\d{15}|\d{18}$/.test(bankCard))) {
-            Toast.fail('请输入有效银行卡', 1);
+        if (!(/^([\u4e00-\u9fa5]){2,}$/.test(User))) {
+            Toast.fail('请输入开户人姓名', 1);
+            return;
+        }
+
+        if (!(/^\d{16}|\d{19}$/.test(bankCard))) {
+            Toast.fail('请输入正确的16-19位数字账号', 1);
             return;
         }
 
         if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(bankName))) {
-            Toast.fail('请输入开户银行', 1);
+            Toast.fail('请输入正确开户银行名称', 1);
             return;
         }
 
         if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(subBranchBank))) {
-            Toast.fail('请输入支行地址', 1);
+            Toast.fail('请输入正确开户支行名称', 1);
             return;
         }
 
@@ -482,7 +486,7 @@ class BankCard extends Component {
                         <div className={styles.reject_reason}>
                             <p>拒绝原因：{checkout_comment}</p>
                         </div>
-                    ) : '' ): null
+                    ) : '') : null
                 }
 
 

@@ -97,12 +97,22 @@ export default class QRcode extends Component {
                                     <div className={styles.QRcode_item} key={index}>
                                         <div className={styles.QRcode_item_left}>
                                             <div className={styles.QRcode_item_name}>{item.qrcode_sn}</div>
-                                            <div className={styles.QRcode_item_date}>{item.shop_name}</div>
+                                            {
+                                                item.shop_name != "" ? <div className={styles.QRcode_item_date}>{item.shop_name}</div> : null
+                                            }
                                         </div>
                                         <div className={styles.QRcode_item_right}>
-                                            <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div>
-                                            <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div>
-                                            <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div>
+                                            {
+                                                item.shop_name != "" ? <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div> : null
+                                            }
+
+                                            {
+                                                item.shop_name != "" ? <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div> : null
+                                            }
+                                            {
+                                                item.shop_name != "" ? <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div> : null
+                                            }
+
                                         </div>
                                     </div>
                                 )

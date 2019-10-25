@@ -77,13 +77,13 @@ export default class PageIndex extends Component {
     }).then(res => {
       const { code, access_token, message, checkout_status } = res
       if (code !== 200) {//1 首页, 2去修改
-        error('登录失败', message)
+        error('登录失败', message, 2)
         return
       }
       localStorage.setItem('token', access_token)
       switch(checkout_status){
         case 0:
-          error('登录失败', '当前服务商账号审核中')
+          error('登录失败', '当前服务商账号审核中', 2)
           break
         case 1:
           success('登录成功')
@@ -92,7 +92,7 @@ export default class PageIndex extends Component {
           }, 1100);
           break;
         case 2:
-          error('登录失败', '当前服务商账号审核拒绝，请重新提交资料')
+          error('登录失败', '当前服务商账号审核拒绝，请重新提交资料', 2)
           router.push({ pathname: '/submitQua/BankCard' })
           break;
         case 1001:

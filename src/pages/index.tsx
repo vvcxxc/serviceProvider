@@ -99,9 +99,9 @@ export default class QRcode extends Component {
                                 return (
                                     <div className={styles.QRcode_item} key={index}>
                                         <div className={styles.QRcode_item_left}>
-                                            <div className={styles.QRcode_item_name}>{item.qrcode_sn}</div>
+                                            <div className={styles.QRcode_item_name}>二维码序列号：{item.qrcode_sn}</div>
                                             {
-                                                item.shop_name != "" ? <div className={styles.QRcode_item_date}>{item.shop_name}</div> : null
+                                                item.shop_name != "" ? <div className={styles.QRcode_item_date}>店铺：{item.shop_name}</div> : null
                                             }
                                         </div>
                                         <div className={styles.QRcode_item_right}>

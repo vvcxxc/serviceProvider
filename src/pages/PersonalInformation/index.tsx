@@ -23,12 +23,17 @@ export default class PersonalInformation extends Component {
         })
     }
 
+    //修改密码
+    onChangePassword = () => {
+        router.push({ pathname:'/PersonalInformation/changePassword'})
+    }
+
     logOut = (e) => {
         Request({
             url: 'auth/logout',
             method: 'post',
         }).then(res => {
-            if (res.code == 200) {
+            if (res.code == 401) {
                 Toast.success('退出登录成功', 1);
                 localStorage.removeItem('token');
                 setTimeout(() => {
@@ -47,13 +52,13 @@ export default class PersonalInformation extends Component {
                     <div className={styles.balanceBox_moneyBox} >
                         <div className={styles.balanceBox_moneyBox_font} >余额</div>
                         <div className={styles.balanceBox_moneyBox_num} >{this.state.data.usable_money}</div>
-                        <div className={styles.balanceBox_moneyBox_btn} >提现</div>
+                        {/* <div className={styles.balanceBox_moneyBox_btn} >提现</div> */}
                     </div>
                 </div>
 
 
                 <div className={styles.Personal_information_content} >
-                    {/* <div className={styles.information_box} >
+                    {/* <div className={styles.information_box} onClick={this.onChangePassword} >
                         <div className={styles.information_box_title} >修改密码</div>
                         <div className={styles.information_msg_box} >
                             <Icon className={styles.information_icon} type="right" size={'md'} />
@@ -63,7 +68,7 @@ export default class PersonalInformation extends Component {
                         <div className={styles.information_box_title} >绑定手机</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >{this.state.data.phone}</div>
-                            <Icon className={styles.information_icon} type="right" size={'md'} />
+                            {/* <Icon className={styles.information_icon} type="right" size={'md'} /> */}
                         </div>
                     </div>
                     {/* <div className={styles.information_box} >
@@ -74,7 +79,7 @@ export default class PersonalInformation extends Component {
                         </div>
                     </div> */}
                     <div className={styles.information_box_highter}></div>
-                    <div className={styles.information_box} >
+                    <div className={styles.information_box} onClick={()=>router.push('/PersonalInformation/mybank')}>
                         <div className={styles.information_box_title}
                             style={{ color: this.state.data.is_bank_card == 0 ? '#e61616' : ' #000' }}
                         >我的银行卡</div>

@@ -102,8 +102,40 @@ export default connect(({ register }: any) => register)(
          */
         getCode = () => {
             const { phone } = this.props;
+            if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                Toast.fail('请输入11位有效手机号', 1);
+                return;
+            }
             let wait = 60;
             if (phone) {
+                let _this = this;
+                function resend() {
+                    if (wait == 0) {
+                        _this.setState({ is_ok: true });
+                        _this.props.dispatch({
+                            type: 'register/registered',
+                            payload: {
+                                is_ok: true
+                            }
+                        })
+                        clearInterval(timer)
+                    } else {
+                        wait--;
+                        _this.setState({ is_ok: false, wait });
+                        _this.props.dispatch({
+                            type: 'register/registered',
+                            payload: {
+                                is_ok: false,
+                                wait
+                            }
+                        })
+                        clearInterval();
+                    }
+                }
+                resend();
+                timer = setInterval(() => {
+                    resend()
+                }, 1000);
                 Request({
                     url: 'verifyCode',
                     method: 'post',
@@ -112,31 +144,17 @@ export default connect(({ register }: any) => register)(
                     })
                 }).then(res => {
                     if (res.code == 200) {
-                        timer = setInterval(() => {
-                            if (wait == 0) {
-                                this.setState({ is_ok: true });
-                                this.props.dispatch({
-                                    type: 'register/registered',
-                                    payload: {
-                                        is_ok: true
-                                    }
-                                })
-                                clearInterval(timer)
-                            } else {
-                                wait--;
-                                this.setState({ is_ok: false, wait });
-                                this.props.dispatch({
-                                    type: 'register/registered',
-                                    payload: {
-                                        is_ok: false,
-                                        wait
-                                    }
-                                })
-                                clearInterval();
-                            }
-                        }, 1000);
+
                     } else {
-                        Toast.fail(res.message)
+                        _this.setState({ is_ok: true });
+                        _this.props.dispatch({
+                            type: 'register/registered',
+                            payload: {
+                                is_ok: true
+                            }
+                        })
+                        clearInterval(timer);
+                        Toast.fail(res.message);
                     }
                 })
             } else {
@@ -151,6 +169,23 @@ export default connect(({ register }: any) => register)(
 
         handleRegister = () => {
             const { username, phone, code, password, inviter_phone } = this.props;
+            if (!(/^([a-zA-Z\u4e00-\u9fa5]){1,8}$/.test(username))) {
+                Toast.fail('请输入中文，字母名称且不超过8个字符', 1);
+                return;
+            }
+            if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                Toast.fail('请输入11位有效手机号', 1);
+                return;
+            }
+            if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(password))) {
+                Toast.fail('请输入数字，字母组合不低于6位密码', 1);
+                return;
+            }
+            // if (!(/^1[3456789]\d{9}$/.test(inviter_phone))) {
+            //     Toast.fail('请输入11位有效手机号', 1);
+            //     return;
+            // }
+
             if (username && phone && code && password) {
                 let data = qs.stringify({
                     name: username,
@@ -167,7 +202,7 @@ export default connect(({ register }: any) => register)(
                     let { code, message } = res;
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
-                            localStorage.setItem('token',res.access_token);
+                            localStorage.setItem('token', res.access_token);
                             router.push('/chooseid')
                         })
                     } else {
@@ -180,8 +215,8 @@ export default connect(({ register }: any) => register)(
         }
 
         // 销毁定时器
-        componentWillUnmount (){
-          clearInterval(timer)
+        componentWillUnmount() {
+            clearInterval(timer)
         }
 
         render() {
@@ -190,7 +225,7 @@ export default connect(({ register }: any) => register)(
                     <div className={styles.register_wrap}>
                         <InputItem
                             clear
-                            placeholder="输入中文账号名称"
+                            placeholder="请输入中文名称"
                             className={styles.register_username}
                             value={this.props.username}
                             onChange={this.handleChangeUsername.bind(this)}

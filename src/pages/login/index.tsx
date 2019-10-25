@@ -81,16 +81,39 @@ export default class PageIndex extends Component {
         return
       }
       localStorage.setItem('token', access_token)
-      if (checkout_status==1) {
-        success('登录成功')
-        setTimeout(() => {
-          router.push({ pathname: '/' })
-        }, 1100);
-      } else {
-        setTimeout(() => {
+      switch(checkout_status){
+        case 0:
+          error('登录失败', '当前服务商账号审核中')
+          break
+        case 1:
+          success('登录成功')
+          setTimeout(() => {
+            router.push({ pathname: '/' })
+          }, 1100);
+          break;
+        case 2:
+          error('登录失败', '当前服务商账号审核拒绝，请重新提交资料')
           router.push({ pathname: '/submitQua/BankCard' })
-        }, 1100);
+          break;
+        case 1001:
+          router.push('/chooseid')
+          break;
+        case 1002:
+          router.push('/submitQua/BankCard')
+          break
+        default:
+          router.push({ pathname: '/' })
       }
+      // if (checkout_status==1) {
+      //   success('登录成功')
+      //   setTimeout(() => {
+      //     router.push({ pathname: '/' })
+      //   }, 1100);
+      // } else {
+      //   setTimeout(() => {
+      //     router.push({ pathname: '/submitQua/BankCard' })
+      //   }, 1100);
+      // }
     })
   }
 
@@ -120,7 +143,7 @@ export default class PageIndex extends Component {
               onChange={this.onChangePassword}
               mb={26}
             />
-            <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div>
+            {/* <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div> */}
           </div>
           <div className={styles.operation}>
             <Green_button

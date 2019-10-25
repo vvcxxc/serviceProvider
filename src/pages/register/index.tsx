@@ -181,10 +181,10 @@ export default connect(({ register }: any) => register)(
                 Toast.fail('请输入数字，字母组合不低于6位密码', 1);
                 return;
             }
-            if (!(/^1[3456789]\d{9}$/.test(inviter_phone))) {
-                Toast.fail('请输入11位有效手机号', 1);
-                return;
-            }
+            // if (!(/^1[3456789]\d{9}$/.test(inviter_phone))) {
+            //     Toast.fail('请输入11位有效手机号', 1);
+            //     return;
+            // }
 
             if (username && phone && code && password) {
                 let data = qs.stringify({
@@ -225,7 +225,7 @@ export default connect(({ register }: any) => register)(
                     <div className={styles.register_wrap}>
                         <InputItem
                             clear
-                            placeholder="输入中文账号名称"
+                            placeholder="请输入中文名称"
                             className={styles.register_username}
                             value={this.props.username}
                             onChange={this.handleChangeUsername.bind(this)}

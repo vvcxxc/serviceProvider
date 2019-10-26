@@ -346,7 +346,7 @@ class BankCard extends Component {
         }
 
         if (!(/^\d{16}|\d{19}$/.test(bankCard))) {
-            Toast.fail('请输入正确的银行卡号', 1);
+            Toast.fail('请输入16-19位的银行卡号', 1);
             return;
         }
 

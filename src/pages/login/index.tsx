@@ -1,4 +1,4 @@
-/**title: 登录 */
+/**title: 服务商登录 */
 import React, { Component } from 'react';
 import styles from './index.less'
 import { Toast, WhiteSpace, WingBlank, Button, Icon } from 'antd-mobile';
@@ -92,6 +92,7 @@ export default class PageIndex extends Component {
         }, 1100);
       }
     })
+
   }
 
   //忘记密码

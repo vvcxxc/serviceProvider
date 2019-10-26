@@ -1,4 +1,4 @@
-/**title: 注册 */
+/**title: 服务商注册 */
 import React, { Component } from 'react';
 import { Button, InputItem, List, Flex, Toast } from 'antd-mobile';
 import styles from './index.less';

@@ -1,105 +1,52 @@
 import React, { Component } from 'react';
 import styles from './index.less'
-export default class Calendar extends Component {
+
+interface timestampType {
+  start: number,
+  end:number
+}
+interface Props {
+  timestamp: timestampType,//点击确定的时候会传递时间戳和日期
+  confirm:()=>void
+}
+export default class Calendar extends Component<Props> {
 
   state = {
     weekTime: ['日', '一', '二', '三', '四', '五', '六'],
-    
     mounthTitle: ['一个月', '三个月', '半年', '一年'],
     showMounthTitle: 0,
-    year: 0,//显示的年
-    mounth: 0,//显示的月
-    day: '',//显示的天
-    totalDay: [],//总共的天数
-    nowWeek:''//一周的某天
+    year: 0,      //显示的年
+    mounth:0,     //显示的月
+    day: 0,       //显示当月所在日
+    totalDay: [], //当月的总天数
+    // total
+    nowWeek:0,//一周的某天
+    dayIndex: 0,//日历天数高亮得索引
+    start: 0,
+    end: 0,
+    distinguish: 1,
+    
   }
 
   componentDidMount() {
-    
-    this.count(2019)
+    this.firstRender()
   }
 
-  count = (year?: number, mounth?: number, day?: number) => {
-    // getDay()
+  //首次渲染
+  firstRender = () => {
+    localStorage.removeItem('start')
+    localStorage.removeItem('end')
     let date = new Date()
-    year && date.setFullYear(year) && this.setState({year:date.getFullYear()})
-    !mounth && mounth != 0 ?  date.setMonth(date.getMonth() + 1): date.setMonth(mounth)
-    this.setState({ mounth: date.getMonth() })
-    
-    console.log(date.getFullYear(), date.getMonth(), date.getDate(), '3333');
-    date.setDate(0) && this.setState({ day: date.getDay() })
-    let total = []
-    for (let i = 1; i <= date.getDate(); i++){
-      total.push(i)
-    }
-    this.setState({ totalDay: total })
-    
+    this.setState({
+      mounth: date.getMonth(),
+      year: date.getFullYear(),
+      day: date.getDate()
+    })
+    this.count(date.getFullYear(),date.getMonth(),date.getDate())
   }
 
   forgetPassword = () => {
-    //最开始应该获取到当年，当月月份 和 天数
-
-
-    // let data = new Date(year, month, day).getDay();
-    // 根据获取到的年 ， 然后获取到每个月，再根据每天 获取到周几
-    // 如果根据年数，算到实际月
-    // let data = new Date
-    // console.log(data.getDay(),'333');//今天是周几的意思么 0代表是星期天
-    // console.log(data.getMonth()+1);//获取到月份
-    // console.log(data.getDate(), '333')//获取到今天是多少号
-    // console.log(data.toLocaleDateString());
-    // let dd = data.setFullYear(20)
-    // console.log(data.getMonth() );//获取到月份
-    // let mounth = data.getMonth()
-    // data.setMonth(mounth + 1);
-    // // let meta:any = data.getMonth() + 1
-    // data.setDate(0);//获取上个月的最大一天，即上个月的天数
-    // // data.setDate(0);
-    // console.log(data.getDate());
-    // 已知每月多少天  每年多少月， 但是如何对应每天对应星期几
-    this.calculateYear()
-
-  }
-
-  // 应该要设置一个最长的时间，也就是最多显示多少年
-  // 如何将毫秒转换成2019-3-03
-  //计算年
-
-  calculateYear = () => {
-    let data = new Date()
-    let year = data.getFullYear()
-    // console.log(data.getMilliseconds(), '豪迈o');
-    this.calculateMonth(year, data)
-  }
-
-  //计算月
-  calculateMonth = (year: number, data: any) => {
-    // let data = new Date()
-    data.setFullYear(year)
-    // console.log('yuefen ', data.getMonth());
-    data.setMonth(data.getMonth() + 1)//正确的月份
-    // data.setMonth(0)
-    // data.setDate(0)
-    // console.log(data.getDate());
-    // this.calculateDay()
-    // console.log(data.getMonth());//错的月份
-    // new Date('2015-09-27').getDay()
-    let meta = data.getFullYear() + '-' + data.getMonth() + '-' + data.getDate()
-    // let meta =
-    // console.log(meta,',eta');
-    console.log(new Date(meta).getDay(), '444');
-    this.calculateDay();
-  }
-
-  // 计算天数
-  calculateDay = () => {
-    let data = new Date()
-    data.setMonth(data.getMonth() + 1)//正确的月份
-    data.setDate(0);
-    this.setState({
-      day: data.getDate()
-    })
-
+    // this.calculateYear()
   }
 
   //月份切换
@@ -109,41 +56,191 @@ export default class Calendar extends Component {
 
   //前一个月
   monthBefore = () => {
-    //为0 就是下一年 ， 年数减一 ， 月数重置12
-    const { year, mounth } = this.state
-    console.log(mounth,'333');
-    if (mounth < 1) {
-      this.setState({ year: year - 1 }, () => {
-        this.count(this.state.year, 12)
+    if (this.state.mounth ===0) {
+      this.setState({
+        mounth: 11,
+        year: this.state.year-1
+      }, () => {
+        this.count(this.state.year, this.state.mounth,this.state.day)
       })
-      return
+    } else {
+      this.setState({
+        mounth: this.state.mounth-1
+      }, () => {
+          this.count(this.state.year, this.state.mounth, this.state.day)
+      })
     }
-    this.count(year,mounth-1)
   }
 
-  //下一个月
+  //下一个月 外国月份 0 是首月, 11年末
   monthNext = () => {
-    const { year, mounth } = this.state
-    if (mounth >= 12) {
-      this.setState({ year: year + 1 }, () => {
-        this.count(year, mounth + 1)
+    if (this.state.mounth === 11) {
+      this.setState({
+        mounth: 0,
+        year: this.state.year + 1
+      }, () => {
+        this.count(this.state.year, this.state.mounth, this.state.day)
+      })
+    } else {
+      this.setState({
+        mounth: this.state.mounth + 1
+      }, () => {
+        this.count(this.state.year, this.state.mounth, this.state.day)
+      })
+
+    }
+  }
+
+  count = (year: number, mounth: number, day?: number) => {
+    let date = new Date()
+    date.setFullYear(year)
+    this.setState({ year: date.getFullYear() })
+    this.setState({ day: day })
+    date.setMonth(mounth)
+    this.setState({ mounth: date.getMonth() })                                                
+    this.countTotalDay(year, mounth)//计算总天数
+    this.locationEarly(year, mounth)//定位每月1号在周几
+  }
+
+  //计算总天数
+  countTotalDay = (year: number, mounth: number)=>{
+    let date = new Date()
+    date.setMonth(mounth+1)
+    date.setDate(0) //上个月最大一天                                                       
+    let total = []
+    for (let i = 1; i <= date.getDate(); i++) {
+      total.push(i)
+    }
+    this.setState({ totalDay: total })
+  }
+
+  //定位每月1号在周几
+  locationEarly = (year:number,mounth:number) => {
+    let date = new Date()
+    date.setFullYear(year)
+    date.setMonth(mounth)
+    date.setDate(1)
+    this.setState({ nowWeek: date.getDay() })
+  }
+
+  onClickDate = (index: number, mounth: number, year: number) => {
+    let date = new Date()
+    date.setFullYear(year)
+    date.setMonth(mounth)
+    const { start, end, distinguish } = this.state
+    console.log('jinru ', start, end);
+    // if (start && end && start > end) {
+      
+      
+    //   let big = this.state.start
+    //   let small = this.state.end
+    //   this.setState({
+    //     start: small,
+    //     end:big
+    //   })
+    //   localStorage.setItem('start', JSON.stringify(small))
+    //   localStorage.setItem('end', JSON.stringify(big))
+    //   return
+    // }
+    if (distinguish ==1 && index != start && index!=end) { //true赋值给start  false赋值给end
+      this.setState({ distinguish: 2 })
+      localStorage.setItem('start', JSON.stringify(index))
+       this.setState({
+        start: localStorage.getItem('start'),
+       })
+      date.setDate(index)
+      localStorage.setItem('start111', JSON.stringify(1))
+      
+      return
+    }
+    if (distinguish == 2 && index != start && index != end) {
+      localStorage.setItem('start111', JSON.stringify(2))
+      if (index < this.state.start) {//开始的值已经有了,然后在第二次点击的时候,要比较谁大
+        let bigNumber = this.state.start
+        this.setState({
+          start:index ,
+          end: bigNumber
+        
+      })
+        localStorage.setItem('start', JSON.stringify(index))
+        localStorage.setItem('end', JSON.stringify(bigNumber))
+        localStorage.setItem('start111', JSON.stringify(3))
+      return
+      }
+      this.setState({ distinguish: 3 })
+      localStorage.setItem('end', JSON.stringify(index))
+      date.setDate(index)
+      this.setState({
+        end: localStorage.getItem('end')
       })
       return
     }
-    this.count(year, mounth + 1)
+
+    if (distinguish == 3) {
+      localStorage.setItem('start111', JSON.stringify(4))
+      // console.log(start, end,'开始到结束');
+      
+      if (start < end) {
+        // localStorage.setItem('start', JSON.stringify(index))
+        // this.setState({
+        //   start: localStorage.getItem('start'),
+        // })
+        // date.setDate(index)
+        // this.setState({ end: null })
+        // localStorage.removeItem('end')
+        // this.setState({ distinguish: 2 })
+      } else {
+        // localStorage.setItem('start', JSON.stringify(index))
+        // this.setState({
+        //   start: localStorage.getItem('start'),
+        // })
+        // date.setDate(index)
+        // this.setState({ end: null })
+        // localStorage.removeItem('end')
+        // this.setState({ distinguish: 2 })
+      }
+      
+     
+     
+      return
+    }
+
+    // this.setState({ distinguish:1})
+
+    if (index == this.state.start) {
+      localStorage.setItem('start111', JSON.stringify(5))
+      this.setState({ start: null })
+      localStorage.removeItem('start')
+      date.setDate(1)
+      return
+    }
+    
+    //第二次点击相同天数, 重置所选天数
+    if (index == this.state.end) {
+      localStorage.setItem('start111', JSON.stringify(6))
+      this.setState({ end: null })
+      localStorage.removeItem('end')
+      date.setDate(1)
+      return
+    }
+
+    
+    
+
+
   }
 
   render() {
-    const { showMounthTitle, weekTime, totalDay } = this.state
+    const { start, end, dayIndex, nowWeek,showMounthTitle, weekTime, totalDay, year, mounth, day } = this.state
     return (
       <div className={styles.Page}>
         <div className={styles.calendar}>
           <div className={styles.title}>
             <div className={styles.titleLeft}>活动时间</div>
             <div className={styles.titleCenter}>
-              <div className={styles.showTime}>2019/10/22</div>
+              <div className={styles.showTime}>{year}/{mounth !== 0 ? mounth+1 : 1}/{day}</div>
               <div className={styles.division}>_</div>
-              <div className={styles.showTime}>2019/10/22</div>
+              <div className={styles.showTime}></div>
             </div>
             <div className={styles.titleRight}>
               <img src={require('../../assets/error.png')} alt="" />
@@ -162,7 +259,7 @@ export default class Calendar extends Component {
           <div className={styles.header}>
             <div className={styles.headerTitle}>
               <div onClick={this.monthBefore}>上个月</div>
-              <div className={styles.headerCenter}>2019年10月</div>
+              <div className={styles.headerCenter}>{year}年{mounth !== 0 ? mounth + 1 : 1}月  </div>
               <div onClick={this.monthNext}>下个月</div>
             </div>
             <div className={styles.headerContent}>
@@ -175,24 +272,59 @@ export default class Calendar extends Component {
           </div>
           <div className={styles.content}>
             <div className={styles.weekTime}>
-              {
-                weekTime.map((item: string, index: number) => {
-                  return <div key={index}>{item}</div>
-                })
-              }
-            </div>
-            <div className={styles.dayBox}>
-              <div className={styles.totalDay}>
-                {
-                  totalDay.map((item: number, index: number) => {
+              <div className={styles.weekTimeContent}>
+                {// 周末时间
+                  weekTime.map((item: string, index: number) => {
                     return <div key={index}>{item}</div>
                   })
                 }
               </div>
               
             </div>
+            <div className={styles.dayBox}>
+              <div className={styles.totalDay}>
+                {
+                  totalDay.map((item: number, index: number) => {
+                    return <div
+                      className={start == item || end == item ?styles.tallLight:''}
+                      onClick={this.onClickDate.bind(this, item, mounth, year)}
+                      style={{
+                        backgroundColor: start < item && item < end &&start &&end
+                          || start > item && item > end && start && end ? '#e9eaf3' :'',
+                        marginLeft: index == 0 ? nowWeek * 14 + 'vw' : 0 + 'px',
+                      }} key={index}>
+                      {
+                        start != item && end != item ? item : <div className={styles.test}>
+                          {/* {
+                            JSON.parse(start) > JSON.parse(end) ? <div key={index}>
+                              <div className={styles.tallLeft}></div>
+                              <div className={styles.tallRight}></div>
+                            </div> : <div key={index} >
+                                <div className={styles.tallRight}></div>
+                                <div className={styles.tallLeft}></div>
+                            </div>
+                          } */}
+                          {
+                            start == item && end && JSON.parse(start) < JSON.parse(end) ? <div className={styles.tallRight}></div>:null
+                          }
+                          {
+                            end == item && start && JSON.parse(start) < JSON.parse(end) ? <div className={styles.tallLeft}></div> : null
+                          }
+                          {/* <div className={styles.tallLeft}></div>
+                          <div className={styles.tallRight}></div> */}
+                          <div className={styles.showLayer}>{item}</div>
+                        </div>
+                      }
+                    </div>
+                  })
+                }
+              </div>
+              
+            </div>
           </div>
-          <div className={styles.foot}></div>
+          <div className={styles.foot}>
+            确定
+          </div>
         </div>
       </div>
 

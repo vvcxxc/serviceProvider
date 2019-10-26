@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import router from 'umi/router';
 import { Toast } from 'antd-mobile';
+import { success, error } from "@/components/Hint";
 
 interface Options extends AxiosRequestConfig {
     /**替换的主机域名 */
@@ -42,8 +43,10 @@ export default function request(options: Options) {
             if (err.response && err.response.status === 401) {
                 router.push('/login');
             }
+            if (err.response && err.response.status === 403) {
+                error(err.response.data.message)
+            }
             if (err.response && err.response.status !== 401) {
-                // Toast.fail(err.response.data.message,500);
             }
             return new Promise(() => { });
         });

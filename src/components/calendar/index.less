@@ -6,11 +6,13 @@
   bottom: 0;
   z-index: 1000;
   background-color: rgba(0,0,0,.2);
-  padding-top: 100px;
+  // padding-top: 5vh;
   .calendar{
     border-radius: 10px;
     background-color: #fff;
-    // height: 500px;
+    position: absolute;
+    bottom: 0;
+    // height: 100vh;
     .title{
       display: flex;
       justify-content: space-between;
@@ -111,6 +113,7 @@
     font-family:PingFang SC;
     font-weight:500;
     color:#293186;
+
   }
 
   .showMounthTitle{
@@ -121,41 +124,103 @@
 
 .weekTime{
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   padding-top: 56px;
   padding-bottom: 20px;
   border-bottom: 2px solid rgba(221,226,229,1);
   margin-bottom: 20px;
-  div {
-
+  .weekTimeContent {
+    display: flex;
+    
+    div {
+       display: flex;
+      justify-content: center;
+      width: 14vw;
+      // background-color: #ededed;
+    }
   }
 }
 .dayBox{
   display: flex;
   justify-content: center;
+  height: 30vh;
+  overflow-y: scroll;
+  border-bottom:2px solid rgba(221,226,229,1);
+  // padding-bottom: 100px;
   .totalDay {
-    // width: 95vw;
-    padding-left: 1vw;
+    width: 99vw;
     display: flex;
     flex-wrap:wrap;
     div {
       display: flex;
       justify-content: center;
       align-items: center;
-      // width:64px;
-      width: 10vw;
-      margin-right: 2vw;
-      margin-left: 2vw;
-      // height:64px;
-      margin-bottom: 2vw;
-      height: 10vw;
-      background:rgba(41,49,134,1);
-      border-radius:50%;
-      font-size:28px;
-      font-family:Arial;
-      font-weight:400;
-      color:rgba(255,255,255,1);
+      width: 14vw;
+      height: 14vw;
+      position: relative;
+      
+      // background-color: #ededed;
+      // margin-bottom: 2vw;
+    }
+    .lowLight {
+      // color: #e9eaf3;
+      // background-color:#e9eaf3 ;
+    }
+    .tallLight {
+      color: #fff;
+      // background-color: #e9eaf3;
+      // border-radius: 50%;
+      // background-color: #293186;
+    }
+    .ball{
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      background-color: #293186;
+    }
+
+    .cheating_color{
+
+    }
+    .tallLeft{
+      height: 100%;
+      width: 50%;
+       background-color:#e9eaf3;
+      position: absolute;
+      left:0;
+    }
+    .tallRight{
+      background-color:#e9eaf3;
+      height: 100%;
+      width: 50%;
+      position: absolute;
+      right:0;
+    }
+    .test{
+      position: relative;
+
+    }
+    .showLayer{
+      // position: absolute;
+      position: absolute;
+      top:0;
+      height: 100%;
+      width: 100%;
+      z-index: 100;
+      border-radius: 50%;
+      background-color:#293186;
     }
   }
+}
+
+.foot{
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size:28px;
+  font-family:PingFang SC;
+  font-weight:bold;
+  color:rgba(41,49,134,1);
 }
 

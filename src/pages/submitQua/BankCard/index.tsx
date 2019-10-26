@@ -37,6 +37,9 @@ class BankCard extends Component {
         userBankinfo: {},
         // 判断是否为修改状态
         is_edit: false,
+        checkout_status: 0,
+        checkout_comment: "",
+        is_show: true
     }
 
     async componentDidMount() {
@@ -65,8 +68,12 @@ class BankCard extends Component {
                 this.setState({
                     // bankList: res.data
                     userBankinfo: res.data.userBankinfo,
-                    is_edit: true
+                    is_edit: true,
+                    checkout_status: res.data.userBankinfo.checkout_status,
+                    checkout_comment: res.data.userBankinfo.checkout_comment
                 })
+            } else if (code == 403) {
+                this.setState({ is_show: false })
             }
         });
 
@@ -327,7 +334,32 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state
+        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state;
+        if (!img_url_front || !img_url_behind) {
+            Toast.fail('请上传银行卡正反面信息', 1);
+            return;
+        }
+
+        if (!(/^([\u4e00-\u9fa5]){2,}$/.test(User))) {
+            Toast.fail('请输入开户人姓名', 1);
+            return;
+        }
+
+        if (!(/^\d{16}|\d{19}$/.test(bankCard))) {
+            Toast.fail('请输入正确的16-19位数字账号', 1);
+            return;
+        }
+
+        if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(bankName))) {
+            Toast.fail('请输入正确开户银行名称', 1);
+            return;
+        }
+
+        if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(subBranchBank))) {
+            Toast.fail('请输入正确开户支行名称', 1);
+            return;
+        }
+
         if (is_edit) {
             Request({
                 method: 'post',
@@ -344,8 +376,9 @@ class BankCard extends Component {
             }).then(res => {
                 // console.log(res)
                 if (res.code == 200) {
-                    Toast.success(res.message, 1);
-                    router.push('/')
+                  Toast.success(res.message, 2,()=>{
+                    router.push('/login')
+                  });
                 } else {
                     Toast.fail(res.message, 1);
                 }
@@ -365,8 +398,9 @@ class BankCard extends Component {
             }).then(res => {
                 // console.log(res)
                 if (res.code == 200) {
-                    Toast.success(res.message, 1);
-                    router.push('/')
+                    Toast.success(res.message, 2,()=>{
+                      router.push('/login')
+                    });
                 } else {
                     Toast.fail(res.message, 1);
                 }
@@ -376,7 +410,7 @@ class BankCard extends Component {
     }
 
     render() {
-        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr } = this.state;
+        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, checkout_status, checkout_comment } = this.state;
         return (
             <div className={styles.bankcard_wrap}>
                 <div className={styles.bankcard_title}>
@@ -447,10 +481,18 @@ class BankCard extends Component {
                     </div>
                 </List>
 
+                {
+                    this.state.is_show ? (checkout_status == 2 ? (
+                        <div className={styles.reject_reason}>
+                            <p>拒绝原因：{checkout_comment}</p>
+                        </div>
+                    ) : '') : null
+                }
+
 
                 <div className={styles.next_step_wrap}>
                     <div className={styles.next_step}>
-                        <Button className={styles.next_step_btn} onClick={this.handleNextStep.bind(this)}>下一步</Button>
+                        <Button className={styles.next_step_btn} onClick={this.handleNextStep.bind(this)}>提交</Button>
                     </div>
                 </div>
 

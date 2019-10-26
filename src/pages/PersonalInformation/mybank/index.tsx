@@ -38,7 +38,7 @@ export default class MyBank extends Component {
     Cookies.remove("bankName");
     Cookies.remove("subBranchBank");
     router.push('/submitQua/BankCard')
-  }
+  } 
   render() {
     const { bank_info } = this.state
     return (

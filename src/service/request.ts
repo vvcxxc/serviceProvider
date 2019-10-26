@@ -9,7 +9,7 @@ interface Options extends AxiosRequestConfig {
 }
 
 
-const host = process.env.apiUrl ? process.env.apiUrl : 'http://test.service_provider_api.tdianyi.com/';
+const host = process.env.apiUrl ? process.env.apiUrl : 'http://api.service_provider.tdianyi.com/';
 
 /**发起请求
  *

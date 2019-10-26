@@ -44,7 +44,8 @@ export default function request(options: Options) {
                 router.push('/login');
             }
             if (err.response && err.response.status === 403) {
-                error(err.response.data.message)
+                // error(err.response.data.message)
+                Toast.fail(err.response.data.message, 1)
             }
             if (err.response && err.response.status !== 401) {
             }

@@ -342,7 +342,7 @@ class BankCard extends Component {
 
         if (!(/^([\u4e00-\u9fa5]){2,}$/.test(User))) {
             Toast.fail('请输入开户人姓名', 1);
-            return;
+            return; 
         }
 
         if (!(/^\d{16}|\d{19}$/.test(bankCard))) {

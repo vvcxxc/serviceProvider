@@ -6,6 +6,9 @@ import { connect } from 'dva';
 import Request from '@/service/request';
 import qs from 'qs';
 import router from 'umi/router';
+
+import Cookies from 'js-cookie';
+
 let timer = null;
 
 export default connect(({ register }: any) => register)(
@@ -156,7 +159,7 @@ export default connect(({ register }: any) => register)(
                         clearInterval(timer);
                         Toast.fail(res.message);
                     }
-                }) 
+                })
             } else {
                 Toast.fail('请输入手机号', 1)
             }
@@ -203,6 +206,13 @@ export default connect(({ register }: any) => register)(
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
                             localStorage.setItem('token', res.access_token);
+                            Cookies.set("bussiness_type", "", { expires: 1 });
+                            Cookies.set("ImgUrlFront", "", { expires: 1 });
+                            Cookies.set("ImgUrlBehind", "", { expires: 1 });
+                            Cookies.set("User", "", { expires: 1 });
+                            Cookies.set("bankCard", "", { expires: 1 });
+                            Cookies.set("bankName", "", { expires: 1 });
+                            Cookies.set("subBranchBank", "", { expires: 1 });
                             router.push('/chooseid')
                         })
                     } else {
@@ -263,13 +273,13 @@ export default connect(({ register }: any) => register)(
                             value={this.props.password}
                             onChange={this.handleChangePassword.bind(this)}
                         ></InputItem>
-                        <InputItem
+                        {/* <InputItem
                             clear
                             placeholder="邀请人手机号（非必填）"
                             className={styles.register_inviter_phone}
                             value={this.props.inviter_phone}
                             onChange={this.handleChangeInviterPhone.bind(this)}
-                        ></InputItem>
+                        ></InputItem> */}
 
                         <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
                     </div>

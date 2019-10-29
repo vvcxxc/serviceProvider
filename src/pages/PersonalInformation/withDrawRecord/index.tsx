@@ -13,7 +13,7 @@ export default class WithDrawRecord extends Component {
     handleEndReached = () => {
         alert('acas');
     }
-
+ 
     render() { 
         const { isShowLoading } = this.state;
         return (

@@ -14,7 +14,7 @@ export default class WithDrawRecord extends Component {
         alert('acas');
     }
 
-    render() {
+    render() { 
         const { isShowLoading } = this.state;
         return (
             <ScrollView

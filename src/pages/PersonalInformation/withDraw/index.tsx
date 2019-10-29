@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { Flex, InputItem, Button, WingBlank, Toast, Modal  } from 'antd-mobile'
+import router from 'umi/router';
 const alert = Modal.alert;
 export default class WithDraw extends Component  {
     state = {
@@ -47,6 +48,10 @@ export default class WithDraw extends Component  {
       this.setState({
         money: this.state.all_money
       })
+    }
+
+    goWithDrawRecord = () => {
+      router.push({pathname: '/PersonalInformation/withDrawRecord'})
     }
 
 
@@ -99,6 +104,9 @@ export default class WithDraw extends Component  {
                 </div>
                 <WingBlank size='lg' style={{paddingTop: 100}}>
                   <Button type='primary' style={{background: '#1AAD19'}} onClick={this.withDraw}>申请提现</Button>
+                </WingBlank>
+                <WingBlank size='lg' style={{paddingTop: 100}}>
+                  <Button type='primary' style={{background: '#1AAD19'}} onClick={this.goWithDrawRecord}>提现记录</Button>
                 </WingBlank>
             </div>
         )

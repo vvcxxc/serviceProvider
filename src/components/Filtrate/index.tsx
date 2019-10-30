@@ -5,7 +5,7 @@ import { Icon, DatePickerView, Flex } from 'antd-mobile';
 import dayjs from 'dayjs'
 
 interface Props {
-  dataList: Array<object>,
+  dataList?: Array<object>,
   onSearch: any,
   closeNum?: any,
   searchPath?: any,
@@ -48,12 +48,15 @@ export default class Filtrate extends Component<Props>{
 
   componentDidMount() {
     let FiltrateList = this.props.dataList;
-    for (let i = 0; i < FiltrateList.length; i++) {
-      FiltrateList[i].index = i;
-      FiltrateList[i].title = '';
-      FiltrateList[i].select = false;
+    if(FiltrateList){
+      for (let i = 0; i < FiltrateList.length; i++) {
+        FiltrateList[i].index = i;
+        FiltrateList[i].title = '';
+        FiltrateList[i].select = false;
+      }
+      this.setState({ dataList: FiltrateList })
     }
-    this.setState({ dataList: FiltrateList })
+
   }
 
 

@@ -4,29 +4,65 @@ import styles from './index.less'
 import Filtrate from '../../components/Filtrate/index';
 import { Flex, WingBlank } from 'antd-mobile'
 import ReactEcharts from 'echarts-for-react';
+import Request from '@/service/request';
 export default class DataPage extends Component {
   state = {
-
+    countStats: {
+      codeStats: 0,
+      facilitatorStats: 0
+    },
+    data: {
+      xAxis: [],
+      value: []
+    }
   }
   componentDidMount() {
-
+    Request({
+      method: 'get',
+      url: 'indexData',
+      params: {
+        month: '01',
+        year: '2019'
+      }
+    }).then(res => {
+      let { days, countStats } = res.data
+      let xAxis = []
+      let value = []
+      for (let key in days){
+        xAxis.push(key)
+        value.push(days[key])
+      }
+      let data = {xAxis,value}
+      this.setState({countStats, data})
+    })
   }
   getOption() {
+    const {data } = this.state
     return {
+      tooltip : {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            label: {
+                backgroundColor: '#6a7985'
+            }
+        }
+    },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: data.xAxis
       },
       yAxis: {
         type: 'value'
       },
       series: [{
-        data: [10, 30, 20, 100, 233, 30, 320],
+        data: data.value,
         type: 'line',
       }]
     }
   }
   getOption2() {
+    const {countStats} = this.state
     return {
     tooltip : {
         trigger: 'item',
@@ -36,7 +72,7 @@ export default class DataPage extends Component {
         orient: 'vertical',
         left: '2%',
         bottom: '50%',
-        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        data: ['二维码收益','服务商分成']
     },
     series : [
         {
@@ -45,11 +81,8 @@ export default class DataPage extends Component {
             radius : '90%',
             center: ['50%', '50%'],
             data:[
-                {value:335, name:'直接访问'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1548, name:'搜索引擎'}
+                {value:countStats.codeStats, name:'二维码收益'},
+                {value:countStats.facilitatorStats, name:'服务商分成'},
             ],
             itemStyle: {
                 emphasis: {

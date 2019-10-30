@@ -22,7 +22,7 @@ export default class Item extends Component<Props> {
             <div className={styles.item_name}>{name}</div>
             <div className={styles.item_time}>{date}</div>
           </Flex>
-          <div className={styles.item_money}>{money}</div>
+          <div className={styles.item_money}>+{money}</div>
         </WingBlank>
       </div>
     )

@@ -22,6 +22,7 @@ export default class ScrollView extends Component<Props> {
         let scrollTop = ele.scrollTop;
         let clientTop = ele.clientHeight;
         let scrollHeight = ele.scrollHeight;
+        console.log(scrollHeight,clientTop,scrollTop)
         if (scrollTop + clientTop == scrollHeight) {
             this.setState({
                 is_show: true

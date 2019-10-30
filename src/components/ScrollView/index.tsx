@@ -25,7 +25,8 @@ export default class ScrollView extends Component<Props> {
     }
 
     render() {
-        const { isShowLoading, is_show } = this.props;
+        const { is_show } = this.state
+        const { isShowLoading } = this.props;
         return (
             <div className={styles.scrollView_wrap} onScroll={this.handleScroll.bind(this)} id="scrollViewWrap">
                 {this.props.renderView}

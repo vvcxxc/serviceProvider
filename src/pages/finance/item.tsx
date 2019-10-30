@@ -13,7 +13,7 @@ export default class Item extends Component<Props> {
 
   }
 
-  render (){
+  render (){ 
     const { money, date, name } = this.props
     return (
       <div className={styles.item_box}>

@@ -28,26 +28,29 @@ export default class DataPage extends Component {
       let { days, countStats } = res.data
       let xAxis = []
       let value = []
-      for (let key in days){
+      for (let key in days) {
         xAxis.push(key)
         value.push(days[key])
       }
-      let data = {xAxis,value}
-      this.setState({countStats, data})
+      let data = { xAxis, value }
+      this.setState({ countStats, data })
     })
   }
   getOption() {
-    const {data } = this.state
+    const { data } = this.state
     return {
-      tooltip : {
+      tooltip: {
         trigger: 'axis',
         axisPointer: {
-            type: 'cross',
-            label: {
-                backgroundColor: '#6a7985'
-            }
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985'
+          }
         }
-    },
+      },
+      dataZoom: {
+        type: 'inside',
+      },
       xAxis: {
         type: 'category',
         data: data.xAxis
@@ -56,43 +59,44 @@ export default class DataPage extends Component {
         type: 'value'
       },
       series: [{
+        radius: '90%',
         data: data.value,
         type: 'line',
       }]
     }
   }
   getOption2() {
-    const {countStats} = this.state
+    const { countStats } = this.state
     return {
-    tooltip : {
+      tooltip: {
         trigger: 'item',
         formatter: "{a} <br/>{b} : {c} ({d}%)"
-    },
-    legend: {
+      },
+      legend: {
         orient: 'vertical',
         left: '2%',
         bottom: '50%',
-        data: ['二维码收益','服务商分成']
-    },
-    series : [
+        data: ['二维码收益', '服务商分成']
+      },
+      series: [
         {
-            name: '访问来源',
-            type: 'pie',
-            radius : '90%',
-            center: ['50%', '50%'],
-            data:[
-                {value:countStats.codeStats, name:'二维码收益'},
-                {value:countStats.facilitatorStats, name:'服务商分成'},
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
+          name: '访问来源',
+          type: 'pie',
+          radius: '90%',
+          center: ['50%', '50%'],
+          data: [
+            { value: countStats.codeStats, name: '二维码收益' },
+            { value: countStats.facilitatorStats, name: '服务商分成' },
+          ],
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
+          }
         }
-    ]
+      ]
     }
   }
   render() {
@@ -116,7 +120,7 @@ export default class DataPage extends Component {
             option={this.getOption()}
             notMerge={true}
             lazyUpdate={true}
-            style={{width: '100%',height:'500px'}}
+            style={{ width: '100%', height: '500px' }}
           />
         </div>
         <div className={styles.echart_box}>
@@ -125,7 +129,7 @@ export default class DataPage extends Component {
             option={this.getOption2()}
             notMerge={true}
             lazyUpdate={true}
-            style={{width: '100%',height:'500px'}}
+            style={{ width: '100%', height: '500px' }}
           />
         </div>
       </div>

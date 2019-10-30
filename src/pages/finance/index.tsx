@@ -6,6 +6,7 @@ import Item from './item'
 import Filtrate from '@/components/Filtrate/index';
 import Request from '@/service/request'
 import dayjs from 'dayjs'
+import ScrollView from '@/components/ScrollView';
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 export default class Finance extends Component {
@@ -23,7 +24,8 @@ export default class Finance extends Component {
     data: {
       page: 1,
       date: dayjs(now).format('YYYY-MM')
-    }
+    },
+    is_show_loading: true
   }
   searchPayload = (a: any) => {
     // 筛选
@@ -48,11 +50,11 @@ export default class Finance extends Component {
       }
     }
     if (type) {
-      params = {type,date,page: 1}
+      params = { type, date, page: 1 }
     } else {
       params = { date, page: 1 }
     }
-    this.setState({data:params})
+    this.setState({ data: params })
     Request({
       method: 'get',
       url: 'getBill',
@@ -60,11 +62,15 @@ export default class Finance extends Component {
     }).then(res => {
       if (res.code == 200) {
         this.setState({ list: res.data.boot.data })
+        if(res.data.boot.from == res.data.boot.last_page){
+          this.setState({is_show_loading: false})
+        }else{
+          this.setState({is_show_loading: true})
+        }
       }
     })
   }
   componentDidMount() {
-    // console.log(process.env.apiUrl)
     Request({
       method: 'get',
       url: 'getBill',
@@ -74,12 +80,50 @@ export default class Finance extends Component {
     }).then(res => {
       if (res.code == 200) {
         this.setState({ list: res.data.boot.data })
+        if(res.data.boot.from == res.data.boot.last_page){
+          this.setState({is_show_loading: false})
+        }else{
+          this.setState({is_show_loading: true})
+        }
       }
     })
   }
+  // 触底
+  scrollBottom = () => {
+    console.log('触发了')
+    if(this.state.is_show_loading){
+      let data = this.state.data;
+      data.page += 1;
+      Request({
+        method: 'get',
+        url: 'getBill',
+        params: data
+      }).then(res => {
+        if (res.code == 200) {
+          // let list = this.state.list;
+          let list = [...this.state.list,res.data.boot.data]
+          this.setState({ list,data })
+          if(res.data.boot.from == res.data.boot.last_page){
+            this.setState({is_show_loading: false})
+          }else{
+            this.setState({is_show_loading: true})
+          }
+        }
+      })
+    }
+  }
 
   render() {
-    const { list } = this.state
+    const { list, is_show_loading } = this.state
+    const listView = (
+      <div>
+        {
+          list.map((item: any, index) => {
+            return <Item money={item.money} name={item.describe} date={item.created_at} key={index} />
+          })
+        }
+      </div>
+    )
     return (
       <div className={styles.finance_page}>
         <Filtrate
@@ -99,13 +143,12 @@ export default class Finance extends Component {
 
         {
           list.length ? (
-            <div>
-              {
-                list.map((item: any, index) => {
-                  return <Item money={item.money} name={item.describe} date={item.created_at} key={index} />
-                })
-              }
-            </div>
+            <ScrollView
+              renderView={listView}
+              onEndReached={this.scrollBottom}
+              isShowLoading={is_show_loading}
+            />
+
           ) : (
               <div className={styles.no_data}>
                 暂无账单数据统计

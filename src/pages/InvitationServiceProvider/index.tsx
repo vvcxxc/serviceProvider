@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Filtrate from '../../components/Filtrate/index';
 import Invitation from '../../components/Invitation/index';
-
+import Request from '@/service/request'
 import styles from './index.less';
 import router from 'umi/router';
 import { Icon } from 'antd-mobile';
@@ -18,6 +18,17 @@ export default class InvitationServiceProvider extends Component {
         ],
         invitationShow: false,
         closeNum: 1
+    }
+
+
+    componentDidMount(){
+        Request({
+            url: 'facilitatorIncome',
+            method: 'get'
+          }).then(res => {
+           
+            console.log(res)
+          })
     }
 
     searchPayload = (query: any) => {

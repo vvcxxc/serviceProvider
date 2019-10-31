@@ -9,7 +9,8 @@ interface Options extends AxiosRequestConfig {
 }
 
 
-const host = process.env.apiUrl ? process.env.apiUrl : 'http://test.service_provider_api.tdianyi.com/';
+// const host = process.env.apiUrl ? process.env.apiUrl : 'http://test.service_provider_api.tdianyi.com/';
+const host = process.env.apiUrl ? process.env.apiUrl : 'http://192.168.2.151/';
 
 /**发起请求
  *
@@ -22,13 +23,13 @@ export default function request(options: Options) {
     const token = localStorage.getItem('token');
     // console.log(token, 'sad')
     /**合并headers */
-    if(token){
-      // console.log(123)
-      options.headers = { ...options.headers, Authorization: "Bearer "+token, }
-    //   console.log(options.headers)
-    }else{
-      // console.log(234)
-      options.headers = { ...options.headers }
+    if (token) {
+        // console.log(123)
+        options.headers = { ...options.headers, Authorization: "Bearer " + token, }
+        //   console.log(options.headers)
+    } else {
+        // console.log(234)
+        options.headers = { ...options.headers }
     }
     // options.headers = { ...options.headers, Authorization: token };
     /**拼接接口地址 */
@@ -40,6 +41,9 @@ export default function request(options: Options) {
         .then(res => res.data)
         .catch(err => {
             Toast.hide();
+            if (err.response && err.response.status === 400) {
+                Toast.fail(err.response.data.message, 1)
+            }
             if (err.response && err.response.status === 401) {
                 router.push('/login');
             }

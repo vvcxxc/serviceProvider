@@ -11,7 +11,7 @@ interface Options extends AxiosRequestConfig {
 
 // const host = process.env.apiUrl ? process.env.apiUrl : 'http://test.service_provider_api.tdianyi.com/';
 const host = process.env.apiUrl ? process.env.apiUrl : 'http://192.168.2.151/';
-
+ 
 /**发起请求
  *
  * 使用axios为底层方法

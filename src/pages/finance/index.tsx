@@ -152,7 +152,7 @@ export default class Finance extends Component {
           ) : (
               <div className={styles.no_data}>
                 暂无账单数据统计
-            </div>
+              </div>
             )
         }
       </div>

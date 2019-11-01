@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Filtrate from '../../components/Filtrate/index';
 import Invitation from '../../components/Invitation/index';
-
+import Request from '@/service/request'
 import styles from './index.less';
 import router from 'umi/router';
 import { Icon } from 'antd-mobile';
@@ -13,15 +13,51 @@ export default class InvitationServiceProvider extends Component {
         dataList: [
             {
                 key: '排序',
-                value: [ '收益', '邀请人数', '邀请时间'],
+                value: ['收益', '邀请人数', '邀请时间'],
             }
         ],
         invitationShow: false,
-        closeNum: 1
+        closeNum: 1,
+        listPage: 1,
+        invitationData: {
+            book:
+            {
+                current_page: 1,
+                data: [],
+                from: 1,
+                last_page: 1,
+                per_page: 10,
+                prev_page_url: null,
+                to: 2,
+                total: 2
+            },
+            incomeTotal: 0
+        },
+        invitationList: [],
+        status: 0,
+    }
+
+
+
+    componentDidMount() {
+        this.requestInfo();
+        this.requestList();
+    }
+
+    requestInfo() {
+        Request({
+            url: 'user/info'
+        }).then(res => {
+            if (res.code == 200) {
+                this.setState({
+                    status: res.data.status
+                })
+            }
+        })
     }
 
     searchPayload = (query: any) => {
-        console.log('lll',query)
+        console.log('lll', query)
         // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
     }
 
@@ -29,9 +65,27 @@ export default class InvitationServiceProvider extends Component {
         this.setState({ invitationShow: false })
     }
 
+    requestList = () => {
+        if (this.state.listPage - 1 > this.state.invitationData.book.last_page) {
+            return
+        }
+        Toast.loading('');
+        Request({
+            url: 'facilitatorIncome',
+            method: 'GET',
+            params: {
+                page: this.state.listPage
+            }
+        }).then(res => {
+            Toast.hide();
+            let tempList = this.state.invitationList.concat(res.data.book.data);
+            this.setState({ invitationData: res.data, invitationList: tempList, listPage: Number(this.state.listPage) + 1 })
+        })
+    }
+
     render() {
         return (
-            <div className={styles.InvitationServiceProvider} onClick={() => {this.setState({ closeNum: this.state.closeNum + 1 })}} >
+            <div className={styles.InvitationServiceProvider} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }} >
 
                 {/* <Filtrate
                 dataList={this.state.dataList}
@@ -40,26 +94,45 @@ export default class InvitationServiceProvider extends Component {
                 searchPath={'/InvitationServiceProvider/search'}
                 /> */}
                 <div className={styles.InvitationServiceProvider_total}>
-                    <div className={styles.totalPeople}>共0人</div>
-                    <div className={styles.totalMoney}>带来收益￥0</div>
+                    <div className={styles.totalPeople}>共{this.state.invitationData.book.total}人</div>
+                    <div className={styles.totalMoney}>带来收益￥{this.state.invitationData.incomeTotal}</div>
                 </div>
                 <div className={styles.InvitationServiceProvider_content}>
 
+                    {
+                        this.state.invitationList.length && this.state.invitationList.length > 0 ? this.state.invitationList.map((item: any, index: any) => {
+                            return (
+                                <div className={styles.InvitationServiceProvider_item} key={index}>
+                                    <div className={styles.InvitationServiceProvider_item_left}>
+                                        <div className={styles.InvitationServiceProvider_item_name}>{item.name}</div>
+                                        <div className={styles.InvitationServiceProvider_item_date}>{item.created_at}</div>
+                                    </div>
+                                    <div className={styles.InvitationServiceProvider_item_right}>带来收益：{item.invite_total_money}</div>
+                                </div>
+                            )
+                        }) : null
+                    }
 
-                    {/* <div className={styles.InvitationServiceProvider_item}>
-                        <div className={styles.InvitationServiceProvider_item_left}>
-                            <div className={styles.InvitationServiceProvider_item_name}>服务商A</div>
-                            <div className={styles.InvitationServiceProvider_item_date}>2019-7-1 12:00:00</div>
-                        </div>
-                        <div className={styles.InvitationServiceProvider_item_right}>带来收益：88</div>
-                    </div> */}
+                    <div className={styles.loadingMore_button_box} onClick={this.requestList}>
+                        {
+                            this.state.listPage - 1 <= this.state.invitationData.book.last_page ? ' 点击加载更多' : '暂无更多数据'
+                        }
 
 
-                    {/* <div className={styles.loadingMore_button_box} >暂无更多数据</div> */}
+
+                    </div>
                 </div>
 
-                <div className={styles.on_list} >无记录</div>
-                {/* <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div> */}
+                {
+                    this.state.invitationList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
+                }
+
+                {
+                    this.state.status == 1 ? (
+                        <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div>
+                    ) : ""
+                }
+
                 {
                     this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
 

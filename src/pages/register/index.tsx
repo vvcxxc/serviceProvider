@@ -25,6 +25,21 @@ export default connect(({ register }: any) => register)(
             wait: ""
         }
 
+        componentDidMount = () => {
+            let hasPhone = this.props.location.query.phone;
+            if (hasPhone) {
+                this.setState({
+                    inviter_phone: hasPhone
+                })
+                this.props.dispatch({
+                    type: 'register/registered',
+                    payload: {
+                        inviter_phone: hasPhone
+                    }
+                })
+            }
+        }
+
         /**
          * 用户名
          */
@@ -147,7 +162,7 @@ export default connect(({ register }: any) => register)(
                     })
                 }).then(res => {
                     if (res.code == 200) {
-
+                        Toast.info(res.message,1);
                     } else {
                         _this.setState({ is_ok: true });
                         _this.props.dispatch({
@@ -184,10 +199,10 @@ export default connect(({ register }: any) => register)(
                 Toast.fail('请输入数字，字母组合不低于6位密码', 1);
                 return;
             }
-            // if (!(/^1[3456789]\d{9}$/.test(inviter_phone))) {
-            //     Toast.fail('请输入11位有效手机号', 1);
-            //     return;
-            // }
+            if (!(/^1[3456789]\d{9}$/.test(inviter_phone))) {
+                Toast.fail('请输入11位有效手机号', 1);
+                return;
+            }
 
             if (username && phone && code && password) {
                 let data = qs.stringify({
@@ -273,13 +288,13 @@ export default connect(({ register }: any) => register)(
                             value={this.props.password}
                             onChange={this.handleChangePassword.bind(this)}
                         ></InputItem>
-                        {/* <InputItem
+                        <InputItem
                             clear
                             placeholder="邀请人手机号（非必填）"
                             className={styles.register_inviter_phone}
                             value={this.props.inviter_phone}
                             onChange={this.handleChangeInviterPhone.bind(this)}
-                        ></InputItem> */}
+                        ></InputItem>
 
                         <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
                     </div>

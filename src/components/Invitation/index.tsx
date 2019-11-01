@@ -3,7 +3,11 @@ import styles from './index.less';
 import router from 'umi/router';
 import { Icon } from 'antd-mobile';
 import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
+import QRCode from 'qrcode';
 
+import Request from '@/service/request';
+
+let url = location.origin;
 
 interface Props {
     onClose: any
@@ -11,11 +15,30 @@ interface Props {
 
 export default class Invitation extends Component<Props>{
     state = {
-
+        phone: "",
+        url: ""
     }
 
 
-    componentDidMount() {
+    async componentDidMount() {
+        await Request({
+            url: 'user/info'
+        }).then(res => {
+            if (res.code == 200) {
+                this.setState({
+                    phone: res.data.phone
+                }, () => {
+                    QRCode.toDataURL(url + '/register?phone=' + this.state.phone)
+                        .then((url: any) => {
+                            this.setState({
+                                url
+                            })
+                        })
+                        .catch((err: any) => { })
+                })
+            }
+        })
+
     }
 
     handleclose = () => {
@@ -29,7 +52,7 @@ export default class Invitation extends Component<Props>{
                 <div className={styles.share_box_content} onClick={(e) => { e.stopPropagation() }} >
                     <div className={styles.share_box_title}>邀请服务商</div>
                     <div className={styles.share_box_imgBox}>
-                        <img className={styles.share_box_imgBox_img} src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571379516234&di=474ccfe10db359bdab1ef32e21792921&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F17e9533c4c7dec81443998aba5aa848e99200b29.jpg' />
+                        <img className={styles.share_box_imgBox_img} src={this.state.url} />
                     </div>
                     <div className={styles.share_box_handleBox}>
                         <div className={styles.share_box_cancle} onClick={this.handleclose.bind(this)} >取消</div>

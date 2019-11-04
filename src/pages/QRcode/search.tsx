@@ -36,7 +36,7 @@ export default class Search extends Component {
     }
     KeySubmit = (e: any) => {
         e.persist();
-        if (e.keyCode == '13') {
+        if (e.keyCode == 13) {
             this.handleSearch();
         }
         e.preventDefault();

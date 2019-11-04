@@ -29,11 +29,13 @@ export default class PersonalInformation extends Component {
     }
 
     logOut = (e) => {
+        Toast.loading('');
         Request({
             url: 'auth/logout',
             method: 'post',
         }).then(res => {
             if (res.code == 401) {
+                Toast.hide();
                 Toast.success('退出登录成功', 1);
                 localStorage.removeItem('token');
                 setTimeout(() => {
@@ -64,7 +66,7 @@ export default class PersonalInformation extends Component {
                             <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div> */}
-                    <div className={styles.information_box} >
+                    <div className={styles.information_box} onClick={()=>router.push('/changePhoneNumber')}>
                         <div className={styles.information_box_title} >绑定手机</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >{this.state.data.phone}</div>

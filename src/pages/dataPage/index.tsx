@@ -52,36 +52,36 @@ export default class DataPage extends Component {
       },
       dataZoom: [//给x轴设置滚动条
         {
-            start:0,//默认为0
-            end: endPercent,
-            type: 'slider',
-            show: true,
-            xAxisIndex: [0],
-            handleSize: 0,//滑动条的 左右2个滑动条的大小
-            height: 8,//组件高度
-            left: 50, //左边的距离
-            right: 40,//右边的距离
-            bottom: 26,//右边的距离
-            handleColor: '#ddd',//h滑动图标的颜色
-            handleStyle: {
-                borderColor: "#cacaca",
-                borderWidth: "1",
-                shadowBlur: 2,
-                background: "#ddd",
-                shadowColor: "#ddd",
-            },
-            backgroundColor: '#ddd',//两边未选中的滑动条区域的颜色
-            showDataShadow: false,//是否显示数据阴影 默认auto
-            showDetail: false,//即拖拽时候是否显示详细数值信息 默认true
-            filterMode: 'filter'
+          start: 0,//默认为0
+          end: endPercent,
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          handleSize: 0,//滑动条的 左右2个滑动条的大小
+          height: 8,//组件高度
+          left: 50, //左边的距离
+          right: 40,//右边的距离
+          bottom: 26,//右边的距离
+          handleColor: '#ddd',//h滑动图标的颜色
+          handleStyle: {
+            borderColor: "#cacaca",
+            borderWidth: "1",
+            shadowBlur: 2,
+            background: "#ddd",
+            shadowColor: "#ddd",
+          },
+          backgroundColor: '#ddd',//两边未选中的滑动条区域的颜色
+          showDataShadow: false,//是否显示数据阴影 默认auto
+          showDetail: false,//即拖拽时候是否显示详细数值信息 默认true
+          filterMode: 'filter'
         },
         //下面这个属性是里面拖到
         {
-            type: 'inside',
-            show: true,
-            xAxisIndex: [0],
-            start: 0,//默认为1
-            end: 50
+          type: 'inside',
+          show: true,
+          xAxisIndex: [0],
+          start: 0,//默认为1
+          end: 50
         }],
       xAxis: {
         type: 'category',
@@ -93,7 +93,7 @@ export default class DataPage extends Component {
       yAxis: {
         type: 'value',
         nameTextStyle: {
-          fontSize: 24
+          fontSize: 21
         }
       },
       series: [{
@@ -113,8 +113,11 @@ export default class DataPage extends Component {
       legend: {
         orient: 'vertical',
         left: '2%',
-        bottom: '50%',
+        top: '5%',
         data: ['二维码收益', '服务商分成']
+      },
+      "textStyle": {
+        "fontSize": 28
       },
       series: [
         {
@@ -138,15 +141,15 @@ export default class DataPage extends Component {
     }
   }
 
-  searchPayload = (a:any) => {
-    let {date} = a
+  searchPayload = (a: any) => {
+    let { date } = a
     let arr = date.split('-')
     console.log(arr)
     Request({
       method: 'get',
       url: 'indexData',
       params: {
-        month:  arr[1],
+        month: arr[1],
         year: arr[0]
       }
     }).then(res => {
@@ -184,14 +187,16 @@ export default class DataPage extends Component {
             style={{ width: '100%', height: '500px' }}
           />
         </div>
-        <div className={styles.echart_box}>
+        <div className={styles.echart_box2}>
           <div className={styles.echart_title}>收入分类</div>
-          <ReactEcharts
-            option={this.getOption2()}
-            notMerge={true}
-            lazyUpdate={true}
-            style={{ width: '100%', height: '500px' }}
-          />
+          <div className={styles.echart_content}>
+            <ReactEcharts
+              option={this.getOption2()}
+              notMerge={true}
+              lazyUpdate={true}
+              style={{ width: '100vw', height: '45vw' }}
+            />
+          </div>
         </div>
       </div>
     )

@@ -35,7 +35,7 @@ export default class Filtrate extends Component<Props>{
       // }
     ],
     date: now,
-    show_date:'',
+    show_date: '',
     is_show_date: false
   }
 
@@ -48,7 +48,7 @@ export default class Filtrate extends Component<Props>{
 
   componentDidMount() {
     let FiltrateList = this.props.dataList;
-    if(FiltrateList){
+    if (FiltrateList) {
       for (let i = 0; i < FiltrateList.length; i++) {
         FiltrateList[i].index = i;
         FiltrateList[i].title = '';
@@ -70,7 +70,7 @@ export default class Filtrate extends Component<Props>{
     }
     // console.log(returntList);
     let date = dayjs(this.state.date).format('YYYY-MM')
-    this.props.onSearch && this.props.onSearch({List: returntList,date});
+    this.props.onSearch && this.props.onSearch({ List: returntList, date });
   }
 
   selectKey = (index: any, e: any) => {
@@ -91,8 +91,8 @@ export default class Filtrate extends Component<Props>{
     e.stopPropagation();
   }
 
-  selectDate = (date:any) => {
-    this.setState({date})
+  selectDate = (date: any) => {
+    this.setState({ date })
   }
 
   datePicker = () => {
@@ -123,8 +123,8 @@ export default class Filtrate extends Component<Props>{
       }
     }
     let date = dayjs(this.state.date).format('YYYY-MM')
-    this.setState({show_date:date})
-    this.props.onSearch && this.props.onSearch({List: returntList,date});
+    this.setState({ show_date: date })
+    this.props.onSearch && this.props.onSearch({ List: returntList, date });
     this.setState({
       is_show_date: false
     })
@@ -137,6 +137,9 @@ export default class Filtrate extends Component<Props>{
   render() {
     return (
       <div className={styles.filtrate}>
+        {
+          this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}> 搜索</div> : null
+        }
         {
           this.state.dataList && this.state.dataList.length > 0 ? this.state.dataList.map((item: any, index: any) => {
             return (
@@ -153,9 +156,7 @@ export default class Filtrate extends Component<Props>{
                     }
                   </ul>
                 </div>
-                {
-                  this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}> 搜索</div> : null
-                }
+
               </div>
             )
           }) : null
@@ -164,25 +165,25 @@ export default class Filtrate extends Component<Props>{
         {
           this.props.isDate ? (
             <div className={styles.filtrate_key}>
-            <span onClick={this.datePicker}>{this.state.show_date ? this.state.show_date : '月份'}</span>
-            <Icon className={styles.filtrate_icon} type="up" onClick={this.datePicker} />
-            {
-              this.state.is_show_date ? (
-                <div className={styles.picker}>
-                  <Flex className={styles.picker_buttons} justify='between'>
-                    <div className={styles.picker_button} onClick={this.cancelPicker}>取消</div>
-                    <div className={styles.picker_button} onClick={this.confirm}>确定</div>
-                  </Flex>
-                  <DatePickerView
-                    className={styles.picker_date}
-                    mode='month'
-                    value={this.state.date}
-                    onChange={this.selectDate}
-                  />
-                </div>
-              ) : null
-            }
-          </div>
+              <span onClick={this.datePicker}>{this.state.show_date ? this.state.show_date : '月份'}</span>
+              <Icon className={styles.filtrate_icon} type="up" onClick={this.datePicker} />
+              {
+                this.state.is_show_date ? (
+                  <div className={styles.picker}>
+                    <Flex className={styles.picker_buttons} justify='between'>
+                      <div className={styles.picker_button} onClick={this.cancelPicker}>取消</div>
+                      <div className={styles.picker_button} onClick={this.confirm}>确定</div>
+                    </Flex>
+                    <DatePickerView
+                      className={styles.picker_date}
+                      mode='month'
+                      value={this.state.date}
+                      onChange={this.selectDate}
+                    />
+                  </div>
+                ) : null
+              }
+            </div>
           ) : null
         }
 

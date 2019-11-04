@@ -1,10 +1,21 @@
 .filtrate {
     height: 80px;
-    width: 100%;
+    width: 100vw;
     background: #fff;
-    // position: fixed;
-    // top: 0;
-    // z-index: 2;
+    position: relative;
+    .filtrate_search_btn {
+      height: 80px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      text-align: center;
+      background: #fff;
+      color: #000;
+      line-height: 80px;
+      z-index: 3;
+
+  }
 
     .filtrate_key {
         height: 80px;
@@ -50,19 +61,7 @@
 
     }
 
-    .filtrate_search_btn {
-        height: 80px;
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 100px;
-        text-align: center;
-        background: #fff;
-        color: #000;
-        line-height: 80px;
-        z-index: 3;
-
-    }
+   
 
 }
 .picker {

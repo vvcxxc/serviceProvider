@@ -99,8 +99,10 @@ export default class changePhoneNumber extends Component {
       }
     }).then(res => {
       if (res.code == 200) {
-        Cookies.remove("oldPhone"); 
-        Toast.success(res.message, 1);
+        Cookies.remove("oldPhone");
+        Toast.success(res.message, 1, ()=>{
+          router.push('/PersonalInformation')
+        });
       }
     })
   }

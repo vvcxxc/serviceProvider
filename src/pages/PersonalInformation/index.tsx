@@ -73,7 +73,7 @@ export default class PersonalInformation extends Component {
                         <div className={styles.information_box_title} >绑定手机</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >{this.state.data.phone}</div>
-                            {/* <Icon className={styles.information_icon} type="right" size={'md'} /> */}
+                            <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div>
                     {/* <div className={styles.information_box} >

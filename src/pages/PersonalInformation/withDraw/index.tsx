@@ -8,7 +8,8 @@ export default class WithDraw extends Component  {
       money: '',
       is_show: true,
       is_bind: false,
-      all_money: '100.00'
+      all_money: '100.00',
+      is_hint: true
     }
     moneyChange = (v: any) => {
       // console.log(v)
@@ -16,6 +17,11 @@ export default class WithDraw extends Component  {
         this.setState ({is_show: false})
       }else{
         this.setState ({is_show: true})
+      }
+      if (v*1 >= 100){
+        this.setState({is_hint: false})
+      }else{
+        this.setState({is_hint: true})
       }
       this.setState({
         money: v
@@ -45,6 +51,11 @@ export default class WithDraw extends Component  {
 
     }
     allMoney = () => {
+      if (Number(this.state.all_money) >= 100){
+        this.setState({is_hint: false})
+      }else{
+        this.setState({is_hint: true})
+      }
       this.setState({
         money: this.state.all_money
       })
@@ -59,7 +70,7 @@ export default class WithDraw extends Component  {
       // 提示字样
       const show_tips = this.state.is_show ? (
         <div className={styles.tips}>
-          可提现金额 ¥{this.state.all_money}，100元以上，2%手续费
+          可提现金额 ¥{this.state.all_money}
         </div>
       ) : (
         <div className={styles.tips_err}>
@@ -85,6 +96,13 @@ export default class WithDraw extends Component  {
           您还没有绑定银行卡<span style={{color: '#00BFFF', paddingLeft: 40}} onClick={this.goUpload}>去上传</span>
         </Flex>
       );
+
+      const hint = this.state.is_hint ? (
+        <div className={styles.hint}>单笔提现金额需要大于等于100元</div>
+      ) : (
+        <div className={styles.hint}>每笔提现收2%的手续费</div>
+      )
+
         return (
             <div className={styles.pages}>
                 {bind}
@@ -102,6 +120,7 @@ export default class WithDraw extends Component  {
                     {show_tips}
                   </div>
                 </div>
+                {hint}
                 <WingBlank size='lg' style={{paddingTop: 100}}>
                   <Button type='primary' style={{background: '#1AAD19'}} onClick={this.withDraw}>申请提现</Button>
                 </WingBlank>

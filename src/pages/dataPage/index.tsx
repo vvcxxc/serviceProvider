@@ -120,7 +120,6 @@ export default class DataPage extends Component {
           fontWeight: 400
         }
       },
-
       series: [
         {
           name: '访问来源',
@@ -138,19 +137,21 @@ export default class DataPage extends Component {
               // formatter: '{d}%'
             }
           },
+          labelLine: {
+            show:true,
+
+          },
           data: [
             { value: countStats.codeStats, name: '二维码收益' },
             { value: countStats.facilitatorStats, name: '服务商分成' },
           ],
-       
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.8)',
-              fontSize: 23,
-              // fontWeight: 500
-            }
-          
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+            fontSize: 23,
+            fontWeight: 500
+          }
         }
       ]
     }

@@ -2,16 +2,22 @@ import axios, { AxiosRequestConfig } from 'axios';
 import router from 'umi/router';
 import { Toast } from 'antd-mobile';
 import { success, error } from "@/components/Hint";
+import { string } from 'prop-types';
 
 interface Options extends AxiosRequestConfig {
     /**替换的主机域名 */
     host?: string;
 }
 
-
-const host = process.env.apiUrl ? process.env.apiUrl : 'http://test.service_provider_api.tdianyi.com/';
+// API:string
+// declare global {
+//   API:string
+// }
+declare const API:string
+console.log(API,'api')
+const host = API ? API : 'http://test.service_provider_api.tdianyi.com/';
 // const host = process.env.apiUrl ? process.env.apiUrl : 'http://192.168.2.151/';
- 
+
 /**发起请求
  *
  * 使用axios为底层方法

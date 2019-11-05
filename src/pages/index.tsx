@@ -50,7 +50,6 @@ export default class QRcode extends Component {
 
     componentDidMount() {
         this.requestList()
-        console.log(API)
     }
 
     requestList = () => {

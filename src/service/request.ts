@@ -10,6 +10,7 @@ interface Options extends AxiosRequestConfig {
 }
 
 declare const API:string;
+// 本地开发更换API请修改 .umirc.local.ts 文件
 const host = API ? API : 'http://test.service_provider_api.tdianyi.com/';
 // const host = process.env.apiUrl ? process.env.apiUrl : 'http://192.168.2.151/';
 

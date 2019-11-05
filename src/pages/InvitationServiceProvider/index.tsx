@@ -5,7 +5,6 @@ import Invitation from '../../components/Invitation/index';
 import Request from '@/service/request'
 import styles from './index.less';
 import router from 'umi/router';
-import { Icon } from 'antd-mobile';
 import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 
 export default class InvitationServiceProvider extends Component {

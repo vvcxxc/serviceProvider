@@ -85,7 +85,7 @@ export default class Search extends Component {
                           placeholder='输入店铺名称' 
                           value={this.state.searchKey}
                           onChange={this.handleWrite.bind(this)}
-                          onKeyPress={this.KeySubmit.bind(this)} />
+                          onKeyUp={this.KeySubmit.bind(this)} />
 
 
                     </div>

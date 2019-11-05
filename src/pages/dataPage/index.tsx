@@ -114,27 +114,43 @@ export default class DataPage extends Component {
         orient: 'vertical',
         left: '2%',
         top: '5%',
-        data: ['二维码收益', '服务商分成']
-      },
-      "textStyle": {
-        "fontSize": 28
+        data: ['二维码收益', '服务商分成'],
+        textStyle: {
+          fontSize: 25,
+          fontWeight: 400
+        }
       },
       series: [
         {
           name: '访问来源',
           type: 'pie',
-          radius: '90%',
+          radius: '80%',
           center: ['50%', '50%'],
+          label: {
+            normal: {
+              show: true,
+              position: 'outside', //标签的位置
+              textStyle: {
+                fontWeight: 800,
+                fontSize: 23   //文字的字体大小
+              },
+              // formatter: '{d}%'
+            }
+          },
+          labelLine: {
+            show:true,
+
+          },
           data: [
             { value: countStats.codeStats, name: '二维码收益' },
             { value: countStats.facilitatorStats, name: '服务商分成' },
           ],
           itemStyle: {
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+            fontSize: 23,
+            fontWeight: 500
           }
         }
       ]

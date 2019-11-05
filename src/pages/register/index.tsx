@@ -210,7 +210,7 @@ export default connect(({ register }: any) => register)(
                     account: phone,
                     password,
                     verify_code: code,
-                    from_phone: inviter_phone
+                    from_phone: inviter_phone?inviter_phone:undefined
                 })
                 Request({
                     url: 'register',

@@ -102,7 +102,7 @@ export default class Search extends Component {
                             placeholder='输入服务商名称或手机号'
                             value={this.state.searchKey}
                             onChange={this.handleWrite.bind(this)}
-                            onKeyPress={this.KeySubmit.bind(this)} />
+                            onKeyUp={this.KeySubmit.bind(this)} />
                     </div>
                     <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
                 </div>

@@ -39,7 +39,7 @@ export default class InvitationServiceProvider extends Component {
 
 
     componentDidMount() {
-        console.log('componentDidMount',window)
+        // console.log('componentDidMount',window)
         window.scrollTo(0,0);
         this.requestInfo();
         this.requestList();

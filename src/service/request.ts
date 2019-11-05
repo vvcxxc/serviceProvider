@@ -13,8 +13,9 @@ interface Options extends AxiosRequestConfig {
 // declare global {
 //   API:string
 // }
-declare const API:string
-console.log(API,'api')
+declare const API:string;
+declare const a:string;
+console.log(a,'a')
 const host = API ? API : 'http://test.service_provider_api.tdianyi.com/';
 // const host = process.env.apiUrl ? process.env.apiUrl : 'http://192.168.2.151/';
 

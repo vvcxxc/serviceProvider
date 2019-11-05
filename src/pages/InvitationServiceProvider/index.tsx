@@ -38,8 +38,9 @@ export default class InvitationServiceProvider extends Component {
     }
 
 
-
     componentDidMount() {
+        console.log('componentDidMount',window)
+        window.scrollTo(0,0);
         this.requestInfo();
         this.requestList();
     }
@@ -86,7 +87,6 @@ export default class InvitationServiceProvider extends Component {
     render() {
         return (
             <div className={styles.InvitationServiceProvider} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }} >
-
                 <Filtrate
                 dataList={[]}
                 // dataList={this.state.dataList}

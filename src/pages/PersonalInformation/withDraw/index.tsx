@@ -10,7 +10,7 @@ export default class WithDraw extends Component {
     money: '',
     is_show: true,
     is_bind: false,
-    all_money: '100.00',
+    all_money: '',
     is_hint: true,
     data: {}
   }
@@ -25,7 +25,8 @@ export default class WithDraw extends Component {
         case 200:
           this.setState({
             is_bind: true,
-            data
+            data,
+            all_money: data.usable_money
           })
           break;
 
@@ -59,6 +60,8 @@ export default class WithDraw extends Component {
 
   // 申请提现
   withDraw = () => {
+    this.destoonFinanceCash()
+    return
     if (this.state.is_bind) {
       if (this.state.is_show) {
         this.destoonFinanceCash()
@@ -89,6 +92,21 @@ export default class WithDraw extends Component {
   }
 
   destoonFinanceCash = () => {
+    const { all_money, money } = this.state
+    if (all_money<money && money) {
+      Toast.fail('金额超过可提现金额', 0.7)
+      return
+    }
+
+    if (money < 100 && money >= all_money ) {
+      Toast.fail('单笔提现金额需要大于等于100元', 0.7)
+      return
+    }
+    if (!money || !Number.isFinite(money - 1)) {
+      Toast.fail('请输入正确金额数字', 0.7)
+      return
+    }
+
     Request({
       url: 'fetchMoney',
       method: 'post',
@@ -99,8 +117,9 @@ export default class WithDraw extends Component {
       const { message, code } = res
       switch (code) {
         case 200:
-          Toast.success(message,0.7)
-          this.setState({ money:''})
+          Toast.success(message, 0.7)
+          
+          this.setState({ money: ''})
           break;
       
         default:

@@ -12,20 +12,28 @@ export default class PersonalInformation extends Component {
             usable_money: 0
         }
     }
+
+
     componentDidMount() {
         Toast.loading('');
         Request({
             url: 'user/info',
             method: 'get',
         }).then(res => {
-            Toast.hide();
-            this.setState({ data: res.data })
+            if (res.code == 200) {
+                Toast.hide();
+                this.setState({ data: res.data })
+            } else {
+                Toast.fail('请求错误', 1)
+            }
+        }).catch((err) => {
+            Toast.fail('请求失败', 1)
         })
     }
 
     //修改密码
     onChangePassword = () => {
-        router.push({ pathname:'/PersonalInformation/changePassword'})
+        router.push({ pathname: '/PersonalInformation/changePassword' })
     }
 
     logOut = (e) => {
@@ -45,7 +53,7 @@ export default class PersonalInformation extends Component {
         })
     }
     gotoWithDraw = () => {
-      router.push('/PersonalInformation/withDraw')
+        router.push('/PersonalInformation/withDraw')
     }
 
     render() {
@@ -69,7 +77,7 @@ export default class PersonalInformation extends Component {
                             <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div> */}
-                    <div className={styles.information_box} onClick={()=>router.push('/changePhoneNumber')}>
+                    <div className={styles.information_box} onClick={() => router.push('/changePhoneNumber')}>
                         <div className={styles.information_box_title} >绑定手机</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >{this.state.data.phone}</div>
@@ -84,7 +92,7 @@ export default class PersonalInformation extends Component {
                         </div>
                     </div> */}
                     <div className={styles.information_box_highter}></div>
-                    <div className={styles.information_box} onClick={()=>router.push('/PersonalInformation/mybank')}>
+                    <div className={styles.information_box} onClick={() => router.push('/PersonalInformation/mybank')}>
                         <div className={styles.information_box_title}
                             style={{ color: this.state.data.is_bank_card == 0 ? '#e61616' : ' #000' }}
                         >我的银行卡</div>

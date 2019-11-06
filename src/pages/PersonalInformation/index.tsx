@@ -8,7 +8,7 @@ export default class PersonalInformation extends Component {
     state = {
         data: {
             is_bank_card: 0,
-            phone: 0,
+            phone: '***********',
             usable_money: 0
         }
     }

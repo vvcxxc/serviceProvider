@@ -36,7 +36,7 @@ export default class PersonalInformation extends Component {
         router.push({ pathname: '/PersonalInformation/changePassword' })
     }
 
-    logOut = (e) => {
+    logOut = (e:any) => {
         Toast.loading('');
         Request({
             url: 'auth/logout',

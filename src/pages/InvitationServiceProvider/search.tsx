@@ -106,31 +106,30 @@ export default class Search extends Component {
                     </div>
                     <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
                 </div>
-                <div className={styles.InvitationServiceProvider_content}>
 
 
-                    {
-                        this.state.invitationList.length && this.state.invitationList.length > 0 ? this.state.invitationList.map((item: any, index: any) => {
-                            return (
-                                <div className={styles.InvitationServiceProvider_item} key={index} >
-                                    <div className={styles.InvitationServiceProvider_item_left}>
-                                        <div className={styles.InvitationServiceProvider_item_name}>{item.name}</div>
-                                        <div className={styles.InvitationServiceProvider_item_date}>{item.created_at}</div>
+                {
+                    this.state.invitationList.length && this.state.invitationList.length > 0 ? <div className={styles.InvitationServiceProvider_content}>
+                        {
+                            this.state.invitationList.map((item: any, index: any) => {
+                                return (
+                                    <div className={styles.InvitationServiceProvider_item} key={index} >
+                                        <div className={styles.InvitationServiceProvider_item_left}>
+                                            <div className={styles.InvitationServiceProvider_item_name}>{item.name}</div>
+                                            <div className={styles.InvitationServiceProvider_item_date}>{item.created_at}</div>
+                                        </div>
+                                        <div className={styles.InvitationServiceProvider_item_right}>带来收益：{item.invite_total_money}</div>
                                     </div>
-                                    <div className={styles.InvitationServiceProvider_item_right}>带来收益：{item.invite_total_money}</div>
-                                </div>
-                            )
-                        }) : null
-                    }
-
-                    {
-                        this.state.invitationList.length && this.state.invitationList.length > 0 ? <div className={styles.loadingMore_button_box} onClick={this.handleSearch}>
+                                )
+                            })
+                        }
+                        <div className={styles.loadingMore_button_box} onClick={this.handleSearch}>
                             {
                                 this.state.listPage - 1 <= this.state.invitationData.book.last_page ? ' 点击加载更多' : '暂无更多数据'
                             }
-                        </div> : null
-                    }
-                </div>
+                        </div>
+                    </div> : null
+                }
 
                 {
                     this.state.invitationList.length == 0 ? <div className={styles.on_list} >无记录</div> : null

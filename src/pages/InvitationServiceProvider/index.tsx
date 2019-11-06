@@ -39,7 +39,7 @@ export default class InvitationServiceProvider extends Component {
 
     componentDidMount() {
         // console.log('componentDidMount',window)
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
         this.requestInfo();
         this.requestList();
     }
@@ -87,20 +87,19 @@ export default class InvitationServiceProvider extends Component {
         return (
             <div className={styles.InvitationServiceProvider} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }} >
                 <Filtrate
-                dataList={[]}
-                // dataList={this.state.dataList}
-                onSearch={this.searchPayload}
-                closeNum={this.state.closeNum}
-                searchPath={'/InvitationServiceProvider/search'}
+                    dataList={[]}
+                    // dataList={this.state.dataList}
+                    onSearch={this.searchPayload}
+                    closeNum={this.state.closeNum}
+                    searchPath={'/InvitationServiceProvider/search'}
                 />
                 <div className={styles.InvitationServiceProvider_total}>
                     <div className={styles.totalPeople}>共{this.state.invitationData.book.total}人</div>
                     <div className={styles.totalMoney}>带来收益￥{this.state.invitationData.incomeTotal}</div>
                 </div>
-                <div className={styles.InvitationServiceProvider_content}>
-
-                    {
-                        this.state.invitationList.length && this.state.invitationList.length > 0 ? this.state.invitationList.map((item: any, index: any) => {
+                {
+                    this.state.invitationList.length && this.state.invitationList.length > 0 ? <div className={styles.InvitationServiceProvider_content}>
+                        {this.state.invitationList.map((item: any, index: any) => {
                             return (
                                 <div className={styles.InvitationServiceProvider_item} key={index}>
                                     <div className={styles.InvitationServiceProvider_item_left}>
@@ -110,19 +109,16 @@ export default class InvitationServiceProvider extends Component {
                                     <div className={styles.InvitationServiceProvider_item_right}>带来收益：{item.invite_total_money}</div>
                                 </div>
                             )
-                        }) : null
-                    }
-
-                    <div className={styles.loadingMore_button_box} onClick={this.requestList}>
-                        {
-                            this.state.listPage - 1 <= this.state.invitationData.book.last_page ? ' 点击加载更多' : '暂无更多数据'
+                        })
                         }
 
-
-
-                    </div>
-                </div>
-
+                        <div className={styles.loadingMore_button_box} onClick={this.requestList}>
+                            {
+                                this.state.listPage - 1 <= this.state.invitationData.book.last_page ? ' 点击加载更多' : '暂无更多数据'
+                            }
+                        </div>
+                    </div> : null
+                }
                 {
                     this.state.invitationList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
                 }

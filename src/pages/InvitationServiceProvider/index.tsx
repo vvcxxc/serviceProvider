@@ -80,6 +80,8 @@ export default class InvitationServiceProvider extends Component {
             Toast.hide();
             let tempList = this.state.invitationList.concat(res.data.book.data);
             this.setState({ invitationData: res.data, invitationList: tempList, listPage: Number(this.state.listPage) + 1 })
+        }).catch((err) => {
+            console.log(err)
         })
     }
 

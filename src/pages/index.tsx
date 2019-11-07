@@ -68,6 +68,8 @@ export default class QRcode extends Component {
             Toast.hide();
             let tempList = this.state.resDataList.concat(res.data.list.data);
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
+        }).catch((err) => {
+            console.log(err)
         })
     }
 
@@ -111,14 +113,14 @@ export default class QRcode extends Component {
                                         </div>
                                         <div className={styles.QRcode_item_right}>
                                             {
-                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toDay}>今日收益{item.today_count}</div> : null
+                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toDay}>今日收益{item.today_money}</div> : null
                                             }
 
                                             {
-                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toMonth}>本月收益{item.month_count}</div> : null
+                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toMonth}>本月收益{item.month_money}</div> : null
                                             }
                                             {
-                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_total}>总收益{item.total_income_money}</div> : null
+                                                item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_total}>总收益{item.total_money}</div> : null
                                             }
 
                                         </div>

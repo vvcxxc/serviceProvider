@@ -223,7 +223,7 @@ export default connect(({ register }: any) => register)(
                     method: 'post',
                     data
                 }).then(res => {
-                    let { code, message } = res;
+                    let { code, message } = res; 
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
                             localStorage.setItem('token', res.access_token);

@@ -12,7 +12,7 @@ let url = location.origin;
 interface Props {
     onClose: any
 } 
-
+ 
 export default class Invitation extends Component<Props>{
     state = {
         phone: "",

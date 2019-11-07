@@ -31,6 +31,9 @@ class BankCard extends Component {
         isShowSubBranch: false,
         subBranchBankArr: [],
 
+        checkout_status: 0,
+        checkout_comment: "",
+        is_show: true
     }
 
     async componentDidMount() {
@@ -50,104 +53,46 @@ class BankCard extends Component {
             window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
         })
 
+        await Request({
+            url: 'auth/getBankInfo',
+            method: 'get'
+        }).then(res => {
+            const { code, message } = res;
+            if (code == 200 && Object.keys(res.data).length != 0) {
+                this.setState({
+                    checkout_status: res.data.userBankinfo.checkout_status,
+                    checkout_comment: res.data.userBankinfo.checkout_comment,
 
-        // 判断Cookie是否有数据
-        /**
-         * 正面身份证
-         */
-        Cookies.get("ImgUrlFront") && JSON.parse(Cookies.get("ImgUrlFront")) == "" ? (
-            this.setState({
-                img_url_front: "",
-                isHaveImgFront: false
-            })
-        ) : Cookies.get("ImgUrlFront") ? (
-            this.setState({
-                img_url_front: JSON.parse(Cookies.get("ImgUrlFront")),
-                isHaveImgFront: true
-            })
-        ) : "";
+                    img_url_front: res.data.userBankinfo.bankcard_face_img,
+                    isHaveImgFront: true,
 
+                    img_url_behind: res.data.userBankinfo.bankcard_back_img,
+                    isHaveImgBehind: true,
 
-        /**
-         * 反面身份证
-         */
-        Cookies.get("ImgUrlBehind") && JSON.parse(Cookies.get("ImgUrlBehind")) == "" ? (
-            this.setState({
-                img_url_behind: "",
-                isHaveImgBehind: false
-            })
-        ) : Cookies.get("ImgUrlBehind") ? (
-            this.setState({
-                img_url_behind: JSON.parse(Cookies.get("ImgUrlBehind")),
-                isHaveImgBehind: true
-            })
-        ) : "";
+                    User: res.data.userBankinfo.owner_name,
 
+                    bankCard: res.data.userBankinfo.bankcard_no,
 
-        /**
-         * 开户人
-         */
-        Cookies.get("User") || Cookies.get("User") == "" ? (
-            this.setState({
-                User: Cookies.get("User")
-            })
-        ) : "";
+                    bankName: res.data.userBankinfo.bank_name,
 
-
-        /**
-         * 银行卡号
-         */
-        Cookies.get("bankCard") || Cookies.get("bankCard") == "" ? (
-            this.setState({
-                bankCard: Cookies.get("bankCard")
-            })
-        ) : "";
-
-
-        /**
-         * 开户银行
-         */
-        Cookies.get("bankName") || Cookies.get("bankName") == "" ? (
-            this.setState({
-                bankName: Cookies.get("bankName")
-            })
-        ) : "";
-
-
-        /**
-         * 支行
-         */
-        Cookies.get("subBranchBank") || Cookies.get("subBranchBank") == "" ? (
-            this.setState({
-                subBranchBank: Cookies.get("subBranchBank")
-            })
-        ) : "";
+                    subBranchBank: res.data.userBankinfo.branch_address,
+                })
+            } else if (code == 403) {
+                this.setState({ is_show: false })
+            }
+        });
     }
 
     /**
      * 上传银行卡正面
      */
     handleBankCardFrontChange = (file: any) => {
-        // let reader = new FileReader();
-        // reader.readAsArrayBuffer(file[0].file);
-        // let _this = this;
-        // reader.onloadend = function () {
-        //     let bf = this.result;
-        //     let blob = new Blob([bf], { type: "text/plain" });
-        //     _this.setState({
-        //         // frontFiles: e,  // 给后台的图片
-        //         img_url_front: URL.createObjectURL(blob), // 自己本地预览的
-        //         isHaveImgFront: true
-        //     })
-        // };
-
-
         if (file[0]) {
             let img = file[0].url;
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                Cookies.set("ImgUrlFront", JSON.stringify(res.data.path), { expires: 1 });
+                // Cookies.set("ImgUrlFront", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_front: res.data.path,
                     isHaveImgFront: true
@@ -164,7 +109,7 @@ class BankCard extends Component {
             img_url_front: "",
             isHaveImgFront: false
         })
-        Cookies.set("ImgUrlFront", JSON.stringify(""), { expires: 1 });
+        // Cookies.set("ImgUrlFront", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -172,24 +117,12 @@ class BankCard extends Component {
      * 上传银行卡反面
      */
     handleBankCardBehindChange = (file: any) => {
-        // let reader = new FileReader();
-        // reader.readAsArrayBuffer(file[0].file);
-        // let _this = this;
-        // reader.onloadend = function () {
-        //     let bf = this.result;
-        //     let blob = new Blob([bf], { type: "text/plain" });
-        //     _this.setState({
-        //         // behindFiles: e,  // 给后台的图片
-        //         img_url_behind: URL.createObjectURL(blob), // 自己本地预览的
-        //         isHaveImgBehind: true
-        //     })
-        // };
         if (file[0]) {
             let img = file[0].url;
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                Cookies.set("ImgUrlBehind", JSON.stringify(res.data.path), { expires: 1 });
+                // Cookies.set("ImgUrlBehind", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_behind: res.data.path,
                     isHaveImgBehind: true
@@ -206,7 +139,7 @@ class BankCard extends Component {
             img_url_behind: "",
             isHaveImgBehind: false
         })
-        Cookies.set("ImgUrlBehind", JSON.stringify(""), { expires: 1 });
+        // Cookies.set("ImgUrlBehind", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -225,7 +158,7 @@ class BankCard extends Component {
         this.setState({
             User: e
         })
-        Cookies.set("User", e, { expires: 1 });
+        // Cookies.set("User", e, { expires: 1 });
     }
 
     /**
@@ -235,7 +168,7 @@ class BankCard extends Component {
         this.setState({
             bankCard: e
         })
-        Cookies.set("bankCard", e, { expires: 1 });
+        // Cookies.set("bankCard", e, { expires: 1 });
     }
 
     /**
@@ -245,14 +178,14 @@ class BankCard extends Component {
         this.setState({
             bankName: e
         })
-        Cookies.set("bankName", e, { expires: 1 });
+        // Cookies.set("bankName", e, { expires: 1 });
     }
 
     /**
      * 设置支行
      */
     handleSubBranchBankChange = (e: any) => {
-        Cookies.set("subBranchBank", e, { expires: 1 });
+        // Cookies.set("subBranchBank", e, { expires: 1 });
         this.setState({
             subBranchBank: e,
         })
@@ -316,9 +249,11 @@ class BankCard extends Component {
                 branch_address: subBranchBank,
                 owner_name: User,
                 bankcard_face_img: img_url_front,
-                bankcard_back_img: img_url_behind
+                bankcard_back_img: img_url_behind,
+                is_edit: 1
             }
         }).then(res => {
+            // console.log(res)
             if (res.code == 200) {
                 Toast.success(res.message, 2, () => {
                     router.push('/login')
@@ -331,7 +266,7 @@ class BankCard extends Component {
     }
 
     render() {
-        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr } = this.state;
+        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, checkout_status, checkout_comment } = this.state;
         return (
             <div className={styles.bankcard_wrap}>
                 <div className={styles.bankcard_title}>
@@ -401,6 +336,14 @@ class BankCard extends Component {
                         }
                     </div>
                 </List>
+
+                {
+                    this.state.is_show ? (checkout_status == 2 ? (
+                        <div className={styles.reject_reason}>
+                            <p>拒绝原因：{checkout_comment}</p>
+                        </div>
+                    ) : '') : null
+                }
 
 
                 <div className={styles.next_step_wrap}>

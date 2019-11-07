@@ -162,7 +162,7 @@ export default connect(({ register }: any) => register)(
                     })
                 }).then(res => {
                     if (res.code == 200) {
-                        Toast.info(res.message,1);
+                        Toast.info(res.message, 1);
                     } else {
                         _this.setState({ is_ok: true });
                         _this.props.dispatch({
@@ -199,19 +199,25 @@ export default connect(({ register }: any) => register)(
                 Toast.fail('请输入数字，字母组合不低于6位密码', 1);
                 return;
             }
-            // if (!(/^1[3456789]\d{9}$/.test(inviter_phone))) {
-            //     Toast.fail('请输入11位有效手机号', 1);
-            //     return;
-            // }
 
             if (username && phone && code && password) {
-                let data = qs.stringify({
-                    name: username,
-                    account: phone,
-                    password,
-                    verify_code: code,
-                    from_phone: inviter_phone?inviter_phone:undefined
-                })
+                let data;
+                if (inviter_phone) {
+                    data = qs.stringify({
+                        name: username,
+                        account: phone,
+                        password,
+                        verify_code: code,
+                        from_phone: inviter_phone
+                    })
+                } else {
+                    data = qs.stringify({
+                        name: username,
+                        account: phone,
+                        password,
+                        verify_code: code
+                    })
+                }
                 Request({
                     url: 'register',
                     method: 'post',
@@ -221,13 +227,23 @@ export default connect(({ register }: any) => register)(
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
                             localStorage.setItem('token', res.access_token);
+                            
                             Cookies.set("bussiness_type", "", { expires: 1 });
+
                             Cookies.set("ImgUrlFront", "", { expires: 1 });
                             Cookies.set("ImgUrlBehind", "", { expires: 1 });
                             Cookies.set("User", "", { expires: 1 });
                             Cookies.set("bankCard", "", { expires: 1 });
                             Cookies.set("bankName", "", { expires: 1 });
                             Cookies.set("subBranchBank", "", { expires: 1 });
+
+                            Cookies.set("ImgUrlFrontID", "", { expires: 1 });
+                            Cookies.set("ImgUrlBehindID", "", { expires: 1 });
+                            Cookies.set("ImgUrlFrontBehindID", "", { expires: 1 });
+                            Cookies.set("UserName", "", { expires: 1 });
+                            Cookies.set("IDCardNumber", "", { expires: 1 });
+                            Cookies.set("IDCardValidity", "", { expires: 1 });
+
                             router.push('/chooseid')
                         })
                     } else {

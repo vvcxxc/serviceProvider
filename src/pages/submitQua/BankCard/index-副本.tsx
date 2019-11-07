@@ -31,6 +31,15 @@ class BankCard extends Component {
         isShowSubBranch: false,
         subBranchBankArr: [],
 
+        // 银行卡列表
+        bankList: [],
+        // 信息
+        userBankinfo: {},
+        // 判断是否为修改状态
+        is_edit: false,
+        checkout_status: 0,
+        checkout_comment: "",
+        is_show: true
     }
 
     async componentDidMount() {
@@ -50,6 +59,24 @@ class BankCard extends Component {
             window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
         })
 
+        await Request({
+            url: 'auth/getBankInfo',
+            method: 'get'
+        }).then(res => {
+            const { code, message } = res;
+            if (code == 200 && Object.keys(res.data).length != 0) {
+                this.setState({
+                    // bankList: res.data
+                    userBankinfo: res.data.userBankinfo,
+                    is_edit: true,
+                    checkout_status: res.data.userBankinfo.checkout_status,
+                    checkout_comment: res.data.userBankinfo.checkout_comment
+                })
+            } else if (code == 403) {
+                this.setState({ is_show: false })
+            }
+        });
+
 
         // 判断Cookie是否有数据
         /**
@@ -63,6 +90,11 @@ class BankCard extends Component {
         ) : Cookies.get("ImgUrlFront") ? (
             this.setState({
                 img_url_front: JSON.parse(Cookies.get("ImgUrlFront")),
+                isHaveImgFront: true
+            })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                img_url_front: this.state.userBankinfo.bankcard_face_img,
                 isHaveImgFront: true
             })
         ) : "";
@@ -81,6 +113,11 @@ class BankCard extends Component {
                 img_url_behind: JSON.parse(Cookies.get("ImgUrlBehind")),
                 isHaveImgBehind: true
             })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                img_url_behind: this.state.userBankinfo.bankcard_back_img,
+                isHaveImgBehind: true
+            })
         ) : "";
 
 
@@ -90,6 +127,10 @@ class BankCard extends Component {
         Cookies.get("User") || Cookies.get("User") == "" ? (
             this.setState({
                 User: Cookies.get("User")
+            })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                User: this.state.userBankinfo.owner_name,
             })
         ) : "";
 
@@ -101,6 +142,10 @@ class BankCard extends Component {
             this.setState({
                 bankCard: Cookies.get("bankCard")
             })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                bankCard: this.state.userBankinfo.bankcard_no,
+            })
         ) : "";
 
 
@@ -111,6 +156,10 @@ class BankCard extends Component {
             this.setState({
                 bankName: Cookies.get("bankName")
             })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                bankName: this.state.userBankinfo.bank_name,
+            })
         ) : "";
 
 
@@ -120,6 +169,10 @@ class BankCard extends Component {
         Cookies.get("subBranchBank") || Cookies.get("subBranchBank") == "" ? (
             this.setState({
                 subBranchBank: Cookies.get("subBranchBank")
+            })
+        ) : Object.keys(this.state.userBankinfo).length != 0 ? (
+            this.setState({
+                subBranchBank: this.state.userBankinfo.branch_address,
             })
         ) : "";
     }
@@ -281,7 +334,7 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName } = this.state;
+        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state;
         if (!img_url_front || !img_url_behind) {
             Toast.fail('请上传银行卡正反面信息', 1);
             return;
@@ -289,7 +342,7 @@ class BankCard extends Component {
 
         if (!(/^([\u4e00-\u9fa5]){2,}$/.test(User))) {
             Toast.fail('请输入开户人姓名', 1);
-            return;
+            return; 
         }
 
         if (!(/^\d{16}|\d{19}$/.test(bankCard))) {
@@ -307,31 +360,57 @@ class BankCard extends Component {
             return;
         }
 
-        Request({
-            method: 'post',
-            url: 'auth/setBankInfo',
-            params: {
-                bank_name: bankName,
-                bankcard_no: bankCard,
-                branch_address: subBranchBank,
-                owner_name: User,
-                bankcard_face_img: img_url_front,
-                bankcard_back_img: img_url_behind
-            }
-        }).then(res => {
-            if (res.code == 200) {
-                Toast.success(res.message, 2, () => {
+        if (is_edit) {
+            Request({
+                method: 'post',
+                url: 'auth/setBankInfo',
+                params: {
+                    bank_name: bankName,
+                    bankcard_no: bankCard,
+                    branch_address: subBranchBank,
+                    owner_name: User,
+                    bankcard_face_img: img_url_front,
+                    bankcard_back_img: img_url_behind,
+                    is_edit: 1
+                }
+            }).then(res => {
+                // console.log(res)
+                if (res.code == 200) {
+                  Toast.success(res.message, 2,()=>{
                     router.push('/login')
-                });
-            } else {
-                Toast.fail(res.message, 1);
-            }
-        })
+                  });
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        } else {
+            Request({
+                method: 'post',
+                url: 'auth/setBankInfo',
+                params: {
+                    bank_name: bankName,
+                    bankcard_no: bankCard,
+                    branch_address: subBranchBank,
+                    owner_name: User,
+                    bankcard_face_img: img_url_front,
+                    bankcard_back_img: img_url_behind
+                }
+            }).then(res => {
+                // console.log(res)
+                if (res.code == 200) {
+                    Toast.success(res.message, 2,()=>{
+                      router.push('/login')
+                    });
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        }
 
     }
 
     render() {
-        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr } = this.state;
+        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, checkout_status, checkout_comment } = this.state;
         return (
             <div className={styles.bankcard_wrap}>
                 <div className={styles.bankcard_title}>
@@ -401,6 +480,14 @@ class BankCard extends Component {
                         }
                     </div>
                 </List>
+
+                {
+                    this.state.is_show ? (checkout_status == 2 ? (
+                        <div className={styles.reject_reason}>
+                            <p>拒绝原因：{checkout_comment}</p>
+                        </div>
+                    ) : '') : null
+                }
 
 
                 <div className={styles.next_step_wrap}>

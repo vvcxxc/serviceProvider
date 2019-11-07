@@ -30,10 +30,16 @@ class IDCard extends Component {
 
         isShowModal: false,
 
+
+        // 身份證信息
+        userIDCardinfo: {},
         // 基本数据
         UserName: "",
         IDCardNumber: "",
         IDCardValidity: "",
+
+
+        is_edit: false,
     }
 
     async componentDidMount() {
@@ -53,6 +59,17 @@ class IDCard extends Component {
             window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
         })
 
+        await Request({
+            url: 'getFacilitatorIdentity'
+        }).then(res => {
+            if(res.code == 200 && Object.keys(res.data).length != 0) {
+                this.setState({
+                    userIDCardinfo: res.data,
+                    is_edit: true
+                })
+            }
+        })
+
         /**
          * 正面身份证
          */
@@ -64,6 +81,11 @@ class IDCard extends Component {
         ) : Cookies.get("ImgUrlFrontID") ? (
             this.setState({
                 img_url_front_id: JSON.parse(Cookies.get("ImgUrlFrontID")),
+                isHaveImgFrontID: true
+            })
+        ) : Object.keys(this.state.userIDCardinfo).length != 0 ? (
+            this.setState({
+                img_url_front_id: this.state.userIDCardinfo.identity_face_img,
                 isHaveImgFrontID: true
             })
         ) : "";
@@ -82,6 +104,11 @@ class IDCard extends Component {
                 img_url_behind_id: JSON.parse(Cookies.get("ImgUrlBehindID")),
                 isHaveImgBehindID: true
             })
+        ) : Object.keys(this.state.userIDCardinfo).length != 0 ? (
+            this.setState({
+                img_url_behind_id: this.state.userIDCardinfo.identity_back_img,
+                isHaveImgBehindID: true
+            })
         ) : "";
 
 
@@ -98,6 +125,11 @@ class IDCard extends Component {
                 img_url_front_behind_id: JSON.parse(Cookies.get("ImgUrlFrontBehindID")),
                 isHaveImgFrontBehindID: true
             })
+        ) : Object.keys(this.state.userIDCardinfo).length != 0 ? (
+            this.setState({
+                img_url_front_behind_id: this.state.userIDCardinfo.in_hand_img,
+                isHaveImgFrontBehindID: true
+            })
         ) : "";
 
 
@@ -107,6 +139,10 @@ class IDCard extends Component {
         Cookies.get("UserName") || Cookies.get("UserName") == "" ? (
             this.setState({
                 UserName: Cookies.get("UserName")
+            })
+        ) : Object.keys(this.state.userIDCardinfo).length != 0 ? (
+            this.setState({
+                UserName: this.state.userIDCardinfo.name,
             })
         ) : "";
 
@@ -118,6 +154,10 @@ class IDCard extends Component {
             this.setState({
                 IDCardNumber: Cookies.get("IDCardNumber")
             })
+        ) : Object.keys(this.state.userIDCardinfo).length != 0 ? (
+            this.setState({
+                IDCardNumber: this.state.userIDCardinfo.identity_no,
+            })
         ) : "";
 
 
@@ -127,6 +167,10 @@ class IDCard extends Component {
         Cookies.get("IDCardValidity") || Cookies.get("IDCardValidity") == "" ? (
             this.setState({
                 IDCardValidity: JSON.parse(Cookies.get("IDCardValidity"))
+            })
+        ) : Object.keys(this.state.userIDCardinfo).length != 0 ? (
+            this.setState({
+                IDCardValidity: this.state.userIDCardinfo.identity_valid_time
             })
         ) : "";
 
@@ -278,7 +322,7 @@ class IDCard extends Component {
      * 下一步
      */
     handleNext = () => {
-        const { img_url_front_id, img_url_behind_id, img_url_front_behind_id, UserName, IDCardNumber, IDCardValidity } = this.state;
+        const { img_url_front_id, img_url_behind_id, img_url_front_behind_id, UserName, IDCardNumber, IDCardValidity,is_edit } = this.state;
         if (!img_url_front_id || !img_url_behind_id || !img_url_front_behind_id) {
             Toast.fail('请先上传身份证', 1);
             return;
@@ -296,22 +340,42 @@ class IDCard extends Component {
             return;
         }
 
-        Request({
-            url: "auth/uploadIdentity",
-            method: "POST",
-            data: qs.stringify({
-                name: UserName,
-                identity_no: IDCardNumber,
-                identity_valid_time: IDCardValidity,
-                in_hand_img: img_url_front_behind_id,
-                identity_face_img: img_url_front_id,
-                identity_back_img: img_url_behind_id,
+        if (is_edit) {
+            Request({
+                url: "auth/uploadIdentity",
+                method: "POST",
+                data: qs.stringify({
+                    name: UserName,
+                    identity_no: IDCardNumber,
+                    identity_valid_time: IDCardValidity,
+                    in_hand_img: img_url_front_behind_id,
+                    identity_face_img: img_url_front_id,
+                    identity_back_img: img_url_behind_id,
+                    is_edit: 1
+                })
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 2);
+                }
             })
-        }).then(res => {
-            if (res.code == 200) {
-                Toast.success(res.message, 2);
-            }
-        })
+        }else {
+            Request({
+                url: "auth/uploadIdentity",
+                method: "POST",
+                data: qs.stringify({
+                    name: UserName,
+                    identity_no: IDCardNumber,
+                    identity_valid_time: IDCardValidity,
+                    in_hand_img: img_url_front_behind_id,
+                    identity_face_img: img_url_front_id,
+                    identity_back_img: img_url_behind_id,
+                })
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 2);
+                }
+            })
+        }
     }
 
 
@@ -409,6 +473,7 @@ class IDCard extends Component {
 
                 {/* 数据项 */}
                 <List>
+                    {/* <InputItem placeholder='请输入姓名' value={this.props.contact_name} onChange={this.handleName} clear>姓名</InputItem> */}
                     <InputItem placeholder='请输入姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>姓名</InputItem>
                     <InputItem placeholder='请输入身份证号' onChange={this.handleIDCardNumberChange.bind(this)} value={IDCardNumber} clear>身份证号</InputItem>
                     <InputItem placeholder='有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>

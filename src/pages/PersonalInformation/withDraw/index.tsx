@@ -116,6 +116,24 @@ export default class WithDraw extends Component {
       const { message, code } = res
       switch (code) {
         case 200:
+            Request({
+              url: 'userBankInfo',
+              method: 'get'
+            }).then(res => {
+              const { code, data } = res
+              switch (code) {
+                case 200:
+                  this.setState({
+                    is_bind: true,
+                    data,
+                    all_money: data.usable_money
+                  })
+                  break;
+
+                default:
+                  break;
+              }
+            })
           Toast.success(message, 1)
 
           this.setState({ money: ''})

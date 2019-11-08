@@ -96,7 +96,7 @@ export default class WithDraw extends Component {
       return
     }
 
-    if (money >= 100 || money >= all_money ) {
+    if (money < 100 ) {
       Toast.fail('单笔提现金额需要大于等于100元', 1)
       return
     }

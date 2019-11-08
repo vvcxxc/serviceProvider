@@ -23,6 +23,7 @@ export default class chooseDate extends Component<any> {
     /**
      * 判断是哪一个选择的 
      * type == 1  身份证
+     * type == 2  营业执照
      * */
     type: 0,
   }
@@ -30,6 +31,7 @@ export default class chooseDate extends Component<any> {
   componentDidMount() {
     let type = this.props.location.query.type;
     let IDCardValidity = Cookies.get("IDCardValidity");
+    let SaleValidity = Cookies.get("SaleValidity");
     if (type == 1 && IDCardValidity) {
       if (IDCardValidity.includes("长期")) {
         this.setState({
@@ -45,6 +47,23 @@ export default class chooseDate extends Component<any> {
           type,
           date: JSON.parse(Cookies.get("IDCardValidity")),
           value: new Date(moment(Cookies.get("IDCardValidity")).toString())
+        })
+      }
+    } else if (type == 2 && SaleValidity) {
+      if (SaleValidity.includes("长期")) {
+        this.setState({
+          is_type1: false,
+          is_type2: true,
+          type,
+          date: '长期'
+        })
+      } else {
+        this.setState({
+          is_type1: true,
+          is_type2: false,
+          type,
+          date: JSON.parse(Cookies.get("SaleValidity")),
+          value: new Date(moment(Cookies.get("SaleValidity")).toString())
         })
       }
     } else {
@@ -72,6 +91,13 @@ export default class chooseDate extends Component<any> {
         is_type2: false,
         date: Cookies.get("IDCardValidity") && !Cookies.get("IDCardValidity").includes("长期") ? JSON.parse(Cookies.get("IDCardValidity")) : moment(now).format("YYYY-MM-DD"),
         value: Cookies.get("IDCardValidity") && !Cookies.get("IDCardValidity").includes("长期") ? new Date(moment(Cookies.get("IDCardValidity")).toString()) : now
+      })
+    }else if(type == 2) {
+      this.setState({
+        is_type1: true,
+        is_type2: false,
+        date: Cookies.get("SaleValidity") && !Cookies.get("SaleValidity").includes("长期") ? JSON.parse(Cookies.get("SaleValidity")) : moment(now).format("YYYY-MM-DD"),
+        value: Cookies.get("SaleValidity") && !Cookies.get("SaleValidity").includes("长期") ? new Date(moment(Cookies.get("SaleValidity")).toString()) : now
       })
     }
   }

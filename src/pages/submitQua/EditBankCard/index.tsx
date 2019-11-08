@@ -33,7 +33,11 @@ class BankCard extends Component {
 
         checkout_status: 0,
         checkout_comment: "",
-        is_show: true
+        is_show: true,
+
+
+        // 默认为修改
+        is_edit: true,
     }
 
     async componentDidMount() {
@@ -78,7 +82,10 @@ class BankCard extends Component {
                     subBranchBank: res.data.userBankinfo.branch_address,
                 })
             } else if (code == 403) {
-                this.setState({ is_show: false })
+                this.setState({
+                    is_show: false,
+                    is_edit: false
+                })
             }
         });
     }
@@ -214,7 +221,7 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName } = this.state;
+        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state;
         if (!img_url_front || !img_url_behind) {
             Toast.fail('请上传银行卡正反面信息', 1);
             return;
@@ -240,28 +247,52 @@ class BankCard extends Component {
             return;
         }
 
-        Request({
-            method: 'post',
-            url: 'auth/setBankInfo',
-            params: {
-                bank_name: bankName,
-                bankcard_no: bankCard,
-                branch_address: subBranchBank,
-                owner_name: User,
-                bankcard_face_img: img_url_front,
-                bankcard_back_img: img_url_behind,
-                is_edit: 1
-            }
-        }).then(res => {
-            // console.log(res)
-            if (res.code == 200) {
-                Toast.success(res.message, 2, () => {
-                    router.push('/login')
-                });
-            } else {
-                Toast.fail(res.message, 1);
-            }
-        })
+        if (is_edit) {
+            Request({
+                method: 'post',
+                url: 'auth/setBankInfo',
+                params: {
+                    bank_name: bankName,
+                    bankcard_no: bankCard,
+                    branch_address: subBranchBank,
+                    owner_name: User,
+                    bankcard_face_img: img_url_front,
+                    bankcard_back_img: img_url_behind,
+                    is_edit: 1
+                }
+            }).then(res => {
+                // console.log(res)
+                if (res.code == 200) {
+                    Toast.success(res.message, 2, () => {
+                        router.push('/login')
+                    });
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        }else {
+            Request({
+                method: 'post',
+                url: 'auth/setBankInfo',
+                params: {
+                    bank_name: bankName,
+                    bankcard_no: bankCard,
+                    branch_address: subBranchBank,
+                    owner_name: User,
+                    bankcard_face_img: img_url_front,
+                    bankcard_back_img: img_url_behind
+                }
+            }).then(res => {
+                // console.log(res)
+                if (res.code == 200) {
+                    Toast.success(res.message, 2, () => {
+                        router.push('/login')
+                    });
+                } else {
+                    Toast.fail(res.message, 1);
+                }
+            })
+        }
 
     }
 

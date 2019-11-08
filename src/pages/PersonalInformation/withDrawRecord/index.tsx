@@ -10,115 +10,59 @@ export default class WithDrawRecord extends Component {
 
     state = {
         isShowLoading: true,
-        dataList: [
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-            {
-                check_status: 1,
-                created_at: "2019-11-01 00:16:16",
-                fetch_money: 1
-            },
-        ]
+        dataList: [],
+        withdrawMoney: 0,
+
+        // 分页
+        page: 1,
+        // 阻止再发请求
+        isNoData: false
+    }
+
+    getData = () => {
+        const { page, dataList } = this.state;
+        Request({
+            url: 'fetchMoneyLog',
+            method: "GET",
+            params: {
+                page: page
+            }
+        }).then(res => {
+            if (res.code == 200 && res.data.list.data.length != 0) {
+                this.setState({
+                    dataList: dataList.concat(res.data.list.data),
+                    withdrawMoney: res.data.fetchMoneyTotal
+                })
+            } else {
+                this.setState({
+                    isShowLoading: false,
+                    isNoData: true
+                })
+            }
+        })
     }
 
     componentDidMount = () => {
-        // Request({
-        //     url: 'fetchMoneyLog'
-        // }).then(res => {
-        //     this.setState({
-        //         dataList: res.data.list
-        //     })
-        // })
+        this.getData()
     }
 
-    handleEndReached = () => {
-        setTimeout(() => {
-            this.setState({
-                isShowLoading : false
+    handleEndReached = async () => {
+        const { isNoData } = this.state;
+        if (!isNoData) {
+            await this.setState({
+                page: this.state.page + 1
             })
-        },1000)
+            this.getData()
+        }
     }
 
     render() {
-        const { isShowLoading, dataList } = this.state;
+        const { isShowLoading, dataList, withdrawMoney } = this.state;
         return (
             <ScrollView
                 renderView={(
                     <div className={styles.withdrawrecord_wrap}>
-                        <div className={styles.already_withdraw}>已提现金额：￥300.00</div>
+                        <div className={styles.already_withdraw}>已提现金额：￥{withdrawMoney}</div>
                         {
                             dataList.map((item, index) => (
                                 <div className={styles.withDraw_list} key={index}>

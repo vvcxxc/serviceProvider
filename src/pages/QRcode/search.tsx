@@ -89,7 +89,7 @@ export default class Search extends Component {
 
 
                     </div>
-                    <div className={styles.ServiceProvider_searchBox_cancle}>取消</div>
+                    <div className={styles.ServiceProvider_searchBox_cancle}  onClick={this.handleCancle.bind(this)}>取消</div>
                 </div>
                 {
                     this.state.resDataList && this.state.resDataList.length > 0 ? <div className={styles.QRcode_content}>

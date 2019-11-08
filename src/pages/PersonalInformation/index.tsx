@@ -4,6 +4,7 @@ import styles from './index.less';
 import router from 'umi/router';
 import { Toast, Icon } from 'antd-mobile';
 import Request from '@/service/request';
+import Cookies from 'js-cookie';
 export default class PersonalInformation extends Component {
     state = {
         data: {
@@ -56,6 +57,17 @@ export default class PersonalInformation extends Component {
         router.push('/PersonalInformation/withDraw')
     }
 
+
+    handleGoIDCard = () => {
+        Cookies.remove('ImgUrlFrontID');
+        Cookies.remove('ImgUrlBehindID');
+        Cookies.remove('ImgUrlFrontBehindID');
+        Cookies.remove('UserName');
+        Cookies.remove('IDCardNumber');
+        Cookies.remove('IDCardValidity');
+        router.push('/submitQua/EditIDCard');
+    }
+
     render() {
         return (
             <div className={styles.PersonalInformation} >
@@ -84,14 +96,14 @@ export default class PersonalInformation extends Component {
                             <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div>
-                    {/* <div className={styles.information_box} >
+                    {/* <div className={styles.information_box} onClick={this.handleGoIDCard.bind(this)}>
                         <div className={styles.information_box_title} >身份证信息</div>
                         <div className={styles.information_msg_box} >
                             <div className={styles.information_msg} >已验证</div>
                             <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div> */}
-                    <div className={styles.information_box_highter}></div>
+                    <div className={styles.information_box_highter}></div> 
                     <div className={styles.information_box} onClick={() => router.push('/PersonalInformation/mybank')}>
                         <div className={styles.information_box_title}
                             style={{ color: this.state.data.is_bank_card == 0 ? '#e61616' : ' #000' }}

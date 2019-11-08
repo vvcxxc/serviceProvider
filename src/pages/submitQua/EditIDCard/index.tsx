@@ -53,77 +53,39 @@ class IDCard extends Component {
             window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
         })
 
-        /**
-         * 正面身份证
-         */
-        Cookies.get("ImgUrlFrontID") && JSON.parse(Cookies.get("ImgUrlFrontID")) == "" ? (
-            this.setState({
-                img_url_front_id: "",
-                isHaveImgFrontID: false
-            })
-        ) : Cookies.get("ImgUrlFrontID") ? (
-            this.setState({
-                img_url_front_id: JSON.parse(Cookies.get("ImgUrlFrontID")),
-                isHaveImgFrontID: true
-            })
-        ) : "";
+        await Request({
+            url: 'getFacilitatorIdentity'
+        }).then(res => {
+            if (res.code == 200 && res.data != null) {
+                this.setState({
+                    img_url_front_id: res.data.identity_face_img,
+                    isHaveImgFrontID: true,
+
+                    img_url_behind_id: res.data.identity_back_img,
+                    isHaveImgBehindID: true,
+
+                    img_url_front_behind_id: res.data.in_hand_img,
+                    isHaveImgFrontBehindID: true,
+
+                    UserName: res.data.name,
+
+                    IDCardNumber: res.data.identity_no,
+
+                    IDCardValidity: res.data.identity_valid_time
 
 
-        /**
-         * 反面身份证
-         */
-        Cookies.get("ImgUrlBehindID") && JSON.parse(Cookies.get("ImgUrlBehindID")) == "" ? (
-            this.setState({
-                img_url_behind_id: "",
-                isHaveImgBehindID: false
-            })
-        ) : Cookies.get("ImgUrlBehindID") ? (
-            this.setState({
-                img_url_behind_id: JSON.parse(Cookies.get("ImgUrlBehindID")),
-                isHaveImgBehindID: true
-            })
-        ) : "";
+                })
 
-
-        /**
-         * 正反面身份证
-         */
-        Cookies.get("ImgUrlFrontBehindID") && JSON.parse(Cookies.get("ImgUrlFrontBehindID")) == "" ? (
-            this.setState({
-                img_url_front_behind_id: "",
-                isHaveImgFrontBehindID: false
-            })
-        ) : Cookies.get("ImgUrlFrontBehindID") ? (
-            this.setState({
-                img_url_front_behind_id: JSON.parse(Cookies.get("ImgUrlFrontBehindID")),
-                isHaveImgFrontBehindID: true
-            })
-        ) : "";
-
-
-        /**
-         * 姓名
-         */
-        Cookies.get("UserName") || Cookies.get("UserName") == "" ? (
-            this.setState({
-                UserName: Cookies.get("UserName")
-            })
-        ) : "";
-
-
-        /**
-         * 身份证
-         */
-        Cookies.get("IDCardNumber") || Cookies.get("IDCardNumber") == "" ? (
-            this.setState({
-                IDCardNumber: Cookies.get("IDCardNumber")
-            })
-        ) : "";
-
+                if (typeof (Cookies.get("IDCardValidity")) == "undefined") {
+                    Cookies.set("IDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
+                }
+            }
+        })
 
         /**
          * 身份证有效期
          */
+
         Cookies.get("IDCardValidity") || Cookies.get("IDCardValidity") == "" ? (
             this.setState({
                 IDCardValidity: JSON.parse(Cookies.get("IDCardValidity"))
@@ -142,7 +104,7 @@ class IDCard extends Component {
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                Cookies.set("ImgUrlFrontID", JSON.stringify(res.data.path), { expires: 1 });
+                // Cookies.set("ImgUrlFrontID", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_front_id: res.data.path,
                     isHaveImgFrontID: true
@@ -159,7 +121,7 @@ class IDCard extends Component {
             img_url_front_id: "",
             isHaveImgFrontID: false
         })
-        Cookies.set("ImgUrlFrontID", JSON.stringify(""), { expires: 1 });
+        // Cookies.set("ImgUrlFrontID", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -172,7 +134,7 @@ class IDCard extends Component {
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                Cookies.set("ImgUrlBehindID", JSON.stringify(res.data.path), { expires: 1 });
+                // Cookies.set("ImgUrlBehindID", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_behind_id: res.data.path,
                     isHaveImgBehindID: true
@@ -189,7 +151,7 @@ class IDCard extends Component {
             img_url_behind_id: "",
             isHaveImgBehindID: false
         })
-        Cookies.set("ImgUrlBehindID", JSON.stringify(""), { expires: 1 });
+        // Cookies.set("ImgUrlBehindID", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -223,7 +185,7 @@ class IDCard extends Component {
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                Cookies.set("ImgUrlFrontBehindID", JSON.stringify(res.data.path), { expires: 1 });
+                // Cookies.set("ImgUrlFrontBehindID", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_front_behind_id: res.data.path,
                     isHaveImgFrontBehindID: true,
@@ -241,7 +203,7 @@ class IDCard extends Component {
             img_url_front_behind_id: "",
             isHaveImgFrontBehindID: false
         })
-        Cookies.set("ImgUrlFrontBehindID", JSON.stringify(""), { expires: 1 });
+        // Cookies.set("ImgUrlFrontBehindID", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -249,7 +211,7 @@ class IDCard extends Component {
      * 有效期
      */
     chooseDate = () => {
-        router.push('/submitQua/chooseDate?type=1')
+        router.push('/submitQua/EditChooseDate?type=1')
     }
 
 
@@ -260,7 +222,7 @@ class IDCard extends Component {
         this.setState({
             UserName: e
         })
-        Cookies.set("UserName", e, { expires: 1 });
+        // Cookies.set("UserName", e, { expires: 1 });
     }
 
     /**
@@ -270,7 +232,7 @@ class IDCard extends Component {
         this.setState({
             IDCardNumber: e
         })
-        Cookies.set("IDCardNumber", e, { expires: 1 });
+        // Cookies.set("IDCardNumber", e, { expires: 1 });
     }
 
 
@@ -306,6 +268,7 @@ class IDCard extends Component {
                 in_hand_img: img_url_front_behind_id,
                 identity_face_img: img_url_front_id,
                 identity_back_img: img_url_behind_id,
+                is_edit: 1
             })
         }).then(res => {
             if (res.code == 200) {

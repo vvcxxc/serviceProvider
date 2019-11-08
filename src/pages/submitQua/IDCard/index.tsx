@@ -420,7 +420,7 @@ class IDCard extends Component {
                     </div>
                 </div>
 
-                <div className={styles.later_fill}>稍后填写</div>
+                {/* <div className={styles.later_fill}>稍后填写</div> */}
             </div>
         )
     }

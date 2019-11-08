@@ -103,7 +103,7 @@ export default class PersonalInformation extends Component {
                             <Icon className={styles.information_icon} type="right" size={'md'} />
                         </div>
                     </div> */}
-                    <div className={styles.information_box_highter}></div>
+                    <div className={styles.information_box_highter}></div> 
                     <div className={styles.information_box} onClick={() => router.push('/PersonalInformation/mybank')}>
                         <div className={styles.information_box_title}
                             style={{ color: this.state.data.is_bank_card == 0 ? '#e61616' : ' #000' }}

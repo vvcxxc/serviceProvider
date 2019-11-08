@@ -56,7 +56,7 @@ class IDCard extends Component {
         await Request({
             url: 'getFacilitatorIdentity'
         }).then(res => {
-            if (res.code == 200 && Object.keys(res.data).length != 0) {
+            if (res.code == 200 && res.data != null) {
                 this.setState({
                     img_url_front_id: res.data.identity_face_img,
                     isHaveImgFrontID: true,
@@ -82,10 +82,10 @@ class IDCard extends Component {
             }
         })
 
-
         /**
          * 身份证有效期
          */
+
         Cookies.get("IDCardValidity") || Cookies.get("IDCardValidity") == "" ? (
             this.setState({
                 IDCardValidity: JSON.parse(Cookies.get("IDCardValidity"))
@@ -383,7 +383,7 @@ class IDCard extends Component {
                     </div>
                 </div>
 
-                <div className={styles.later_fill}>稍后填写</div>
+                {/* <div className={styles.later_fill}>稍后填写</div> */}
             </div>
         )
     }

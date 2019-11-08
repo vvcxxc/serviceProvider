@@ -1,0 +1,98 @@
+.businesslicense_wrap {
+    width: 100%;
+    height: 100vh;
+    .businesslicense_title {
+        padding: 40px 30px;
+        font-size: 28px;
+    }
+    .businesslicense_imagepicker {
+        padding: 0 30px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 22px;
+        .image_picker {
+            width: 100%;
+            height: 454px;
+            border: 1px solid #ccc;
+            position: relative;
+            .image_picker_comp {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 99999;
+                opacity: 0;
+                div {
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                    height: 100%;
+                    input {
+                        width: 100%;
+                    }
+                }
+            }
+            img {
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                left: 50%;
+                top: 50%;
+                margin-left: -25px;
+                margin-top: -25px;
+            }
+            .image_desc {
+                position: absolute;
+                bottom: 120px;
+                width: 100%;
+                text-align: center;
+                font-size: 28px;
+            }
+        }
+        .preview_wrap {
+            width: 100%;
+            height: 454px;
+            position: relative;
+            .preview_img {
+                width: 100%;
+                height: 454px;
+                border: 1px solid #ccc;
+            }
+            .delete_img {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                width: 36px;
+                height: 36px;
+            }
+        }
+    }
+}
+
+.businesslicense_operation {
+    margin-top: 44px;
+    .next_step_wrap {
+        width: 100%;
+        height: 94px;
+        .next_step {
+            padding: 0 30px;
+            .next_step_btn {
+                // width: 100%;
+                height: 94px;
+                background-color: #1AAD19;
+                color: #fff;
+                font-size: 36px;
+                line-height: 94px;
+            }
+        }
+        
+    }
+    
+    .later_fill {
+        width: 100%;
+        font-size: 28px;
+        text-align: center;
+        margin: 26px 0;
+    }
+}

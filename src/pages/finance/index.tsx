@@ -139,8 +139,8 @@ export default class Finance extends Component {
         <Flex className={styles.finance_header}>
           <WingBlank style={{ width: '100%' }}>
             <Flex justify='between' style={{ width: '100%' }}>
-              <div>收款￥{this.state.income}</div>
-              <div>提现￥{this.state.expenditure}</div>
+              <div>收款￥{String(this.state.income)}</div>
+              <div>提现￥{String(this.state.expenditure)}</div>
             </Flex>
           </WingBlank>
         </Flex>

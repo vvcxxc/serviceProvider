@@ -14,7 +14,7 @@ export default class Finance extends Component {
     dataList: [
       {
         key: '排序',
-        value: ['筛选', '二维码收入', '邀请人分成', '提现'],
+        value: ['筛选', '二维码收入', '邀请人分成'],
         select: false
       },
     ],

@@ -25,7 +25,9 @@ export default class Finance extends Component {
       page: 1,
       date: dayjs(now).format('YYYY-MM')
     },
-    is_show_loading: true
+    is_show_loading: true,
+    expenditure: 0,
+    income: 0
   }
   searchPayload = (a: any) => {
     // 筛选
@@ -61,7 +63,7 @@ export default class Finance extends Component {
       params
     }).then(res => {
       if (res.code == 200) {
-        this.setState({ list: res.data.boot.data })
+        this.setState({ list: res.data.boot.data,})
         if(res.data.boot.from == res.data.boot.last_page){
           this.setState({is_show_loading: false})
         }else{
@@ -79,7 +81,7 @@ export default class Finance extends Component {
       }
     }).then(res => {
       if (res.code == 200) {
-        this.setState({ list: res.data.boot.data })
+        this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
         if(res.data.boot.from == res.data.boot.last_page){
           this.setState({is_show_loading: false})
         }else{
@@ -135,8 +137,8 @@ export default class Finance extends Component {
         <Flex className={styles.finance_header}>
           <WingBlank style={{ width: '100%' }}>
             <Flex justify='between' style={{ width: '100%' }}>
-              <div>收款￥1000</div>
-              <div>提现￥800</div>
+              <div>收款￥{this.state.income}</div>
+              <div>提现￥{this.state.expenditure}</div>
             </Flex>
           </WingBlank>
         </Flex>

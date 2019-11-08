@@ -4,15 +4,16 @@ import router from 'umi/router';
 import { Icon } from 'antd-mobile';
 import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 import QRCode from 'qrcode';
-
+import wx from 'weixin-js-sdk';
 import Request from '@/service/request';
 
 let url = location.origin;
 
 interface Props {
     onClose: any
-} 
- 
+}
+declare const URL;
+
 export default class Invitation extends Component<Props>{
     state = {
         phone: "",
@@ -43,6 +44,15 @@ export default class Invitation extends Component<Props>{
 
     handleclose = () => {
         this.props.onClose && this.props.onClose();
+    }
+
+    handleShare = () => {
+      wx.updateAppMessageShareData({
+        title: '邀请注册',
+        desc: '您的好友正在邀请你来注册服务商',
+        link: URL + 'register' + '?phone=' + this.state.phone,
+        imgUrl: ''
+      })
     }
 
 

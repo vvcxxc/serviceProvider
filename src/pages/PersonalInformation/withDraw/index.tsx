@@ -92,7 +92,7 @@ export default class WithDraw extends Component {
   destoonFinanceCash = () => {
     const { all_money, money } = this.state
     if (all_money<money && money) {
-      Toast.fail('金额超过可提现金额', 0.7)
+      Toast.fail('金额超过可提现金额', 1)
       return
     }
 
@@ -104,7 +104,7 @@ export default class WithDraw extends Component {
       Toast.fail('请输入正确金额数字', 1)
       return
     }
-
+    Toast.loading('')
     Request({
       url: 'fetchMoney',
       method: 'post',
@@ -112,16 +112,17 @@ export default class WithDraw extends Component {
         fetch_money: this.state.money
       })
     }).then(res => {
+      Toast.hide()
       const { message, code } = res
       switch (code) {
         case 200:
-          Toast.success(message, 0.7)
+          Toast.success(message, 1)
 
           this.setState({ money: ''})
           break;
 
         default:
-          Toast.fail(message, 0.7)
+          Toast.fail(message, 1)
           break;
       }
 

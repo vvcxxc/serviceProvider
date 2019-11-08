@@ -214,8 +214,9 @@ export default class DataPage extends Component {
         xAxis.push(key)
         value.push(days[key])
       }
+      let total = this.accAdd(countStats.codeStats,countStats.facilitatorStats)
       let data = { xAxis, value }
-      this.setState({ countStats, data })
+      this.setState({ countStats, data,total })
     })
 
 

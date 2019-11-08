@@ -63,7 +63,7 @@ export default class Finance extends Component {
       params
     }).then(res => {
       if (res.code == 200) {
-        this.setState({ list: res.data.boot.data,})
+        this.setState({ list: res.data.boot.data,expenditure: res.data.expenditure, income: res.data.income})
         if(this.state.data.page < res.data.boot.last_page){
           this.setState({is_show_loading: true})
         }else{
@@ -106,7 +106,7 @@ export default class Finance extends Component {
           // let list = this.state.list;
           this.setState({is_show_loading: false})
           let list = [...this.state.list,...res.data.boot.data]
-          this.setState({ list,data })
+          this.setState({ list,data,})
           if(this.state.data.page < res.data.boot.last_page){
             this.setState({is_show_loading: true})
           }else{

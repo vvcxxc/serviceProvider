@@ -34,13 +34,7 @@ export default class Search extends Component {
     handleclose = () => {
         this.setState({ invitationShow: false })
     }
-    KeySubmit = (e: any) => {
-        e.persist();
-        if (e.keyCode == 13) {
-            this.handleSearch();
-        }
-        e.preventDefault();
-    }
+
     handleWrite = (e: any) => {
         console.log(e)
         this.setState({ searchKey: e.target.value, listPage: 1, data: {}, resDataList: [] }, () => {
@@ -48,6 +42,32 @@ export default class Search extends Component {
         })
     }
     handleSearch = () => {
+        let search = this.state.searchKey;
+        if (search == '') {
+            return;
+        }
+        Toast.loading('');
+        Request({
+            url: 'qrCodeList',
+            method: 'GET',
+            params: {
+                name: search,
+                page: 1
+            }
+        }).then(res => {
+            Toast.hide();
+            // let tempList = this.state.resDataList.concat(res.data.list.data);
+            let tempList = res.data.list.data
+            this.setState({ data: res.data, resDataList: tempList, listPage: 2 })
+        })
+    }
+    handleCancle = (e: any) => {
+        this.setState({ searchKey: '', listPage: 1, data: {}, resDataList: [] }, () => {
+            router.goBack();
+        })
+    }
+
+    handleAdd = () => {
         let search = this.state.searchKey;
         if (search === '') {
             this.setState({ searchKey: '', listPage: 1, data: {}, resDataList: [] })
@@ -63,13 +83,10 @@ export default class Search extends Component {
             }
         }).then(res => {
             Toast.hide();
-            // let tempList = this.state.resDataList.concat(res.data.list.data);
-            let tempList = res.data.list.data
+            let tempList = this.state.resDataList.concat(res.data.list.data);
+            // let tempList = res.data.list.data
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
         })
-    }
-    handleCancle = (e: any) => {
-        this.setState({ searchKey: '', listPage: 1, data: {}, resDataList: [] })
     }
 
     render() {
@@ -82,15 +99,15 @@ export default class Search extends Component {
                             <Icon type="search" />
                         </div>
                         <input type="text"
-                         className={styles.ServiceProvider_input}
-                          placeholder='输入店铺名称'
-                          value={this.state.searchKey}
-                          onChange={this.handleWrite.bind(this)}
-                          onKeyUp={this.KeySubmit.bind(this)} />
+                            className={styles.ServiceProvider_input}
+                            placeholder='输入店铺名称'
+                            value={this.state.searchKey}
+                            onChange={this.handleWrite.bind(this)}
+                        />
 
 
                     </div>
-                    <div className={styles.ServiceProvider_searchBox_cancle}  onClick={this.handleCancle.bind(this)}>取消</div>
+                    <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
                 </div>
                 {
                     this.state.resDataList && this.state.resDataList.length > 0 ? <div className={styles.QRcode_content}>
@@ -121,7 +138,7 @@ export default class Search extends Component {
                                 )
                             })
                         }
-                        <div className={styles.loadingMore_button_box} onClick={this.handleSearch}>
+                        <div className={styles.loadingMore_button_box} onClick={this.handleAdd}>
                             {
                                 this.state.listPage - 1 <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
                             }

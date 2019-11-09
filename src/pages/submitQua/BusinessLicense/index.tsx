@@ -9,7 +9,7 @@ import router from 'umi/router';
 import camera from '@/assets/upload_icon/camera.jpg';
 
 class BusinessLicense extends Component {
-
+ 
     state = {
         businessLicenseFiles: [],
         img_url: "",

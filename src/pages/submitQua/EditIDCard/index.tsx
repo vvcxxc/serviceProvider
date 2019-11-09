@@ -9,6 +9,17 @@ import camera from '@/assets/upload_icon/camera.jpg';
 import Request from '@/service/request';
 import qs from 'qs';
 
+// 修改页面刷新并不需要做缓存只需要在去有效期页面才需缓存
+window.onunload = function () {
+    Cookies.remove("EditImgUrlFrontID");
+    Cookies.remove("EditImgUrlBehindID");
+    Cookies.remove("EditImgUrlFrontBehindID");
+    Cookies.remove("EditUserName");
+    Cookies.remove("EditIDCardNumber");
+    Cookies.remove("EditIDCardValidity");
+    return;
+}
+
 class IDCard extends Component {
 
     state = {
@@ -34,6 +45,8 @@ class IDCard extends Component {
         UserName: "",
         IDCardNumber: "",
         IDCardValidity: "",
+
+        is_edit: true
     }
 
     async componentDidMount() {
@@ -76,19 +89,88 @@ class IDCard extends Component {
 
                 })
 
-                if (typeof (Cookies.get("IDCardValidity")) == "undefined") {
-                    Cookies.set("IDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
+                if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
+                    Cookies.set("EditIDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
                 }
+            } else if (res.code == 200 && res.data == null) {
+                this.setState({
+                    is_edit: false
+                })
             }
         })
+
+
+        /**
+         * 正面身份证
+         */
+        Cookies.get("EditImgUrlFrontID") && JSON.parse(Cookies.get("EditImgUrlFrontID")) == "" ? (
+            this.setState({
+                img_url_front_id: "",
+                isHaveImgFrontID: false
+            })
+        ) : Cookies.get("EditImgUrlFrontID") ? (
+            this.setState({
+                img_url_front_id: JSON.parse(Cookies.get("EditImgUrlFrontID")),
+                isHaveImgFrontID: true
+            })
+        ) : "";
+
+        /**
+         * 反面身份证
+         */
+        Cookies.get("EditImgUrlBehindID") && JSON.parse(Cookies.get("EditImgUrlBehindID")) == "" ? (
+            this.setState({
+                img_url_behind_id: "",
+                isHaveImgBehindID: false
+            })
+        ) : Cookies.get("EditImgUrlBehindID") ? (
+            this.setState({
+                img_url_behind_id: JSON.parse(Cookies.get("EditImgUrlBehindID")),
+                isHaveImgBehindID: true
+            })
+        ) : "";
+
+        /**
+         * 正反面身份证
+         */
+        Cookies.get("EditImgUrlFrontBehindID") && JSON.parse(Cookies.get("EditImgUrlFrontBehindID")) == "" ? (
+            this.setState({
+                img_url_front_behind_id: "",
+                isHaveImgFrontBehindID: false
+            })
+        ) : Cookies.get("EditImgUrlFrontBehindID") ? (
+            this.setState({
+                img_url_front_behind_id: JSON.parse(Cookies.get("EditImgUrlFrontBehindID")),
+                isHaveImgFrontBehindID: true
+            })
+        ) : "";
+
+        /**
+         * 姓名
+         */
+        Cookies.get("EditUserName") || Cookies.get("EditUserName") == "" ? (
+            this.setState({
+                UserName: Cookies.get("EditUserName")
+            })
+        ) : "";
+
+
+        /**
+         * 身份证
+         */
+        Cookies.get("EditIDCardNumber") || Cookies.get("EditIDCardNumber") == "" ? (
+            this.setState({
+                IDCardNumber: Cookies.get("EditIDCardNumber")
+            })
+        ) : "";
+
 
         /**
          * 身份证有效期
          */
-
-        Cookies.get("IDCardValidity") || Cookies.get("IDCardValidity") == "" ? (
+        Cookies.get("EditIDCardValidity") || Cookies.get("EditIDCardValidity") == "" ? (
             this.setState({
-                IDCardValidity: JSON.parse(Cookies.get("IDCardValidity"))
+                IDCardValidity: JSON.parse(Cookies.get("EditIDCardValidity"))
             })
         ) : "";
 
@@ -104,7 +186,7 @@ class IDCard extends Component {
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                // Cookies.set("ImgUrlFrontID", JSON.stringify(res.data.path), { expires: 1 });
+                Cookies.set("EditImgUrlFrontID", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_front_id: res.data.path,
                     isHaveImgFrontID: true
@@ -121,7 +203,7 @@ class IDCard extends Component {
             img_url_front_id: "",
             isHaveImgFrontID: false
         })
-        // Cookies.set("ImgUrlFrontID", JSON.stringify(""), { expires: 1 });
+        Cookies.set("EditImgUrlFrontID", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -134,7 +216,7 @@ class IDCard extends Component {
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                // Cookies.set("ImgUrlBehindID", JSON.stringify(res.data.path), { expires: 1 });
+                Cookies.set("EditImgUrlBehindID", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_behind_id: res.data.path,
                     isHaveImgBehindID: true
@@ -151,7 +233,7 @@ class IDCard extends Component {
             img_url_behind_id: "",
             isHaveImgBehindID: false
         })
-        // Cookies.set("ImgUrlBehindID", JSON.stringify(""), { expires: 1 });
+        Cookies.set("EditImgUrlBehindID", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -185,7 +267,7 @@ class IDCard extends Component {
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                // Cookies.set("ImgUrlFrontBehindID", JSON.stringify(res.data.path), { expires: 1 });
+                Cookies.set("EditImgUrlFrontBehindID", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url_front_behind_id: res.data.path,
                     isHaveImgFrontBehindID: true,
@@ -203,7 +285,7 @@ class IDCard extends Component {
             img_url_front_behind_id: "",
             isHaveImgFrontBehindID: false
         })
-        // Cookies.set("ImgUrlFrontBehindID", JSON.stringify(""), { expires: 1 });
+        Cookies.set("EditImgUrlFrontBehindID", JSON.stringify(""), { expires: 1 });
     }
 
 
@@ -222,7 +304,7 @@ class IDCard extends Component {
         this.setState({
             UserName: e
         })
-        // Cookies.set("UserName", e, { expires: 1 });
+        Cookies.set("EditUserName", e, { expires: 1 });
     }
 
     /**
@@ -232,7 +314,7 @@ class IDCard extends Component {
         this.setState({
             IDCardNumber: e
         })
-        // Cookies.set("IDCardNumber", e, { expires: 1 });
+        Cookies.set("EditIDCardNumber", e, { expires: 1 });
     }
 
 
@@ -240,7 +322,7 @@ class IDCard extends Component {
      * 下一步
      */
     handleNext = () => {
-        const { img_url_front_id, img_url_behind_id, img_url_front_behind_id, UserName, IDCardNumber, IDCardValidity } = this.state;
+        const { img_url_front_id, img_url_behind_id, img_url_front_behind_id, UserName, IDCardNumber, IDCardValidity, is_edit } = this.state;
         if (!img_url_front_id || !img_url_behind_id || !img_url_front_behind_id) {
             Toast.fail('请先上传身份证', 1);
             return;
@@ -258,23 +340,43 @@ class IDCard extends Component {
             return;
         }
 
-        Request({
-            url: "auth/uploadIdentity",
-            method: "POST",
-            data: qs.stringify({
-                name: UserName,
-                identity_no: IDCardNumber,
-                identity_valid_time: IDCardValidity,
-                in_hand_img: img_url_front_behind_id,
-                identity_face_img: img_url_front_id,
-                identity_back_img: img_url_behind_id,
-                is_edit: 1
+        if(is_edit) {
+            Request({
+                url: "auth/uploadIdentity",
+                method: "POST",
+                data: qs.stringify({
+                    name: UserName,
+                    identity_no: IDCardNumber,
+                    identity_valid_time: IDCardValidity,
+                    in_hand_img: img_url_front_behind_id,
+                    identity_face_img: img_url_front_id,
+                    identity_back_img: img_url_behind_id,
+                    is_edit: 1
+                })
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 2);
+                }
             })
-        }).then(res => {
-            if (res.code == 200) {
-                Toast.success(res.message, 2);
-            }
-        })
+        }else {
+            Request({
+                url: "auth/uploadIdentity",
+                method: "POST",
+                data: qs.stringify({
+                    name: UserName,
+                    identity_no: IDCardNumber,
+                    identity_valid_time: IDCardValidity,
+                    in_hand_img: img_url_front_behind_id,
+                    identity_face_img: img_url_front_id,
+                    identity_back_img: img_url_behind_id,
+                })
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 2);
+                }
+            })
+        }
+        
     }
 
 

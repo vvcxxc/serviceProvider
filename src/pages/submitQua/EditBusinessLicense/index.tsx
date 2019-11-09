@@ -8,6 +8,21 @@ import Request from '@/service/request';
 import router from 'umi/router';
 import camera from '@/assets/upload_icon/camera.jpg';
 
+// 修改页面刷新并不需要做缓存只需要在去有效期页面才需缓存
+window.onload = function () {
+    Cookies.remove("EditImgUrlSale");
+    Cookies.remove("EditRegisterNum");
+    Cookies.remove("EditSaleName");
+    Cookies.remove("EditOwnName");
+    Cookies.remove("EditSaleValidity");
+    return;
+}
+
+
+/**
+ * 页面数据不可能会只有一半是有数据的，假如有数据的话那就拿数据的，没有的话可以做缓存刷新完了还是有数据的
+ */
+
 class BusinessLicense extends Component {
 
     state = {
@@ -19,9 +34,12 @@ class BusinessLicense extends Component {
         saleName: "",
         ownName: "",
         SaleValidity: "",
+
+
+        is_edit: true
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
             // console.log(res)
@@ -38,18 +56,51 @@ class BusinessLicense extends Component {
             window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
         })
 
-        // 判断Cookie是否有数据
+
+        await Request({
+            url: "/user/getFacilitatorProve"
+        }).then(res => {
+            if (res.code == 200 && res.data != null) {
+                this.setState({
+                    img_url: res.data.prove_img,
+                    isHaveImg: true,
+
+                    registerNum: res.data.prove_no,
+                    saleName: res.data.prove_name,
+                    ownName: res.data.legal_person_name,
+                    SaleValidity: res.data.prove_valid_time
+
+                })
+
+                // if(Cookies.get("EditSaleValidity") || Cookies.get("EditSaleValidity") == "") {
+                //     console.log('1')
+                //     Cookies.remove("EditSaleValidity");
+                // }
+
+
+                if (typeof (Cookies.get("EditSaleValidity")) == "undefined") {
+                    console.log('2')
+                    Cookies.set("EditSaleValidity", JSON.stringify(res.data.prove_valid_time), { expires: 1 });
+                }
+            } else if (res.code == 200 && res.data == null) {
+                this.setState({
+                    is_edit: false
+                })
+            }
+        })
+
+
         /**
          * 营业照
          */
-        Cookies.get("ImgUrlSale") && JSON.parse(Cookies.get("ImgUrlSale")) == "" ? (
+        Cookies.get("EditImgUrlSale") && JSON.parse(Cookies.get("EditImgUrlSale")) == "" ? (
             this.setState({
                 img_url: "",
                 isHaveImg: false
             })
-        ) : Cookies.get("ImgUrlSale") ? (
+        ) : Cookies.get("EditImgUrlSale") ? (
             this.setState({
-                img_url: JSON.parse(Cookies.get("ImgUrlSale")),
+                img_url: JSON.parse(Cookies.get("EditImgUrlSale")),
                 isHaveImg: true
             })
         ) : ""
@@ -58,36 +109,37 @@ class BusinessLicense extends Component {
         /**
          * 注册号
          */
-        Cookies.get("registerNum") || Cookies.get("registerNum") == "" ? (
+        Cookies.get("EditRegisterNum") || Cookies.get("EditRegisterNum") == "" ? (
             this.setState({
-                registerNum: Cookies.get("registerNum")
+                registerNum: Cookies.get("EditRegisterNum")
             })
         ) : "";
 
         /**
          * 执照
          */
-        Cookies.get("saleName") || Cookies.get("saleName") == "" ? (
+        Cookies.get("EditSaleName") || Cookies.get("EditSaleName") == "" ? (
             this.setState({
-                saleName: Cookies.get("saleName")
+                saleName: Cookies.get("EditSaleName")
             })
         ) : "";
 
         /**
         * 法人姓名
         */
-        Cookies.get("ownName") || Cookies.get("ownName") == "" ? (
+        Cookies.get("EditOwnName") || Cookies.get("EditOwnName") == "" ? (
             this.setState({
-                ownName: Cookies.get("ownName")
+                ownName: Cookies.get("EditOwnName")
             })
         ) : "";
+
 
         /**
          * 营业执照有效期
          */
-        Cookies.get("SaleValidity") || Cookies.get("SaleValidity") == "" ? (
+        Cookies.get("EditSaleValidity") || Cookies.get("EditSaleValidity") == "" ? (
             this.setState({
-                SaleValidity: JSON.parse(Cookies.get("SaleValidity"))
+                SaleValidity: JSON.parse(Cookies.get("EditSaleValidity"))
             })
         ) : "";
 
@@ -102,7 +154,7 @@ class BusinessLicense extends Component {
             Toast.loading('正在上传中');
             upload(img).then(res => {
                 Toast.hide();
-                Cookies.set("ImgUrlSale", JSON.stringify(res.data.path), { expires: 1 });
+                Cookies.set("EditImgUrlSale", JSON.stringify(res.data.path), { expires: 1 });
                 this.setState({
                     img_url: res.data.path,
                     isHaveImg: true
@@ -119,7 +171,7 @@ class BusinessLicense extends Component {
             img_url: "",
             isHaveImg: false
         })
-        Cookies.set("ImgUrlSale", JSON.stringify(""), { expires: 1 });
+        Cookies.set("EditImgUrlSale", JSON.stringify(""), { expires: 1 });
     }
 
     /**
@@ -129,7 +181,7 @@ class BusinessLicense extends Component {
         this.setState({
             registerNum: e
         })
-        Cookies.set("registerNum", e, { expires: 1 });
+        Cookies.set("EditRegisterNum", e, { expires: 1 });
     }
 
     /**
@@ -139,7 +191,7 @@ class BusinessLicense extends Component {
         this.setState({
             saleName: e
         })
-        Cookies.set("saleName", e, { expires: 1 });
+        Cookies.set("EditSaleName", e, { expires: 1 });
     }
 
     /**
@@ -149,21 +201,21 @@ class BusinessLicense extends Component {
         this.setState({
             ownName: e
         })
-        Cookies.set("ownName", e, { expires: 1 });
+        Cookies.set("EditOwnName", e, { expires: 1 });
     }
 
     /**
      * 有效期
      */
     chooseDate = () => {
-        router.push('/submitQua/chooseDate?type=2')
+        router.push('/submitQua/EditChooseDate?type=2')
     }
 
     /**
      * 下一步
      */
     handleNext = () => {
-        const { img_url, registerNum, saleName, ownName, SaleValidity } = this.state;
+        const { img_url, registerNum, saleName, ownName, SaleValidity, is_edit } = this.state;
         if (!img_url) {
             Toast.fail("请上传营业执照", 1);
             return;
@@ -184,21 +236,45 @@ class BusinessLicense extends Component {
             Toast.fail("请先选择有效期", 1);
             return;
         }
-        Request({
-            url: "auth/setProveInfo",
-            method: "POST",
-            data: {
-                prove_img: img_url,
-                prove_no: registerNum,
-                prove_name: saleName,
-                legal_person_name: ownName,
-                prove_valid_time: SaleValidity
-            }
-        }).then(res => {
-            if (res.code == 200) {
-                Toast.success(res.message, 2);
-            }
-        })
+        if (is_edit) {
+            Request({
+                url: "auth/setProveInfo",
+                method: "POST",
+                data: {
+                    prove_img: img_url,
+                    prove_no: registerNum,
+                    prove_name: saleName,
+                    legal_person_name: ownName,
+                    prove_valid_time: SaleValidity,
+                    is_edit: 1
+                }
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 2);
+                } else {
+                    Toast.fail(res.message, 2);
+                }
+            })
+        } else {
+            Request({
+                url: "auth/setProveInfo",
+                method: "POST",
+                data: {
+                    prove_img: img_url,
+                    prove_no: registerNum,
+                    prove_name: saleName,
+                    legal_person_name: ownName,
+                    prove_valid_time: SaleValidity
+                }
+            }).then(res => {
+                if (res.code == 200) {
+                    Toast.success(res.message, 2);
+                } else {
+                    Toast.fail(res.message, 2);
+                }
+            })
+        }
+
     }
 
 

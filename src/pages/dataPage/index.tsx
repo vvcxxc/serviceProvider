@@ -24,7 +24,6 @@ export default class DataPage extends Component {
   componentDidMount() {
     let date = dayjs(now).format('YYYY-MM')
     let arr = date.split('-')
-    console.log(date)
     Request({
       method: 'get',
       url: 'indexData',

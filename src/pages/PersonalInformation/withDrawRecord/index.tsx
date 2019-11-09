@@ -83,7 +83,7 @@ export default class WithDrawRecord extends Component {
                                     {
                                         item.check_status == 2 ? (
                                             <div className={styles.withdraw_reject_reason}>
-                                                <span>拒绝原因：银行无法转入</span>
+                                                <span>拒绝原因：{item.check_comment}</span>
                                             </div>
                                         ) : ""
                                     }

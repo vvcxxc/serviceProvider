@@ -6,7 +6,7 @@ import Item from './item'
 import Filtrate from '@/components/Filtrate/index';
 import Request from '@/service/request'
 import dayjs from 'dayjs'
-import ScrollView from '@/components/ScrollView';
+import ScrollBottom from '@/components/ScrollBottom';
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 export default class Finance extends Component {
@@ -14,7 +14,7 @@ export default class Finance extends Component {
     dataList: [
       {
         key: '排序',
-        value: ['筛选', '二维码收入', '邀请人分成', '提现'],
+        value: ['筛选', '二维码收入', '邀请人分成'],
         select: false
       },
     ],
@@ -63,11 +63,11 @@ export default class Finance extends Component {
       params
     }).then(res => {
       if (res.code == 200) {
-        this.setState({ list: res.data.boot.data,})
-        if(res.data.boot.from == res.data.boot.last_page){
-          this.setState({is_show_loading: false})
-        }else{
+        this.setState({ list: res.data.boot.data,expenditure: res.data.expenditure, income: res.data.income})
+        if(this.state.data.page < res.data.boot.last_page){
           this.setState({is_show_loading: true})
+        }else{
+          this.setState({is_show_loading: false})
         }
       }
     })
@@ -82,10 +82,11 @@ export default class Finance extends Component {
     }).then(res => {
       if (res.code == 200) {
         this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
-        if(res.data.boot.from == res.data.boot.last_page){
-          this.setState({is_show_loading: false})
-        }else{
+        console.log(this.state.data.page <= res.data.boot.last_page)
+        if(this.state.data.page < res.data.boot.last_page){
           this.setState({is_show_loading: true})
+        }else{
+          this.setState({is_show_loading: false})
         }
       }
     })
@@ -103,12 +104,13 @@ export default class Finance extends Component {
       }).then(res => {
         if (res.code == 200) {
           // let list = this.state.list;
-          let list = [...this.state.list,res.data.boot.data]
-          this.setState({ list,data })
-          if(res.data.boot.from == res.data.boot.last_page){
-            this.setState({is_show_loading: false})
-          }else{
+          this.setState({is_show_loading: false})
+          let list = [...this.state.list,...res.data.boot.data]
+          this.setState({ list,data,})
+          if(this.state.data.page < res.data.boot.last_page){
             this.setState({is_show_loading: true})
+          }else{
+            this.setState({is_show_loading: false})
           }
         }
       })
@@ -121,7 +123,7 @@ export default class Finance extends Component {
       <div>
         {
           list.map((item: any, index) => {
-            return <Item money={item.money} name={item.describe} date={item.created_at} key={index} />
+            return <Item money={item.money} name={item.describe} date={item.created_at} valid={item.is_valid} key={index} />
           })
         }
       </div>
@@ -137,19 +139,20 @@ export default class Finance extends Component {
         <Flex className={styles.finance_header}>
           <WingBlank style={{ width: '100%' }}>
             <Flex justify='between' style={{ width: '100%' }}>
-              <div>收款￥{this.state.income}</div>
-              <div>提现￥{this.state.expenditure}</div>
+              <div>收款￥{String(this.state.income)}</div>
+              <div>提现￥{String(this.state.expenditure)}</div>
             </Flex>
           </WingBlank>
         </Flex>
 
         {
           list.length ? (
-            <ScrollView
-              renderView={listView}
-              onEndReached={this.scrollBottom}
-              isShowLoading={is_show_loading}
-            />
+            (
+              <div>
+                {listView}
+                <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading}/>
+              </div>
+            )
 
           ) : (
               <div className={styles.no_data}>

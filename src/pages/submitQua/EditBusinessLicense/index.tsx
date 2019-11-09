@@ -18,7 +18,7 @@ class BusinessLicense extends Component {
         registerNum: "",
         saleName: "",
         ownName: "",
-        SaleValidity: "", 
+        SaleValidity: "",
     }
 
     componentDidMount() {

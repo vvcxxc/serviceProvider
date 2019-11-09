@@ -63,7 +63,8 @@ export default class Search extends Component {
             }
         }).then(res => {
             Toast.hide();
-            let tempList = this.state.resDataList.concat(res.data.list.data);
+            // let tempList = this.state.resDataList.concat(res.data.list.data);
+            let tempList = res.data.list.data
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
         })
     }
@@ -82,7 +83,7 @@ export default class Search extends Component {
                         </div>
                         <input type="text"
                          className={styles.ServiceProvider_input}
-                          placeholder='输入店铺名称' 
+                          placeholder='输入店铺名称'
                           value={this.state.searchKey}
                           onChange={this.handleWrite.bind(this)}
                           onKeyUp={this.KeySubmit.bind(this)} />
@@ -131,7 +132,7 @@ export default class Search extends Component {
                 {
                     this.state.resDataList && this.state.resDataList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
                 }
-             
+
             </div>
         )
     }

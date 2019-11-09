@@ -60,8 +60,6 @@ export default class WithDraw extends Component {
 
   // 申请提现
   withDraw = () => {
-    this.destoonFinanceCash()
-    return
     if (this.state.is_bind) {
       if (this.state.is_show) {
         this.destoonFinanceCash()
@@ -94,19 +92,19 @@ export default class WithDraw extends Component {
   destoonFinanceCash = () => {
     const { all_money, money } = this.state
     if (all_money<money && money) {
-      Toast.fail('金额超过可提现金额', 0.7)
+      Toast.fail('金额超过可提现金额', 1)
       return
     }
 
-    if (money < 100 && money >= all_money ) {
-      Toast.fail('单笔提现金额需要大于等于100元', 0.7)
+    if (money < 100 ) {
+      Toast.fail('单笔提现金额需要大于等于100元', 1)
       return
     }
     if (!money || !Number.isFinite(money - 1)) {
-      Toast.fail('请输入正确金额数字', 0.7)
+      Toast.fail('请输入正确金额数字', 1)
       return
     }
-
+    Toast.loading('')
     Request({
       url: 'fetchMoney',
       method: 'post',
@@ -114,19 +112,38 @@ export default class WithDraw extends Component {
         fetch_money: this.state.money
       })
     }).then(res => {
+      Toast.hide()
       const { message, code } = res
       switch (code) {
         case 200:
-          Toast.success(message, 0.7)
-          
+            Request({
+              url: 'userBankInfo',
+              method: 'get'
+            }).then(res => {
+              const { code, data } = res
+              switch (code) {
+                case 200:
+                  this.setState({
+                    is_bind: true,
+                    data,
+                    all_money: data.usable_money
+                  })
+                  break;
+
+                default:
+                  break;
+              }
+            })
+          Toast.success(message, 1)
+
           this.setState({ money: ''})
           break;
-      
+
         default:
-          Toast.fail(message, 0.7)
+          Toast.fail(message, 1)
           break;
       }
-      
+
     })
   }
 
@@ -162,7 +179,7 @@ export default class WithDraw extends Component {
           {/* 909090 */}
           <img src={require('../../../assets/right_arro.png')} alt=""/>
         </div>
-        
+
       </Flex>
     ) : (
         <Flex className={styles.withdraw_header_no_bind}>

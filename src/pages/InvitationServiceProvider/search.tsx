@@ -80,7 +80,8 @@ export default class Search extends Component {
             }
         }).then(res => {
             Toast.hide();
-            let tempList = this.state.invitationList.concat(res.data.book.data);
+            // let tempList = this.state.invitationList.concat(res.data.book.data);
+            let tempList = res.data.book.data
             this.setState({ invitationData: res.data, invitationList: tempList, listPage: Number(this.state.listPage) + 1 })
         })
     }

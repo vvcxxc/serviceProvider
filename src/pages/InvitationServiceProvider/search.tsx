@@ -45,13 +45,6 @@ export default class Search extends Component {
     handleclose = () => {
         this.setState({ invitationShow: false })
     }
-    KeySubmit = (e: any) => {
-        e.persist();
-        if (e.keyCode == 13) {
-            this.handleSearch();
-        }
-        e.preventDefault();
-    }
     handleWrite = (e: any) => {
         console.log(e)
         this.setState({ searchKey: e.target.value, listPage: 1, invitationData: {}, invitationList: [] }, () => {
@@ -59,6 +52,39 @@ export default class Search extends Component {
         })
     }
     handleSearch = () => {
+        let _type;
+        let search = this.state.searchKey;
+        if (search == '') {
+            return;
+        } else if (/^1[3456789]\d{9}$/.test(search)) {
+            _type = 'phone';
+        } else {
+            _type = 'name';
+        }
+        Toast.loading('');
+        Request({
+            url: 'facilitatorIncome',
+            method: 'GET',
+            params: {
+                search: search,
+                searchType: _type,
+                page:1
+            }
+        }).then(res => {
+            Toast.hide();
+            // let tempList = this.state.invitationList.concat(res.data.book.data);
+            let tempList = res.data.book.data
+            this.setState({ invitationData: res.data, invitationList: tempList, listPage: 2 })
+        })
+    }
+    handleCancle = (e: any) => {
+        this.setState({ searchKey: '', listPage: 1, invitationData: {}, invitationList: [] }, () => {
+            router.goBack();
+        })
+    }
+
+
+    handleAdd = () => {
         let _type;
         let search = this.state.searchKey;
         if (search === '') {
@@ -80,14 +106,12 @@ export default class Search extends Component {
             }
         }).then(res => {
             Toast.hide();
-            // let tempList = this.state.invitationList.concat(res.data.book.data);
-            let tempList = res.data.book.data
+            let tempList = this.state.invitationList.concat(res.data.book.data);
+            // let tempList = res.data.book.data
             this.setState({ invitationData: res.data, invitationList: tempList, listPage: Number(this.state.listPage) + 1 })
         })
     }
-    handleCancle = (e: any) => {
-        this.setState({ searchKey: '', listPage: 1, invitationData: {}, invitationList: [] })
-    }
+
     render() {
         return (
             <div className={styles.InvitationServiceProvider_serch} >
@@ -102,7 +126,7 @@ export default class Search extends Component {
                             placeholder='输入服务商名称或手机号'
                             value={this.state.searchKey}
                             onChange={this.handleWrite.bind(this)}
-                            onKeyUp={this.KeySubmit.bind(this)} />
+                        />
                     </div>
                     <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
                 </div>
@@ -123,7 +147,7 @@ export default class Search extends Component {
                                 )
                             })
                         }
-                        <div className={styles.loadingMore_button_box} onClick={this.handleSearch}>
+                        <div className={styles.loadingMore_button_box} onClick={this.handleAdd}>
                             {
                                 this.state.listPage - 1 <= this.state.invitationData.book.last_page ? ' 点击加载更多' : '暂无更多数据'
                             }

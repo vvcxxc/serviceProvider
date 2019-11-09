@@ -5,7 +5,6 @@ import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 import { success, error, sigh } from "@/components/Hint";
 import MyInput from "@/components/Input";
 import Green_button from "@/components/Green_button"
-import VerifyInput from "@/components/VerifyInput"
 import Request from '@/service/request';
 let timer = null;
 export default class Retrieve_password extends Component {
@@ -127,6 +126,9 @@ export default class Retrieve_password extends Component {
       code: e.target.value
     })
   }
+  componentWillMount (){
+    clearInterval(timer);
+  }
 
   render() {
     const {is_ok, code} = this.state
@@ -140,10 +142,6 @@ export default class Retrieve_password extends Component {
             onChange={this.onChangePhone}
             mb={56}
           />
-          {/* <VerifyInput
-          phone={}
-          />
-          <div><input type="text" placeholder="请输入手机号"/></div> */}
           <div className={styles.verificationCode}>
             <input type="text" placeholder="请输入验证码" onChange={this.handleChangeCode} value={code} />
             {/* <div>发送验证码</div> */}

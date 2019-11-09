@@ -39,12 +39,9 @@ export default function request(options: Options) {
     /**请求超时 */
     // options.timeout = 5000;
     /**axios 请求 */
-    Toast.loading('')
+    // Toast.loading('')
     return axios(options)
-        .then(res => {
-          Toast.hide()
-         return res.data
-        })
+        .then(res => res.data)
         .catch(err => {
             Toast.hide();
             if (err.response && err.response.status === 400) {

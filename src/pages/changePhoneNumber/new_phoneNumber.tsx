@@ -106,6 +106,9 @@ export default class changePhoneNumber extends Component {
       }
     })
   }
+  componentWillMount (){
+    clearInterval(timer);
+  }
   render() {
     const { phone, code, is_ok, wait } = this.state;
     return (

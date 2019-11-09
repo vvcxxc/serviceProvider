@@ -29,9 +29,10 @@ export default class chooseDate extends Component<any> {
 
   componentDidMount() {
     let type = this.props.location.query.type;
-    let IDCardValidity = Cookies.get("IDCardValidity");
-    if (type == 1 && IDCardValidity) {
-      if (IDCardValidity.includes("长期")) {
+    let EditIDCardValidity = Cookies.get("EditIDCardValidity");
+    let EditSaleValidity = Cookies.get("EditSaleValidity");
+    if (type == 1 && EditIDCardValidity) {
+      if (EditIDCardValidity.includes("长期")) {
         this.setState({
           is_type1: false,
           is_type2: true,
@@ -43,8 +44,25 @@ export default class chooseDate extends Component<any> {
           is_type1: true,
           is_type2: false,
           type,
-          date: JSON.parse(Cookies.get("IDCardValidity")),
-          value: new Date(moment(Cookies.get("IDCardValidity")).toString())
+          date: JSON.parse(Cookies.get("EditIDCardValidity")),
+          value: new Date(moment(Cookies.get("EditIDCardValidity")).toString())
+        })
+      }
+    } else if (type == 2 && EditSaleValidity) {
+      if (EditSaleValidity.includes("长期")) {
+        this.setState({
+          is_type1: false,
+          is_type2: true,
+          type,
+          date: '长期'
+        })
+      } else {
+        this.setState({
+          is_type1: true,
+          is_type2: false,
+          type,
+          date: JSON.parse(Cookies.get("EditSaleValidity")),
+          value: new Date(moment(Cookies.get("EditSaleValidity")).toString())
         })
       }
     } else {
@@ -70,10 +88,18 @@ export default class chooseDate extends Component<any> {
       this.setState({
         is_type1: true,
         is_type2: false,
-        date: Cookies.get("IDCardValidity") && !Cookies.get("IDCardValidity").includes("长期") ? JSON.parse(Cookies.get("IDCardValidity")) : moment(now).format("YYYY-MM-DD"),
-        value: Cookies.get("IDCardValidity") && !Cookies.get("IDCardValidity").includes("长期") ? new Date(moment(Cookies.get("IDCardValidity")).toString()) : now
+        date: Cookies.get("EditIDCardValidity") && !Cookies.get("EditIDCardValidity").includes("长期") ? JSON.parse(Cookies.get("EditIDCardValidity")) : moment(now).format("YYYY-MM-DD"),
+        value: Cookies.get("EditIDCardValidity") && !Cookies.get("EditIDCardValidity").includes("长期") ? new Date(moment(Cookies.get("EditIDCardValidity")).toString()) : now
+      })
+    } else if (type == 2) {
+      this.setState({
+        is_type1: true,
+        is_type2: false,
+        date: Cookies.get("EditSaleValidity") && !Cookies.get("EditSaleValidity").includes("长期") ? JSON.parse(Cookies.get("EditSaleValidity")) : moment(now).format("YYYY-MM-DD"),
+        value: Cookies.get("EditSaleValidity") && !Cookies.get("EditSaleValidity").includes("长期") ? new Date(moment(Cookies.get("EditSaleValidity")).toString()) : now
       })
     }
+
   }
   /**长期有效 */
   chooseLong = () => {
@@ -87,9 +113,9 @@ export default class chooseDate extends Component<any> {
   submit = () => {
     const { type, date } = this.state;
     if (type == 1) {
-      Cookies.set("IDCardValidity", JSON.stringify(date), { expires: 1 });
+      Cookies.set("EditIDCardValidity", JSON.stringify(date), { expires: 1 });
     } else {
-      Cookies.set("SaleValidity", JSON.stringify(date), { expires: 1 });
+      Cookies.set("EditSaleValidity", JSON.stringify(date), { expires: 1 });
     }
     router.goBack();
   }

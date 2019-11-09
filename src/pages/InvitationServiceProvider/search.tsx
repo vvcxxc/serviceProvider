@@ -87,7 +87,6 @@ export default class Search extends Component {
     handleCancle = (e: any) => {
         this.setState({ searchKey: '', listPage: 1, invitationData: {}, invitationList: [] })
     }
-
     render() {
         return (
             <div className={styles.InvitationServiceProvider_serch} >

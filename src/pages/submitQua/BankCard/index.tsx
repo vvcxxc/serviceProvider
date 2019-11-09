@@ -307,6 +307,8 @@ class BankCard extends Component {
             return;
         }
 
+        Toast.loading("");
+
         Request({
             method: 'post',
             url: 'auth/setBankInfo',

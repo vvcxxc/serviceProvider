@@ -247,6 +247,8 @@ class BankCard extends Component {
             return;
         }
 
+        Toast.loading("");
+
         if (is_edit) {
             Request({
                 method: 'post',

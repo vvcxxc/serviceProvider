@@ -18,11 +18,6 @@ window.onload = function () {
     return;
 }
 
-
-/**
- * 页面数据不可能会只有一半是有数据的，假如有数据的话那就拿数据的，没有的话可以做缓存刷新完了还是有数据的
- */
-
 class BusinessLicense extends Component {
 
     state = {

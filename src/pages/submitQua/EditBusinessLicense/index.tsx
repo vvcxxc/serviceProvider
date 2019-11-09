@@ -11,7 +11,7 @@ import camera from '@/assets/upload_icon/camera.jpg';
 // 修改页面刷新并不需要做缓存只需要在去有效期页面才需缓存
 window.onload = function () {
     Cookies.remove("EditImgUrlSale");
-    Cookies.remove("EditRegisterNum");
+    Cookies.remove("EditRegisterNum"); 
     Cookies.remove("EditSaleName");
     Cookies.remove("EditOwnName");
     Cookies.remove("EditSaleValidity");

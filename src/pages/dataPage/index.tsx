@@ -5,6 +5,9 @@ import Filtrate from '../../components/Filtrate/index';
 import { Flex, WingBlank } from 'antd-mobile'
 import ReactEcharts from 'echarts-for-react';
 import Request from '@/service/request';
+import dayjs from 'dayjs'
+const nowTimeStamp = Date.now();
+const now = new Date(nowTimeStamp);
 export default class DataPage extends Component {
   state = {
     countStats: {
@@ -19,12 +22,15 @@ export default class DataPage extends Component {
     total: 0
   }
   componentDidMount() {
+    let date = dayjs(now).format('YYYY-MM')
+    let arr = date.split('-')
+    console.log(date)
     Request({
       method: 'get',
       url: 'indexData',
       params: {
-        month: '10',
-        year: '2019'
+        month: arr[1],
+        year: arr[0]
       }
     }).then(res => {
       console.log(res)

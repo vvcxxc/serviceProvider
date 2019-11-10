@@ -188,7 +188,7 @@ export default class WithDraw extends Component {
       );
 
     const hint = this.state.is_hint ? (
-      <div className={styles.hint}>单笔提现金额需要大于等于100元</div>
+      <div className={styles.hint}>单笔提现金额需要大于等于1元</div>
     ) : (
         <div className={styles.hint}>每笔提现收2%的手续费</div>
       )

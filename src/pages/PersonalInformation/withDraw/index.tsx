@@ -43,7 +43,7 @@ export default class WithDraw extends Component {
     } else {
       this.setState({ is_show: true })
     }
-    if (v * 1 >= 100) {
+    if (v * 1 >= 1) {
       this.setState({ is_hint: false })
     } else {
       this.setState({ is_hint: true })
@@ -75,7 +75,7 @@ export default class WithDraw extends Component {
 
   }
   allMoney = () => {
-    if (Number(this.state.all_money) >= 100) {
+    if (Number(this.state.all_money) >= 1) {
       this.setState({ is_hint: false })
     } else {
       this.setState({ is_hint: true })
@@ -96,8 +96,8 @@ export default class WithDraw extends Component {
       return
     }
 
-    if (money < 100 ) {
-      Toast.fail('单笔提现金额需要大于等于100元', 1)
+    if (money < 1 ) {
+      Toast.fail('单笔提现金额需要大于等于1元', 1)
       return
     }
     if (!money || !Number.isFinite(money - 1)) {

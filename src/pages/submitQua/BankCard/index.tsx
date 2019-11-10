@@ -303,7 +303,7 @@ class BankCard extends Component {
         }
 
         if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(subBranchBank))) {
-            Toast.fail('请输入正确开户支行名称', 1);
+            Toast.fail('请输入正确开户支行地址', 1);
             return;
         }
 

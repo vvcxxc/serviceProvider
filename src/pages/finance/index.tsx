@@ -13,7 +13,7 @@ export default class Finance extends Component {
   state = {
     dataList: [
       {
-        key: '排序',
+        key: '筛选',
         value: ['筛选', '二维码收入', '邀请人分成'],
         select: false
       },

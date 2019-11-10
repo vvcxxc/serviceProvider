@@ -1,7 +1,7 @@
 import { IConfig } from 'umi-types';
 const config: IConfig = {
   define: {
-    "API": "http://service_provider_api.tdianyi.com/",
+    "API": "http://api.service_provider.tdianyi.com",
     "URL": "http://service_provider.tdianyi.com/"
   }
 }

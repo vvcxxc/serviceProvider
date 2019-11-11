@@ -144,7 +144,7 @@ export default class Finance extends Component {
             </Flex>
           </WingBlank>
         </Flex>
-
+{/*
         {
           list.length ? (
             (
@@ -159,7 +159,10 @@ export default class Finance extends Component {
                 暂无账单数据统计
               </div>
             )
-        }
+        } */}
+        <div className={styles.no_data}>
+          统计中
+        </div>
       </div>
     )
   }

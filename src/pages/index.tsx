@@ -11,6 +11,7 @@ import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
 //   interface Window { api: string; }
 // }
 // const host = window.api
+let timer = null
 export default class QRcode extends Component {
     state = {
         dataList: [
@@ -50,7 +51,11 @@ export default class QRcode extends Component {
 
     componentDidMount() {
         this.requestList()
+        // timer = setInterval(()=>{
+
+        // },30000)
     }
+
 
     requestList = () => {
         if (this.state.listPage - 1 > this.state.data.list.last_page) {

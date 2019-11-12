@@ -169,7 +169,7 @@ export default class WithDraw extends Component {
         </div>
 
         <div className={styles.bank_name}>
-          <div className={styles.name}>{data.bank_name + '银行'}</div>
+          <div className={styles.name}>{data.bank_name}</div>
           <div className={styles.phoneNumber_end}>
             尾号{data.bankcard_no?data.bankcard_no.substr(data.bankcard_no.length - 4):null + '储蓄卡'}
           </div>

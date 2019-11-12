@@ -63,11 +63,11 @@ export default class Finance extends Component {
       params
     }).then(res => {
       if (res.code == 200) {
-        this.setState({ list: res.data.boot.data,expenditure: res.data.expenditure, income: res.data.income})
-        if(this.state.data.page < res.data.boot.last_page){
-          this.setState({is_show_loading: true})
-        }else{
-          this.setState({is_show_loading: false})
+        this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
+        if (this.state.data.page < res.data.boot.last_page) {
+          this.setState({ is_show_loading: true })
+        } else {
+          this.setState({ is_show_loading: false })
         }
       }
     })
@@ -83,10 +83,10 @@ export default class Finance extends Component {
       if (res.code == 200) {
         this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
         console.log(this.state.data.page <= res.data.boot.last_page)
-        if(this.state.data.page < res.data.boot.last_page){
-          this.setState({is_show_loading: true})
-        }else{
-          this.setState({is_show_loading: false})
+        if (this.state.data.page < res.data.boot.last_page) {
+          this.setState({ is_show_loading: true })
+        } else {
+          this.setState({ is_show_loading: false })
         }
       }
     })
@@ -94,7 +94,7 @@ export default class Finance extends Component {
   // 触底
   scrollBottom = () => {
     console.log('触发了')
-    if(this.state.is_show_loading){
+    if (this.state.is_show_loading) {
       let data = this.state.data;
       data.page += 1;
       Request({
@@ -104,13 +104,13 @@ export default class Finance extends Component {
       }).then(res => {
         if (res.code == 200) {
           // let list = this.state.list;
-          this.setState({is_show_loading: false})
-          let list = [...this.state.list,...res.data.boot.data]
-          this.setState({ list,data,})
-          if(this.state.data.page < res.data.boot.last_page){
-            this.setState({is_show_loading: true})
-          }else{
-            this.setState({is_show_loading: false})
+          this.setState({ is_show_loading: false })
+          let list = [...this.state.list, ...res.data.boot.data]
+          this.setState({ list, data, })
+          if (this.state.data.page < res.data.boot.last_page) {
+            this.setState({ is_show_loading: true })
+          } else {
+            this.setState({ is_show_loading: false })
           }
         }
       })
@@ -144,13 +144,13 @@ export default class Finance extends Component {
             </Flex>
           </WingBlank>
         </Flex>
-{/*
+
         {
           list.length ? (
             (
               <div>
                 {listView}
-                <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading}/>
+                <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading} />
               </div>
             )
 
@@ -159,10 +159,10 @@ export default class Finance extends Component {
                 暂无账单数据统计
               </div>
             )
-        } */}
-        <div className={styles.no_data}>
+        }
+        {/* <div className={styles.no_data}>
           统计中
-        </div>
+        </div> */}
       </div>
     )
   }

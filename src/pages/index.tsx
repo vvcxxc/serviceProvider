@@ -54,10 +54,23 @@ export default class QRcode extends Component {
   }
 
   componentDidMount() {
-    this.requestList()
-    timer = setInterval(()=>{
+    Toast.loading('');
+    Request({
+      url: 'qrCodeList',
+      method: 'GET',
+      params: {
+        page: 1
+      }
+    }).then(res => {
+      Toast.hide();
+      let tempList = this.state.resDataList.concat(res.data.list.data);
+      this.setState({ data: res.data, resDataList: tempList, listPage: 2 })
+    }).catch((err) => {
+      console.log(err)
+    })
+    timer = setInterval(() => {
       this.verifyTheNumber()
-    },10000)
+    }, 10000)
   }
 
   // 验证数量是否更新
@@ -91,9 +104,9 @@ export default class QRcode extends Component {
       data: this.state.data_r,
       resDataList: this.state.resDataList_r,
       listPage: 1
-    },()=>{
+    }, () => {
       clearInterval(timer)
-      this.setState({is_show: false})
+      this.setState({ is_show: false })
     })
   }
 
@@ -126,7 +139,7 @@ export default class QRcode extends Component {
   handleclose = (query: any) => {
     this.setState({ invitationShow: false })
   }
-  componentWillUnmount (){
+  componentWillUnmount() {
     clearInterval(timer)
   }
 

@@ -75,7 +75,7 @@ export default class WithDraw extends Component {
 
   }
   allMoney = () => {
-    if (Number(this.state.all_money) >= 1) {
+    if (Number(this.state.all_money) >= 100) {
       this.setState({ is_hint: false })
     } else {
       this.setState({ is_hint: true })
@@ -91,13 +91,13 @@ export default class WithDraw extends Component {
 
   destoonFinanceCash = () => {
     const { all_money, money } = this.state
-    if (all_money<money && money) {
+    if (Number(all_money) < Number(money) && money) {
       Toast.fail('金额超过可提现金额', 1)
       return
     }
 
-    if (money < 1 ) {
-      Toast.fail('单笔提现金额需要大于等于1元', 1)
+    if (Number(money) < 100) {
+      Toast.fail('单笔提现金额需要大于等于100元', 1)
       return
     }
     if (!money || !Number.isFinite(money - 1)) {
@@ -116,27 +116,27 @@ export default class WithDraw extends Component {
       const { message, code } = res
       switch (code) {
         case 200:
-            Request({
-              url: 'userBankInfo',
-              method: 'get'
-            }).then(res => {
-              const { code, data } = res
-              switch (code) {
-                case 200:
-                  this.setState({
-                    is_bind: true,
-                    data,
-                    all_money: data.usable_money
-                  })
-                  break;
+          Request({
+            url: 'userBankInfo',
+            method: 'get'
+          }).then(res => {
+            const { code, data } = res
+            switch (code) {
+              case 200:
+                this.setState({
+                  is_bind: true,
+                  data,
+                  all_money: data.usable_money
+                })
+                break;
 
-                default:
-                  break;
-              }
-            })
+              default:
+                break;
+            }
+          })
           Toast.success(message, 1)
 
-          this.setState({ money: ''})
+          this.setState({ money: '' })
           break;
 
         default:
@@ -161,7 +161,7 @@ export default class WithDraw extends Component {
       )
 
     // 是否绑定银行卡
-    const bind =this.state.is_bind ? (
+    const bind = this.state.is_bind ? (
       // justify = 'around'
       <Flex className={styles.withdraw_header} >
         <div className={styles.bank_img}>
@@ -169,15 +169,15 @@ export default class WithDraw extends Component {
         </div>
 
         <div className={styles.bank_name}>
-          <div className={styles.name}>{data.bank_name + '银行'}</div>
+          <div className={styles.name}>{data.bank_name}</div>
           <div className={styles.phoneNumber_end}>
-            尾号{data.bankcard_no?data.bankcard_no.substr(data.bankcard_no.length - 4):null + '储蓄卡'}
+            尾号{data.bankcard_no ? data.bankcard_no.substr(data.bankcard_no.length - 4) : null + '储蓄卡'}
           </div>
         </div>
 
         <div className={styles.go_right}>
           {/* 909090 */}
-          <img src={require('../../../assets/right_arro.png')} alt=""/>
+          <img src={require('../../../assets/right_arro.png')} alt="" />
         </div>
 
       </Flex>
@@ -188,7 +188,7 @@ export default class WithDraw extends Component {
       );
 
     const hint = this.state.is_hint ? (
-      <div className={styles.hint}>单笔提现金额需要大于等于1元</div>
+      <div className={styles.hint}>单笔提现金额需要大于等于100元</div>
     ) : (
         <div className={styles.hint}>每笔提现收2%的手续费</div>
       )

@@ -142,10 +142,10 @@ export default class PageIndex extends Component {
               mb={60}
               onClick={this.landingData}
             />
-            <Green_button
+            {/* <Green_button
               data={'注册'}
               onClick={()=>router.push('/register')}
-            />
+            /> */}
           </div>
         </div>
         <div id="my_success"></div>

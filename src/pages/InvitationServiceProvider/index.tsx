@@ -167,14 +167,14 @@ export default class InvitationServiceProvider extends Component {
           this.state.invitationList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
         }
 
-        {
+        {/* {
           this.state.status == 1 ? (
             <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div>
           ) : ""
         }
 
         {
-          this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
+          this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null} */}
 
       </div>
     )

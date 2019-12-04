@@ -13,7 +13,6 @@ export default class Item extends Component<Props> {
   state = {
 
   }
-
   render (){
     const { money, date, name, qrCode } = this.props
     return (

@@ -6,7 +6,7 @@ interface Props {
   money: string;
   name: string;
   date: string;
-  valid: number;
+  qrCode: number
 }
 
 export default class Item extends Component<Props> {
@@ -15,18 +15,15 @@ export default class Item extends Component<Props> {
   }
 
   render (){
-    const { money, date, name, valid } = this.props
+    const { money, date, name, qrCode } = this.props
     return (
       <div className={styles.item_box}>
         <WingBlank>
           <Flex className={styles.item_text} direction='column' align='start' justify='between' >
-            <div className={styles.item_name}>{name}</div>
+    <div className={styles.item_name}>收入— {qrCode} ({name})</div>
             <div className={styles.item_time}>{date}</div>
           </Flex>
-          {
-            valid ? null : <div className={styles.valid}>入账中</div>
-          }
-          <div className={styles.item_money}>+{money}</div>
+          <div className={styles.item_money}>+{money / 10000}</div>
         </WingBlank>
       </div>
     )

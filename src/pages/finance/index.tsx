@@ -112,7 +112,7 @@ export default class Finance extends Component {
     )
     return (
       <div className={styles.finance_page}>
-        {
+        {/* {
           list.length ? (
             (
               <div>
@@ -126,10 +126,10 @@ export default class Finance extends Component {
                 暂无账单数据统计
               </div>
             )
-        }
-        {/* <div className={styles.no_data}>
-          统计中
-        </div> */}
+        } */}
+        <div className={styles.no_data}>
+          账单统计中
+        </div>
       </div>
     )
   }

@@ -11,20 +11,10 @@ const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 export default class Finance extends Component {
   state = {
-    dataList: [
-      {
-        key: '筛选',
-        value: ['筛选', '二维码收入', '邀请人分成'],
-        select: false
-      },
-    ],
     invitationShow: false,
     closeNum: 1,
     list: [],
-    data: {
-      page: 1,
-      date: dayjs(now).format('YYYY-MM')
-    },
+    page: 1,
     is_show_loading: true,
     expenditure: 0,
     income: 0
@@ -57,61 +47,52 @@ export default class Finance extends Component {
       params = { date, page: 1 }
     }
     this.setState({ data: params })
-    Request({
-      method: 'get',
-      url: 'getBill',
-      params
-    }).then(res => {
-      if (res.code == 200) {
-        this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
-        if (this.state.data.page < res.data.boot.last_page) {
-          this.setState({ is_show_loading: true })
-        } else {
-          this.setState({ is_show_loading: false })
-        }
-      }
-    })
+    // Request({
+    //   method: 'get',
+    //   url: 'getBill',
+    //   params
+    // }).then(res => {
+    //   if (res.code == 200) {
+    //     this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
+    //     if (this.state.data.page < res.data.boot.last_page) {
+    //       this.setState({ is_show_loading: true })
+    //     } else {
+    //       this.setState({ is_show_loading: false })
+    //     }
+    //   }
+    // })
   }
   componentDidMount() {
     Request({
       method: 'get',
-      url: 'getBill',
+      url: 'qrcodeLog',
       params: {
-        date: dayjs(now).format('YYYY-MM')
+        page: 1
       }
     }).then(res => {
-      if (res.code == 200) {
-        this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
-        console.log(this.state.data.page <= res.data.boot.last_page)
-        if (this.state.data.page < res.data.boot.last_page) {
-          this.setState({ is_show_loading: true })
-        } else {
-          this.setState({ is_show_loading: false })
-        }
-      }
+        this.setState({list: res.data.data})
     })
   }
   // 触底
   scrollBottom = () => {
     console.log('触发了')
     if (this.state.is_show_loading) {
-      let data = this.state.data;
-      data.page += 1;
       Request({
         method: 'get',
-        url: 'getBill',
-        params: data
+        url: 'qrcodeLog',
+        params: {page: this.state.page + 1}
       }).then(res => {
         if (res.code == 200) {
           // let list = this.state.list;
           this.setState({ is_show_loading: false })
-          let list = [...this.state.list, ...res.data.boot.data]
-          this.setState({ list, data, })
-          if (this.state.data.page < res.data.boot.last_page) {
-            this.setState({ is_show_loading: true })
-          } else {
-            this.setState({ is_show_loading: false })
-          }
+          let list = [...this.state.list, ...res.data.data]
+          this.setState({ list, page: this.state.page + 1 },()=>{
+            if (this.state.page < res.data.last_page) {
+              this.setState({ is_show_loading: true })
+            } else {
+              this.setState({ is_show_loading: false })
+            }
+          })
         }
       })
     }
@@ -119,33 +100,19 @@ export default class Finance extends Component {
 
   render() {
     const { list, is_show_loading } = this.state
+    console.log(list)
     const listView = (
       <div>
         {
           list.map((item: any, index) => {
-            return <Item money={item.money} name={item.describe} date={item.created_at} valid={item.is_valid} key={index} />
+            return <Item money={item.money} name={item.shop_name} date={item.created_at} qrCode={item.qrcode_id} key={index} />
           })
         }
       </div>
     )
     return (
       <div className={styles.finance_page}>
-        <Filtrate
-          dataList={this.state.dataList}
-          onSearch={this.searchPayload}
-          closeNum={this.state.closeNum}
-          isDate={true}
-        />
-        <Flex className={styles.finance_header}>
-          <WingBlank style={{ width: '100%' }}>
-            <Flex justify='between' style={{ width: '100%' }}>
-              <div>收款￥{String(this.state.income)}</div>
-              <div>提现￥{String(this.state.expenditure)}</div>
-            </Flex>
-          </WingBlank>
-        </Flex>
-
-        {
+        {/* {
           list.length ? (
             (
               <div>
@@ -159,10 +126,10 @@ export default class Finance extends Component {
                 暂无账单数据统计
               </div>
             )
-        }
-        {/* <div className={styles.no_data}>
-          统计中
-        </div> */}
+        } */}
+        <div className={styles.no_data}>
+          账单统计中
+        </div>
       </div>
     )
   }

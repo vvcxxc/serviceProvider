@@ -100,7 +100,7 @@ export default class QRcode extends Component {
                 />
 
                 <div className={styles.QRcode_total}>
-                    <div className={styles.totalPeople}>共{this.state.data.list.total}个码，{this.state.data.layout}个已铺设</div>
+                    <div className={styles.totalPeople}>共{this.state.data.qrcode_count}个码，{this.state.data.layout_qrcode_count}个已铺设</div>
                     <div className={styles.totalMoney}>带来总收益￥{this.state.data.money_total}</div>
                 </div>
                 {

@@ -70,7 +70,7 @@ export default class Finance extends Component {
         page: 1
       }
     }).then(res => {
-        this.setState({list: res.data.data})
+      this.setState({ list: res.data.data })
     })
   }
   // 触底
@@ -80,13 +80,13 @@ export default class Finance extends Component {
       Request({
         method: 'get',
         url: 'qrcodeLog',
-        params: {page: this.state.page + 1}
+        params: { page: this.state.page + 1 }
       }).then(res => {
         if (res.code == 200) {
           // let list = this.state.list;
           this.setState({ is_show_loading: false })
           let list = [...this.state.list, ...res.data.data]
-          this.setState({ list, page: this.state.page + 1 },()=>{
+          this.setState({ list, page: this.state.page + 1 }, () => {
             if (this.state.page < res.data.last_page) {
               this.setState({ is_show_loading: true })
             } else {
@@ -112,7 +112,7 @@ export default class Finance extends Component {
     )
     return (
       <div className={styles.finance_page}>
-        {/* {
+        {
           list.length ? (
             (
               <div>
@@ -126,10 +126,10 @@ export default class Finance extends Component {
                 暂无账单数据统计
               </div>
             )
-        } */}
-        <div className={styles.no_data}>
+        }
+        {/* <div className={styles.no_data}>
           账单统计中
-        </div>
+        </div> */}
       </div>
     )
   }

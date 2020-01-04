@@ -75,7 +75,6 @@ export default class Finance extends Component {
   }
   // 触底
   scrollBottom = () => {
-    console.log('触发了')
     if (this.state.is_show_loading) {
       Request({
         method: 'get',
@@ -100,7 +99,6 @@ export default class Finance extends Component {
 
   render() {
     const { list, is_show_loading } = this.state
-    console.log(list)
     const listView = (
       <div>
         {

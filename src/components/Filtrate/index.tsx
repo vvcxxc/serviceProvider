@@ -68,7 +68,7 @@ export default class Filtrate extends Component<Props>{
         returntList.push(tempList[i].title);
       }
     }
-    // console.log(returntList);
+
     let date = dayjs(this.state.date).format('YYYY-MM')
     this.props.onSearch && this.props.onSearch({ List: returntList, date });
   }
@@ -81,7 +81,6 @@ export default class Filtrate extends Component<Props>{
       // tempList[i].title = tempList[i].key;
     }
     if (e.target.nodeName == 'LI') {
-      // console.log(e.target.innerText)
       tempList[index].title = e.target.innerText;
       this.submit();
     } else {

@@ -15,8 +15,8 @@ export function ListStoreQueue(params:any) {
         </div>
         <div>
           <span>下一次预计铺店：100</span>
-          <span className={styles.improve_button}>提高排名</span>
-          <span className={styles.change_record}>贡献值变更记录</span>
+          <span className={styles.improve_button} onClick={()=>router.push({ pathname: 'qr_code_page/rules' })}>提高排名</span>
+          <span className={styles.change_record} onClick={() => router.push({ pathname: 'qr_code_page/change_record' })}>贡献值变更记录</span>
         </div>
       </div>
       <ul className={styles.preview_queue}>

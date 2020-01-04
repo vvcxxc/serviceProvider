@@ -79,13 +79,11 @@ export default class QRcode extends Component {
             let tempList = this.state.resDataList.concat(res.data.list.data);
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
         }).catch((err) => {
-            console.log(err)
         })
     }
 
 
     searchPayload = (query: any) => {
-        console.log('lll', query)
         // router.push({ pathname: '/QRcode/search', query: query })
     }
 

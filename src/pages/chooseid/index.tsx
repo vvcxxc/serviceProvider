@@ -19,7 +19,6 @@ class ChooseId extends Component {
     })
   }
   handleSelectType = (e: any) => {
-    console.log(e.target.value)
     this.setState({
       bussiness_type: e.target.value
     })

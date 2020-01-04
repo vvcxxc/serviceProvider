@@ -5,10 +5,7 @@ interface Props {
   showTwo?:boolean|false
 }
 export default class ArticleInput extends Component<Props> {
-  componentDidMount() {
-    console.log(this.props,'ror ');
-    
-  }
+
   render() {
     return (
       <div className={styles.articleBox}>

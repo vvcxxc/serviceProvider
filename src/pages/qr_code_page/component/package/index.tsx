@@ -9,7 +9,9 @@ export function ListPackage(params:any) {
     <main>
       <div className={styles.total_package}>
         <div>当前码单价：300</div>
-        <div className={styles.check_record}>转进转出记录</div>
+        <div className={styles.check_record}>
+          {/* 转进转出记录 */}
+          </div>
       </div>
 
       <div className={styles.list_package}>

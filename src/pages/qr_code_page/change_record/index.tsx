@@ -6,7 +6,7 @@ export default class Rules extends Component {
   render() {
     return (
       <main>
-        <div className={styles.record_box}>
+        <div className={styles.change_record}>
           <span>2019-12-12</span>
           <span>码包1</span>
           <span>每日增长</span>

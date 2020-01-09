@@ -4,14 +4,19 @@ import React from 'react'
 import styles from './index.less'
 
 export function ListStreRecord(params:any) {//记录
-  let options: Array<any> = []
+  const { list } = params
   return (
     <main>
-      <div className={styles.record_box}>
-        <span>2019-12-12</span>
-        <span>码包1</span>
-        <span>+100</span>
-      </div>
+      {
+        list.map((value:any) => {
+        return  <div key={value.id} className={styles.record_box}>
+          <span>{value.created_at}</span>
+          <span>{value.facilitator.name}</span>
+          <span>+{value.stage_qrcode_num}</span>
+          </div>
+        })
+      }
+      
     </main>
   )
 }

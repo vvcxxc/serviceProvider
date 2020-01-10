@@ -102,7 +102,7 @@ export default class Finance extends Component {
     const listView = (
       <div>
         {
-          list.map((item: any, index) => {
+          list.length && list.map((item: any, index) => {
             return <Item money={item.money} name={item.shop_name} date={item.created_at} qrCode={item.qrcode_id} key={index} />
           })
         }

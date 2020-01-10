@@ -70,7 +70,9 @@ export default class Finance extends Component {
         page: 1
       }
     }).then(res => {
-      this.setState({ list: res.data.data })
+      if (res.code == 200 && res.data.data) {
+        this.setState({ list: res.data.data })
+      }
     })
   }
   // 触底
@@ -81,7 +83,7 @@ export default class Finance extends Component {
         url: 'qrcodeLog',
         params: { page: this.state.page + 1 }
       }).then(res => {
-        if (res.code == 200) {
+        if (res.code == 200 && res.data.data) {
           // let list = this.state.list;
           this.setState({ is_show_loading: false })
           let list = [...this.state.list, ...res.data.data]

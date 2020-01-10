@@ -23,14 +23,11 @@ const host = API ? API : 'http://test.service_provider_api.tdianyi.com/';
 export default function request(options: Options) {
     /**验证token */
     const token = localStorage.getItem('token');
-    // console.log(token, 'sad')
     /**合并headers */
     if (token) {
-        // console.log(123)
         options.headers = { ...options.headers, Authorization: "Bearer " + token, }
-        //   console.log(options.headers)
     } else {
-        // console.log(234)
+
         options.headers = { ...options.headers }
     }
     // options.headers = { ...options.headers, Authorization: token };

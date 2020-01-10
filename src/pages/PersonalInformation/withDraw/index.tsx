@@ -37,7 +37,6 @@ export default class WithDraw extends Component {
 
   }
   moneyChange = (v: any) => {
-    // console.log(v)
     if (v * 1 > Number(this.state.all_money)) {
       this.setState({ is_show: false })
     } else {
@@ -55,7 +54,6 @@ export default class WithDraw extends Component {
 
   // 去上传
   goUpload = () => {
-    console.log(2)
   }
 
   // 申请提现

@@ -24,7 +24,6 @@ class BusinessLicense extends Component {
     componentDidMount() { 
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
-            // console.log(res)
             let { data } = res.data;
             let oss_data = {
                 policy: data.policy,

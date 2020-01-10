@@ -37,7 +37,6 @@ class BusinessLicense extends Component {
     async componentDidMount() {
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
-            // console.log(res)
             let { data } = res.data;
             let oss_data = {
                 policy: data.policy,
@@ -68,13 +67,11 @@ class BusinessLicense extends Component {
                 })
 
                 // if(Cookies.get("EditSaleValidity") || Cookies.get("EditSaleValidity") == "") {
-                //     console.log('1')
                 //     Cookies.remove("EditSaleValidity");
                 // }
 
 
                 if (typeof (Cookies.get("EditSaleValidity")) == "undefined") {
-                    console.log('2')
                     Cookies.set("EditSaleValidity", JSON.stringify(res.data.prove_valid_time), { expires: 1 });
                 }
             } else if (res.code == 200 && res.data == null) {

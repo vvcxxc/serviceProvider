@@ -63,7 +63,6 @@ export default class InvitationServiceProvider extends Component {
         jsApiList: ['updateAppMessageShareData']
       });
     }).catch(err => {
-      console.log(err)
     });
     window.scrollTo(0, 0);
     this.requestInfo();
@@ -96,7 +95,6 @@ export default class InvitationServiceProvider extends Component {
   }
 
   searchPayload = (query: any) => {
-    console.log('lll', query)
     // router.push({ pathname: '/InvitationServiceProvider/search', query: query })
   }
 
@@ -120,7 +118,21 @@ export default class InvitationServiceProvider extends Component {
       let tempList = this.state.invitationList.concat(res.data.book.data);
       this.setState({ invitationData: res.data, invitationList: tempList, listPage: Number(this.state.listPage) + 1 })
     }).catch((err) => {
-      console.log(err)
+    })
+  }
+  requestList1 = () => {
+    Toast.loading('');
+    Request({
+      url: 'facilitatorIncome',
+      method: 'GET',
+      params: {
+        page: 1
+      }
+    }).then(res => {
+      Toast.hide();
+      let tempList = res.data.book.data
+      this.setState({ invitationData: res.data, invitationList: tempList, listPage: Number(this.state.listPage) + 1 })
+    }).catch((err) => {
     })
   }
 

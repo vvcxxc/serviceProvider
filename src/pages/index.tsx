@@ -1,217 +1,149 @@
-/**title: 我的码 */
+/**title: 二维码 */
 import React, { Component } from 'react';
-import Filtrate from '../components/Filtrate/index';
-import Invitation from '../components/Invitation/index';
-import Request from '@/service/request';
 import styles from './index.less';
 import router from 'umi/router';
-import { Icon } from 'antd-mobile';
-import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
-// declare global {
-//   interface Window { api: string; }
-// }
-// const host = window.api
-let timer = null
-export default class QRcode extends Component {
+import Request from '@/service/request';
+import { Toast, PullToRefresh } from 'antd-mobile';
+// import ScrollBottom from '@/components/ScrollBottom';
+import { ListCode } from './qr_code_page/component/code'//二维码列表组件
+import { ListPackage } from './qr_code_page/component/package'//列表组码包件
+import { ListStoreQueue } from './qr_code_page/component/store_queue'//铺店队列
+import { ListStreRecord } from './qr_code_page/component/store_record'//铺店记录
+import ReactDOM from 'react-dom'
+
+export default class QrCodePage extends Component {
   state = {
-    dataList: [
-      {
-        index: 0,
-        key: '排序',
-        title: '排序',
-        value: ['收益', '邀请人数', '邀请时间'],
-        select: false
-      },
-      {
-        index: 1,
-        key: '铺设状态',
-        title: '铺设状态',
-        value: ['全部', '已铺设', '未铺设'],
-        select: false
-      }
-    ],
-    invitationShow: false,
-    closeNum: 1,
-    listPage: 1,
-    data: {
-      layout: 0,
-      list: {
-        current_page: 1,
-        data: [
-        ],
-        last_page: 99,
-        path: "",
-        per_page: 0,
-        total: 0,
-      },
-      money_total: 0
-    },
-    data_r: {},
-    resDataList_r: [],
-    resDataList: [],
-    is_show: false,
-    rem: '1.4rem'
+    options: ['二维码', '码包', '铺店队列', '铺店记录'],
+    options_index: 0,
+    
+    currentPrice: 1,
+    is_show_loading: true,
+    qrCodeList: [],
+    qrCodePage:1,
+    
+    packageList: [],
+    packagePage: 1,
+
+    queuePage: 1,
+    queueList: [],
+    queueTitle: {},
+
+    record_list: [],
+    recordPage: 1,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     Toast.loading('');
-    Request({
-      url: 'qrCodeList',
-      method: 'GET',
-      params: {
-        page: 1
-      }
-    }).then(res => {
-      Toast.hide();
-      let tempList = this.state.resDataList.concat(res.data.list.data);
-      this.setState({ data: res.data, resDataList: tempList, listPage: 2 })
-    }).catch((err) => {
-      console.log(err)
-    })
-    timer = setInterval(() => {
-      this.verifyTheNumber()
-    }, 10000)
-  }
-
-  // 验证数量是否更新
-  verifyTheNumber = () => {
-    Request({
-      url: 'qrCodeList',
-      method: 'GET',
-      params: {
-        page: 1
-      }
-    }).then(res => {
-      console.log('刷新了')
-      let money_total = res.data.money_total;
-      if (money_total != this.state.data.money_total) {
-        let tempList = res.data.list.data;
-        this.setState({
-          is_show: true,
-          data_r: res.data,
-          resDataList_r: tempList,
-          listPage_r: 1,
-          rem: '2rem'
-        })
-      }
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-
-  refresh = () => {
-    this.setState({
-      data: this.state.data_r,
-      resDataList: this.state.resDataList_r,
-      listPage: 1
-    }, () => {
-      clearInterval(timer)
-      this.setState({ is_show: false })
-    })
   }
 
   requestList = () => {
-    if (this.state.listPage - 1 > this.state.data.list.last_page) {
-      return
-    }
-    Toast.loading('');
+    const { options_index } = this.state
+    const urls = ['qrCodeList', 'Packages', 'Attacheds', 'LayoutLog']
     Request({
-      url: 'qrCodeList',
-      method: 'GET',
+      url: urls[options_index],
+      method:  "GET",
       params: {
-        page: this.state.listPage
+        page: [this.state.qrCodePage, this.state.packagePage, this.state.queuePage, this.state.recordPage][options_index]
       }
     }).then(res => {
+      if (res.code !== 200) return
+      switch (options_index) {
+        case 0://二维码
+          break;
+        case 1://码包
+          const { data, currentPrice } = res.data
+          this.setState({
+            packagePage: 1 + this.state.packagePage,
+            packageList: [...this.state.packageList, ...data], currentPrice,
+            is_show_loading: data.length < 1 ? false : true
+          })
+          break;
+        case 2://铺店队列
+          const { self, Attacheds } = res.data
+          this.setState({
+            queuePage: 1 + this.state.queuePage,
+            queueTitle: self,
+            queueList: [...this.state.queueList, ...Attacheds],
+            is_show_loading: Attacheds.length < 1 ? false : true 
+          })
+          break;
+        default://铺店记录
+          this.setState({
+            recordPage: 1 + this.state.recordPage ,
+            record_list: [...this.state.record_list, ...res.data.data],
+            is_show_loading: res.data.data.length < 1 ? false : true 
+          })
+          break;
+      }
       Toast.hide();
-      let tempList = this.state.resDataList.concat(res.data.list.data);
-      this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
     }).catch((err) => {
-      console.log(err)
+
     })
   }
 
+  scrollBottom = () => {
 
-  searchPayload = (query: any) => {
-    console.log('lll', query)
-    // router.push({ pathname: '/QRcode/search', query: query })
+    if (this.state.is_show_loading) {
+      Toast.loading('');
+      this.requestList()
+    } else {
+      Toast.info('暂无更多数据', 1)
+    }
+
   }
 
-  handleclose = (query: any) => {
-    this.setState({ invitationShow: false })
+  getOptionsIndex = (options_index: number) => {
+    Toast.loading('');
+    this.setState({ options_index }, () => { this.requestList()})
   }
-  componentWillUnmount() {
-    clearInterval(timer)
-  }
-
+ 
   render() {
+    let els:any 
+    const { options, packageList, currentPrice, is_show_loading, record_list, queueList, queueTitle } = this.state
     return (
-      <div className={styles.QRcode} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }}>
-        <div className={styles.headers}>
-          <Filtrate
-            // dataList={this.state.dataList}
-            dataList={[]}
-            onSearch={this.searchPayload}
-            closeNum={this.state.closeNum}
-            searchPath={'/QRcode/search'}
-          />
-
-          <div className={styles.QRcode_total}>
-            <div className={styles.totalPeople}>共{this.state.data.list.total}个码，{this.state.data.layout}个已铺设</div>
-            <div className={styles.totalMoney}>带来总收益￥{this.state.data.money_total}</div>
-          </div>
-
+      <div className={styles.qr_code}>
+        <header>
+          <ul>
+            {
+              options.map((value, options_index: number) => {
+                return <li key={value} className={options_index === this.state.options_index ? styles.li_border : ''}
+                  onClick={this.getOptionsIndex.bind(this, options_index)}>{value}</li>
+              })
+            }
+          </ul>
+        </header>
+        {/* <PullToRefresh
+          direction={'up'}
+          style={{
+            height: '100%',
+            overflow:'hidden'
+          }}
+          ref={el=>els = el}
+          distanceToRefresh={25}
+          refreshing={this.state.refreshing}
+          onRefresh={() => {
+            this.getMoreData, console.log(els,'els');
+          }}
+          damping={190}
+        > */}
           {
-            this.state.is_show ? <div className={styles.refresh}>有新数据来源，请点击刷新</div> : null
+            [
+              { title: <ListCode /> },
+              { title: <ListPackage list={packageList} price={currentPrice} /> },
+              { title: <ListStoreQueue list={queueList} title={queueTitle} /> },
+              { title: <ListStreRecord list={record_list} /> }
+            ][this.state.options_index].title
           }
-        </div>
-
-        <div className={styles.mains} style={{ marginTop: this.state.rem }}>
-
-
-          {
-            this.state.resDataList && this.state.resDataList.length > 0 ? <div className={styles.QRcode_content}>
-              {
-                this.state.resDataList.map((item: any, index: any) => {
-                  return (
-                    <div className={styles.QRcode_item} key={index}>
-                      <div className={styles.QRcode_item_left}>
-                        <div className={styles.QRcode_item_name}>二维码序列号：{item.qrcode_sn}</div>
-                        {
-                          item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_date}>店铺：{item.shop_name}</div> : null
-                        }
-                      </div>
-                      <div className={styles.QRcode_item_right}>
-                        {
-                          item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toDay}>今日收益{item.today_money}</div> : null
-                        }
-
-                        {
-                          item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_toMonth}>本月收益{item.month_money}</div> : null
-                        }
-                        {
-                          item.shop_name && item.shop_name != "" && item.shop_name != "0" ? <div className={styles.QRcode_item_total}>总收益{item.total_money}</div> : null
-                        }
-
-                      </div>
-                    </div>
-                  )
-                })
-              }
-              <div className={styles.loadingMore_button_box} onClick={this.requestList}>
-                {
-                  this.state.listPage - 1 <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
-                }
-              </div>
-            </div> : null
-          }
-          {
-            this.state.resDataList && this.state.resDataList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
-          }
-
-        </div>
-
+        {/* </PullToRefresh> */}
+          <div style={{
+            height: '1rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }} onClick={is_show_loading ? this.scrollBottom : () => { }}>{is_show_loading ? '更多数据' : '暂无更多数据'}</div>
+        
+        {/* <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading} /> */}
       </div>
     )
   }
-
 }

@@ -128,7 +128,6 @@ export default class Calendar extends Component<Props> {
     date.setFullYear(year)
     date.setMonth(mounth)
     const { start, end, distinguish } = this.state
-    console.log('jinru ', start, end);
     // if (start && end && start > end) {
       
       
@@ -178,8 +177,6 @@ export default class Calendar extends Component<Props> {
 
     if (distinguish == 3) {
       localStorage.setItem('start111', JSON.stringify(4))
-      // console.log(start, end,'开始到结束');
-      
       if (start < end) {
         // localStorage.setItem('start', JSON.stringify(index))
         // this.setState({

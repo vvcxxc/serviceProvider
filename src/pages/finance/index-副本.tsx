@@ -11,10 +11,20 @@ const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 export default class Finance extends Component {
   state = {
+    dataList: [
+      {
+        key: '筛选',
+        value: ['筛选', '二维码收入', '邀请人分成'],
+        select: false
+      },
+    ],
     invitationShow: false,
     closeNum: 1,
     list: [],
-    page: 1,
+    data: {
+      page: 1,
+      date: dayjs(now).format('YYYY-MM')
+    },
     is_show_loading: true,
     expenditure: 0,
     income: 0
@@ -47,51 +57,59 @@ export default class Finance extends Component {
       params = { date, page: 1 }
     }
     this.setState({ data: params })
-    // Request({
-    //   method: 'get',
-    //   url: 'getBill',
-    //   params
-    // }).then(res => {
-    //   if (res.code == 200) {
-    //     this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
-    //     if (this.state.data.page < res.data.boot.last_page) {
-    //       this.setState({ is_show_loading: true })
-    //     } else {
-    //       this.setState({ is_show_loading: false })
-    //     }
-    //   }
-    // })
+    Request({
+      method: 'get',
+      url: 'getBill',
+      params
+    }).then(res => {
+      if (res.code == 200) {
+        this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
+        if (this.state.data.page < res.data.boot.last_page) {
+          this.setState({ is_show_loading: true })
+        } else {
+          this.setState({ is_show_loading: false })
+        }
+      }
+    })
   }
   componentDidMount() {
     Request({
       method: 'get',
-      url: 'qrcodeLog',
+      url: 'getBill',
       params: {
-        page: 1
+        date: dayjs(now).format('YYYY-MM')
       }
     }).then(res => {
-      this.setState({ list: res.data.data })
+      if (res.code == 200) {
+        this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
+        if (this.state.data.page < res.data.boot.last_page) {
+          this.setState({ is_show_loading: true })
+        } else {
+          this.setState({ is_show_loading: false })
+        }
+      }
     })
   }
   // 触底
   scrollBottom = () => {
     if (this.state.is_show_loading) {
+      let data = this.state.data;
+      data.page += 1;
       Request({
         method: 'get',
-        url: 'qrcodeLog',
-        params: { page: this.state.page + 1 }
+        url: 'getBill',
+        params: data
       }).then(res => {
         if (res.code == 200) {
           // let list = this.state.list;
           this.setState({ is_show_loading: false })
-          let list = [...this.state.list, ...res.data.data]
-          this.setState({ list, page: this.state.page + 1 }, () => {
-            if (this.state.page < res.data.last_page) {
-              this.setState({ is_show_loading: true })
-            } else {
-              this.setState({ is_show_loading: false })
-            }
-          })
+          let list = [...this.state.list, ...res.data.boot.data]
+          this.setState({ list, data, })
+          if (this.state.data.page < res.data.boot.last_page) {
+            this.setState({ is_show_loading: true })
+          } else {
+            this.setState({ is_show_loading: false })
+          }
         }
       })
     }
@@ -103,13 +121,28 @@ export default class Finance extends Component {
       <div>
         {
           list.map((item: any, index) => {
-            return <Item money={item.money} name={item.shop_name} date={item.created_at} qrCode={item.qrcode_id} key={index} />
+            return <Item money={item.money} name={item.describe} date={item.created_at} valid={item.is_valid} key={index} />
           })
         }
       </div>
     )
     return (
       <div className={styles.finance_page}>
+        <Filtrate
+          dataList={this.state.dataList}
+          onSearch={this.searchPayload}
+          closeNum={this.state.closeNum}
+          isDate={true}
+        />
+        <Flex className={styles.finance_header}>
+          <WingBlank style={{ width: '100%' }}>
+            <Flex justify='between' style={{ width: '100%' }}>
+              <div>收款￥{String(this.state.income)}</div>
+              <div>提现￥{String(this.state.expenditure)}</div>
+            </Flex>
+          </WingBlank>
+        </Flex>
+
         {
           list.length ? (
             (
@@ -126,7 +159,7 @@ export default class Finance extends Component {
             )
         }
         {/* <div className={styles.no_data}>
-          账单统计中
+          统计中
         </div> */}
       </div>
     )

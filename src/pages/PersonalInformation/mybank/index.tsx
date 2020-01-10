@@ -24,7 +24,6 @@ export default class MyBank extends Component {
         this.setState({ is_show: true, bank_info: res.data.userBankinfo })
       } else {
         // 没有银行卡
-        console.log(123)
         this.setState({ is_show: false })
       }
     })

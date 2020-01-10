@@ -22,6 +22,23 @@ export default class ScrollBottom extends Component<Props> {
       observer.observe(box); // 监听一个box
     }
   }
+
+  // componentDidUpdate(newProps: object) {
+  //   console.log(newProps,'newProps');
+  //   if (newProps.isShow) {
+  //     let box: any = document.querySelector(".box");
+
+  //     let observer = new IntersectionObserver(entries => {
+  //       entries.forEach(item => {
+  //         if (item.isIntersecting) {
+  //           this.props.onChange()
+  //         }
+  //       });
+  //     });
+  //     observer.observe(box); // 监听一个box
+  //   }
+  // }
+
   render (){
     return (
       <div className='box' style={{width: '100%', height: '1px'}}></div>

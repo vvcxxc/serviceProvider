@@ -8,8 +8,8 @@ export function ListStreRecord(params:any) {//记录
   return (
     <main>
       {
-        list.map((value:any) => {
-        return  <div key={value.id} className={styles.record_box}>
+        list.map((value:any,index:number) => {
+        return  <div key={index} className={styles.record_box}>
           <span>{value.created_at}</span>
           <span>{value.facilitator.name}</span>
           <span>+{value.stage_qrcode_num}</span>

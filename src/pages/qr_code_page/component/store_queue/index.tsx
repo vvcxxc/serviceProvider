@@ -5,9 +5,7 @@ import router from 'umi/router';
 import styles from './index.less'
 
 export function ListStoreQueue(params:any) {
-  let options: Array<any> = [0, 1, 2]
-  console.log(params,'memem');
-  const { list , title } = params
+  const { list, title } = params
   return (
     <main>
       <div className={styles.prompt}>
@@ -32,7 +30,7 @@ export function ListStoreQueue(params:any) {
         {
           list.map((value:any,index: number) => {
             return <li key={index} className={styles.list_children} style={{ lineHeight: index?'1rem':'0.6rem'}}>
-              <span>1</span>
+              <span>{index+1}</span>
               <span>{value.FacilitatorName}</span>
               <span>+{value.next_layout_num}</span>
               <span>{value.now_score_num}%</span>

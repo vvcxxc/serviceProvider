@@ -33,7 +33,7 @@ export default class Rules extends Component {
           packageList.map((value: any) => {
             return <div key={value.id} className={styles.change_record}>
               <span>{value.created_at}</span>
-              <span>{value.package_sn.split('-')[1]}</span>
+              <span>{value.package_sn.split('-')[1] ? value.package_sn.split('-')[1] : value.package_sn}</span>
               <span>
                 {['每日增长', '附加增值', '够店增长'][value.type]}
                 </span>

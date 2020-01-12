@@ -24,7 +24,7 @@ export function ListPackage(params: any) {
               <li> <span>已铺：{value.layouted_num}</span> </li>
               <li> <span>当前阶段：{value.now_stage_num}</span> </li>
               <li> <span>下阶段铺设：{value.next_layout_num ? value.next_layout_num:'-'}</span></li>
-              <li> <span>码包来源：{value.from_type}</span> </li>
+              <li> <span>码包来源：{['购买', '转让', '旧数据处理'][value.from_type - 1]}</span> </li>
               {/* <li><span className={styles.transfer}>转让</span></li> */}
             </ul>
             <ul>

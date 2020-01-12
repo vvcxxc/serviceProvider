@@ -148,7 +148,7 @@ export default class QrCodePage extends Component {
 
   getOptionsIndex = (options_index: number) => {
     Toast.loading('');
-    this.setState({ options_index }, () => { this.requestList() })
+    this.setState({ options_index, is_show_loading:true }, () => { this.requestList() })
   }
 
   //筛选组触发

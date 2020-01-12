@@ -20,7 +20,7 @@ export default class Search extends Component {
 
 
   handleWrite = (e: any) => {
-    this.setState({ searchKey: e.target.value, page: 1, resDataList: [] }, () => {
+    this.setState({ searchKey: e.target.value, page: 1, have_more:'', resDataList: [] }, () => {
       this.handleSearch();
     })
   }

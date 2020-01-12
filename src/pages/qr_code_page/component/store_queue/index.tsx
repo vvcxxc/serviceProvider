@@ -39,8 +39,9 @@ export function ListStoreQueue(params:any) {
       </ul>
       {
         list.length && title.row ? <ul className={styles.preview_queue}>
+          <li className={styles.omit}>....</li>
           <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
-            <span>{list.length}</span>
+            <span>{list.length+1}</span>
             <span className={styles.constrol_place}>{title.row.FacilitatorName}</span>
             <span>+{title.row.next_layout_num}</span>
             <span>{title.row.now_score_num}%</span>

@@ -153,7 +153,7 @@ export default class QrCodePage extends Component {
 
   //筛选组触发
   searchPayload = (filter: any) => {
-    this.setState({ filter, qrCodePage:1 }, () => {
+    this.setState({ filter, qrCodePage: 1, qrCodeList:[] }, () => {
       this.requestList()
     })
   }

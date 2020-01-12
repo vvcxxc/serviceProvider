@@ -10,6 +10,7 @@ import { ListPackage } from './qr_code_page/component/package'//列表组码包�
 import { ListStoreQueue } from './qr_code_page/component/store_queue'//铺店队列
 import { ListStreRecord } from './qr_code_page/component/store_record'//铺店记录
 import Filtrate from '../components/Filtrate/ql';//筛选组件
+// import Search from './QRcode/ql'
 import ReactDOM from 'react-dom'
 
 export default class QrCodePage extends Component {
@@ -158,10 +159,9 @@ export default class QrCodePage extends Component {
   }
 
   render() {
-    let els: any
     const {
-      options_index, options, packageList, currentPrice, is_show_loading, record_list, queueList, queueTitle,
-      qrCodeList, qrCodeTitle
+      options_index, options, packageList, currentPrice, is_show_loading,
+      record_list, queueList, queueTitle, qrCodeList, qrCodeTitle
     } = this.state
     return (
       <div className={styles.qr_code}>
@@ -179,12 +179,8 @@ export default class QrCodePage extends Component {
           !options_index ? <Filtrate
             onChange={this.searchPayload}
             dataList={this.state.dataList}
-            // onSearch={this.searchPayload}
-            // closeNum={this.state.closeNum}
-            searchPath={'/QRcode/search'}
           /> : null
         }
-
         {
           [
             { title: <ListCode list={qrCodeList} title={qrCodeTitle}/> },
@@ -194,14 +190,8 @@ export default class QrCodePage extends Component {
           ][this.state.options_index].title
         }
         {
-          options_index !== 2 ? <div style={{
-            height: '1rem',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }} onClick={is_show_loading ? this.scrollBottom : () => { }}>{is_show_loading ? '更多数据' : '暂无更多数据'}</div>:null
+          options_index !== 2 ? <div className={styles.more_data_ql} onClick={is_show_loading ? this.scrollBottom : () => { }}>{is_show_loading ? '更多数据' : '暂无更多数据'}</div>:null
         }
-        
       </div>
     )
   }

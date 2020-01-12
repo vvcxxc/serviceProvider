@@ -27,7 +27,7 @@ export default class Filtrate extends Component<Props>{
 
   //搜索跳转
   routerGo = (e: any) => {
-    router.push({ pathname: this.props.searchPath })
+    router.push({ pathname: '/QRcode/ql'})
     e.stopPropagation();
   }
 

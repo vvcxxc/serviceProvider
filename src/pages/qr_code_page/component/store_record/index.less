@@ -1,7 +1,7 @@
 main {
   .record_box {
     display: flex;
-    justify-content: space-around;
+    // justify-content: space-around;
     height: 100px;
     line-height: 100px;
     color: rgba(102, 102, 102, 1);
@@ -10,10 +10,17 @@ main {
      border-bottom: 2px solid #f3f3f3;
      margin-left: 18px;
      margin-right: 22px;
+     span:nth-child(1){
+      flex:2;
+     }
     span:nth-child(2){
+      flex:4.5;
       color: rgba(16, 16, 16, 1);
       font-size: 28px;
       font-family: SourceHanSansSC-regular;
+    }
+    span:nth-child(3){
+      flex:1
     }
   }
 }

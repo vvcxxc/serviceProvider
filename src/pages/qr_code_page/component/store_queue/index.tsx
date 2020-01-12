@@ -28,7 +28,7 @@ export function ListStoreQueue(params:any) {
         </li>
         {
           list.map((value:any,index: number) => {
-            return <li key={index} className={styles.list_children} style={{ lineHeight: index?'1rem':'0.6rem'}}>
+            return <li key={index} className={styles.list_children} style={{ lineHeight: '1rem'}}>
               <span>{index+1}</span>
               <span className={styles.constrol_place}>{value.FacilitatorName}</span>
               <span>+{value.next_layout_num}</span>

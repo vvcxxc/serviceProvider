@@ -11,7 +11,7 @@ export function ListStreRecord(params:any) {//记录
         list.map((value:any,index:number) => {
         return  <div key={index} className={styles.record_box}>
           <span>{value.created_at}</span>
-          <span>{value.facilitator.name}</span>
+          <span>{value.package_sn}</span>
           <span>+{value.stage_qrcode_num}</span>
           </div>
         })

@@ -91,7 +91,7 @@ export default class QrCodePage extends Component {
           this.setState({
             qrCodeTitle: {
               total: res.data.qrcode_count,//共n个码
-              haved: res.data.total, //已铺设n
+              haved: res.data.layouted, //已铺设n
               money: res.data.money_total,//总收益
             },
             qrCodeList: this.state.qrCodePage > 1 ? [...this.state.qrCodeList, ...res.data.data]:res.data.data,

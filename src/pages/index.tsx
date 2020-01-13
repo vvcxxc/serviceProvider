@@ -63,18 +63,26 @@ export default class QrCodePage extends Component {
     Toast.loading('');
   }
 
+  componentDidMount() {
+    this.requestList()
+  }
+
   requestList = () => {
     const { options_index } = this.state
     const urls = ['qrCodes', 'Packages', 'Attacheds', 'LayoutLog']
     //orderBy 本月收益 month_money  今日收益 today_money 总收益total_money
     //status all全部 layouted 已铺设  notLayout 未铺设
     //codeSn
+    let filter = {}
+    if(!options_index){
+      filter = {...this.state.filter}
+    }
     Request({
       url: urls[options_index],
       method: "GET",
       params: {
         page: [this.state.qrCodePage, this.state.packagePage, 1, this.state.recordPage][options_index],
-        ...this.state.filter
+        ...filter
       }
     }).then(res => {
       if (res.code !== 200) return
@@ -163,6 +171,7 @@ export default class QrCodePage extends Component {
 
   //筛选组触发
   searchPayload = (filter: any) => {
+    console.log(filter)
     this.setState({ filter, qrCodePage: 1, qrCodeList:[] }, () => {
       this.requestList()
     })

@@ -102,7 +102,7 @@ export default class QrCodePage extends Component {
           this.setState({
             queueTitle: self,
             queueList: Attacheds,
-            is_show_loading: Attacheds.length < 1 ? false : true 
+            is_show_loading: Attacheds.length < 1 ? false : true
           })
           break;
         default://铺店记录
@@ -130,7 +130,7 @@ export default class QrCodePage extends Component {
       case 3:
         this.setState({ recordPage: this.state.recordPage + 1 }, this.getMoreData)
         break;
-    
+
       default:
         break;
     }
@@ -148,6 +148,16 @@ export default class QrCodePage extends Component {
 
   getOptionsIndex = (options_index: number) => {
     Toast.loading('');
+
+    // 切换的时候会多请求一次。。。。
+    this.setState({
+      qrCodeList: [],
+      packageList: [],
+      queueList: [],
+      record_list: []
+    })
+
+
     this.setState({ options_index, is_show_loading:true }, () => { this.requestList() })
   }
 

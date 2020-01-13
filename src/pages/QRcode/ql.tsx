@@ -25,7 +25,7 @@ export default class Search extends Component {
     })
   }
 
-  
+
   handleSearch = () => {
     const { page, searchKey} =this.state
     if (searchKey == '') {
@@ -36,7 +36,7 @@ export default class Search extends Component {
       url: 'qrCodes',
       method: 'GET',
       params: {
-        codeSn: searchKey,
+        name: searchKey,
         page
       }
     }).then(res => {
@@ -88,10 +88,10 @@ export default class Search extends Component {
               <li><span></span> 总收益{item.total_money}</li>
             </ul>
          })}
-        
+
         <div className={styles.more_data_ql} onClick={this.getMoreData}>
           {
-            have_more 
+            have_more
           }
         </div>
         {

@@ -43,7 +43,6 @@ class BankCard extends Component {
     async componentDidMount() {
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
-            // console.log(res)
             let { data } = res.data;
             let oss_data = {
                 policy: data.policy,
@@ -263,7 +262,6 @@ class BankCard extends Component {
                     is_edit: 1
                 }
             }).then(res => {
-                // console.log(res)
                 if (res.code == 200) {
                     Toast.success(res.message, 2, () => {
                         router.push('/login')
@@ -285,7 +283,6 @@ class BankCard extends Component {
                     bankcard_back_img: img_url_behind
                 }
             }).then(res => {
-                // console.log(res)
                 if (res.code == 200) {
                     Toast.success(res.message, 2, () => {
                         router.push('/login')

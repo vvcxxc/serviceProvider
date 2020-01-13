@@ -46,7 +46,6 @@ export default class Search extends Component {
         this.setState({ invitationShow: false })
     }
     handleWrite = (e: any) => {
-        console.log(e)
         this.setState({ searchKey: e.target.value, listPage: 1, invitationData: {}, invitationList: [] }, () => {
             this.handleSearch();
         })

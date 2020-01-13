@@ -1,17 +1,37 @@
-/**title: 搜索 */
+/**title: 我的码 */
 import React, { Component } from 'react';
-import Filtrate from '../../components/Filtrate/index';
-import Invitation from '../../components/Invitation/index';
-import Request from '@/service/request'
-import styles from './search.less';
+import Filtrate from '../components/Filtrate/index';
+import Invitation from '../components/Invitation/index';
+import Request from '@/service/request';
+import styles from './index.less';
 import router from 'umi/router';
 import { Icon } from 'antd-mobile';
 import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
-
-export default class Search extends Component {
+// declare global {
+//   interface Window { api: string; }
+// }
+// const host = window.api
+let timer = null
+export default class QRcode extends Component {
     state = {
+        dataList: [
+            {
+                index: 0,
+                key: '排序',
+                title: '排序',
+                value: ['收益', '邀请人数', '邀请时间'],
+                select: false
+            },
+            {
+                index: 1,
+                key: '铺设状态',
+                title: '铺设状态',
+                value: ['全部', '已铺设', '未铺设'],
+                select: false
+            }
+        ],
         invitationShow: false,
-        searchKey: '',
+        closeNum: 1,
         listPage: 1,
         data: {
             layout: 0,
@@ -29,84 +49,63 @@ export default class Search extends Component {
         resDataList: []
     }
 
-
-
-    handleclose = () => {
-        this.setState({ invitationShow: false })
+    componentWillMount() {
+        // router.push({
+        //     pathname: 'qr_code_page'
+        // })
     }
 
-    handleWrite = (e: any) => {
-        this.setState({ searchKey: e.target.value, listPage: 1, data: {}, resDataList: [] }, () => {
-            this.handleSearch();
-        })
+    componentDidMount() {
+        this.requestList()
+        // timer = setInterval(()=>{
+
+        // },30000)
     }
-    handleSearch = () => {
-        let search = this.state.searchKey;
-        if (search == '') {
-            return;
+
+
+    requestList = () => {
+        if (this.state.listPage - 1 > this.state.data.list.last_page) {
+            return
         }
         Toast.loading('');
         Request({
             url: 'qrCodeList',
             method: 'GET',
             params: {
-                name: search,
-                page: 1
-            }
-        }).then(res => {
-            Toast.hide();
-            // let tempList = this.state.resDataList.concat(res.data.list.data);
-            let tempList = res.data.list.data
-            this.setState({ data: res.data, resDataList: tempList, listPage: 2 })
-        })
-    }
-    handleCancle = (e: any) => {
-        this.setState({ searchKey: '', listPage: 1, data: {}, resDataList: [] }, () => {
-            router.goBack();
-        })
-    }
-
-    handleAdd = () => {
-        let search = this.state.searchKey;
-        if (search === '') {
-            this.setState({ searchKey: '', listPage: 1, data: {}, resDataList: [] })
-            return;
-        }
-        Toast.loading('');
-        Request({
-            url: 'qrCodeList',
-            method: 'GET',
-            params: {
-                name: search,
                 page: this.state.listPage
             }
         }).then(res => {
             Toast.hide();
             let tempList = this.state.resDataList.concat(res.data.list.data);
-            // let tempList = res.data.list.data
             this.setState({ data: res.data, resDataList: tempList, listPage: Number(this.state.listPage) + 1 })
+        }).catch((err) => {
         })
     }
 
+
+    searchPayload = (query: any) => {
+        // router.push({ pathname: '/QRcode/search', query: query })
+    }
+
+    handleclose = (query: any) => {
+        this.setState({ invitationShow: false })
+    }
+
+
     render() {
         return (
-            <div className={styles.QRcode_search} >
+            <div className={styles.QRcode} onClick={() => { this.setState({ closeNum: this.state.closeNum + 1 }) }}>
+                <Filtrate
+                    // dataList={this.state.dataList}
+                    dataList={[]}
+                    onSearch={this.searchPayload}
+                    closeNum={this.state.closeNum}
+                    searchPath={'/QRcode/search'}
+                />
 
-                <div className={styles.ServiceProvider} >
-                    <div className={styles.ServiceProvider_searchBox}>
-                        <div className={styles.ServiceProvider_searchBox_icon}>
-                            <Icon type="search" />
-                        </div>
-                        <input type="text"
-                            className={styles.ServiceProvider_input}
-                            placeholder='输入店铺名称'
-                            value={this.state.searchKey}
-                            onChange={this.handleWrite.bind(this)}
-                        />
-
-
-                    </div>
-                    <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
+                <div className={styles.QRcode_total}>
+                    <div className={styles.totalPeople}>共{this.state.data.qrcode_count}个码，{this.state.data.layout_qrcode_count}个已铺设</div>
+                    <div className={styles.totalMoney}>带来总收益￥{this.state.data.money_total}</div>
                 </div>
                 {
                     this.state.resDataList && this.state.resDataList.length > 0 ? <div className={styles.QRcode_content}>
@@ -137,17 +136,18 @@ export default class Search extends Component {
                                 )
                             })
                         }
-                        <div className={styles.loadingMore_button_box} onClick={this.handleAdd}>
+                        <div className={styles.loadingMore_button_box} onClick={this.requestList}>
                             {
                                 this.state.listPage - 1 <= this.state.data.list.last_page ? ' 点击加载更多' : '暂无更多数据'
                             }
                         </div>
                     </div> : null
                 }
-
                 {
                     this.state.resDataList && this.state.resDataList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
                 }
+
+
 
             </div>
         )

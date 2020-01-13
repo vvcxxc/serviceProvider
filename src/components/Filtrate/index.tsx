@@ -24,16 +24,7 @@ const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 export default class Filtrate extends Component<Props>{
   state = {
-    dataList: [
-      // {
-      //     key: '排序',
-      //     value: ['排序', '收益', '邀请人数', '邀请时间'],
-      // },
-      // {
-      //     key: '铺设状态',
-      //     value: ['排序', '收益', '邀请人数', '邀请时间'],
-      // }
-    ],
+    dataList: [],
     date: now,
     show_date: '',
     is_show_date: false
@@ -68,9 +59,12 @@ export default class Filtrate extends Component<Props>{
         returntList.push(tempList[i].title);
       }
     }
-    // console.log(returntList);
+
     let date = dayjs(this.state.date).format('YYYY-MM')
-    this.props.onSearch && this.props.onSearch({ List: returntList, date });
+    this.props.onSearch && this.props.onSearch({
+      List: returntList,
+      date
+    });
   }
 
   selectKey = (index: any, e: any) => {
@@ -81,7 +75,6 @@ export default class Filtrate extends Component<Props>{
       // tempList[i].title = tempList[i].key;
     }
     if (e.target.nodeName == 'LI') {
-      // console.log(e.target.innerText)
       tempList[index].title = e.target.innerText;
       this.submit();
     } else {

@@ -32,7 +32,6 @@ export default class DataPage extends Component {
         year: arr[0]
       }
     }).then(res => {
-      console.log(res)
       let { days, countStats } = res.data
       let total = this.accAdd(countStats.codeStats,countStats.facilitatorStats)
       let xAxis = []
@@ -203,7 +202,6 @@ export default class DataPage extends Component {
   searchPayload = (a: any) => {
     let { date } = a
     let arr = date.split('-')
-    console.log(arr)
     Request({
       method: 'get',
       url: 'indexData',

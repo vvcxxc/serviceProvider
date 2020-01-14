@@ -3,6 +3,7 @@
 import React from 'react'
 import router from 'umi/router';
 import styles from './index.less'
+import { routerRedux } from 'dva/router';
 
 export function ListStoreQueue(params:any) {
   const { list, title } = params
@@ -37,17 +38,23 @@ export function ListStoreQueue(params:any) {
           })
         }
       </ul>
-      {
-        list.length && title.row ? <ul className={styles.preview_queue}>
-          <li className={styles.omit}>....</li>
-          <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
-            <span>{list.length+1}</span>
-            <span className={styles.constrol_place}>{title.row.FacilitatorName}</span>
-            <span>+{title.row.next_layout_num}</span>
-            <span>{title.row.now_score_num}%</span>
-          </li>
-        </ul>:null
-      }
+      
+        <ul className={styles.preview_queue}>
+        {
+          title.row.length ? <li className={styles.omit}>....</li>:null
+         }
+        {
+          title.row.map((item: any, index_: number) => {
+            return <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
+              <span>{list.length + 1}</span>
+              <span className={styles.constrol_place}>{item.FacilitatorName}</span>
+              <span>+{item.next_layout_num}</span>
+              <span>{item.now_score_num}%</span>
+            </li>
+            })
+          }
+        </ul>
+      
       <div className={styles.store_help} onClick={() => router.push({ pathname:'qr_code_page/rules'})}>帮助</div>
     </main>
   )

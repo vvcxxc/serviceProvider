@@ -15,19 +15,19 @@ export default class Search extends Component {
     searchKey: '',
     page: 1,
     resDataList: [],
-    have_more:''
+    have_more: ''
   }
 
 
   handleWrite = (e: any) => {
-    this.setState({ searchKey: e.target.value, page: 1, have_more:'', resDataList: [] }, () => {
+    this.setState({ searchKey: e.target.value, page: 1, have_more: '', resDataList: [] }, () => {
       this.handleSearch();
     })
   }
 
-  
+
   handleSearch = () => {
-    const { page, searchKey} =this.state
+    const { page, searchKey } = this.state
     if (searchKey == '') {
       return;
     }
@@ -43,7 +43,7 @@ export default class Search extends Component {
       Toast.hide();
       if (res.code !== 200) return
       this.setState({
-        have_more: res.data.data.length < 10 ? '暂无更多数据' : '点击加载更多' ,
+        have_more: res.data.data.length < 10 ? '暂无更多数据' : '点击加载更多',
         resDataList: page > 1 ? [...this.state.resDataList, ...res.data.data] : res.data.data
       })
     })
@@ -51,7 +51,7 @@ export default class Search extends Component {
 
 
   handleCancle = (e: any) => {
-      router.goBack();
+    router.goBack();
   }
 
   getMoreData = () => {
@@ -63,7 +63,7 @@ export default class Search extends Component {
 
 
   render() {
-    const { have_more, resDataList} = this.state
+    const { have_more, resDataList } = this.state
     return (
       <div className={styles.QRcode_search} >
         <div className={styles.ServiceProvider} >
@@ -81,17 +81,22 @@ export default class Search extends Component {
           <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
         </div>
         {
-         resDataList.map((item: any, index: any) => {
-            return <ul className={styles.ql_box} key={index}>
-              <li><span></span> 今日收益{item.today_money}</li>
-              <li><span>序列号 {item.qrcode_sn}</span> <span>本月收益 {item.month_money}</span> </li>
-              <li><span></span> 总收益{item.total_money}</li>
+          resDataList.map((value: any, index: number) => {
+            return <ul key={index} className={styles.listdata}>
+              <li>
+                <span>序列号 {value.qrcode_sn.split('-')[1] ? value.qrcode_sn.split('-')[1] : value.qrcode_sn}</span>
+                <span>今日收益 {value.today_money}</span>
+              </li>
+              <li><span></span><span>本月收益 {value.month_money}</span></li>
+              <li><span>
+                店铺名 {value.shop_name}</span><span>总收益 {value.total_money}</span></li>
             </ul>
-         })}
-        
+          })
+        }
+
         <div className={styles.more_data_ql} onClick={this.getMoreData}>
           {
-            have_more 
+            have_more
           }
         </div>
         {

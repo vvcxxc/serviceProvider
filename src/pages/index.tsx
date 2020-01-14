@@ -63,18 +63,27 @@ export default class QrCodePage extends Component {
     Toast.loading('');
   }
 
-  requestList = () => {
-    const { options_index } = this.state
-    const urls = ['qrCodes', 'Packages', 'Attacheds', 'LayoutLog']
-    //orderBy 本月收益 month_money  今日收益 today_money 总收益total_money
-    //status all全部 layouted 已铺设  notLayout 未铺设
-    //codeSn
+  componentDidMount() {
+    this.requestList('qrCodes', 1,1)
+    this.requestList('Packages', 1,2)
+    this.requestList('Attacheds', 1,3)
+    this.requestList('LayoutLog', 1,4)
+  }
+
+  requestList = (url?:any,page?:number,options?:number) => {
+    const urls = url ? url : ['qrCodes', 'Packages', 'Attacheds', 'LayoutLog'][this.state.options_index]
+    const pages = page ? page : [this.state.qrCodePage, this.state.packagePage, 1, this.state.recordPage][this.state.options_index]
+    let options_index = options ? options - 1 : this.state.options_index
+    let filter = {}
+    if(!options_index){
+      filter = {...this.state.filter}
+    }
     Request({
-      url: urls[options_index],
+      url: urls,
       method: "GET",
       params: {
-        page: [this.state.qrCodePage, this.state.packagePage, 1, this.state.recordPage][options_index],
-        ...this.state.filter
+        page:pages ,
+        ...filter
       }
     }).then(res => {
       if (res.code !== 200) return
@@ -83,7 +92,7 @@ export default class QrCodePage extends Component {
           this.setState({
             qrCodeTitle: {
               total: res.data.qrcode_count,//共n个码
-              haved: res.data.total, //已铺设n
+              haved: res.data.layouted, //已铺设n
               money: res.data.money_total,//总收益
             },
             qrCodeList: this.state.qrCodePage > 1 ? [...this.state.qrCodeList, ...res.data.data]:res.data.data,
@@ -102,7 +111,7 @@ export default class QrCodePage extends Component {
           this.setState({
             queueTitle: self,
             queueList: Attacheds,
-            is_show_loading: Attacheds.length < 1 ? false : true 
+            is_show_loading: Attacheds.length < 1 ? false : true
           })
           break;
         default://铺店记录
@@ -130,7 +139,7 @@ export default class QrCodePage extends Component {
       case 3:
         this.setState({ recordPage: this.state.recordPage + 1 }, this.getMoreData)
         break;
-    
+
       default:
         break;
     }
@@ -147,8 +156,7 @@ export default class QrCodePage extends Component {
   }
 
   getOptionsIndex = (options_index: number) => {
-    Toast.loading('');
-    this.setState({ options_index, is_show_loading:true }, () => { this.requestList() })
+    this.setState({ options_index, is_show_loading:true })
   }
 
   //筛选组触发

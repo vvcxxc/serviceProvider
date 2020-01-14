@@ -36,7 +36,7 @@ export default class Search extends Component {
       url: 'qrCodes',
       method: 'GET',
       params: {
-        codeSn: searchKey,
+        name: searchKey,
         page
       }
     }).then(res => {

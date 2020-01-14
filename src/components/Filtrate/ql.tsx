@@ -22,7 +22,7 @@ export default class Filtrate extends Component<Props>{
     const { dataList } = this.props
     const { title} = this.state
     this.setState({ dataList })
-    this.props.onChange({ orderBy: title[0].props, status: title[1].props })
+    // this.props.onChange({ orderBy: title[0].props, status: title[1].props })
   }
 
   //搜索跳转

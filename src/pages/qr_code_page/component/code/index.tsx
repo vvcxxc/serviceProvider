@@ -16,7 +16,7 @@ export function ListCode(params: any) {
         list.map((value: any, index: number) => {
           return <ul key={index} className={styles.listdata}>
             <li>
-              <span>序列号 {value.qrcode_sn.split('-')[1] ? value.qrcode_sn.split('-')[1] : value.qrcode_sn}</span>
+              <span>序列号 {value.qrcode_sn ? value.qrcode_sn.split('-')[1] ? value.qrcode_sn.split('-')[1] : value.qrcode_sn : null}</span>
               <span>今日收益 {value.today_money}</span>
             </li>
             <li><span></span><span>本月收益 {value.month_money}</span></li>

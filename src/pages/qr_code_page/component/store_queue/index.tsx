@@ -44,7 +44,7 @@ export function ListStoreQueue(params:any) {
         {
           list.length>=10 && title.row.map((item: any, index_: number) => {
             return <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
-              <span>{list.length + 1 + index_}</span>
+              <span>{item.Ranking}</span>
               <span className={styles.constrol_place}>{item.FacilitatorName}</span>
               <span>+{item.next_layout_num}</span>
               <span>{item.now_score_num}%</span>

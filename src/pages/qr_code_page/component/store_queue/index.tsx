@@ -40,11 +40,9 @@ export function ListStoreQueue(params:any) {
       </ul>
       
         <ul className={styles.preview_queue}>
+        {list.length >= 10 && title.row.length ? <li className={styles.omit}>....</li>:null }
         {
-          title.row.length ? <li className={styles.omit}>....</li>:null
-         }
-        {
-          title.row.map((item: any, index_: number) => {
+          list.length>=10 && title.row.map((item: any, index_: number) => {
             return <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
               <span>{list.length + 1 + index_}</span>
               <span className={styles.constrol_place}>{item.FacilitatorName}</span>

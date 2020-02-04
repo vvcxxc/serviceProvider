@@ -1,7 +1,7 @@
 /**title: 账单 */
 import React, { Component } from 'react';
 import styles from './index.less';
-import { Flex, WingBlank, List, DatePickerView } from 'antd-mobile'
+import { Flex, WingBlank, NavBar, Icon, DatePickerView } from 'antd-mobile'
 import Item from './item'
 import Filtrate from '@/components/Filtrate/index';
 import Request from '@/service/request'
@@ -112,6 +112,11 @@ export default class Finance extends Component {
     )
     return (
       <div className={styles.finance_page}>
+        <NavBar
+          mode="light"
+          icon={<Icon type="left" />}
+          onLeftClick={() => console.log('onLeftClick')}
+        >账单</NavBar>
         {
           list.length ? (
             (

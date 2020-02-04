@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import camera from '@/assets/upload_icon/camera.jpg';
 import Request from '@/service/request';
 import qs from 'qs';
-
+// 身份证组件
 class IDCard extends Component {
 
     state = {

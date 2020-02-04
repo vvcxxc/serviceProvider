@@ -17,7 +17,14 @@ export default class Finance extends Component {
     page: 1,
     is_show_loading: true,
     expenditure: 0,
-    income: 0
+    income: 0,
+    dataList: [
+      {
+        key: '全部',
+        value: ['全部', '二维码收入', '邀请人分成'],
+        select: false
+      },
+    ],
   }
   searchPayload = (a: any) => {
     // 筛选
@@ -77,26 +84,27 @@ export default class Finance extends Component {
   }
   // 触底
   scrollBottom = () => {
-    if (this.state.is_show_loading) {
-      Request({
-        method: 'get',
-        url: 'qrcodeLog',
-        params: { page: this.state.page + 1 }
-      }).then(res => {
-        if (res.code == 200 && res.data.data) {
-          // let list = this.state.list;
-          this.setState({ is_show_loading: false })
-          let list = [...this.state.list, ...res.data.data]
-          this.setState({ list, page: this.state.page + 1 }, () => {
-            if (this.state.page < res.data.last_page) {
-              this.setState({ is_show_loading: true })
-            } else {
-              this.setState({ is_show_loading: false })
-            }
-          })
-        }
-      })
-    }
+    // if (this.state.is_show_loading) {
+    //   Request({
+    //     method: 'get',
+    //     url: 'qrcodeLog',
+    //     params: { page: this.state.page + 1 }
+    //   }).then(res => {
+    //     if (res.code == 200 && res.data.data) {
+    //       // let list = this.state.list;
+    //       this.setState({ is_show_loading: false })
+    //       let list = [...this.state.list, ...res.data.data]
+    //       this.setState({ list, page: this.state.page + 1 }, () => {
+    //         if (this.state.page < res.data.last_page) {
+    //           this.setState({ is_show_loading: true })
+    //         } else {
+    //           this.setState({ is_show_loading: false })
+    //         }
+    //       })
+    //     }
+    //   })
+    console.log('12312')
+    // }
   }
 
   render() {
@@ -112,29 +120,52 @@ export default class Finance extends Component {
     )
     return (
       <div className={styles.finance_page}>
-        <NavBar
-          mode="light"
-          icon={<Icon type="left" />}
-          onLeftClick={() => console.log('onLeftClick')}
-        >账单</NavBar>
-        {
-          list.length ? (
-            (
-              <div>
-                {listView}
-                <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading} />
-              </div>
-            )
+        <div className={styles.bj}></div>
+        <div className={styles.finance_main}>
+          <NavBar
+            icon={<Icon type="left" size='lg' />}
+            onLeftClick={() => console.log('onLeftClick')}
+          >账单</NavBar>
+          <div className={styles.main_box}>
+            <div className={styles.filtrate}>
+              <Filtrate
+                dataList={this.state.dataList}
+                onSearch={this.searchPayload}
+                closeNum={this.state.closeNum}
+                isDate={true}
+              />
+            </div>
 
-          ) : (
-              <div className={styles.no_data}>
-                暂无账单数据统计
+            {
+              list.length ? (
+                <div className={styles.list}>
+                  <Flex className={styles.total} justify='between' align='center'>
+                    <div>
+                      收款￥100
               </div>
-            )
-        }
-        {/* <div className={styles.no_data}>
-          账单统计中
-        </div> */}
+                    <div>
+                      提现￥600d
+              </div>
+                  </Flex>
+                  <div className={styles.list_box}>
+                    <div>
+                      {listView}
+                      <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading} />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                  <div className={styles.no_data}>
+                    <div className={styles.text}>暂无图表数据统计</div>
+                  </div>
+                )
+            }
+
+          </div>
+
+
+        </div>
+
       </div>
     )
   }

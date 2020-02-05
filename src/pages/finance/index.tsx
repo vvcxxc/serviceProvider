@@ -141,10 +141,10 @@ export default class Finance extends Component {
                 <div className={styles.list}>
                   <Flex className={styles.total} justify='between' align='center'>
                     <div>
-                      收款￥100
+                      收款
               </div>
                     <div>
-                      提现￥600d
+                      提现
               </div>
                   </Flex>
                   <div className={styles.list_box}>

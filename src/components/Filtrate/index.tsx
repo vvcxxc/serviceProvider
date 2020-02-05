@@ -130,9 +130,7 @@ export default class Filtrate extends Component<Props>{
   render() {
     return (
       <div className={styles.filtrate}>
-        {
-          this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}> 搜索</div> : null
-        }
+
         {
           this.state.dataList && this.state.dataList.length > 0 ? this.state.dataList.map((item: any, index: any) => {
             return (
@@ -153,6 +151,12 @@ export default class Filtrate extends Component<Props>{
               </div>
             )
           }) : null
+        }
+
+        {
+          this.props.searchPath ? <div className={styles.filtrate_search_btn1} onClick={this.routerGo.bind(this)}> 搜索
+            <Icon type='search' size='sm' className={styles.search}/>
+          </div> : null
         }
 
         {

@@ -1,7 +1,7 @@
 /**title: 找回密码 */
 import React, { Component } from 'react';
 import styles from './index.less'
-import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
+import { Toast, WhiteSpace, WingBlank, Button, InputItem } from 'antd-mobile';
 import { success, error, sigh } from "@/components/Hint";
 import MyInput from "@/components/Input";
 import Green_button from "@/components/Green_button"
@@ -11,28 +11,32 @@ export default class Retrieve_password extends Component {
   state = {
     phoneNumber: '',        // 手机号码
     newPassword: '',        //新密码
-    confirmPassword:'',       //确认密码
+    confirmPassword: '',       //确认密码
     is_ok: true,
-    code: ''
+    code: '',
+    wait: 60,
+    passWordType: 0
   }
-
- //手机号码输入框
-  onChangePhone = (value:any) => {
+  changPassWordType = () => {
+    this.setState({ passWordType: !this.state.passWordType })
+  }
+  //手机号码输入框
+  onChangePhone = (value: any) => {
     this.setState({
-      phoneNumber:value
+      phoneNumber: value
     })
   }
 
   onDeletePhone = () => {
     this.setState({
-      phoneNumber:''
+      phoneNumber: ''
     })
   }
 
-// 验证码
-    onChangeVerify = (value:any) => {
+  // 验证码
+  onChangeVerify = (value: any) => {
     this.setState({
-      verify:value
+      verify: value
     })
   }
 
@@ -72,9 +76,10 @@ export default class Retrieve_password extends Component {
   }
 
   landingData = () => {
-    const {code, phoneNumber, newPassword, confirmPassword} = this.state
-    if(newPassword != confirmPassword){
-      Toast.fail('两次输入密码不一致',1)
+    const { code, phoneNumber, newPassword, confirmPassword } = this.state
+    console.log(code, phoneNumber, newPassword, confirmPassword)
+    if (newPassword != confirmPassword) {
+      Toast.fail('两次输入密码不一致', 1)
       return
     }
   }
@@ -105,9 +110,9 @@ export default class Retrieve_password extends Component {
       Request({
         url: 'verifyCode',
         method: 'post',
-        data: qs.stringify({
-          phone
-        })
+        data: {
+          phoneNumber
+        }
       }).then(res => {
         if (res.code == 200) {
 
@@ -123,17 +128,107 @@ export default class Retrieve_password extends Component {
   }
   handleChangeCode = (e: any) => {
     this.setState({
-      code: e.target.value
+      code: e
     })
   }
-  componentWillMount (){
+  componentWillMount() {
     clearInterval(timer);
   }
 
   render() {
-    const {is_ok, code} = this.state
+    const { is_ok, code } = this.state
     return (
       <div className={styles.retrieve_password}>
+        <div className={styles.register_wrap_content}>
+          <div className={styles.inputContent}>
+            <div className={styles.contLeft}>
+              <div className={styles.inputInfo}>
+                <div className={styles.inputInfotText}>+86</div>
+              </div>
+              <div className={styles.inputTextArea}>
+                <InputItem
+                  clear
+                  placeholder="请输入手机号"
+                  type="text"
+                  className={styles.register_code}
+                  onChange={this.onChangePhone}
+                  maxLength={11}
+                >
+                </InputItem>
+              </div>
+            </div>
+          </div>
+          <div className={styles.inputContent}>
+            <div className={styles.contLeft}>
+              <div className={styles.inputInfo2}>验证码</div>
+              <div className={styles.inputTextArea}>
+                <div className={styles.register_code_wrap}>
+                  <InputItem
+                    clear
+                    placeholder="请输入验证码"
+                    className={styles.register_code}
+                    onChange={this.handleChangeCode} value={code}
+                    maxLength={6}
+                  >
+                  </InputItem>
+                </div>
+              </div>
+
+            </div>
+            {
+              is_ok ? (
+                <Button className={styles.register_send_code} onClick={this.handleSendCode}>发送验证码</Button>
+              ) : (
+                  <Button className={styles.register_send_code} disabled >{this.state.wait}s后重新获取</Button>
+                )
+            }
+          </div>
+          <div className={styles.inputContent}>
+            <div className={styles.contLeft}>
+              <div className={styles.inputInfo3}>
+                <div className={styles.inputInfotText}>输入新密码</div>
+              </div>
+              <div className={styles.inputTextArea}>
+                <InputItem
+                  clear
+                  placeholder="请输入新密码"
+                  type={this.state.passWordType ? "text" : "password"}
+                  className={styles.register_code}
+                  onChange={this.onChangeNewPassword}
+                >
+                </InputItem>
+              </div>
+            </div>
+            <div className={styles.inputIcon} onClick={this.changPassWordType.bind(this)}>
+              <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+            </div>
+          </div>
+          <div className={styles.inputContent}>
+            <div className={styles.contLeft}>
+              <div className={styles.inputInfo3}>
+                <div className={styles.inputInfotText}>确认新密码</div>
+              </div>
+              <div className={styles.inputTextArea}>
+                <InputItem
+                  clear
+                  placeholder="请确认新密码"
+                  type="password"
+                  className={styles.register_code}
+                  onChange={this.onChangeConfirmPassword}
+                >
+                </InputItem>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Green_button
+          data={'确定'}
+          mb={60}
+          onClick={this.landingData}
+        />
+
+
+        {/* 
         <div className={styles.passwordBox}>
           <MyInput
             placeholder="请输入手机号"
@@ -144,7 +239,6 @@ export default class Retrieve_password extends Component {
           />
           <div className={styles.verificationCode}>
             <input type="text" placeholder="请输入验证码" onChange={this.handleChangeCode} value={code} />
-            {/* <div>发送验证码</div> */}
             {
               is_ok ? (
                 <div onClick={this.handleSendCode}>发送验证码</div>
@@ -173,10 +267,7 @@ export default class Retrieve_password extends Component {
             mb={60}
             onClick={this.landingData}
           />
-          {/* <div><input type="password" placeholder="请输入新密码"/></div>
-          <div><input type="password" placeholder="请确认新密码" /></div> */}
-          {/* <div className={styles.passwordButton} onClick={this.onclickData}>确定</div> */}
-        </div>
+        </div> */}
         <div id="success"></div>
       </div>
     )

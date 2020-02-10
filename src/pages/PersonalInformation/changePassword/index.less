@@ -4,6 +4,7 @@
 
   .changeBox {
     width: 100%;
+    height: 100vh;
     padding: 20px;
     box-sizing: border-box;
     background: #f2f5fc;
@@ -40,6 +41,17 @@
       }
     }
 
+    .passWordErrMsg {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 30px;
+      box-sizing: border-box;
+      font-size: 26px;
+      color: rgba(255, 37, 37, 1);
+    }
+
     .register_btn {
       margin-top: 100px;
       height: 94px;
@@ -52,23 +64,23 @@
     .register_wrap_content {
       background: #fff;
       border-radius: 12px;
-      padding: 30px;
+      padding: 0 30px;
       box-sizing: border-box;
 
       .inputContent {
-        height: 80px;
+        height: 110px;
         width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 42px;
         border-bottom: 1px solid rgba(226, 226, 226, 1);
         font-size: 30px;
         position: relative;
 
         .errMsg {
           position: absolute;
+          z-index: 3;
           right: 0;
           bottom: -24px;
           line-height: 26px;

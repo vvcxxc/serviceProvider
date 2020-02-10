@@ -15,7 +15,8 @@ export default class ChangePassword extends Component {
     affirmPassword: '',        //确认密码
     password: "",
     newPrompt: '',
-    affirmPrompt: ''
+    affirmPrompt: '',
+    passWordError: false
   }
 
   //输入旧密码
@@ -56,8 +57,10 @@ export default class ChangePassword extends Component {
   confirm = () => {
     const { oldPassword, newPassword, affirmPassword, newPrompt, affirmPrompt } = this.state;
     if (newPassword.length < 6) {
-      this.setState({ newPrompt: '密码不能少于6位数' })
+      this.setState({ newPrompt: '密码不能少于6位数', passWordError: true })
       return
+    } else {
+      this.setState({ passWordError: false })
     }
     if (affirmPassword.length < 6) {
       this.setState({ affirmPrompt: '密码不能少于6位数' })
@@ -122,9 +125,9 @@ export default class ChangePassword extends Component {
               }
             </div>
 
-            <div className={styles.inputContent}>
+            <div className={styles.inputContent} style={{ borderBottom: 'none' }}>
               <div className={styles.contLeft}>
-                <div className={styles.inputInfo2}>输入新密码</div>
+                <div className={styles.inputInfo2}>确认新密码</div>
                 <div className={styles.inputTextArea}>
                   <InputItem
                     type="password"
@@ -141,6 +144,11 @@ export default class ChangePassword extends Component {
               }
             </div>
           </div>
+          {
+            this.state.passWordError ?
+              <div className={styles.passWordErrMsg}>密码不能少于6位数</div>
+              : null
+          }
           <Button className={styles.register_btn} onClick={this.confirm}>确认修改</Button>
           {/* <MyInput
             type="password"

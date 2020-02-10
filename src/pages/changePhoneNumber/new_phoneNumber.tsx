@@ -121,7 +121,7 @@ export default class changePhoneNumber extends Component {
         <div className={styles.content}>
           <div className={styles.items1}>
             <div className={styles.keyWords}>手机号码 </div>
-            <input className={styles.input1} type="text" placeholder="请输入已绑定手机号" onChange={this.handleChangePhone} value={phone} />
+            <input className={styles.input1} type="text" placeholder="请输入新手机号" onChange={this.handleChangePhone} value={phone} />
           </div>
           <div className={styles.items2}>
             <div className={styles.keyWords}>验证码 </div>

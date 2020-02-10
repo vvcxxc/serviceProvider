@@ -1,35 +1,99 @@
 .finance_page {
   width: 100%;
-  // min-height: 100vh;
-  // height: auto;
-  height: 100vh;
-  background: #fff;
+  height: 100%;
+  background: #F2F5FC;
   position: relative;
-  .finance_header {
-    background: #E1E1E1;
-    font-size: 26px;
-    height: 60px;
-    margin-bottom: 20px;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+  .bj {
+    width: 100%;
+    height: 480px;
+    background: linear-gradient(48deg, rgba(50, 94, 214, 1) 0%, rgba(116, 149, 243, 1) 100%);
+    position: absolute;
+    top: 0;
+    z-index: 1;
   }
-  .no_data {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+
+  :global .am-navbar {
+    background: none;
+  }
+
+  .finance_main {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    // padding: 0 21px;
+    .main_box {
+      height: 100%;
+      box-sizing: border-box;
+      padding: 0 21px;
+    }
+    .list {
+      width: 100%;
+      height: 80%;
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+      .total {
+        width: 100%;
+        height: 53px;
+        border-radius: 26px;
+        background: #F2F5FC;
+        font-size: 25px;
+        padding: 0 22px;
+        box-sizing: border-box;
+      }
+      .list_box {
+        padding: 0 15px;
+        height: 95%;
+        overflow: auto;
+      }
+    }
+    .no_data {
+      width: 100%;
+      height: 604px;
+      // background: #fff;
+      border-radius: 10px;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+      background: url('../../assets/no-finance.png') no-repeat;
+      background-position: center 155px;
+      background-size: 50%;
+      background-color: #fff;
+      color: #666666;
+      font-size: 30px;
+      position: relative;
+      .text {
+        position: absolute;
+        top: 428px;
+        left: 236px;
+      }
+    }
+
   }
 }
 
 .item_box {
-  height: 135px;
+  height: 162px;
   width: 100%;
   // background: yellow;
+  padding: 40px 0;
+  box-sizing: border-box;
   position: relative;
+  border-bottom: 1px solid #ccc;
+
   .item_text {
-    border-bottom: 1px solid #ccc;
-    height: 120px;
-    padding: 15px 0;
+    position: relative;
+    height: 100%;
+    // padding: 15px 0;
     box-sizing: border-box;
   }
+
   .item_name {
     font-size: 30px;
     max-width: 450px;
@@ -37,17 +101,24 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   .item_time {
     font-size: 24px;
     color: #ccc;
   }
+
   .item_money {
     font-size: 26px;
+    padding: 0 22px;
+    height: 45px;
+    background:rgba(84,123,231,.1);
+    color: #547BE7;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 40px;
   }
+
   .valid {
     position: absolute;
     right: 40px;

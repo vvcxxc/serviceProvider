@@ -1,13 +1,11 @@
 /**title: 搜索 */
 import React, { Component } from 'react';
-import Filtrate from '../../components/Filtrate/index';
 import Invitation from '../../components/Invitation/index';
 import Request from '@/service/request'
 import styles from './search.less';
 import router from 'umi/router';
-import { Icon } from 'antd-mobile';
-import { Flex, WingBlank, Steps, Toast, Button } from 'antd-mobile';
-
+import { Icon, Toast } from 'antd-mobile';
+import Item from './item'
 export default class Search extends Component {
     state = {
         invitationShow: false,
@@ -76,7 +74,7 @@ export default class Search extends Component {
             this.setState({ invitationData: res.data, invitationList: tempList, listPage: 2 })
         })
     }
-    handleCancle = (e: any) => {
+    handleCancle = () => {
         this.setState({ searchKey: '', listPage: 1, invitationData: {}, invitationList: [] }, () => {
             router.goBack();
         })
@@ -116,9 +114,10 @@ export default class Search extends Component {
             <div className={styles.InvitationServiceProvider_serch} >
 
                 <div className={styles.ServiceProvider} >
+                        <Icon type='left' size='lg' style={{padding: '0 .15rem '}} onClick={this.handleCancle.bind(this)}/>
                     <div className={styles.ServiceProvider_searchBox}>
                         <div className={styles.ServiceProvider_searchBox_icon}>
-                            <Icon type="search" />
+                            <Icon type="search" size='xxs' />
                         </div>
                         <input type="text"
                             className={styles.ServiceProvider_input}
@@ -130,19 +129,14 @@ export default class Search extends Component {
                     <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
                 </div>
 
-
+                
                 {
                     this.state.invitationList.length && this.state.invitationList.length > 0 ? <div className={styles.InvitationServiceProvider_content}>
+                        <div className={styles.main}>
                         {
                             this.state.invitationList.map((item: any, index: any) => {
                                 return (
-                                    <div className={styles.InvitationServiceProvider_item} key={index} >
-                                        <div className={styles.InvitationServiceProvider_item_left}>
-                                            <div className={styles.InvitationServiceProvider_item_name}>{item.name}</div>
-                                            <div className={styles.InvitationServiceProvider_item_date}>{item.created_at}</div>
-                                        </div>
-                                        <div className={styles.InvitationServiceProvider_item_right}>带来收益：{item.invite_total_money}</div>
-                                    </div>
+                                    <Item money={item.invite_total_money} name={item.name} date={item.created_at} key={index} />
                                 )
                             })
                         }
@@ -151,12 +145,15 @@ export default class Search extends Component {
                                 this.state.listPage - 1 <= this.state.invitationData.book.last_page ? ' 点击加载更多' : '暂无更多数据'
                             }
                         </div>
+                        </div>
                     </div> : null
                 }
 
                 {
                     this.state.invitationList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
                 }
+                
+                
                 {
                     this.state.status == 1 ? (
                         <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div>

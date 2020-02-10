@@ -2,32 +2,33 @@
     height: auto;
     min-height: 100vh;
     width: 100%;
-    background: #fff;
+    background: #F2F5FC;
     border-bottom: 1px solid #fff;
 
     .ServiceProvider {
-        height: 80px;
+        height: 100px;
         width: 100%;
-        border-bottom: 1px solid #666666;
+        // border-bottom: 1px solid #666666;
         background: #fff;
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding-left: 20px;
-        padding-right: 100px;
+        // padding-left: 20px;
+        padding-right: 120px;
         box-sizing: border-box;
         position: relative;
 
         .ServiceProvider_searchBox {
-            height: 50px;
+            height: 74px;
             width: 100%;
-            background: #C3C2C2;
+            background: #F2F5FC;
             position: relative;
-
+            border-radius: 10px;
+            overflow: hidden;
             .ServiceProvider_searchBox_icon {
                 font-size: 28px;
-                color: #0D0D0D;
-                height: 50px;
+                color: #B5B5B5;
+                height: 74px;
                 width: 50px;
                 display: flex;
                 justify-content: center;
@@ -38,11 +39,11 @@
             }
 
             .ServiceProvider_input {
-                height: 50px;
+                height: 74px;
                 width: 100%;
                 font-size: 28px;
-                background: #C3C2C2;
-
+                background: #F2F5FC;
+                border: none;
                 border-bottom: 1px solid #666666;
                 display: flex;
                 flex-direction: row;
@@ -54,8 +55,8 @@
 
         .ServiceProvider_searchBox_cancle {
             font-size: 28px;
-            color: #3F51B5;
-            height: 80px;
+            color: #547BE7;
+            height: 100px;
             width: 100px;
             display: flex;
             justify-content: center;
@@ -67,11 +68,17 @@
     }
 
     .InvitationServiceProvider_content {
-        background: #fff;
         height: auto;
         width: 100%;
-        padding: 0 20px;
+        padding: 20px;
         box-sizing: border-box;
+        box-sizing: border-box;
+        .main {
+            background: #fff;
+            width: 100%;
+            height: 100%;
+            border-radius:10px;
+        }
 
         .InvitationServiceProvider_item {
             height: 150px;

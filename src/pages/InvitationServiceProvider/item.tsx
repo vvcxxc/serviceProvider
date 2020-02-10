@@ -6,23 +6,22 @@ interface Props {
   money: string;
   name: string;
   date: string;
-  qrCode: number
 }
 
 export default class Item extends Component<Props> {
   state = {
 
   }
-  render (){
-    const { money, date, name, qrCode } = this.props
+  render() {
+    const { money, date, name } = this.props
     return (
       <div className={styles.item_box}>
-        <WingBlank style={{height: '100%'}}>
+        <WingBlank style={{ height: '100%' }}>
           <Flex className={styles.item_text} direction='column' align='start' justify='between' >
-          <div className={styles.item_name}>收入— {qrCode} ({name})</div>
+            <div className={styles.item_name}>{name}</div>
             <div className={styles.item_time}>{date}</div>
           </Flex>
-          <Flex className={styles.item_money}>+{money / 10000}</Flex>
+          <Flex className={styles.item_money}>带来收益: {money}</Flex>
         </WingBlank>
       </div>
     )

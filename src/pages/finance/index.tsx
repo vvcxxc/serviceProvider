@@ -7,6 +7,7 @@ import Filtrate from '@/components/Filtrate/index';
 import Request from '@/service/request'
 import dayjs from 'dayjs'
 import ScrollBottom from '@/components/ScrollBottom';
+import router from 'umi/router';
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 export default class Finance extends Component {
@@ -84,27 +85,26 @@ export default class Finance extends Component {
   }
   // 触底
   scrollBottom = () => {
-    // if (this.state.is_show_loading) {
-    //   Request({
-    //     method: 'get',
-    //     url: 'qrcodeLog',
-    //     params: { page: this.state.page + 1 }
-    //   }).then(res => {
-    //     if (res.code == 200 && res.data.data) {
-    //       // let list = this.state.list;
-    //       this.setState({ is_show_loading: false })
-    //       let list = [...this.state.list, ...res.data.data]
-    //       this.setState({ list, page: this.state.page + 1 }, () => {
-    //         if (this.state.page < res.data.last_page) {
-    //           this.setState({ is_show_loading: true })
-    //         } else {
-    //           this.setState({ is_show_loading: false })
-    //         }
-    //       })
-    //     }
-    //   })
-    console.log('12312')
-    // }
+    if (this.state.is_show_loading) {
+      Request({
+        method: 'get',
+        url: 'qrcodeLog',
+        params: { page: this.state.page + 1 }
+      }).then(res => {
+        if (res.code == 200 && res.data.data) {
+          // let list = this.state.list;
+          this.setState({ is_show_loading: false })
+          let list = [...this.state.list, ...res.data.data]
+          this.setState({ list, page: this.state.page + 1 }, () => {
+            if (this.state.page < res.data.last_page) {
+              this.setState({ is_show_loading: true })
+            } else {
+              this.setState({ is_show_loading: false })
+            }
+          })
+        }
+      })
+    }
   }
 
   render() {
@@ -124,7 +124,7 @@ export default class Finance extends Component {
         <div className={styles.finance_main}>
           <NavBar
             icon={<Icon type="left" size='lg' />}
-            onLeftClick={() => console.log('onLeftClick')}
+            onLeftClick={() => router.goBack()}
           >账单</NavBar>
           <div className={styles.main_box}>
             <div className={styles.filtrate}>
@@ -141,10 +141,10 @@ export default class Finance extends Component {
                 <div className={styles.list}>
                   <Flex className={styles.total} justify='between' align='center'>
                     <div>
-                      收款￥100
+                      收款
               </div>
                     <div>
-                      提现￥600d
+                      提现
               </div>
                   </Flex>
                   <div className={styles.list_box}>

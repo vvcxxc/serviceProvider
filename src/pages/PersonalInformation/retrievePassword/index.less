@@ -1,7 +1,12 @@
-.retrieve_password{
+.retrieve_password {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  .passwordBox{
+  padding: 20px;
+  box-sizing: border-box;
+  background: #f2f5fc;
+
+  .passwordBox {
     padding-top: 214px;
     width: 634px;
     // input {
@@ -30,36 +35,163 @@
     //   text-align: center;
     //   font-family: PingFangSC-regular;
     // }
-  //   .verificationCode{
-  //     display: flex;
-  //     border: 2px solid rgba(187, 187, 187, 1);
-  //     margin-bottom: 30px;
-  //     width: 644px;
-  //     height: 96px;
-  //      input {
-  //       width: 360px;
-  //        height: 94px;
-  //       border: none;
-  //       outline: none;
-  //      }
-  //     div {
-  //       width: 274px;
-  //       height: 96px;
-  //       border-radius: 8px;
-  //       color: rgba(16, 16, 16, 1);
-  //       font-size: 28px;
-  //       display: flex;
-  //       justify-content: center;
-  //       align-items: center;
-  //       font-family: Microsoft Yahei;
-  //       border-left: 2px solid rgba(187, 187, 187, 1);
-  //       border-right: 1px solid rgba(187, 187, 187, 1);
-  //     }
+    //   .verificationCode{
+    //     display: flex;
+    //     border: 2px solid rgba(187, 187, 187, 1);
+    //     margin-bottom: 30px;
+    //     width: 644px;
+    //     height: 96px;
+    //      input {
+    //       width: 360px;
+    //        height: 94px;
+    //       border: none;
+    //       outline: none;
+    //      }
+    //     div {
+    //       width: 274px;
+    //       height: 96px;
+    //       border-radius: 8px;
+    //       color: rgba(16, 16, 16, 1);
+    //       font-size: 28px;
+    //       display: flex;
+    //       justify-content: center;
+    //       align-items: center;
+    //       font-family: Microsoft Yahei;
+    //       border-left: 2px solid rgba(187, 187, 187, 1);
+    //       border-right: 1px solid rgba(187, 187, 187, 1);
+    //     }
 
-  //   }
+    //   }
   }
+
+  .register_username,
+  .register_phone,
+  .register_code,
+  .register_password,
+  .register_inviter_phone {
+    height: 100%;
+    width: 100%;
+    padding-left: 0;
+  }
+
+
+  .register_code_wrap {
+    position: relative;
+  }
+
+  
+
+  .register_send_code {
+    width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 28px;
+    color: #547be7;
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 0;
+  }
+
+  .register_btn {
+    margin-top: 100px;
+    height: 94px;
+    line-height: 94px;
+    font-size: 30px;
+    background-color: #547be7;
+    color: #fff;
+  }
+
+  .register_wrap_content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-sizing: border-box;
+    margin-bottom: 100px;
+
+    .inputContent {
+      height: 80px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 42px;
+      border-bottom: 1px solid rgba(226, 226, 226, 1);
+      font-size: 30px;
+      position: relative;
+
+      .contLeft {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .inputInfo {
+          height: 32px;
+          width: 108px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+
+          .inputInfotText {
+            width: 70px;
+            border-right: 2px solid #000;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+          }
+
+        }
+
+        .inputInfo2 {
+          height: 32px;
+          width: 108px;
+        }
+
+        .inputInfo3 {
+          height: 32px;
+          width: 170px;
+        }
+
+        .inputTextArea {
+          width: 480px;
+          height: 80px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+
+          :global {
+            .index__inputBox_text___2ctJk {
+              height: 80px;
+              width: 100%;
+              border: none;
+            }
+          }
+        }
+      }
+
+      .inputIcon {
+        width: 60px;
+        height: 40px;
+
+        .inputImg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+
 }
-.verificationCode{
+
+.verificationCode {
   // width: 100%;
   display: flex;
   border: 2px solid rgba(187, 187, 187, 1);
@@ -67,12 +199,14 @@
   height: 96px;
   background-color: #fff;
   padding-left: 10px;
-   input {
+
+  input {
     width: 60vw;
     height: 94px;
     border: none;
     outline: none;
-   }
+  }
+
   div {
     width: 40vw;
     height: 96px;

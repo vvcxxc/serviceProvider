@@ -159,7 +159,7 @@ export default class Filtrate extends Component<Props>{
           this.props.isDate ? (
             <div className={styles.filtrate_key}>
               <span onClick={this.datePicker}>{this.state.show_date ? this.state.show_date : '月份'}</span>
-              <Icon className={styles.filtrate_icon} type="up" onClick={this.datePicker} />
+              <Icon className={styles.filtrate_icon} type="down" onClick={this.datePicker} />
               {
                 this.state.is_show_date ? (
                   <div className={styles.picker}>

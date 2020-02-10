@@ -1,4 +1,4 @@
-/**title: 服务商注册 */
+/**title: 注册账号 */
 import React, { Component } from 'react';
 import { Button, InputItem, List, Flex, Toast } from 'antd-mobile';
 import styles from './index.less';
@@ -22,7 +22,10 @@ export default connect(({ register }: any) => register)(
             inviter_phone: "",
 
             is_ok: true,
-            wait: ""
+            wait: "",
+
+            passWordType: 0
+
         }
 
         componentDidMount = () => {
@@ -223,11 +226,11 @@ export default connect(({ register }: any) => register)(
                     method: 'post',
                     data
                 }).then(res => {
-                    let { code, message } = res; 
+                    let { code, message } = res;
                     if (code == 200) {
                         Toast.success('注册成功', 2, () => {
                             localStorage.setItem('token', res.access_token);
-                            
+
                             Cookies.set("bussiness_type", "", { expires: 1 });
 
                             Cookies.set("ImgUrlFront", "", { expires: 1 });
@@ -259,58 +262,110 @@ export default connect(({ register }: any) => register)(
         componentWillUnmount() {
             clearInterval(timer)
         }
+        changPassWordType = () => {
+            this.setState({ passWordType: !this.state.passWordType })
+        }
 
         render() {
             return (
                 <div className={styles.register_screen}>
                     <div className={styles.register_wrap}>
-                        <InputItem
-                            clear
-                            placeholder="请输入中文名称"
-                            className={styles.register_username}
-                            value={this.props.username}
-                            onChange={this.handleChangeUsername.bind(this)}
-                        ></InputItem>
-                        <InputItem
-                            clear
-                            placeholder="请输入手机号"
-                            className={styles.register_phone}
-                            value={this.props.phone}
-                            onChange={this.handleChangePhone.bind(this)}
-                        ></InputItem>
-                        <div className={styles.register_code_wrap}>
-                            <InputItem
-                                clear
-                                placeholder="请输入验证码"
-                                className={styles.register_code}
-                                value={this.props.code}
-                                onChange={this.handleChangeCode.bind(this)}
-                            >
-                            </InputItem>
-                            {
-                                this.props.is_ok ? (
-                                    <Button className={styles.register_send_code} onClick={this.getCode.bind(this)}>发送验证码</Button>
-                                ) : (
-                                        <Button className={styles.register_send_code} disabled >{this.props.wait}秒</Button>
-                                    )
-                            }
+
+                        <div className={styles.register_wrap_content}>
+                            <div className={styles.inputContent}>
+                                <div className={styles.contLeft}>
+                                    <div className={styles.inputInfo2}>名称</div>
+                                    <div className={styles.inputTextArea}>
+                                        <InputItem
+                                            clear
+                                            placeholder="请输入中文名称"
+                                            className={styles.register_username}
+                                            value={this.props.username}
+                                            onChange={this.handleChangeUsername.bind(this)}
+                                        ></InputItem>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.inputContent}>
+                                <div className={styles.contLeft}>
+                                    <div className={styles.inputInfo}>
+                                        <div className={styles.inputInfotText}>+86</div>
+                                    </div>
+                                    <div className={styles.inputTextArea}>
+                                        <InputItem
+                                            clear
+                                            placeholder="请输入手机号"
+                                            className={styles.register_phone}
+                                            value={this.props.phone}
+                                            onChange={this.handleChangePhone.bind(this)}
+                                            maxLength={11}
+                                        ></InputItem>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.inputContent}>
+                                <div className={styles.contLeft}>
+                                    <div className={styles.inputInfo2}>验证码</div>
+                                    <div className={styles.inputTextArea}>
+                                        <div className={styles.register_code_wrap}>
+                                            <InputItem
+                                                clear
+                                                placeholder="请输入验证码"
+                                                className={styles.register_code}
+                                                value={this.props.code}
+                                                onChange={this.handleChangeCode.bind(this)}
+                                                maxLength={6}
+                                            >
+                                            </InputItem>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                {
+                                    this.props.is_ok ? (
+                                        <Button className={styles.register_send_code} onClick={this.getCode.bind(this)}>发送验证码</Button>
+                                    ) : (
+                                            <Button className={styles.register_send_code} disabled >{this.props.wait}s后重新获取</Button>
+                                        )
+                                }
+                            </div>
+                            <div className={styles.inputContent}>
+                                <div className={styles.contLeft}>
+                                    <div className={styles.inputInfo2}>密码</div>
+                                    <div className={styles.inputTextArea}>
+                                        <InputItem
+                                            type={this.state.passWordType ? "text" : "password"}
+                                            clear
+                                            placeholder="请输入密码"
+                                            className={styles.register_password}
+                                            value={this.props.password}
+                                            onChange={this.handleChangePassword.bind(this)}
+                                        ></InputItem>
+                                    </div>
+                                </div>
+                                <div className={styles.inputIcon} onClick={this.changPassWordType.bind(this)}>
+                                    <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                                </div>
+                            </div>
+
+                            <div className={styles.inputContent} style={{ marginBottom: 0 }}>
+                                <div className={styles.contLeft}>
+                                    <div className={styles.inputInfo2}>邀请码</div>
+                                    <div className={styles.inputTextArea}>
+                                        <InputItem
+                                            clear
+                                            placeholder="邀请人手机号（非必填）"
+                                            className={styles.register_inviter_phone}
+                                            value={this.props.inviter_phone}
+                                            onChange={this.handleChangeInviterPhone.bind(this)}
+                                        ></InputItem>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <InputItem
-                            type="password"
-                            clear
-                            placeholder="请输入密码"
-                            className={styles.register_password}
-                            value={this.props.password}
-                            onChange={this.handleChangePassword.bind(this)}
-                        ></InputItem>
-                        <InputItem
-                            clear
-                            placeholder="邀请人手机号（非必填）"
-                            className={styles.register_inviter_phone}
-                            value={this.props.inviter_phone}
-                            onChange={this.handleChangeInviterPhone.bind(this)}
-                        ></InputItem>
 
                         <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
                     </div>

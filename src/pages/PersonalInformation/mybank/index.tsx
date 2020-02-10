@@ -38,6 +38,10 @@ export default class MyBank extends Component {
     Cookies.remove("subBranchBank");
     router.push('/submitQua/EditBankCard')
   }
+  bindPhoneNumber = () => {
+    router.push({ pathname: '/PersonalInformation/bindPhoneNumber' })
+  }
+
   render() {
     const { bank_info } = this.state
     return (
@@ -77,7 +81,7 @@ export default class MyBank extends Component {
                   </div>
                 </div>
                 <div className={styles.bank_box_right}>
-                  <div className={styles.bank_box_right_bind}>去绑定</div>
+                  <div className={styles.bank_box_right_bind} onClick={this.bindPhoneNumber.bind(this)}>去绑定</div>
                 </div>
               </div>
             ) : (

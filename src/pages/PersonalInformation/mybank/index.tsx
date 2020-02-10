@@ -93,7 +93,7 @@ export default class MyBank extends Component {
               )
           }
 
-          <Button style={{ background: '#557ae6', color: '#fff', position: 'fixed', bottom: '60px', width: '92%', fontSize: '30px' }} onClick={this.toChangeBank}>
+          <Button className={styles.bindBtn} onClick={this.toChangeBank}>
             {/* 更改银行卡 */}
             {
               this.state.is_show ? '更改银行卡' : '添加银行卡'

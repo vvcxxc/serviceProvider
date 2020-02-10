@@ -1,81 +1,129 @@
-.phoneNumber{
-  background-color: #ededed;
+.phoneNumber {
+  background-color: #f2f5fc;
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
-  .passwordBox{
+
+  .passwordBox {
     width: 100%;
-     .title{
-      padding-top: 62px;
+    height: auto;
+    padding: 20px;
+
+    .title {
+      height: 110px;
+      width: 100%;
+      background: #fff;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
       display: flex;
-      justify-content: center;
-      margin-bottom: 48px;
-    }
-    .rows{
-      background-color: #fff;
-      border: 2px solid rgba(187, 187, 187, 1);
-      padding-left: 10px;
-        input {
-        height: 96px;
-        width: 100%;
-        color: rgba(136, 136, 136, 1);
-        font-size: 28px;
-        font-family: Microsoft Yahei;
-        margin: 0;
-        padding: 0;
-        border: none;
-        outline: none;
-      }
-    }
-    
-    .verificationCode{
-      // width: 100%;
-      display: flex;
-      border: 2px solid rgba(187, 187, 187, 1);
-      margin-bottom: 30px;
-      height: 96px;
-      background-color: #fff;
-      padding-left: 10px;
-       input {
-        width: 60vw;
-        height: 94px;
-        border: none;
-        outline: none;
-       }
-      div {
-        width: 40vw;
-        height: 96px;
-        border-radius: 8px;
-        color: rgba(16, 16, 16, 1);
-        font-size: 28px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Microsoft Yahei;
-        border-left: 2px solid rgba(187, 187, 187, 1);
-        border-right: 1px solid rgba(187, 187, 187, 1);
-        background-color: #fff;
-      }
-      
-    }
-  }
-  .footButton{
-    display: flex;
-    justify-content: center;
-  }
-  .passwordButton {
-      margin-top: 45vh;
-      width: 95vw;
-      display: flex;
-      justify-content: center;
+      flex-direction: row;
       align-items: center;
-      height: 94px;
-      border-radius: 10px;
-      background-color: rgba(26, 173, 25, 1);
-      border: 2px solid rgba(5, 5, 5, 0.08);
-      color: rgba(255, 255, 255, 1);
-      font-size: 36px;
-      font-family: PingFangSC-regular;
+      justify-content: center;
+
+      .titleImg1 {
+        height: 44px;
+        width: 540px;
+        background: url("http://oss.tdianyi.com/front/BXrsbYRhcYKREnZtcF5DFJkTsWTKTwEj.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+      }
+
+      .titleImg2 {
+        height: 44px;
+        width: 540px;
+        background: url("http://oss.tdianyi.com/front/fpQJcZY5na2xZZnjjMtNGYbtGG6b7ASH.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .content {
+      padding: 0 35px;
+      height: auto;
+      width: 100%;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 15px;
+
+      .items1 {
+        height: 100px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        border-bottom: 1px solid #e2e2e2;
+
+        .keyWords {
+          width: 140px;
+          height: 30px;
+          font-size: 30px;
+          line-height: 1;
+          text-align: left;
+        }
+
+        .input1 {
+          width: calc(100% - 140px);
+          height: 30px;
+          padding-left: 25px;
+          box-sizing: border-box;
+          line-height: 1;
+          border: none;
+        }
+      }
+
+      .items2 {
+        height: 100px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+
+        .keyWords {
+          width: 140px;
+          height: 30px;
+          font-size: 30px;
+          line-height: 1;
+          text-align: left;
+        }
+
+        .input2 {
+          width: 300px;
+          height: 30px;
+          padding-left: 25px;
+          box-sizing: border-box;
+          line-height: 1;
+          border: none;
+        }
+
+        .sendButton {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translate(0, -50%);
+          color: #547be7;
+        }
+      }
+
+    }
+
+    .footButton {
+      height: 95px;
+      width: 100%;
+      margin-top: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: #fff;
+      background: #547be7;
+      border-radius: 15px;
+
+    }
   }
+
+
 }

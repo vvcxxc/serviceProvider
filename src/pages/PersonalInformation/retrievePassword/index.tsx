@@ -177,9 +177,9 @@ export default class Retrieve_password extends Component {
             </div>
             {
               is_ok ? (
-                <Button className={styles.register_send_code} onClick={this.handleSendCode}>发送验证码</Button>
+                <div className={styles.register_send_code} onClick={this.handleSendCode}>发送验证码</div>
               ) : (
-                  <Button className={styles.register_send_code} disabled >{this.state.wait}s后重新获取</Button>
+                  <div className={styles.register_send_code}  >{this.state.wait}s后重新获取</div>
                 )
             }
           </div>

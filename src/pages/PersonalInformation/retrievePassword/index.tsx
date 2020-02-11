@@ -111,7 +111,7 @@ export default class Retrieve_password extends Component {
         url: 'verifyCode',
         method: 'post',
         data: {
-          phoneNumber
+          phone:phoneNumber
         }
       }).then(res => {
         if (res.code == 200) {

@@ -103,9 +103,9 @@ export default class bindPhoneNumber extends Component {
         }).then(res => {
             if (res.code == 200) {
                 //submitType==1绑定成功,2失败
-                router.push({ pathname: '/PersonalInformation/bindPhoneNumber', query: { submitType: 1 } })
+                router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 1 } })
             } else {
-                router.push({ pathname: '/PersonalInformation/bindPhoneNumber', query: { submitType: 2 } })
+                router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 2 } })
             }
         })
 

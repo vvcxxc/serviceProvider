@@ -54,10 +54,10 @@ export default class MyBank extends Component {
               <div className={styles.contentBox}>
                 <div className={styles.contentTitle}>温馨提示</div>
                 <div className={styles.contentInfo}>
-                  {this.props.location.query.submitType = 1 ? '绑卡成功' : '绑卡失败'}
+                  {this.props.location.query.submitType == 1 ? '绑卡成功' : '绑卡失败'}
                 </div>
                 <div className={styles.contentBtn} onClick={() => { this.setState({ maskShow: false }) }}>
-                  {this.props.location.query.submitType = 1 ? '已阅' : '重新绑定'}
+                  {this.props.location.query.submitType == 1 ? '已阅' : '重新绑定'}
                 </div>
               </div>
             </div>

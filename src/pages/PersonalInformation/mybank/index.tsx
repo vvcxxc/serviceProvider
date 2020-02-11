@@ -11,10 +11,11 @@ export default class MyBank extends Component {
     bank_info: {
       bank_name: '',
       bankcard_no: '',
-
-    }
+    },
+    maskShow: false
   }
   componentDidMount() {
+    if (this.props.location.query.submitType) { this.setState({ maskShow: true }) }
     Request({
       method: 'get',
       url: 'auth/getBankInfo',
@@ -39,31 +40,31 @@ export default class MyBank extends Component {
     router.push('/submitQua/EditBankCard')
   }
   bindPhoneNumber = () => {
-    router.push({ pathname: '/PersonalInformation/bindPhoneNumber' })
+    router.push({ pathname: '/PersonalInformation/bindPhoneNumber', query: { bankCode: this.state.bank_info.bankcard_no } })
   }
 
   render() {
     const { bank_info } = this.state
     return (
       <div className={styles.bank_page}>
-        <WingBlank>
 
-          {/* {
-            this.state.is_show ? (
-              <div className={styles.bank_info}>
-                <div className={styles.bank_box}>
-                  <div className={styles.bank_name}>{bank_info.bank_name}</div>
-                  <div className={styles.card_type}>储蓄卡</div>
-                  <div className={styles.card_num}>{bank_info.bankcard_no}</div>
+        {
+          this.state.maskShow ?
+            <div className={styles.maskContent}>
+              <div className={styles.contentBox}>
+                <div className={styles.contentTitle}>温馨提示</div>
+                <div className={styles.contentInfo}>
+                  {this.props.location.query.submitType = 1 ? '绑卡成功' : '绑卡失败'}
+                </div>
+                <div className={styles.contentBtn} onClick={() => { this.setState({ maskShow: false }) }}>
+                  {this.props.location.query.submitType = 1 ? '已阅' : '重新绑定'}
                 </div>
               </div>
-            ) : (
-                <div className={styles.no_data}>
-                  暂无绑定银行卡
-              </div>
-              )
-          } */}
+            </div>
+            : null
+        }
 
+        <WingBlank>
           {
             this.state.is_show ? (
               <div className={styles.bank_info}>
@@ -77,7 +78,16 @@ export default class MyBank extends Component {
                     <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
                     <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
                     <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
-                    <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(12)}</div>
+                    {/* 招商银行16位，交通银行17位，其他银行19位 */}
+                    {
+                      bank_info.bankcard_no.length > 16 ?
+                        <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" /> : null
+                    }
+                    {
+                      bank_info.bankcard_no.length > 16 ? <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(16)}</div> : (
+                        <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(12)}</div>
+                      )
+                    }
                   </div>
                 </div>
                 <div className={styles.bank_box_right}>

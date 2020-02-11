@@ -2,9 +2,6 @@
 import React, { Component } from 'react';
 import styles from './index.less'
 import { Toast, WhiteSpace, WingBlank, Button, Flex } from 'antd-mobile';
-import { success, error, sigh } from "../../components/Hint";
-import ArticleInput from "../../components/ArticleInput";
-
 import Request from '@/service/request';
 import qs from 'qs';
 import router from 'umi/router';
@@ -20,7 +17,8 @@ export default class bindPhoneNumber extends Component {
         // 验证码
         code: "",
         is_ok: true,
-        wait: ""
+        wait: "",
+        bank_no: ''
     }
 
     // 销毁定时器
@@ -94,34 +92,46 @@ export default class bindPhoneNumber extends Component {
             Toast.fail('请输入验证码', 1);
             return;
         }
-        // Request({
-        //   url: 'checkMobile',
-        //   method: "POST",
-        //   data: qs.stringify({
-        //     phone,
-        //     verify_code: code
-        //   })
-        // }).then(res => {
-        //   if (res.code == 200) {
-        //     router.push({
-        //       pathname: 'changePhoneNumber/new_phoneNumber'
-        //     })
-        //     Cookies.set("oldPhone", phone, { expires: 1 })
-        //   }
-        // })
+        Request({
+            url: 'bindBankMobile',
+            method: "POST",
+            data: qs.stringify({
+                bankcard_no: this.state.bank_no,
+                verify_code: code,
+                mobile: phone
+            })
+        }).then(res => {
+            if (res.code == 200) {
+                //submitType==1绑定成功,2失败
+                router.push({ pathname: '/PersonalInformation/bindPhoneNumber', query: { submitType: 1 } })
+            } else {
+                router.push({ pathname: '/PersonalInformation/bindPhoneNumber', query: { submitType: 2 } })
+            }
+        })
+
+
     }
-
-
 
     componentWillMount() {
         clearInterval(timer);
+        if (this.props.location.query.bankCode) {
+            let occurTime = String(this.props.location.query.bankCode);
+            let code = this.insertStr(this.insertStr(this.insertStr(this.insertStr(this.insertStr(occurTime, 4, " "), 9, " "), 14, " "), 19, " "), 24, " ");
+            this.setState({ bank_no: code })
+        }
+    }
+    insertStr = (s: string, start: number, newStr: string) => {
+        return s.slice(0, start) + newStr + s.slice(start);
     }
     render() {
         const { phone, code, is_ok, wait } = this.state;
         return (
             <div className={styles.phoneNumber}>
                 <div className={styles.passwordBox}>
-                    <div className={styles.bankCardBox} >银行卡号：6220 2120 4567 1234</div>
+                    {
+                        this.props.location.query.bankCode ? <div className={styles.bankCardBox} >银行卡号：{this.state.bank_no}</div> : null
+                    }
+
                     <div className={styles.content}>
                         <div className={styles.items1}>
                             <div className={styles.keyWords}>手机号码 </div>

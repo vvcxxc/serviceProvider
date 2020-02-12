@@ -69,7 +69,9 @@ export default class MyBank extends Component {
             this.state.is_show ? (
               <div className={styles.bank_info}>
                 <div className={styles.bank_box_left}>
-                  <div className={styles.bank_box_left_img}></div>
+                  <div className={styles.bank_box_left_img}>
+                  <img className={styles.bank_img} src="http://oss.tdianyi.com/front/.png" />
+                  </div>
                 </div>
                 <div className={styles.bank_box_middle}>
                   <div className={styles.bank_name}>{bank_info.bank_name}</div>

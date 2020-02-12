@@ -6,7 +6,8 @@ import { Flex, WingBlank, Icon } from 'antd-mobile'
 import ReactEcharts from 'echarts-for-react';
 import Request from '@/service/request';
 import dayjs from 'dayjs'
-import echarts from 'echarts' 
+import echarts from 'echarts'
+import walden from './walden'
 import echartsTheme from './echartsTheme'
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
@@ -27,6 +28,7 @@ export default class DataPage extends Component {
   }
   componentWillMount() {
     echarts.registerTheme('theme', echartsTheme);
+    echarts.registerTheme('walden', walden)
   }
   componentDidMount() {
     let date = dayjs(now).format('YYYY-MM')
@@ -318,6 +320,7 @@ export default class DataPage extends Component {
             {
               this.state.box1Show ? <div className={styles.dataPage_box1_contentBox}>
                 <ReactEcharts
+                  theme="walden"
                   option={this.getOption()}
                   notMerge={true}
                   lazyUpdate={true}

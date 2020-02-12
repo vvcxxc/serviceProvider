@@ -28,9 +28,9 @@ export default class PageIndex extends Component {
   }
 
   //账号输入
-  onChangeText = (value: any) => {
+  onChangeText = (e: any) => {
     this.setState({
-      inpText: value
+      inpText:  e.target.value
     })
   }
   //账号删除
@@ -41,9 +41,9 @@ export default class PageIndex extends Component {
   }
 
   // 密码输入
-  onChangePassword = (value: any) => {
+  onChangePassword = (e: any) => {
     this.setState({
-      inpPassword: value
+      inpPassword: e.target.value
     })
   }
 
@@ -56,6 +56,7 @@ export default class PageIndex extends Component {
 
   landingData = () => {
     const { inpText, inpPassword } = this.state
+    console.log(inpText, inpPassword)
     let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/;
     if (!inpText) {
       Toast.fail('手机号不能为空,请重新输入')
@@ -131,12 +132,11 @@ export default class PageIndex extends Component {
               <div className={styles.contLeft}>
                 <div className={styles.inputInfo}>+86</div>
                 <div className={styles.inputTextArea}>
-                  <MyInput
+                  <input
+                    className={styles.inputTextArea_input}
                     placeholder="请输入手机号"
                     type="text"
-                    onDelete={this.onDeleteText}
                     onChange={this.onChangeText}
-                    mb={56}
                   />
                 </div>
               </div>
@@ -145,22 +145,18 @@ export default class PageIndex extends Component {
               <div className={styles.contLeft}>
                 <div className={styles.inputInfo2}>密码</div>
                 <div className={styles.inputTextArea}>
-                  <MyInput
+                  <input
+                    className={styles.inputTextArea_input}
                     placeholder="请输入密码"
                     type={this.state.passWordType ? "text" : "password"}
-                    onDelete={this.onDeletePassword}
                     onChange={this.onChangePassword}
-                    mb={26}
                   />
                 </div>
               </div>
               <div className={styles.inputIcon} onClick={this.changPassWordType.bind(this)}>
                 <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
               </div>
-
             </div>
-
-
             {/* <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div> */}
           </div>
           <div className={styles.operation}>

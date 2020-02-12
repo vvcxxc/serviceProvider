@@ -333,13 +333,11 @@ export default class DataPage extends Component {
           <div className={styles.dataPage_box2}>
             <div className={styles.dataPage_box2_titleBox}>
               <div className={styles.dataPage_box2_num}>收入分类<span style={{ color: '#738ed7', marginLeft: '15px' }}>￥{this.state.total} </span></div>
-
               {
                 !this.state.box2Show ?
                   <div className={styles.dataPage_box2_btn} onClick={this.showBox2}>点此展开<Icon type="down" /> </div>
                   :
                   <div className={styles.dataPage_box2_btn} onClick={this.showBox2}>点此收起<Icon type="up" /> </div>
-
               }
             </div>
             {

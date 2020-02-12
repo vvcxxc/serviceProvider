@@ -1,22 +1,95 @@
+.code_main {
+  min-height: 50vh;
+  height: 100vw;
+  overflow-y: scroll;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 0px 0px 10px 10px;
 
-   main{
-    .total_revenue{
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 32px 16px 20px;
-      height: 31px;
-      background-color: rgba(225, 225, 225, 1);
-      text-align: center;
-      border: 1px solid rgba(255, 0, 0, 0);
-    }
-    .listdata{
-      padding: 20px 36px 20px 20px;
-      border-bottom: 2px solid #f3f3f3;
-      li {
-        display: flex;
-        justify-content: space-between;
-        height: 40px;
-        line-height: 40px;
+  .total_revenue {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 20px;
+    padding: 0px 20px;
+    height: 53px;
+    line-height: 53px;
+    background: rgba(242, 245, 252, 1);
+    border-radius: 26px;
+  }
+
+  .listdata {
+    height: 113px;
+    margin: 0 40px;
+    padding: 30px 0px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #f3f3f3;
+
+    .listdata_l {
+      margin-top: 10px;
+      font-size: 30px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 1);
+
+      span {
+        display: block;
+      }
+
+      span:nth-child(1) {
+        margin-bottom: 26px;
       }
     }
+
+    .listdata_r {
+      div {
+        height: 25px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 14px;
+        font-size: 26px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: rgba(153, 153, 153, 1);
+
+        span {
+          margin-left: 17px;
+          color: #547BE7;
+        }
+      }
+    }
+
   }
+}
+
+// 点击刷新
+.refresh_box {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.refresh {
+  width: 405px;
+  height: 53px;
+  background: rgba(255, 250, 210, 1);
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-left: 18px;
+    margin-right: 5px;
+    height: 32px;
+    width: 24px;
+  }
+
+  div {
+    margin-right: 10px;
+    font-size: 26px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 188, 8, 1);
+    text-align: right;
+  }
+}

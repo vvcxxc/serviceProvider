@@ -8,16 +8,18 @@ import { routerRedux } from 'dva/router';
 export function ListStoreQueue(params:any) {
   const { list, title } = params
   return (
-    <main>
+    <main className={styles.store_queue}>
       <div className={styles.prompt}>
         <div>
-          <span>下一次铺码排名：{title.Ranking}</span>
-          <span>预计铺店日期：{title.LayoutDates}</span>
+          <span>下一次铺码排名:{title.Ranking}</span>
+          <span>预计铺店日期:{title.LayoutDates}</span>
         </div>
         <div>
-          <span>下一次预计铺店：{title.NextLayoutNum}</span>
-          <span className={styles.improve_button} onClick={()=>router.push({ pathname: 'qr_code_page/rules' })}>提高排名</span>
-          <span className={styles.change_record} onClick={() => router.push({ pathname: 'qr_code_page/change_record' })}>贡献值变更记录</span>
+          <span>下一次预计铺店:{title.NextLayoutNum}</span>
+          <div>
+            <span className={styles.improve_button} onClick={() => router.push({ pathname: 'qr_code_page/rules' })}>提高排名</span>
+            <span className={styles.change_record} onClick={() => router.push({ pathname: 'qr_code_page/change_record' })}>贡献值变更记录</span>
+          </div>
         </div>
       </div>
       <ul className={styles.preview_queue}>
@@ -40,8 +42,17 @@ export function ListStoreQueue(params:any) {
       </ul>
       
         <ul className={styles.preview_queue}>
-        {list.length >= 10 && title.row.length ? <li className={styles.omit}>....</li>:null }
+        {list.length >= 10 && title.row.length ? <li className={styles.omit}>....</li> : null}
         {
+          <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
+            <span>1</span>
+            <span className={styles.constrol_place}>33</span>
+            <span>+33</span>
+            <span>{33+'%' }</span>
+          </li>
+          //最后一条没有下边框
+        }
+        {/* {
           list.length>=10 && title.row.map((item: any, index_: number) => {
             return <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
               <span>{item.Ranking}</span>
@@ -50,7 +61,7 @@ export function ListStoreQueue(params:any) {
               <span>{item.now_score_num}%</span>
             </li>
             })
-          }
+          } */}
         </ul>
       
       <div className={styles.store_help} onClick={() => router.push({ pathname:'qr_code_page/rules'})}>帮助</div>

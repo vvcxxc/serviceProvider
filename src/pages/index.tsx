@@ -16,15 +16,15 @@ import ReactDOM from 'react-dom'
 export default class QrCodePage extends Component {
   state = {
     options: ['二维码', '码包', '铺店队列', '铺店记录'],
-    options_index: 0,
+    options_index: 1,
 
     currentPrice: 1,
     is_show_loading: true,
     qrCodeList: [],
-    qrCodeTitle:{},
+    qrCodeTitle: {},
     qrCodePage: 1,
     closeNum: 1,
-    filter:{},
+    filter: {},
     dataList: [
       {
         key: 1,
@@ -64,25 +64,25 @@ export default class QrCodePage extends Component {
   }
 
   componentDidMount() {
-    this.requestList('qrCodes', 1,1)
-    this.requestList('Packages', 1,2)
-    this.requestList('Attacheds', 1,3)
-    this.requestList('LayoutLog', 1,4)
+    this.requestList('qrCodes', 1, 1)
+    this.requestList('Packages', 1, 2)
+    this.requestList('Attacheds', 1, 3)
+    this.requestList('LayoutLog', 1, 4)
   }
 
-  requestList = (url?:any,page?:number,options?:number) => {
+  requestList = (url?: any, page?: number, options?: number) => {
     const urls = url ? url : ['qrCodes', 'Packages', 'Attacheds', 'LayoutLog'][this.state.options_index]
     const pages = page ? page : [this.state.qrCodePage, this.state.packagePage, 1, this.state.recordPage][this.state.options_index]
     let options_index = options ? options - 1 : this.state.options_index
     let filter = {}
-    if(!options_index){
-      filter = {...this.state.filter}
+    if (!options_index) {
+      filter = { ...this.state.filter }
     }
     Request({
       url: urls,
       method: "GET",
       params: {
-        page:pages ,
+        page: pages,
         ...filter
       }
     }).then(res => {
@@ -95,7 +95,7 @@ export default class QrCodePage extends Component {
               haved: res.data.layouted, //已铺设n
               money: res.data.money_total,//总收益
             },
-            qrCodeList: this.state.qrCodePage > 1 ? [...this.state.qrCodeList, ...res.data.data]:res.data.data,
+            qrCodeList: this.state.qrCodePage > 1 ? [...this.state.qrCodeList, ...res.data.data] : res.data.data,
             is_show_loading: res.data.data.length < 1 ? false : true
           })
           break;
@@ -156,12 +156,12 @@ export default class QrCodePage extends Component {
   }
 
   getOptionsIndex = (options_index: number) => {
-    this.setState({ options_index, is_show_loading:true })
+    this.setState({ options_index, is_show_loading: true })
   }
 
   //筛选组触发
   searchPayload = (filter: any) => {
-    this.setState({ filter, qrCodePage: 1, qrCodeList:[] }, () => {
+    this.setState({ filter, qrCodePage: 1, qrCodeList: [] }, () => {
       this.requestList()
     })
   }
@@ -177,29 +177,34 @@ export default class QrCodePage extends Component {
           <ul>
             {
               options.map((value, options_index: number) => {
-                return <li key={value} className={options_index === this.state.options_index ? styles.li_border : ''}
-                  onClick={this.getOptionsIndex.bind(this, options_index)}>{value}</li>
+                return <li key={value}
+                  // className={options_index === this.state.options_index ? styles.li_border : ''}
+                  className={options_index === this.state.options_index ? styles.hit : styles.no_hit}
+                  onClick={this.getOptionsIndex.bind(this, options_index)}>{value} <span></span> </li>
               })
             }
           </ul>
         </header>
-        {
-          !options_index ? <Filtrate
-            onChange={this.searchPayload}
-            dataList={this.state.dataList}
-          /> : null
+          {
+            !options_index ? <Filtrate
+              onChange={this.searchPayload}
+              dataList={this.state.dataList}
+            /> : null
         }
         {
           [
-            { title: <ListCode list={qrCodeList} title={qrCodeTitle}/> },
-            { title: <ListPackage list={packageList} price={currentPrice} /> },
-            { title: <ListStoreQueue list={queueList} title={queueTitle} /> },
-            { title: <ListStreRecord list={record_list} /> }
-          ][this.state.options_index].title
+            <ListCode list={qrCodeList} title={qrCodeTitle} />,
+            <ListPackage list={packageList} price={currentPrice} />,
+            <ListStoreQueue list={queueList} title={queueTitle} />,
+            <ListStreRecord list={record_list} />][this.state.options_index]
         }
         {
-          options_index !== 2 ? <div className={styles.more_data_ql} onClick={is_show_loading ? this.scrollBottom : () => { }}>{is_show_loading ? '更多数据' : '暂无更多数据'}</div>:null
+          // <PackageRecord />转出记录
         }
+        {/* {
+          options_index ? options_index !== 2 ? <div className={styles.more_data_ql} onClick={is_show_loading ? this.scrollBottom : () => { }}>{is_show_loading ? '更多数据' : '暂无更多数据'}</div> : null:null
+          
+        } */}
       </div>
     )
   }

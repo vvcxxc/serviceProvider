@@ -129,8 +129,7 @@ export default class Filtrate extends Component<Props>{
   }
   render() {
     return (
-      <div className={styles.filtrate}>
-
+      <div className={styles.filtrate} style={{background:'#fff'}}>
         {
           this.state.dataList && this.state.dataList.length > 0 ? this.state.dataList.map((item: any, index: any) => {
             return (

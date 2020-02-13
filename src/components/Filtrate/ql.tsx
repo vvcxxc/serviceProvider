@@ -52,7 +52,7 @@ export default class Filtrate extends Component<Props>{
   render() {
     const { showIndex,title } = this.state
     return (
-      <div className={styles.filtrate}>
+      <div className={styles.filtrate} style={{marginBottom:'-1px'}}>
         {
           this.state.dataList.map((item: any, index: any) => {
             return (

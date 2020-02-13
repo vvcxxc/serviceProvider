@@ -6,28 +6,28 @@ interface Props {
   // list: Array<Object>,
   dataList: Array<Object>,
   searchPath?: any,//路由跳转路径
-  onChange: (value: any) => void
+  onChange:(value:any)=>void
 }
 export default class Filtrate extends Component<Props>{
   state = {
     dataList: [],
     showIndex: 0,
     title: [
-      { show: '排序', props: 'total_money' },
-      { show: '铺设状态', props: 'all' }
+      { show: '排序',props: 'total_money' },
+      { show: '铺设状态',props: 'all'  }
     ]
   }
 
   componentDidMount() {
     const { dataList } = this.props
-    const { title } = this.state
+    const { title} = this.state
     this.setState({ dataList })
     // this.props.onChange({ orderBy: title[0].props, status: title[1].props })
   }
 
   //搜索跳转
   routerGo = (e: any) => {
-    router.push({ pathname: '/QRcode/ql' })
+    router.push({ pathname: '/QRcode/ql'})
     e.stopPropagation();
   }
 
@@ -50,19 +50,17 @@ export default class Filtrate extends Component<Props>{
   }
 
   render() {
-    const { showIndex, title } = this.state
+    const { showIndex,title } = this.state
     return (
-      <div className={styles.filtrate} style={{ background: '#ffffff', borderTopLeftRadius: '15px', borderTopRightRadius: '15px', marginBottom: '-1px',overflow:'hidden' }}>
-        <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}>搜索</div>
+      <div className={styles.filtrate}>
         {
           this.state.dataList.map((item: any, index: any) => {
             return (
               <div key={index} className={styles.filtrate_key}
-                style={{ color: '#000' }}
                 onClick={this.controlShow.bind(this, item.key)}>
                 {
                   title[index].show
-                }
+               }
                 <Icon className={styles.filtrate_icon} type={item.select ? "down" : "up"} />
                 {
                   showIndex === item.key ? <div className={styles.filtrate_value_box} >
@@ -82,6 +80,7 @@ export default class Filtrate extends Component<Props>{
             )
           })
         }
+        <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}><span>搜索</span> <Icon type="search" color="#B5B5B5" size="xs" /></div>
       </div>
     )
   }

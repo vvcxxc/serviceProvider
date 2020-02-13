@@ -1,11 +1,10 @@
 
 
 import React, { Component } from 'react'
-import Filtrate from '../../../../components/Filtrate/index';
 import styles from './index.less'
 
 export function ListCode(params: any) {
-  const { list, title } = params
+  const { list, title, have_more } = params
   return (
     <main className={styles.code_main}>
       <div className={styles.total_revenue}>
@@ -20,20 +19,26 @@ export function ListCode(params: any) {
         </div>
       </div>
       {
-        list.map((value: any, index: number) => {
-          return <ul className={styles.listdata}>
+        list.map((value: any, _: number) => {
+          return <ul key={_} className={styles.listdata}>
             <li className={styles.listdata_l}>
               <span>序列号 {value.qrcode_sn ? value.qrcode_sn.split('-')[1] ? value.qrcode_sn.split('-')[1] : value.qrcode_sn : null}
               </span>
-              <span>店铺名 {value.shop_name.split('有限公司',1)}</span>
+              {
+                value.shop_name ? <span>店铺名 {value.shop_name.split('有限公司', 1)}</span>:null
+              }
+              
             </li>
             <li className={styles.listdata_r}>
-              <div>今日收益 <span>{value.today_money}</span></div>
-              <div>本月收益 <span>{value.month_money}</span></div>
-              <div>总收益 <span>{value.total_money}</span></div>
+              <div>今日收益 <span>{value.today_money ? value.today_money:0}</span></div>
+              <div>本月收益 <span>{value.month_money ? value.month_money:0}</span></div>
+              <div>总收益 <span>{value.total_money ? value.total_money:0}</span></div>
             </li>
           </ul>
         })
+      }
+      {
+        have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(0)}>加载更多</div> : <div className={styles.getmore} >暂无更多数据</div>
       }
     </main >
   )

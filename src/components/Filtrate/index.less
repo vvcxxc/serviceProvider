@@ -1,85 +1,73 @@
 .filtrate {
-    height: 80px;
-    width: 100%;
-    position: relative;
+
+  height: 80px;
+  // width: 630px;
+  border-radius: 10px 10px 0px 0px;
+  background: #fff;
+  padding: 0px 41px;
+  .filtrate_search_btn {
+    padding-top: 20px;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    .filtrate_search_btn {
-      height: 80px;
+    font-size: 26px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(153, 153, 153, 1);
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  .filtrate_key {
+    height: 80px;
+    line-height: 80px;
+    padding: 0 20px;
+    color: #666666;
+    font-size: 28px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    float: left;
+    position: relative;
+
+    .filtrate_icon {
+      padding-left: 20px;
+    }
+
+    .filtrate_value_box {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 100px;
-      text-align: center;
+      left: 0;
+      top: 80px;
+      border: 1px solid #1392ce;
       background: #fff;
-      color: #999999;
-      line-height: 80px;
-      z-index: 3;
+      height: auto;
+      width: 250px;
+      z-index: 10;
+
+      .filtrate_value_ul {
+        height: auto;
+        width: auto;
+        padding: 0;
+        list-style: none;
+
+        .filtrate_value_li {
+          padding: 10px 10px;
+          line-height: 1;
+          color: #666666;
+          font-size: 28px;
+        }
+      }
+    }
 
   }
-  .filtrate_search_btn1 {
-    height: 80px;
-    // width: 100px;
-    text-align: center;
-    color: #fff;
-    line-height: 80px;
-    z-index: 3;
-    display: flex;
-    align-items: center ;
-    .search {
-      font-size: 28px;
-      padding-left: 10px;
-    }
-
-}
-
-    .filtrate_key {
-        height: 80px;
-        line-height: 80px;
-        padding: 0 20px;
-        color: #fff;
-        font-size: 28px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        float: left;
-        position: relative;
-
-        .filtrate_icon {
-            padding-left: 10px;
-        }
-
-        .filtrate_value_box {
-            position: absolute;
-            left: 0;
-            top: 80px;
-            border: 1px solid #1392ce;
-            background: #fff;
-            height: auto;
-            width: 250px;
-            z-index: 10;
-            .filtrate_value_ul {
-                height: auto;
-                width: auto;
-                padding: 0;
-                list-style: none;
-
-                .filtrate_value_li {
-                    padding: 10px 10px;
-                    line-height: 1;
-                    color: #666666;
-                    font-size: 28px;
-                }
-            }
-        }
-
-    }
 
 
 
 }
+
 .picker {
   position: fixed;
   background: #fff;
@@ -91,15 +79,18 @@
   overflow: hidden;
   padding-top: 20px;
   z-index: 5;
+
   .picker_buttons {
     width: 100%;
     height: 80px;
     padding: 0 20px;
     box-sizing: border-box;
   }
+
   .picker_button {
     color: blue;
   }
+
   .picker_date {
     width: 100%;
     margin-top: 100px;

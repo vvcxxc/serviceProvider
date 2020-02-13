@@ -9,7 +9,9 @@ interface Props {
   onSearch: any,
   closeNum?: any,
   searchPath?: any,
-  isDate?: boolean
+  isDate?: boolean,
+  background?: String,
+  color?: String,
 }
 
 /**
@@ -129,11 +131,14 @@ export default class Filtrate extends Component<Props>{
   }
   render() {
     return (
-      <div className={styles.filtrate} style={{background:'#fff'}}>
+      <div className={styles.filtrate} style={{ background: this.props.background ? String(this.props.background) : 'unset' }}>
         {
           this.state.dataList && this.state.dataList.length > 0 ? this.state.dataList.map((item: any, index: any) => {
             return (
-              <div key={index} className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} >{item.title ? item.title : item.key}
+
+              <div key={index}
+                style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
+                className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} >{item.title ? item.title : item.key}
                 {item.select ? <Icon className={styles.filtrate_icon} type="down" /> : <Icon className={styles.filtrate_icon} type="up" />}
                 <div className={styles.filtrate_value_box} style={{ display: item.select ? 'block' : 'none' }}>
                   <ul className={styles.filtrate_value_ul} onClick={this.selectKey.bind(this, item.index)} >
@@ -154,15 +159,17 @@ export default class Filtrate extends Component<Props>{
 
         {
           this.props.searchPath ? <div className={styles.filtrate_search_btn1} onClick={this.routerGo.bind(this)}> 搜索
-            <Icon type='search' size='sm' className={styles.search}/>
+            <Icon type='search' size='sm' className={styles.search} />
           </div> : null
         }
 
         {
           this.props.isDate ? (
             <div className={styles.filtrate_key}>
-              <span onClick={this.datePicker}>{this.state.show_date ? this.state.show_date : '月份'}</span>
-              <Icon className={styles.filtrate_icon} type="down" onClick={this.datePicker} />
+              <span onClick={this.datePicker}
+                style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
+              >{this.state.show_date ? this.state.show_date : '月份'}</span>
+              <Icon className={styles.filtrate_icon} type="down" onClick={this.datePicker} style={{ color: this.props.color ? String(this.props.color) : '#fff' }} />
               {
                 this.state.is_show_date ? (
                   <div className={styles.picker}>

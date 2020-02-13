@@ -5,8 +5,8 @@ import router from 'umi/router';
 import styles from './index.less'
 import { routerRedux } from 'dva/router';
 
-export function ListStoreQueue(params:any) {
-  const { list, title } = params
+export function ListStoreQueue(params: any) {
+  const { list, title, have_more} = params
   return (
     <main className={styles.store_queue}>
       <div className={styles.prompt}>
@@ -30,9 +30,9 @@ export function ListStoreQueue(params:any) {
           <span>贡献值</span>
         </li>
         {
-          list.map((value:any,index: number) => {
-            return <li key={index} className={styles.list_children} style={{ lineHeight: '1rem'}}>
-              <span>{index+1}</span>
+          list.map((value: any, index: number) => {
+            return <li key={index} className={styles.list_children} style={{ lineHeight: '1rem' }}>
+              <span>{index + 1}</span>
               <span className={styles.constrol_place}>{value.FacilitatorName}</span>
               <span>+{value.next_layout_num}</span>
               <span>{value.now_score_num}%</span>
@@ -41,30 +41,24 @@ export function ListStoreQueue(params:any) {
         }
       </ul>
       
-        <ul className={styles.preview_queue}>
+      <ul className={styles.preview_queue}>
         {list.length >= 10 && title.row.length ? <li className={styles.omit}>....</li> : null}
         {
-          <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
-            <span>1</span>
-            <span className={styles.constrol_place}>33</span>
-            <span>+33</span>
-            <span>{33+'%' }</span>
-          </li>
-          //最后一条没有下边框
-        }
-        {/* {
-          list.length>=10 && title.row.map((item: any, index_: number) => {
+          list.length >= 10 && title.row.map((item: any, index_: number) => {
             return <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
               <span>{item.Ranking}</span>
               <span className={styles.constrol_place}>{item.FacilitatorName}</span>
               <span>+{item.next_layout_num}</span>
               <span>{item.now_score_num}%</span>
             </li>
-            })
-          } */}
-        </ul>
-      
-      <div className={styles.store_help} onClick={() => router.push({ pathname:'qr_code_page/rules'})}>帮助</div>
+          })
+        }
+      </ul>
+      {/* {
+        have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(2)}>加载更多</div> : <div className={styles.getmore} >暂无更多数据</div>
+      } */}
+
+      <div className={styles.store_help} onClick={() => router.push({ pathname: 'qr_code_page/rules' })}>帮助</div>
     </main>
   )
 }

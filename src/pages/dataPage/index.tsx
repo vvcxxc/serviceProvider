@@ -295,6 +295,7 @@ export default class DataPage extends Component {
       <div className={styles.dataPage}>
         <div className={styles.dataPage_bg}>
           <Filtrate
+            // background={'#ffffff'}
             onSearch={this.searchPayload}
             closeNum={this.state.closeNum}
             isDate={true}

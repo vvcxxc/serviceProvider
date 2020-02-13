@@ -4,7 +4,7 @@ import styles from './index.less'
 import router from 'umi/router'
 
 export function ListPackage(params: any) {
-  const { list, price } = params
+  const { list, price, have_more } = params
   return (
     <main className={styles.package_main}>
       <div className={styles.total_package_box}>
@@ -43,6 +43,9 @@ export function ListPackage(params: any) {
               </ul>
             </div>
           })
+        }
+        {
+          have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(1)}>加载更多</div> : <div className={styles.getmore} >暂无更多数据</div>
         }
         
       </div>

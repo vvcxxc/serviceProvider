@@ -6,7 +6,7 @@ import styles from './index.less'
 import { routerRedux } from 'dva/router';
 
 export function ListStoreQueue(params: any) {
-  const { list, title, have_more} = params
+  const { list, title, have_more } = params
   return (
     <main className={styles.store_queue}>
       <div className={styles.prompt}>
@@ -40,12 +40,12 @@ export function ListStoreQueue(params: any) {
           })
         }
       </ul>
-      
+
       <ul className={styles.preview_queue}>
         {list.length >= 10 && title.row.length ? <li className={styles.omit}>....</li> : null}
         {
           list.length >= 10 && title.row.map((item: any, index_: number) => {
-            return <li className={styles.list_children} style={{ lineHeight: '1rem' }}>
+            return <li className={styles.list_children} style={{ lineHeight: '1rem' }} key={index_}>
               <span>{item.Ranking}</span>
               <span className={styles.constrol_place}>{item.FacilitatorName}</span>
               <span>+{item.next_layout_num}</span>

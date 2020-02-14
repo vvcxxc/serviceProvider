@@ -49,6 +49,7 @@ export default class Rules extends Component {
             {/* 进行中 #4CD22C  驳回 #F81B1B  已转 #547BE7 */}
           </li>
         </ul>
+        <div className={styles.getmore}>查看更多</div>
       </main>
     )
   }

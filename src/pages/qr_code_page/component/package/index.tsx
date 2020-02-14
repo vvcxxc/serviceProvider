@@ -28,10 +28,9 @@ export function ListPackage(params: any) {
                 <li> 当前阶段：<span>{value.now_stage_num}</span> </li>
                 <li> 下阶段铺设：<span>{value.attached ? value.attached.next_layout_num : '-'}</span></li>
                 <li> 码包来源：<span>{['购买', '转让', '旧数据处理'][value.from_type - 1]}</span> </li>
-                <li><span className={styles.transfer} onClick={() =>
+                {/* <li><span className={styles.transfer} onClick={() =>
                   router.push({ pathname: 'qr_code_page/code_make_over' })
-                  // router.push({ pathname: 'qr_code_page/protocol_detail' })
-                }>转让</span></li>
+                }>转让</span></li> */}
               </ul>
               <ul>
                 <li> 贡献值：<span> {value.attached ? value.attached.now_score_num : 0}%</span> </li>

@@ -224,10 +224,11 @@ export default class Retrieve_password extends Component {
             </div>
           </div>
         </div>
-        {
+        <Button className={styles.register_btn} onClick={this.landingData.bind(this)}>确定</Button>
+        {/* {
           this.state.code && this.state.phoneNumber && this.state.newPassword && this.state.confirmPassword ? <Button className={styles.register_btn} onClick={this.landingData.bind(this)}>确定</Button>
             : <Button className={styles.register_btn} style={{ background: '#789beb' }}>确定</Button>
-        }
+        } */}
 
 
         {/* 

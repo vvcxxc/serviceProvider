@@ -368,8 +368,11 @@ export default connect(({ register }: any) => register)(
 
                         </div>
 
+                        {
+                            this.props.username && this.props.phone && this.props.code && this.props.password && this.props.inviter_phone ? <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
+                                : <Button className={styles.register_btn} style={{ background: '#789beb' }}>注册</Button>
+                        }
 
-                        <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
                     </div>
                 </div>
             )

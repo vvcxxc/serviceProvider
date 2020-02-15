@@ -160,8 +160,12 @@ export default class Filtrate extends Component<Props>{
         {
           this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}
             style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
-          > 搜索
+          >
+            <div className={styles.search_btn}>
+            搜索
             <Icon type='search' size='sm' className={styles.search} />
+              </div>
+
           </div> : null
         }
 

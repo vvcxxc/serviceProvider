@@ -66,7 +66,7 @@ export default class PageIndex extends Component {
       Toast.fail('密码不能为空,请重新输入')
       return
     }
-
+    Toast.loading('登陆中');
     Request({
       url: 'auth/login',
       method: 'post',
@@ -75,6 +75,7 @@ export default class PageIndex extends Component {
         password: this.state.inpPassword
       })
     }).then(res => {
+      Toast.hide()
       const { code, access_token, message, checkout_status } = res
       if (access_token) {
         localStorage.setItem('token', access_token)
@@ -105,6 +106,9 @@ export default class PageIndex extends Component {
         default:
           router.push({ pathname: '/' })
       }
+    }).catch(err => {
+      Toast.hide();
+      Toast.fail('登录失败', 1500)
     })
 
   }

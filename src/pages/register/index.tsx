@@ -250,7 +250,7 @@ export default connect(({ register }: any) => register)(
                             router.push('/chooseid')
                         })
                     } else {
-                        Toast.fail(message)
+                        Toast.fail('注册失败')
                     }
                 })
             } else {

@@ -52,8 +52,7 @@ export default class Filtrate extends Component<Props>{
   render() {
     const { showIndex,title } = this.state
     return (
-      <div className={styles.filtrate}>
-        <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}>搜索</div>
+      <div className={styles.filtrate} style={{marginBottom:'-1px'}}>
         {
           this.state.dataList.map((item: any, index: any) => {
             return (
@@ -81,6 +80,7 @@ export default class Filtrate extends Component<Props>{
             )
           })
         }
+        <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}><span>搜索</span> <Icon type="search" color="#B5B5B5" size="xs" /></div>
       </div>
     )
   }

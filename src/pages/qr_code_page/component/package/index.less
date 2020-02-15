@@ -1,44 +1,89 @@
-  main{
-    .total_package{
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 36px 16px 20px;
-      border-bottom: 3px solid rgba(187, 187, 187, 1);
-      .check_record{
-        border-bottom: 2px solid rgba(73, 135, 244, 1);
-        color: rgba(73, 135, 244, 1);
-        text-align: left;
-        font-family: SourceHanSansSC-regular;
-      }
+  .package_main {
+    min-height: 50vh;
+    height: 118vw;
+    overflow-y: scroll;
+    border-radius: 10px;
+    background-color: #fff;
+
+    .getmore {
+      text-align: center;
+      padding: 25px 0;
     }
-    .list_package> div {
+
+    .total_package_box {
+      padding: 30px 20px 0px 20px;
+
+      .total_package {
         display: flex;
+        justify-content: space-between;
         align-items: center;
+        padding: 0 20px;
+        height: 53px;
+        background: rgba(242, 245, 252, 1);
+        border-radius: 26px;
+
+        .check_record {
+          font-size: 26px;
+          line-height: 30px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          border-bottom: 2px solid #547BE7;
+          color: rgba(84, 123, 231, 1);
+        }
       }
 
-    .list_package{
+    }
+
+    .list_package_box {
+      padding: 0 34px;
+    }
+
+    .list_package>div {
+      display: flex;
+      align-items: center;
+    }
+
+    .list_package {
       display: flex;
       justify-content: space-between;
-      padding: 20px 16px 30px 20px;
-      border-bottom: 2px solid #f3f3f3;
+      padding: 20px 0px;
+      border-bottom: 1px solid #E2E2E2;
+
+      div:nth-child(1) {
+        font-size: 30px;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: rgba(84, 123, 231, 1);
+      }
+
       ul {
         li {
           display: flex;
-          justify-content: space-between;
-          height: 60px;
-          line-height: 60px;
+          margin-bottom: 13px;
           text-align: left;
-          .transfer{
-            margin-top: 5px;
-            width: 160px;
-            height: 60px;
-            line-height: 60px;
-            border-radius: 8px;
-            color: rgba(16, 16, 16, 1);
-            font-size: 24px;
-            text-align: center;
-            font-family: Microsoft Yahei;
-            border: 2px solid rgba(187, 187, 187, 1);
+          font-size: 26px;
+          line-height: 26px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: rgba(0, 0, 0, 1);
+
+          span {
+            color: #999999
+          }
+
+          .transfer {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 132px;
+            height: 50px;
+            background-color: #EDF3FC;
+            border-radius: 10px;
+            font-size: 26px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #547BE7;
           }
         }
       }

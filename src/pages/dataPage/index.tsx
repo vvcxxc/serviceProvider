@@ -6,6 +6,9 @@ import { Flex, WingBlank, Icon } from 'antd-mobile'
 import ReactEcharts from 'echarts-for-react';
 import Request from '@/service/request';
 import dayjs from 'dayjs'
+import echarts from 'echarts'
+import walden from './walden'
+import echartsTheme from './echartsTheme'
 const nowTimeStamp = Date.now();
 const now = new Date(nowTimeStamp);
 export default class DataPage extends Component {
@@ -22,6 +25,10 @@ export default class DataPage extends Component {
     total: 0,
     box1Show: false,
     box2Show: false
+  }
+  componentWillMount() {
+    echarts.registerTheme('theme', echartsTheme);
+    echarts.registerTheme('walden', walden)
   }
   componentDidMount() {
     let date = dayjs(now).format('YYYY-MM')
@@ -288,6 +295,7 @@ export default class DataPage extends Component {
       <div className={styles.dataPage}>
         <div className={styles.dataPage_bg}>
           <Filtrate
+            // background={'#ffffff'}
             onSearch={this.searchPayload}
             closeNum={this.state.closeNum}
             isDate={true}
@@ -296,7 +304,7 @@ export default class DataPage extends Component {
         <div className={styles.dataPage_content}>
           <div className={styles.totals}>
             <div className={styles.totals_num}>收入<span style={{ color: '#738ed7', marginLeft: '15px' }}>￥{this.state.total} </span></div>
-            <div className={styles.totals_btn}>点此展开<Icon type="down" /> </div>
+            {/* <div className={styles.totals_btn}>点此展开<Icon type="down" /> </div> */}
           </div>
 
           <div className={styles.dataPage_box1}>
@@ -313,6 +321,7 @@ export default class DataPage extends Component {
             {
               this.state.box1Show ? <div className={styles.dataPage_box1_contentBox}>
                 <ReactEcharts
+                  theme="walden"
                   option={this.getOption()}
                   notMerge={true}
                   lazyUpdate={true}
@@ -325,18 +334,17 @@ export default class DataPage extends Component {
           <div className={styles.dataPage_box2}>
             <div className={styles.dataPage_box2_titleBox}>
               <div className={styles.dataPage_box2_num}>收入分类<span style={{ color: '#738ed7', marginLeft: '15px' }}>￥{this.state.total} </span></div>
-
               {
                 !this.state.box2Show ?
                   <div className={styles.dataPage_box2_btn} onClick={this.showBox2}>点此展开<Icon type="down" /> </div>
                   :
                   <div className={styles.dataPage_box2_btn} onClick={this.showBox2}>点此收起<Icon type="up" /> </div>
-
               }
             </div>
             {
               this.state.box2Show ? <div className={styles.dataPage_box2_contentBox}>
                 <ReactEcharts
+                  theme="theme"
                   option={this.getOption3()}
                   notMerge={true}
                   lazyUpdate={true}

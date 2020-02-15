@@ -29,6 +29,16 @@ export default class Rules extends Component {
     const { packageList } = this.state
     return (
       <main>
+
+        <div  className={styles.change_record}>
+          <span>{'2019/12/12'}</span>
+          <span>{'码包'}</span>
+          <span>
+            {['每日增长', '附加增值', '够店增长'][0]}
+          </span>
+          <span>+{5}</span>
+        </div>
+
         {
           packageList.map((value: any) => {
             return <div key={value.id} className={styles.change_record}>

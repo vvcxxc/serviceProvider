@@ -314,7 +314,6 @@ export default connect(({ register }: any) => register)(
                                                 className={styles.register_code}
                                                 value={this.props.code}
                                                 onChange={this.handleChangeCode.bind(this)}
-                                                maxLength={6}
                                             >
                                             </InputItem>
 

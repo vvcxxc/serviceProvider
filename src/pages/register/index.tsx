@@ -325,7 +325,7 @@ export default connect(({ register }: any) => register)(
                                     this.props.is_ok ? (
                                         <div className={styles.register_send_code} onClick={this.getCode.bind(this)}>发送验证码</div>
                                     ) : (
-                                            <div className={styles.register_send_code} disabled >{this.props.wait}s后重新获取</div>
+                                            <div className={styles.register_send_code} >{this.props.wait}s后重新获取</div>
                                         )
                                 }
                             </div>
@@ -344,7 +344,10 @@ export default connect(({ register }: any) => register)(
                                     </div>
                                 </div>
                                 <div className={styles.inputIcon} onClick={this.changPassWordType.bind(this)}>
-                                    <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                                    {
+                                        this.state.passWordType ? <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                                            : <img className={styles.inputImg} src="http://oss.tdianyi.com/front/c6FyYiYzhynzfbDZmMtZeHSNcN76jnR6.png" />
+                                    }
                                 </div>
                             </div>
 

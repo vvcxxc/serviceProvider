@@ -111,7 +111,7 @@ export default class Retrieve_password extends Component {
         url: 'verifyCode',
         method: 'post',
         data: {
-          phone:phoneNumber
+          phone: phoneNumber
         }
       }).then(res => {
         if (res.code == 200) {
@@ -200,7 +200,10 @@ export default class Retrieve_password extends Component {
               </div>
             </div>
             <div className={styles.inputIcon} onClick={this.changPassWordType.bind(this)}>
-              <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+              {
+                this.state.passWordType ? <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                  : <img className={styles.inputImg} src="http://oss.tdianyi.com/front/c6FyYiYzhynzfbDZmMtZeHSNcN76jnR6.png" />
+              }
             </div>
           </div>
           <div className={styles.inputContent}>
@@ -221,12 +224,8 @@ export default class Retrieve_password extends Component {
             </div>
           </div>
         </div>
-        <Green_button
-          data={'确定'}
-          mb={60}
-          onClick={this.landingData}
-        />
 
+        <Button className={styles.register_btn} onClick={this.landingData.bind(this)}>确定</Button>
 
         {/* 
         <div className={styles.passwordBox}>

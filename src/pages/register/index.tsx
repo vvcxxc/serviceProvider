@@ -250,7 +250,7 @@ export default connect(({ register }: any) => register)(
                             router.push('/chooseid')
                         })
                     } else {
-                        Toast.fail(message)
+                        Toast.fail('注册失败')
                     }
                 })
             } else {
@@ -325,7 +325,7 @@ export default connect(({ register }: any) => register)(
                                     this.props.is_ok ? (
                                         <div className={styles.register_send_code} onClick={this.getCode.bind(this)}>发送验证码</div>
                                     ) : (
-                                            <div className={styles.register_send_code} disabled >{this.props.wait}s后重新获取</div>
+                                            <div className={styles.register_send_code} >{this.props.wait}s后重新获取</div>
                                         )
                                 }
                             </div>
@@ -344,7 +344,10 @@ export default connect(({ register }: any) => register)(
                                     </div>
                                 </div>
                                 <div className={styles.inputIcon} onClick={this.changPassWordType.bind(this)}>
-                                    <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                                    {
+                                        this.state.passWordType ? <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                                            : <img className={styles.inputImg} src="http://oss.tdianyi.com/front/c6FyYiYzhynzfbDZmMtZeHSNcN76jnR6.png" />
+                                    }
                                 </div>
                             </div>
 
@@ -364,9 +367,12 @@ export default connect(({ register }: any) => register)(
                             </div>
 
                         </div>
-
-
                         <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
+                        {/* {
+                            this.props.username && this.props.phone && this.props.code && this.props.password? <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
+                                : <Button className={styles.register_btn} style={{ background: '#789beb' }}>注册</Button>
+                        } */}
+
                     </div>
                 </div>
             )

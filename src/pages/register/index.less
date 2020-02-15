@@ -17,6 +17,7 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
+        align-items: center;
 
         .register_username,
         .register_phone,
@@ -53,6 +54,7 @@
         .register_btn {
             margin-top: 100px;
             height: 94px;
+            width: 100%;
             line-height: 94px;
             font-size: 30px;
             background-color: #547be7;
@@ -62,8 +64,11 @@
         .register_wrap_content {
             background: #fff;
             border-radius: 12px;
-            padding:0 30px;
+            padding: 0 30px;
             box-sizing: border-box;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
 
             .inputContent {
                 height: 110px;
@@ -91,7 +96,7 @@
                         justify-content: flex-start;
 
                         .inputInfotText {
-                            width: 70px;
+                            padding-right: 15px;
                             border-right: 2px solid #000;
                             display: flex;
                             flex-direction: row;
@@ -125,8 +130,8 @@
                 }
 
                 .inputIcon {
-                    width: 60px;
-                    height: 40px;
+                    width: 44px;
+                    height: 34px;
 
                     .inputImg {
                         width: 100%;

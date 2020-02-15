@@ -4,20 +4,22 @@ import React, { Component } from 'react'
 import styles from './index.less'
 
 export function ListCode(params: any) {
-  const { list, title, have_more } = params
+  const { list, title, have_more, clickMore } = params
+
   return (
     <main className={styles.code_main}>
       <div className={styles.total_revenue}>
         <div>共{title.total}个码，{title.haved}个已铺设</div>
         <div>带来总收益￥{title.money}</div>
       </div>
-
-      <div className={styles.refresh_box}>
-        <div className={styles.refresh}>
-          <img src={require("../../../../assets/ql_code/bulb.png")} alt="" />
-          <div>有新的数据来源，请点击刷新</div>
-        </div>
-      </div>
+      {
+        clickMore ? <div className={styles.refresh_box}>
+          <div className={styles.refresh} onClick={()=>params.onchange()}>
+            <img src={require("../../../../assets/ql_code/bulb.png")} alt="" />
+            <div>有新的数据来源，请点击刷新</div>
+          </div>
+        </div>:null
+      }
       {
         list.map((value: any, _: number) => {
           return <ul key={_} className={styles.listdata}>

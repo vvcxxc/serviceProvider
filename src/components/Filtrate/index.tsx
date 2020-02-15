@@ -139,7 +139,7 @@ export default class Filtrate extends Component<Props>{
               <div key={index}
                 style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
                 className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} >{item.title ? item.title : item.key}
-                {item.select ? <Icon className={styles.filtrate_icon} type="down" /> : <Icon className={styles.filtrate_icon} type="up" />}
+                {item.select ? <Icon className={styles.filtrate_icon} type="up" /> : <Icon className={styles.filtrate_icon} type="down" />}
                 <div className={styles.filtrate_value_box} style={{ display: item.select ? 'block' : 'none' }}>
                   <ul className={styles.filtrate_value_ul} onClick={this.selectKey.bind(this, item.index)} >
                     {

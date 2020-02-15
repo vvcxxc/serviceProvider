@@ -6,7 +6,6 @@ import { connect } from 'dva';
 import Request from '@/service/request';
 import qs from 'qs';
 import router from 'umi/router';
-
 import Cookies from 'js-cookie';
 
 let timer = null;

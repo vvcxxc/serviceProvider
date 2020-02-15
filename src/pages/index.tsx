@@ -18,8 +18,11 @@ export default class QrCodePage extends Component {
     currentPrice: 1,//码包单价
 
     //二维码数据
+    clickMore:false,//根据定时器刷新判断有无数据更新
     codeList: [],
-    codeTitle: {},
+    codeTitle: {
+      money:''
+    },
     codePage: 1,
     codeMore: true,
 
@@ -70,7 +73,16 @@ export default class QrCodePage extends Component {
   }
 
   componentDidMount() {
-    this.requestList(true,'qrCodes', 1, 1)
+    this.requestList(true, 'qrCodes', 1, 1)
+    this.dtectNewData()
+  }
+
+  //检测新数据
+  dtectNewData = () => {
+    let time = setTimeout(() => {
+      clearTimeout(time)
+      this.requestList()
+    }, 5000);
   }
 
   requestList = (ban?:boolean,url?: any, page?: number, options?: number) => {
@@ -107,7 +119,8 @@ export default class QrCodePage extends Component {
               money: data.money_total,    //总收益
             },
             codeList: codePage > 1 ? [...codeList, ...data.data] : data.data,
-            codeMore: data.data.length ? true : false
+            codeMore: data.data.length ? true : false,
+            clickMore: Number(data.money_total) != Number(this.state.codeTitle.money) ? true : false
           })
           break;
         case 1://码包
@@ -149,7 +162,7 @@ export default class QrCodePage extends Component {
 
   //筛选组触发
   searchPayload = (filter: any) => {
-    this.setState({ filter, qrCodePage: 1, qrCodeList: [] }, () => {
+    this.setState({ filter, codePage: 1, codeList: [] }, () => {
       this.requestList()
     })
   }
@@ -181,7 +194,8 @@ export default class QrCodePage extends Component {
     const {
       options_index, options, packageList, currentPrice,
       record_list, queueList, queueTitle, codeList, codeTitle,
-      codeMore, packageMore, queueMore, recordMore
+      codeMore, packageMore, queueMore, recordMore,
+      clickMore
     } = this.state
     return (
       <div className={styles.qr_code}>
@@ -204,7 +218,11 @@ export default class QrCodePage extends Component {
         }
         {
           [
-            <ListCode list={codeList} title={codeTitle} have_more={codeMore} getWantMore={this.getWantMore} />,
+            <ListCode list={codeList} title={codeTitle} have_more={codeMore} getWantMore={this.getWantMore} clickMore={clickMore} onchange={()=>{
+              this.setState({ codePage: 1, codeList: [] }, () => {
+                this.requestList()
+              })
+            }}/>,
             <ListPackage list={packageList} price={currentPrice} have_more={packageMore} getWantMore={this.getWantMore} />,
             <ListStoreQueue list={queueList} title={queueTitle} have_more={queueMore} getWantMore={this.getWantMore} />,
             <ListStreRecord list={record_list} have_more={recordMore} getWantMore={this.getWantMore} />][this.state.options_index]

@@ -14,7 +14,7 @@ export default class Filtrate extends Component<Props>{
     showIndex: 0,
     title: [
       { show: '排序',props: 'total_money' },
-      { show: '铺设状态',props: 'all'  }
+      { show: '已铺设', props: 'layouted'  }
     ]
   }
 
@@ -22,7 +22,7 @@ export default class Filtrate extends Component<Props>{
     const { dataList } = this.props
     const { title} = this.state
     this.setState({ dataList })
-    // this.props.onChange({ orderBy: title[0].props, status: title[1].props })
+    this.props.onChange({ status: 'layouted' })
   }
 
   //搜索跳转

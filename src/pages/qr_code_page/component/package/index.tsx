@@ -10,9 +10,9 @@ export function ListPackage(params: any) {
       <div className={styles.total_package_box}>
         <div className={styles.total_package}>
           <div>当前码单价：{price}</div>
-          <div className={styles.check_record} onClick={() => router.push({ pathname: 'qr_code_page/package_record' })}>
+          {/* <div className={styles.check_record} onClick={() => router.push({ pathname: 'qr_code_page/package_record' })}>
             转进转出记录
-          </div>
+          </div> */}
         </div>
       </div>
       

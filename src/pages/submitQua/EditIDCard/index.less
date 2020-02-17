@@ -132,8 +132,8 @@
     justify-content: center;
 
     .modal_container {
-        width: 538px;
-        height: 646px;
+        width: 526px;
+        height: 538px;
         background-color: #fff;
         border-radius: 10px;
 
@@ -144,14 +144,26 @@
             .modal_title {
                 font-size: 36px;
                 font-weight: 500;
-                padding: 50px;
+                padding: 30px;
                 text-align: center;
             }
 
             .modal_pic {
-                width: 468px;
-                height: 330px;
+                width: 392px;
+                height: 231px;
+                background: #F2F5FC;
+                margin-left: 33px;
                 // border: 1px solid #ccc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img {
+                  width: 189px;
+                  height: 214px;
+                  // padding: 11px 27px;
+                  box-sizing: border-box;
+                }
+
             }
 
             .modal_desc {
@@ -226,10 +238,11 @@
     padding-right: 10px;
     box-sizing: border-box;
 
-    // &>div{
-    //     width: 100%;
-    // }
     :global {
+        .am-list-item .am-list-line {
+            margin-right: 30px;
+            padding-right: 0;
+        }
         .am-list-item .am-input-label {
             font-size: 30px;
         }

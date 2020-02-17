@@ -129,7 +129,7 @@ export default class Search extends Component {
                     <div className={styles.ServiceProvider_searchBox_cancle} onClick={this.handleCancle.bind(this)}>取消</div>
                 </div>
 
-                
+
                 {
                     this.state.invitationList.length && this.state.invitationList.length > 0 ? <div className={styles.InvitationServiceProvider_content}>
                         <div className={styles.main}>
@@ -152,11 +152,11 @@ export default class Search extends Component {
                 {
                     this.state.invitationList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
                 }
-                
-                
+
+
                 {
                     this.state.status == 1 ? (
-                        <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}>邀请</div>
+                        <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}><img src={require('@/assets/invite.png')}/></div>
                     ) : ""
                 }                {
                     this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}

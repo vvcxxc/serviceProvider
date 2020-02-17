@@ -418,7 +418,7 @@ class IDCard extends Component {
                      <div className={styles.modal_container}>
                          <div className={styles.modal_exeample}>
                              <div className={styles.modal_title}>证件上传示例</div>
-                             <div className={styles.modal_pic}></div>
+                             <div className={styles.modal_pic}><img src={require('@/assets/upload_icon/idcard.png')}/></div>
                              <div className={styles.modal_desc}>四角完整，亮度均匀，照片清晰</div>
                          </div>
                          <div className={styles.modal_btn_tool}>

@@ -18,11 +18,9 @@ export default connect(({ register }: any) => register)(
             phone: "",
             code: "",
             password: "",
-            inviter_phone: "",
-
+            initer_phone: "",
             is_ok: true,
             wait: "",
-
             passWordType: 0
 
         }
@@ -249,7 +247,7 @@ export default connect(({ register }: any) => register)(
                             router.push('/chooseid')
                         })
                     } else {
-                        Toast.fail('注册失败')
+                        Toast.fail(res.message)
                     }
                 })
             } else {

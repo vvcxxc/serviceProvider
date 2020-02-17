@@ -17,7 +17,7 @@ export default class InvitationServiceProvider extends Component {
         value: ['收益', '邀请人数', '邀请时间'],
       }
     ],
-    invitationShow: true,
+    invitationShow: false,
     closeNum: 1,
     listPage: 1,
     invitationData: {

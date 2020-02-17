@@ -167,14 +167,19 @@ export default connect((tabbar: any) => tabbar)(
                     </ul>
                   </div>
 
-        {
-          this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}
-            style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
-          >
-            <div className={styles.search_btn}>
-              <span className={styles.my_margin_right}>搜索</span>
-            <Icon type='search' size='xxs' className={styles.search} />
-              </div>
+                </div>
+              )
+            }) : null
+          }
+
+          {
+            this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}
+              style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
+            >
+              <div className={styles.search_btn}>
+                <span className={styles.my_margin_right}>搜索</span>
+              <Icon type='search' size='xxs' className={styles.search} />
+                </div>
 
             </div> : null
           }
@@ -213,7 +218,6 @@ export default connect((tabbar: any) => tabbar)(
         </div>
       )
     }
-
   }
 )
 

@@ -7,6 +7,7 @@ import router from 'umi/router';
 import wx from 'weixin-js-sdk';
 import { Flex, WingBlank, NavBar, Toast, Icon } from 'antd-mobile';
 import Item from './item'
+import Invitation from '../../components/Invitation/index';
 import ScrollBottom from '@/components/ScrollBottom';
 export default class InvitationServiceProvider extends Component {
   state = {
@@ -16,7 +17,7 @@ export default class InvitationServiceProvider extends Component {
         value: ['收益', '邀请人数', '邀请时间'],
       }
     ],
-    invitationShow: false,
+    invitationShow: true,
     closeNum: 1,
     listPage: 1,
     invitationData: {
@@ -48,23 +49,23 @@ export default class InvitationServiceProvider extends Component {
     } else {
       url = location.href;
     }
-    Request({
-      url: 'wechat/getShareSign',
-      method: 'get',
-      params: {
-        url
-      }
-    }).then(res => {
-      wx.config({
-        debug: false,
-        appId: res.appId,
-        timestamp: res.timestamp,
-        nonceStr: res.nonceStr,
-        signature: res.signature,
-        jsApiList: ['updateAppMessageShareData']
-      });
-    }).catch(err => {
-    });
+    // Request({
+    //   url: 'wechat/getShareSign',
+    //   method: 'get',
+    //   params: {
+    //     url
+    //   }
+    // }).then(res => {
+    //   wx.config({
+    //     debug: false,
+    //     appId: res.appId,
+    //     timestamp: res.timestamp,
+    //     nonceStr: res.nonceStr,
+    //     signature: res.signature,
+    //     jsApiList: ['updateAppMessageShareData']
+    //   });
+    // }).catch(err => {
+    // });
     window.scrollTo(0, 0);
     this.requestInfo();
     Toast.loading('');
@@ -180,35 +181,40 @@ export default class InvitationServiceProvider extends Component {
               searchPath={'/InvitationServiceProvider/search'}
             />
 
-            
+
 
             {
               invitationList.length ? (
                 <div className={styles.list}>
-              <Flex className={styles.total} justify='between' align='center'>
-                <div>
-                  共{this.state.invitationData.book.total}人
+                  <Flex className={styles.total} justify='between' align='center'>
+                    <div>
+                      共{this.state.invitationData.book.total}人
               </div>
-                <div>
-                  带来收益￥{this.state.invitationData.incomeTotal}
+                    <div>
+                      带来收益￥{this.state.invitationData.incomeTotal}
+                    </div>
+                  </Flex>
+                  <div className={styles.list_box}>
+                    <div>
+                      {listView}
+                      <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading} />
+                    </div>
+                  </div>
                 </div>
-              </Flex>
-              <div className={styles.list_box}>
-                <div>
-                  {listView}
-                  <ScrollBottom onChange={this.scrollBottom} isShow={is_show_loading} />
-                </div>
-              </div>
-            </div>
               ) : (
-                <div className={styles.no_data}>
-                <div className={styles.text}>暂无服务商邀请数据</div>
-              </div>
-              )
+                  <div className={styles.no_data}>
+                    <div className={styles.text}>暂无服务商邀请数据</div>
+                  </div>
+                )
             }
 
-           
-
+            {
+              this.state.status == 1 ? (
+                <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}><img src={require('@/assets/invite.png')}/></div>
+              ) : ""
+            }
+            {
+              this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
 
             {/* <div className={styles.InvitationServiceProvider_total}>
               <div className={styles.totalPeople}>共{this.state.invitationData.book.total}人</div>

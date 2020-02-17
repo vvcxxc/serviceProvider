@@ -179,8 +179,10 @@ export default class Filtrate extends Component<Props>{
               {
                 this.state.is_show_date ? (
                   <div className={styles.picker}>
+                    <div className={styles.date_box}>
                     <Flex className={styles.picker_buttons} justify='between'>
-                      <div className={styles.picker_button} onClick={this.cancelPicker}>取消</div>
+                      <div className={styles.picker_button_close} onClick={this.cancelPicker}>取消</div>
+                      <div className={styles.picker_button_close}>请选择月份</div>
                       <div className={styles.picker_button} onClick={this.confirm}>确定</div>
                     </Flex>
                     <DatePickerView
@@ -189,6 +191,8 @@ export default class Filtrate extends Component<Props>{
                       value={this.state.date}
                       onChange={this.selectDate}
                     />
+                    </div>
+
                   </div>
                 ) : null
               }

@@ -208,13 +208,8 @@ export default class InvitationServiceProvider extends Component {
                 )
             }
 
-            {
-              this.state.status == 1 ? (
-                <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}><img src={require('@/assets/invite.png')}/></div>
-              ) : ""
-            }
-            {
-              this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
+
+
 
             {/* <div className={styles.InvitationServiceProvider_total}>
               <div className={styles.totalPeople}>共{this.state.invitationData.book.total}人</div>
@@ -258,7 +253,13 @@ export default class InvitationServiceProvider extends Component {
 
         </div>
 
-
+        {
+              this.state.status == 1 ? (
+                <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}><img src={require('@/assets/invite.png')}/></div>
+              ) : ""
+            }
+             {
+              this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
       </div>
     )
   }

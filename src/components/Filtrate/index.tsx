@@ -162,8 +162,8 @@ export default class Filtrate extends Component<Props>{
             style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
           >
             <div className={styles.search_btn}>
-            搜索
-            <Icon type='search' size='sm' className={styles.search} />
+              <span className={styles.my_margin_right}>搜索</span>
+            <Icon type='search' size='xxs' className={styles.search} />
               </div>
 
           </div> : null

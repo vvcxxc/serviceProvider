@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import router from 'umi/router';
 import { Icon, DatePickerView, Flex } from 'antd-mobile';
-import styles from './index.less';
+import styles from './ql.less';
 interface Props {
   // list: Array<Object>,
   dataList: Array<Object>,
@@ -61,7 +61,7 @@ export default class Filtrate extends Component<Props>{
                 {
                   title[index].show
                }
-                <Icon className={styles.filtrate_icon} type={item.select ? "down" : "up"} />
+                <Icon className={styles.filtrate_icon} type={item.select ?  "up":"down"} />
                 {
                   showIndex === item.key ? <div className={styles.filtrate_value_box} >
                     <ul className={styles.filtrate_value_ul} >

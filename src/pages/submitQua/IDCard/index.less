@@ -27,7 +27,7 @@
             .image_picker {
                 width: 308px;
                 height: 196px;
-                border: 1px dashed #000;
+                // border: 1px dashed #000;
                 position: relative;
                 // display: table-cell;
                 // text-align: center;
@@ -84,7 +84,7 @@
                 .preview_img {
                     width: 308px;
                     height: 196px;
-                    border: 1px solid #ccc;
+                    // border: 1px solid #ccc;
                 }
                 .delete_img {
                     position: absolute;
@@ -113,61 +113,162 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    // .modal_container {
+    //     width: 538px;
+    //     height: 646px;
+    //     background-color: #fff;
+    //     border-radius: 10px;
+    //     .modal_exeample {
+    //         padding: 0 36px;
+    //         box-sizing: border-box;
+    //         .modal_title {
+    //             font-size: 36px;
+    //             font-weight: 500;
+    //             padding: 50px;
+    //             text-align: center;
+    //         }
+    //         .modal_pic {
+    //           width: 392px;
+    //           height: 231px;
+    //           background: #F2F5FC;
+    //           margin-left: 33px;
+    //           // border: 1px solid #ccc;
+    //           img {
+    //             width: 100%;
+    //             height: 100%;
+    //             padding: 11px 27px;
+    //             box-sizing: border-box;
+    //           }
+
+    //         }
+    //         .modal_desc {
+    //             font-size: 30px;
+    //             color: #888;
+    //             text-align: center;
+    //             padding: 18px 0;
+    //         }
+    //     }
+    //     .modal_btn_tool {
+    //         position: relative;
+    //         .modal_btn{
+    //             border-top: 1px solid #c1c1c1;
+    //             font-size: 36px;
+    //             font-weight: 500;
+    //             color: #02BB00;
+    //             padding: 26px 0;
+    //             text-align: center;
+    //         }
+    //         .image_picker_front_behind {
+    //             position: absolute;
+    //             left: 0;
+    //             top: 0;
+    //             width: 100%;
+    //             height: 100%;
+    //             opacity: 0;
+    //             div {
+    //                 margin: 0;
+    //                 padding: 0;
+    //                 width: 100%;
+    //                 height: 100%;
+    //                 input {
+    //                     width: 100%;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
     .modal_container {
-        width: 538px;
-        height: 646px;
-        background-color: #fff;
-        border-radius: 10px;
-        .modal_exeample {
-            padding: 0 36px;
-            box-sizing: border-box;
-            .modal_title {
-                font-size: 36px;
-                font-weight: 500;
-                padding: 50px;
-                text-align: center;
-            }
-            .modal_pic {
-                width: 468px;
-                height: 330px;
-                border: 1px solid #ccc;
-            }
-            .modal_desc {
-                font-size: 30px;
-                color: #888;
-                text-align: center;
-                padding: 18px 0;
-            }
-        }
-        .modal_btn_tool {
-            position: relative;
-            .modal_btn{
-                border-top: 1px solid #c1c1c1;
-                font-size: 36px;
-                font-weight: 500;
-                color: #02BB00;
-                padding: 26px 0;
-                text-align: center;
-            }
-            .image_picker_front_behind {
-                position: absolute;
-                left: 0;
-                top: 0;
+      width: 538px;
+      height: 646px;
+      background-color: #fff;
+      border-radius: 10px;
+
+      .modal_exeample {
+          padding: 0 36px;
+          box-sizing: border-box;
+
+          .modal_title {
+              font-size: 36px;
+              font-weight: 500;
+              padding: 50px;
+              text-align: center;
+          }
+
+          .modal_pic {
+              width: 392px;
+              height: 231px;
+              background: #F2F5FC;
+              margin-left: 33px;
+              // border: 1px solid #ccc;
+              img {
                 width: 100%;
                 height: 100%;
-                opacity: 0;
-                div {
-                    margin: 0;
-                    padding: 0;
-                    width: 100%;
-                    height: 100%;
-                    input {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-    }
+                padding: 11px 27px;
+                box-sizing: border-box;
+              }
+
+          }
+
+          .modal_desc {
+              font-size: 30px;
+              font-family: PingFang SC;
+              font-weight: 500;
+              color: rgba(0, 0, 0, 1);
+
+              // font-size: 30px;
+              // color: #888;
+              text-align: center;
+              padding: 18px 0;
+          }
+      }
+
+      .modal_btn_tool {
+          position: relative;
+
+          .modal_btn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              // width: 446px;
+              margin: 0 40px;
+              height: 76px;
+              background: rgba(84, 123, 231, 1);
+              border-radius: 10px;
+              // text-align: center;
+              font-size: 30px;
+              font-family: PingFang SC;
+              font-weight: 500;
+              color: rgba(255, 255, 255, 1);
+
+              // border-top: 1px solid #c1c1c1;
+              // font-size: 36px;
+              // font-weight: 500;
+              // color: #02BB00;
+              // padding: 26px 0;
+              // text-align: center;
+          }
+
+          .image_picker_front_behind {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              height: 100%;
+              opacity: 0;
+
+              div {
+                  margin: 0;
+                  padding: 0;
+                  width: 100%;
+                  height: 100%;
+
+                  input {
+                      width: 100%;
+                  }
+              }
+          }
+      }
+  }
 }
 
 .user_info {

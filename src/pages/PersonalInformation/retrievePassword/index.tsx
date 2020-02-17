@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import styles from './index.less'
 import { Toast, WhiteSpace, WingBlank, Button, InputItem } from 'antd-mobile';
+import router from "umi/router";
 import { success, error, sigh } from "@/components/Hint";
 import MyInput from "@/components/Input";
 import Green_button from "@/components/Green_button"
@@ -82,6 +83,24 @@ export default class Retrieve_password extends Component {
       Toast.fail('两次输入密码不一致', 1)
       return
     }
+    Request({
+      url: 'findPassword',
+      method: 'post',
+      data: {
+        account: phoneNumber,
+        verify_code: code,
+        password: newPassword
+      }
+    }).then(res => {
+      if (res.code == 200) {
+        Toast.success('修改成功');
+        setTimeout(() => {
+          router.push({ pathname: '/login' })
+        }, 1000)
+      } else {
+        Toast.fail(res.message);
+      }
+    })
   }
 
   handleSendCode = () => {

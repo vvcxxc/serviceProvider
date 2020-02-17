@@ -103,6 +103,7 @@ export default class changePhoneNumber extends Component {
       })
     }).then(res => {
       if (res.code == 200) {
+        success('修改成功', '请重新登录');
         router.push({
           pathname: 'changePhoneNumber/new_phoneNumber'
         })

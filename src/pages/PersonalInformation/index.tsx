@@ -94,7 +94,7 @@ export default class PersonalInformation extends Component {
                 <div className={styles.main2}>
                     <Flex className={styles.item} justify='between' align='center' onClick={this.onChangePassword}>
                         <Flex>
-                            <img src={require('../../assets/password.png')} className={styles.icon}/>
+                            <img src={require('../../assets/password.png')} className={styles.icon1}/>
                             修改密码
                         </Flex>
                         <Flex>
@@ -103,7 +103,7 @@ export default class PersonalInformation extends Component {
                     </Flex>
                     <Flex className={styles.item} justify='between' align='center' onClick={() => router.push('/changePhoneNumber')}>
                         <Flex>
-                            <img src={require('../../assets/phone.png')} className={styles.icon}/>
+                            <img src={require('../../assets/phone.png')} className={styles.icon2}/>
                             绑定手机
                         </Flex>
                         <Flex>
@@ -113,7 +113,7 @@ export default class PersonalInformation extends Component {
                     </Flex>
                     <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
                         <Flex>
-                            <img src={require('../../assets/my.png')} className={styles.icon}/>
+                            <img src={require('../../assets/my.png')} className={styles.icon3}/>
                             身份证信息
                         </Flex>
                         <Flex>
@@ -126,7 +126,7 @@ export default class PersonalInformation extends Component {
                 <div className={styles.main2} style={{marginTop: 20}}>
                     <Flex className={styles.item} justify='between' align='center' onClick={() => router.push('/PersonalInformation/mybank')}>
                         <Flex>
-                            <img src={require('../../assets/bank.png')} className={styles.icon}/>
+                            <img src={require('../../assets/bank.png')} className={styles.icon4}/>
                             我的银行卡
                         </Flex>
                         <Flex>

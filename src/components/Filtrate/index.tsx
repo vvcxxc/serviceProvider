@@ -139,7 +139,7 @@ export default class Filtrate extends Component<Props>{
               <div key={index}
                 style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
                 className={styles.filtrate_key} onClick={this.selectKey.bind(this, item.index)} >{item.title ? item.title : item.key}
-                {item.select ? <Icon className={styles.filtrate_icon} type="down" /> : <Icon className={styles.filtrate_icon} type="up" />}
+                {item.select ? <Icon className={styles.filtrate_icon} type="up" /> : <Icon className={styles.filtrate_icon} type="down" />}
                 <div className={styles.filtrate_value_box} style={{ display: item.select ? 'block' : 'none' }}>
                   <ul className={styles.filtrate_value_ul} onClick={this.selectKey.bind(this, item.index)} >
                     {
@@ -160,8 +160,12 @@ export default class Filtrate extends Component<Props>{
         {
           this.props.searchPath ? <div className={styles.filtrate_search_btn} onClick={this.routerGo.bind(this)}
             style={{ color: this.props.color ? String(this.props.color) : '#fff' }}
-          > 搜索
+          >
+            <div className={styles.search_btn}>
+            搜索
             <Icon type='search' size='sm' className={styles.search} />
+              </div>
+
           </div> : null
         }
 

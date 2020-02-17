@@ -30,7 +30,7 @@ export default class PageIndex extends Component {
   //账号输入
   onChangeText = (e: any) => {
     this.setState({
-      inpText:  e.target.value
+      inpText: e.target.value
     })
   }
   //账号删除
@@ -66,7 +66,7 @@ export default class PageIndex extends Component {
       Toast.fail('密码不能为空,请重新输入')
       return
     }
-
+    Toast.loading('登陆中');
     Request({
       url: 'auth/login',
       method: 'post',
@@ -75,6 +75,7 @@ export default class PageIndex extends Component {
         password: this.state.inpPassword
       })
     }).then(res => {
+      Toast.hide()
       const { code, access_token, message, checkout_status } = res
       if (access_token) {
         localStorage.setItem('token', access_token)
@@ -105,6 +106,9 @@ export default class PageIndex extends Component {
         default:
           router.push({ pathname: '/' })
       }
+    }).catch(err => {
+      Toast.hide();
+      Toast.fail('登录失败', 1500)
     })
 
   }
@@ -154,17 +158,23 @@ export default class PageIndex extends Component {
                 </div>
               </div>
               <div className={styles.inputIcon} onClick={this.changPassWordType.bind(this)}>
-                <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                {
+                  this.state.passWordType ? <img className={styles.inputImg} src="http://oss.tdianyi.com/front/QkRwbQpiWbDxkQx6jQmma6M4SXGie8rY.png" />
+                    : <img className={styles.inputImg} src="http://oss.tdianyi.com/front/c6FyYiYzhynzfbDZmMtZeHSNcN76jnR6.png" />
+                }
               </div>
             </div>
             {/* <div className={styles.forgotten} onClick={this.forgetPassword}>忘记密码</div> */}
           </div>
           <div className={styles.operation}>
-            <Green_button
+            {
+              this.state.inpText && this.state.inpPassword ? <div className={styles.blueButton} onClick={this.landingData}>登录</div> :
+                <div className={styles.greyButton}>登录</div>
+            }
+            {/* <Green_button
               data={'登录'}
-              mb={60}
               onClick={this.landingData}
-            />
+            /> */}
             {/* <Green_button
               data={'注册'}
               onClick={()=>router.push('/register')}

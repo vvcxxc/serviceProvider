@@ -257,7 +257,14 @@ export default connect(({ register }: any) => register)(
 
         // 销毁定时器
         componentWillUnmount() {
-            clearInterval(timer)
+            clearInterval(timer);
+            this.setState({ is_ok: true });
+            this.props.dispatch({
+                type: 'register/registered',
+                payload: {
+                    is_ok: true
+                }
+            })
         }
         changPassWordType = () => {
             this.setState({ passWordType: !this.state.passWordType })

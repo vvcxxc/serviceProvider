@@ -18,11 +18,9 @@ export default connect(({ register }: any) => register)(
             phone: "",
             code: "",
             password: "",
-            inviter_phone: "",
-
+            initer_phone: "",
             is_ok: true,
             wait: "",
-
             passWordType: 0
 
         }
@@ -249,7 +247,7 @@ export default connect(({ register }: any) => register)(
                             router.push('/chooseid')
                         })
                     } else {
-                        Toast.fail('注册失败')
+                        Toast.fail(res.message)
                     }
                 })
             } else {
@@ -259,7 +257,14 @@ export default connect(({ register }: any) => register)(
 
         // 销毁定时器
         componentWillUnmount() {
-            clearInterval(timer)
+            clearInterval(timer);
+            this.setState({ is_ok: true });
+            this.props.dispatch({
+                type: 'register/registered',
+                payload: {
+                    is_ok: true
+                }
+            })
         }
         changPassWordType = () => {
             this.setState({ passWordType: !this.state.passWordType })

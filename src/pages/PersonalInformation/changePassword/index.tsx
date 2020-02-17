@@ -83,7 +83,9 @@ export default class ChangePassword extends Component {
         error('登录失败', message)
         return
       }
-      success('修改成功', '请重新登录')
+      success('修改成功');
+      router.push({ pathname: '/my' })
+
     })
   }
 

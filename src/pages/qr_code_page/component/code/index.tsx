@@ -10,7 +10,7 @@ export function ListCode(params: any) {
     <main className={styles.code_main}>
       <div className={styles.total_revenue}>
         <div>共{title.total}个码，{title.haved}个已铺设</div>
-        <div>带来总收益￥{title.money}</div>
+        <div>总收益￥{title.money}</div>
       </div>
       {
         clickMore ? <div className={styles.refresh_box}>
@@ -27,7 +27,9 @@ export function ListCode(params: any) {
               <span>序列号 {value.qrcode_sn ? value.qrcode_sn.split('-')[1] ? value.qrcode_sn.split('-')[1] : value.qrcode_sn : null}
               </span>
               {
-                value.shop_name ? <span>店铺名 {value.shop_name.split('有限公司', 1)}</span>:null
+                value.shop_name ? <span className={styles.constrol_place}>
+                  {/* 店铺名 */}
+                   {value.shop_name.split('有限公司', 1)}</span> : null
               }
               
             </li>

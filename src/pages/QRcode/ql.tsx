@@ -82,10 +82,10 @@ export default class Search extends Component {
           resDataList.map((value: any, _: number) => {
             return <ul key={_} className={styles.listdata}>
               <li className={styles.listdata_l}>
-                <span>序列号 {value.qrcode_sn ? value.qrcode_sn.split('-')[1] ? value.qrcode_sn.split('-')[1] : value.qrcode_sn : null}
+                <span className={styles.my_margin}>序列号 {value.qrcode_sn ? value.qrcode_sn.split('-')[1] ? value.qrcode_sn.split('-')[1] : value.qrcode_sn : null}
                 </span>
                 {
-                  value.shop_name ? <span>店铺名 {value.shop_name.split('有限公司', 1)}</span> : null
+                  value.shop_name ? <span className={styles.constrol_place}>{value.shop_name.split('有限公司', 1)}</span> : null
                 }
 
               </li>

@@ -205,9 +205,15 @@
 .listdata {
   display: flex;
   justify-content: space-between;
-  margin: 0 40px;
-  padding: 30px 0px;
+  // margin: 0 40px;
+  padding: 30px 40px;
   background-color: #fff;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 133px;
+  border-radius: 10px;
 
   .listdata_l {
     margin-top: 10px;
@@ -215,6 +221,10 @@
     font-family: PingFang SC;
     font-weight: 500;
     color: rgba(0, 0, 0, 1);
+
+    .my_margin {
+      margin-bottom: 26px;
+    }
 
     span {
       display: block;
@@ -240,4 +250,11 @@
     }
   }
 
+}
+
+.constrol_place {
+  width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

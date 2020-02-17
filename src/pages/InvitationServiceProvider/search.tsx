@@ -149,17 +149,25 @@ export default class Search extends Component {
                     </div> : null
                 }
 
-                {
+                {/* {
                     this.state.invitationList.length == 0 ? <div className={styles.on_list} >无记录</div> : null
-                }
-
-
+                } */}
+                
+                
                 {
                     this.state.status == 1 ? (
                         <div className={styles.invitation} onClick={() => { this.setState({ invitationShow: true }) }}><img src={require('@/assets/invite.png')}/></div>
                     ) : ""
                 }                {
                     this.state.invitationShow ? <Invitation onClose={this.handleclose} /> : null}
+                {
+                    this.state.invitationList.length == 0  ? <div className={styles.no_data_box}>
+                        <div className={styles.no_data} >
+                            <img src={require('../../assets/no-finance.png')} alt="" />
+                            <div>无记录</div>
+                        </div>
+                    </div> : null
+                }
 
             </div>
         )

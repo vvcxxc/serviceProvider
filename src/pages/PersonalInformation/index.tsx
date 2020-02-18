@@ -10,7 +10,9 @@ export default class PersonalInformation extends Component {
         data: {
             is_bank_card: 0,
             phone: '***********',
-            usable_money: 0
+            name:'',
+            usable_money: 0,
+            type:0
         }
     }
 
@@ -79,7 +81,7 @@ export default class PersonalInformation extends Component {
                     <div className={styles.userBox}>
                         <Flex className={styles.userInfo}>
                             <img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className={styles.avatar}/>
-                            <div className={styles.name}>{this.state.data.phone}</div>
+                            <div className={styles.name}>{this.state.data.name}</div>
                         </Flex>
                     </div>
                     <Flex className={styles.userMoney} justify='between' align='start'>

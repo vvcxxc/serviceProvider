@@ -125,6 +125,8 @@ export default class WithDraw extends Component {
                   is_bind: true,
                   data,
                   all_money: data.usable_money
+                }, () => {
+                  router.push({ pathname: '/PersonalInformation' })
                 })
                 break;
 
@@ -210,7 +212,7 @@ export default class WithDraw extends Component {
         </div>
         {/* {hint} */}
         {/* <WingBlank size='lg' style={{ paddingTop: 133 }}> */}
-          <Button type='primary' style={{ marginTop: 100, background: '#547BE7', fontSize: '.3rem' }} onClick={this.withDraw}>申请提现</Button>
+        <Button type='primary' style={{ marginTop: 100, background: '#547BE7', fontSize: '.3rem' }} onClick={this.withDraw}>申请提现</Button>
         {/* </WingBlank> */}
         {/* <WingBlank size='lg' style={{ paddingTop: 100 }}>
           <Button type='primary' style={{ background: '#1AAD19' }} onClick={this.goWithDrawRecord}>提现记录</Button>

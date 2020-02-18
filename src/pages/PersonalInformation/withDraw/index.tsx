@@ -134,7 +134,7 @@ export default class WithDraw extends Component {
           Toast.success(message, 1)
           this.setState({ money: '' })
           setTimeout(() => {
-            router.push({ pathname: '/PersonalInformation' })
+            router.goBack()
           }, 1500)
           break;
 

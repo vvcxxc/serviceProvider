@@ -83,8 +83,11 @@ export default class ChangePassword extends Component {
         error('登录失败', message)
         return
       }
-      success('修改成功');
-      router.push({ pathname: '/PersonalInformation' })
+      Toast.success('修改成功', 2, () => {
+        router.push({ pathname: '/PersonalInformation' })
+      });
+      // success('修改成功');
+      // router.push({ pathname: '/PersonalInformation' })
 
     })
   }

@@ -111,7 +111,7 @@ export default class PersonalInformation extends Component {
                             <img src={require('../../assets/right.png')} className={styles.goto}/>
                         </Flex>
                     </Flex>
-                    <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
+                    {/* <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
                         <Flex>
                             <img src={require('../../assets/my.png')} className={styles.icon3}/>
                             身份证信息
@@ -120,7 +120,7 @@ export default class PersonalInformation extends Component {
                             <div style={{color: '#999999'}}>已认证</div>
                             <img src={require('../../assets/right.png')} className={styles.goto}/>
                         </Flex>
-                    </Flex>
+                    </Flex> */}
                 </div>
 
                 <div className={styles.main2} style={{marginTop: 20}}>

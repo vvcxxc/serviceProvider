@@ -84,7 +84,7 @@ export default class ChangePassword extends Component {
         return
       }
       success('修改成功');
-      router.push({ pathname: '/my' })
+      router.push({ pathname: '/PersonalInformation' })
 
     })
   }

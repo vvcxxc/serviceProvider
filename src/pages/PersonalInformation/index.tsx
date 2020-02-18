@@ -72,10 +72,10 @@ export default class PersonalInformation extends Component {
         return (
             <div className={styles.PersonalInformation} >
                 <div className={styles.main}>
-                    <NavBar
+                    {/* <NavBar
                         icon={<Icon type="left" size='lg' />}
                         onLeftClick={() => router.goBack()}
-                    >个人信息</NavBar>
+                    >个人信息</NavBar> */}
                     <div className={styles.userBox}>
                         <Flex className={styles.userInfo}>
                             <img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className={styles.avatar}/>

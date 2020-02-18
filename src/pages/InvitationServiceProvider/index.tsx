@@ -168,10 +168,10 @@ export default class InvitationServiceProvider extends Component {
         <div className={styles.bj}></div>
 
         <div className={styles.invited_main}>
-          <NavBar
+          {/* <NavBar
             icon={<Icon type="left" size='lg' />}
             onLeftClick={() => router.goBack()}
-          >我邀请的服务商</NavBar>
+          >我邀请的服务商</NavBar> */}
           <div className={styles.invited_box}>
             <Filtrate
               // dataList={[]}

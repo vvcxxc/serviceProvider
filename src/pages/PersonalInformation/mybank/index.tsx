@@ -70,7 +70,7 @@ export default class MyBank extends Component {
               <div className={styles.bank_info}>
                 <div className={styles.bank_box_left}>
                   <div className={styles.bank_box_left_img}>
-                  <img className={styles.bank_img} src="http://oss.tdianyi.com/front/.png" />
+                  <img className={styles.bank_img} src="http://oss.tdianyi.com/front/k6Y3K7wrBewssFpGtnT7amz6NcxpM2JB.png" />
                   </div>
                 </div>
                 <div className={styles.bank_box_middle}>

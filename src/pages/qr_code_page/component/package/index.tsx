@@ -27,7 +27,8 @@ export function ListPackage(params: any) {
                 <li> 已铺：<span>{value.layouted_num}</span> </li>
                 <li> 当前阶段：<span>{value.now_stage_num}</span> </li>
                 <li> 下阶段铺设：<span>{value.attached ? value.attached.next_layout_num : '-'}</span></li>
-                <li> 码包来源：<span>{['购买', '转让', '旧数据处理'][value.from_type - 1]}</span> </li>
+
+                {/* <li> 码包来源：<span>{['购买', '转让', '旧数据处理'][value.from_type - 1]}</span> </li> */}
                 {/* <li><span className={styles.transfer} onClick={() =>
                   router.push({ pathname: 'qr_code_page/code_make_over' })
                 }>转让</span></li> */}
@@ -38,7 +39,7 @@ export function ListPackage(params: any) {
                 </li>
                 <li> 铺店排名：<span>{value.ranking}</span> </li>
                 <li> 预计铺店: <span>{value.LayoutDate ? value.LayoutDate : '-'}</span> </li>
-                <li> 购包时码单价：<span>{value.qrcode_univalence}</span> </li>
+                {/* <li> 购包时码单价：<span>{value.qrcode_univalence}</span> </li> */}
               </ul>
             </div>
           })

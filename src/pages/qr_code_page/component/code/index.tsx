@@ -28,10 +28,10 @@ export function ListCode(params: any) {
               </span>
               {
                 value.shop_name ? <span className={styles.constrol_place}>
-                  {/* 店铺名 */}
-                   {value.shop_name.split('有限公司', 1)}</span> : null
+                  {value.shop_name.split('有限公司', 1)}
+                </span> : null
               }
-              
+    
             </li>
             <li className={styles.listdata_r}>
               <div>今日收益 <span>{value.today_money ? value.today_money:0}</span></div>

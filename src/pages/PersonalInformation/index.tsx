@@ -10,7 +10,9 @@ export default class PersonalInformation extends Component {
         data: {
             is_bank_card: 0,
             phone: '***********',
-            usable_money: 0
+            name:'',
+            usable_money: 0,
+            type:0
         }
     }
 
@@ -72,14 +74,14 @@ export default class PersonalInformation extends Component {
         return (
             <div className={styles.PersonalInformation} >
                 <div className={styles.main}>
-                    <NavBar
+                    {/* <NavBar
                         icon={<Icon type="left" size='lg' />}
                         onLeftClick={() => router.goBack()}
-                    >个人信息</NavBar>
+                    >个人信息</NavBar> */}
                     <div className={styles.userBox}>
                         <Flex className={styles.userInfo}>
                             <img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className={styles.avatar}/>
-                            <div className={styles.name}>{this.state.data.phone}</div>
+                            <div className={styles.name}>{this.state.data.name}</div>
                         </Flex>
                     </div>
                     <Flex className={styles.userMoney} justify='between' align='start'>
@@ -111,7 +113,7 @@ export default class PersonalInformation extends Component {
                             <img src={require('../../assets/right.png')} className={styles.goto}/>
                         </Flex>
                     </Flex>
-                    <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
+                    {/* <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
                         <Flex>
                             <img src={require('../../assets/my.png')} className={styles.icon3}/>
                             身份证信息
@@ -120,7 +122,7 @@ export default class PersonalInformation extends Component {
                             <div style={{color: '#999999'}}>已认证</div>
                             <img src={require('../../assets/right.png')} className={styles.goto}/>
                         </Flex>
-                    </Flex>
+                    </Flex> */}
                 </div>
 
                 <div className={styles.main2} style={{marginTop: 20}}>

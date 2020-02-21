@@ -114,27 +114,28 @@ export default class WithDraw extends Component {
       const { message, code } = res
       switch (code) {
         case 200:
-          Request({
-            url: 'userBankInfo',
-            method: 'get'
-          }).then(res => {
-            const { code, data } = res
-            switch (code) {
-              case 200:
-                this.setState({
-                  is_bind: true,
-                  data,
-                  all_money: data.usable_money
-                })
-                break;
-
-              default:
-                break;
-            }
-          })
+          // Request({
+          //   url: 'userBankInfo',
+          //   method: 'get'
+          // }).then(res => {
+          //   const { code, data } = res
+          //   switch (code) {
+          //     case 200:
+          //       this.setState({
+          //         is_bind: true,
+          //         data,
+          //         all_money: data.usable_money
+          //       })
+          //       break;
+          //     default:
+          //       break;
+          //   }
+          // })
           Toast.success(message, 1)
-
           this.setState({ money: '' })
+          setTimeout(() => {
+            router.goBack()
+          }, 1500)
           break;
 
         default:
@@ -210,7 +211,7 @@ export default class WithDraw extends Component {
         </div>
         {/* {hint} */}
         {/* <WingBlank size='lg' style={{ paddingTop: 133 }}> */}
-          <Button type='primary' style={{ marginTop: 100, background: '#547BE7', fontSize: '.3rem' }} onClick={this.withDraw}>申请提现</Button>
+        <Button type='primary' style={{ marginTop: 100, background: '#547BE7', fontSize: '.3rem' }} onClick={this.withDraw}>申请提现</Button>
         {/* </WingBlank> */}
         {/* <WingBlank size='lg' style={{ paddingTop: 100 }}>
           <Button type='primary' style={{ background: '#1AAD19' }} onClick={this.goWithDrawRecord}>提现记录</Button>

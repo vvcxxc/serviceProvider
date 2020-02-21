@@ -122,10 +122,10 @@ export default class Finance extends Component {
       <div className={styles.finance_page}>
         <div className={styles.bj}></div>
         <div className={styles.finance_main}>
-          <NavBar
+          {/* <NavBar
             icon={<Icon type="left" size='lg' />}
             onLeftClick={() => router.goBack()}
-          >账单</NavBar>
+          >账单</NavBar> */}
           <div className={styles.main_box}>
             <div className={styles.filtrate}>
               <Filtrate

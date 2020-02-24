@@ -187,6 +187,7 @@ export default connect(({ register }: any) => register)(
 
         handleRegister = () => {
             const { username, phone, code, password, inviter_phone } = this.props;
+            let _this=this;
             if (!(/^([a-zA-Z\u4e00-\u9fa5]){1,8}$/.test(username))) {
                 Toast.fail('请输入中文，字母名称且不超过8个字符', 1);
                 return;
@@ -248,6 +249,13 @@ export default connect(({ register }: any) => register)(
                         })
                     } else {
                         Toast.fail(res.message)
+                        _this.setState({ is_ok: true });
+                        _this.props.dispatch({
+                            type: 'register/registered',
+                            payload: {
+                                is_ok: true
+                            }
+                        })
                     }
                 })
             } else {

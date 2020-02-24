@@ -11,11 +11,11 @@ export function ListStoreQueue(params: any) {
     <main className={styles.store_queue}>
       <div className={styles.prompt}>
         <div>
-          <span>下一次铺码排名:{title.Ranking}</span>
+          <span>铺码排名:{title.Ranking}</span>
           <span>预计铺店日期:{title.LayoutDates}</span>
         </div>
         <div>
-          <span>下一次预计铺店:{title.NextLayoutNum}</span>
+          <span>预计铺店:{title.NextLayoutNum}</span>
           <div>
             <span className={styles.improve_button} onClick={() => router.push({ pathname: 'qr_code_page/rules' })}>提高排名</span>
             <span className={styles.change_record} onClick={() => router.push({ pathname: 'qr_code_page/change_record' })}>贡献值变更记录</span>

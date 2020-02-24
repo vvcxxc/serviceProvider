@@ -23,7 +23,6 @@ export default class Rules extends Component {
             <li>贡献值增长方式</li>
             <li>每日自动增长</li>
             <li>固定增长点（所有码包增加）</li>
-            <li>固定增长点（所有码包增加）</li>
             <li>受邀人买码数  50  ：1</li>
             <li>邀请会长 + 40%</li>
             <li>邀请创客 + 40%</li>

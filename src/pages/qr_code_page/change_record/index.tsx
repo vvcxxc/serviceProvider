@@ -30,14 +30,14 @@ export default class Rules extends Component {
     return (
       <main>
 
-        <div  className={styles.change_record}>
+        {/* <div  className={styles.change_record}>
           <span>{'2019/12/12'}</span>
           <span>{'码包'}</span>
           <span>
             {['每日增长', '附加增值', '够店增长'][0]}
           </span>
           <span>+{5}</span>
-        </div>
+        </div> */}
 
         {
           packageList.map((value: any) => {

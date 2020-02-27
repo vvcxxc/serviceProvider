@@ -116,7 +116,7 @@ export default class PersonalInformation extends Component {
                     {/* <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
                         <Flex>
                             <img src={require('../../assets/my.png')} className={styles.icon3}/>
-                            身份证信息
+                            个人信息
                         </Flex>
                         <Flex>
                             <div style={{color: '#999999'}}>已认证</div>

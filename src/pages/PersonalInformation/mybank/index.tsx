@@ -93,7 +93,7 @@ export default class MyBank extends Component {
                   </div>
                 </div>
                 <div className={styles.bank_box_right}>
-                  <div className={styles.bank_box_right_bind} onClick={this.bindPhoneNumber.bind(this)}>去绑定</div>
+                  <div className={styles.bank_box_right_bind} onClick={this.bindPhoneNumber.bind(this)}>去验证</div>
                 </div>
               </div>
             ) : (

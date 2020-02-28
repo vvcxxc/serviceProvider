@@ -29,6 +29,7 @@ export default class DataPage extends Component {
   componentWillMount() {
     echarts.registerTheme('theme', echartsTheme);
     echarts.registerTheme('walden', walden)
+
   }
   componentDidMount() {
     let date = dayjs(now).format('YYYY-MM')

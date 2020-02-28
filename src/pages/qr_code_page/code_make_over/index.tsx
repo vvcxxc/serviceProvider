@@ -19,7 +19,6 @@ export default class Rules extends Component {
     wait: ""
   }
   componentDidMount() {
-    console.log('3432499')
     Toast.loading('');
     Request({
       url: 'user/info',
@@ -71,7 +70,6 @@ export default class Rules extends Component {
           phone
         })
       }).then(res => {
-        console.log('13213')
         if (res.code == 200) {
           Toast.success('验证码已发送');
         } else {
@@ -101,7 +99,6 @@ export default class Rules extends Component {
     })
   }
   handleSubmit = () => {
-    console.log(this.state)
   }
 
   render() {

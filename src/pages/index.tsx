@@ -73,7 +73,7 @@ export default class QrCodePage extends Component {
   }
 
   componentDidMount() {
-    console.log('构建了？')
+    
     this.requestList(true, 'qrCodes', 1, 1)
     this.dtectNewData()
   }

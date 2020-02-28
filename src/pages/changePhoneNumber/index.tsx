@@ -70,7 +70,6 @@ export default class changePhoneNumber extends Component {
           phone
         })
       }).then(res => {
-        console.log('13213')
         if (res.code == 200) {
           Toast.success('验证码已发送');
         } else {

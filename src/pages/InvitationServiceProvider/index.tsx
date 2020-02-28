@@ -125,7 +125,6 @@ export default class InvitationServiceProvider extends Component {
 
   // 触底
   scrollBottom = () => {
-    console.log(this.state.listPage)
     if (this.state.is_show_loading) {
       Request({
         url: 'facilitatorIncome',

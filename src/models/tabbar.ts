@@ -30,7 +30,6 @@ const model: Model = {
     //   };
     // },
     setTabShow(state,{payload}){
-      console.log(payload,'gasdasd')
       return {
         ...state,
         show: payload

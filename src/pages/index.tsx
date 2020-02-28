@@ -88,7 +88,6 @@ export default class QrCodePage extends Component {
         method: "GET",
         params: {
           page: 1,
-          ...this.state.filter
         }
       }).then(res => {
         const { data, code } = res
@@ -98,7 +97,7 @@ export default class QrCodePage extends Component {
         })
       })
 
-    }, 10000);
+    }, 30000);
   }
 
   requestList = (ban?:boolean,url?: any, page?: number, options?: number,filters?:Object) => {

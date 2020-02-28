@@ -88,6 +88,10 @@
 
                 .QRcode_item_date {
                     margin-top: 20px;
+                    max-width: 430px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
             }
@@ -98,7 +102,7 @@
             }
 
         }
-        
+
         .loadingMore_button_box {
             width: 100%;
             height: 70px;
@@ -140,4 +144,38 @@
     right: 50px;
     bottom: 200px;
     z-index: 2;
+}
+
+
+
+.more_data_ql {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 60px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+
+.total_revenue {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 32px 16px 20px;
+    height: 31px;
+    background-color: rgba(225, 225, 225, 1);
+    text-align: center;
+    border: 1px solid rgba(255, 0, 0, 0);
+}
+
+.listdata {
+    padding: 20px 36px 20px 20px;
+    border-bottom: 2px solid #f3f3f3;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        height: 40px;
+        line-height: 40px;
+    }
 }

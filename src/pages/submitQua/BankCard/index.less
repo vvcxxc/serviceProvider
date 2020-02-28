@@ -1,6 +1,16 @@
+.bank_page {
+  :global .am-navbar {
+    background: none;
+    color: #000000;
+  }
+}
 .bankcard_wrap {
     width: 100%;
     height: 100vh;
+    background: #F2F5FC;
+    padding: 20px;
+    box-sizing: border-box;
+    padding-top: 0;
     .bankcard_title {
         padding: 40px 30px;
         font-size: 28px;
@@ -13,7 +23,7 @@
         .image_picker {
             width: 320px;
             height: 204px;
-            border: 1px solid #ccc;
+            // border: 1px solid #ccc;
             position: relative;
             .image_picker_comp {
                 width: 100%;
@@ -30,21 +40,28 @@
                     height: 100%;
                 }
             }
-            img {
-                position: absolute;
-                width: 50px;
-                height: 50px;
-                left: 50%;
-                top: 50%;
-                margin-left: -25px;
-                margin-top: -25px;
-            }
+            // img {
+            //     position: absolute;
+            //     // width: 50px;
+            //     // height: 50px;
+            //     // left: 50%;
+            //     // top: 50%;
+            //     // margin-left: -25px;
+            //     // margin-top: -25px;
+            //     top: 0;
+            //     left: 0;
+            // }
+            .image_bg {
+              // width: 308px;
+              // height: 196px;
+              width: 100%;
+              height: 100%;
+          }
             .image_desc {
-                position: absolute;
-                bottom: 20px;
-                width: 100%;
-                text-align: center;
-                font-size: 28px;
+              margin-top: 10px;
+              width: 100%;
+              text-align: center;
+              font-size: 28px;
             }
         }
         .preview_wrap {
@@ -71,27 +88,50 @@
     padding: 0 30px;
     color: red;
 }
+.inputBox {
+  border-radius: 10px;
+  overflow: hidden;
+  :global {
+    .am-list-item .am-input-label {
+      font-size: 30px;
+    }
+    .am-list-item .am-input-control input {
+      font-size: 30px;
+    }
+  }
+}
+.pickerBox {
+  background: #fff;
+  margin-top: 20px;
+  height: 390px;
+  overflow: hidden;
+  border-radius: 10px;
 
+}
 
 .next_step_wrap {
     // padding: 0 30px;
     width: 100%;
     height: 94px;
+    box-sizing: border-box;
+    left: 0;
     // position: absolute;
     // bottom: 124px;
+    position: fixed;
+    bottom: 40px;
     margin-top: 150px;
     .next_step {
         padding: 0 30px;
         .next_step_btn {
-            // width: 100%;
+            width: 100%;
             height: 94px;
-            background-color: #1AAD19;
+            background-color: #547BE7;
             color: #fff;
             font-size: 36px;
             line-height: 94px;
         }
     }
-    
+
 }
 
 .later_fill {

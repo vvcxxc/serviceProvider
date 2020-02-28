@@ -112,29 +112,33 @@ export default class changePhoneNumber extends Component {
   render() {
     const { phone, code, is_ok, wait } = this.state;
     return (
+
       <div className={styles.phoneNumber}>
-        <div className={styles.passwordBox}>
-          <div className={styles.title}>
-            <ArticleInput showTwo={true} />
+      <div className={styles.passwordBox}>
+        <div className={styles.title}>
+          <div className={styles.titleImg2}> </div>
+        </div>
+        <div className={styles.content}>
+          <div className={styles.items1}>
+            <div className={styles.keyWords}>手机号码 </div>
+            <input className={styles.input1} type="text" placeholder="请输入新手机号" onChange={this.handleChangePhone} value={phone} />
           </div>
-          <div className={styles.rows}><input type="text" placeholder="请输入新手机号" onChange={this.handleChangePhone} value={phone} /></div>
-          <div className={styles.verificationCode}>
-            <input type="text" placeholder="请输入验证码" onChange={this.handleChangeCode} value={code} />
-            {/* <div>发送验证码</div> */}
+          <div className={styles.items2}>
+            <div className={styles.keyWords}>验证码 </div>
+            <input className={styles.input2} type="text" placeholder="请输入验证码" onChange={this.handleChangeCode} value={code} />
             {
               is_ok ? (
-                <div onClick={this.handleSendCode}>发送验证码</div>
+                <div className={styles.sendButton} onClick={this.handleSendCode}>发送验证码</div>
               ) : (
-                  <div style={{ background: '#f1f1f1', color: '#ccc' }}>{wait}秒</div>
+                  <div className={styles.sendButton}> {wait}s后重新获取</div>
                 )
             }
           </div>
-          <div className={styles.footButton}>
-            <div className={styles.passwordButton} onClick={this.confirm}>确定修改</div>
-          </div>
         </div>
-        <div id="success"></div>
+        <div className={styles.footButton} onClick={this.confirm}>确定修改</div>
       </div>
+      <div id="success"></div>
+    </div>
     )
   }
 

@@ -17,12 +17,12 @@ export default class Item extends Component<Props> {
     const { money, date, name, qrCode } = this.props
     return (
       <div className={styles.item_box}>
-        <WingBlank>
+        <WingBlank style={{height: '100%'}}>
           <Flex className={styles.item_text} direction='column' align='start' justify='between' >
           <div className={styles.item_name}>收入— {qrCode} ({name})</div>
             <div className={styles.item_time}>{date}</div>
           </Flex>
-          <div className={styles.item_money}>+{money / 10000}</div>
+          <Flex className={styles.item_money}>+{money / 10000}</Flex>
         </WingBlank>
       </div>
     )

@@ -1,124 +1,120 @@
 .PersonalInformation {
-    height: auto;
-    padding-bottom: 1rem;
-    box-sizing: border-box;
-    min-height: calc(100vh - 1rem);//1rem为tabbar高度
+  background: #F2F5FC;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+
+  .main {
+    z-index: 2;
+    position: relative;
     width: 100%;
-    background: #f2f2f2;
-
-    .balanceBox {
-        width: 100%;
-        height: 245px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-
-        .BalanceAuditStatus {
-            position: absolute;
-            left: 48px;
-            top: 48px;
-            font-size: 28px;
-            color: #666666;
-        }
-
-        .balanceBox_moneyBox {
-            height: 100%;
-            width: 280px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-evenly;
-
-            .balanceBox_moneyBox_font {
-                font-size: 28px;
-            }
-
-            .balanceBox_moneyBox_num {
-                font-size: 52px;
-            }
-
-            .balanceBox_moneyBox_btn {
-                height: 60px;
-                width: 230px;
-                line-height: 60px;
-                font-size: 32px;
-                text-align: center;
-                background: #fff;
-                border-radius: 8px;
-            }
-        }
+    // height: 427px;
+    height: 337px;
+    background: url('../../assets/my-bj.png') no-repeat;
+    background-size: 100%;
+    :global .am-navbar {
+      background: none;
     }
 
-    .Personal_information_content {
-        height: auto;
-        width: 100%;
-        padding: 48px 0;
-
-        .information_box {
-            background: #fff;
-            width: 100%;
-            height: 88px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-sizing: border-box;
-            border-top: 1px solid #E5E5E5;
-            border-bottom: 1px solid #E5E5E5;
-
-            .information_box_title {
-                font-size: 34px;
-                color: #000;
-            }
-
-            .information_msg_box {
-                font-size: 34px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-end;
-
-                .information_msg {
-                    color: #888888;
-                }
-
-                .information_icon {
-                    color: #C7C7CC;
-                    margin-left: 10px;
-                }
-            }
-        }
-
-        .information_box_highter {
-            width: 100%;
-            height: 48px;
-        }
+    .userBox {
+      padding: 40px;
+      // padding-left: 50px;
     }
 
-    .logout_button_box {
-        width: 100%;
-        height: 88px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 20px;
+    .userInfo {
+
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        margin-right: 23px;
+      }
+
+      .name {
+        color: #fff;
+        font-size: 30px;
+      }
+    }
+
+    .userMoney {
+      width: 100%;
+      color: #fff;
+      padding: 0 40px;
+      padding-left: 70px;
+      margin-top: 40px;
         box-sizing: border-box;
-        position: fixed;
-        bottom: 120px;
+      .title {
+        font-size: 30px;
+      }
 
-        .logout_button {
-            height: 88px;
-            line-height: 88px;
-            width: 100%;
-            text-align: center;
-            background: #fff;
-            border: 1px solid rgba(153, 153, 153, 1);
-            color: #999999;
-            border-radius: 10px;
-            font-size: 36px;
-        }
+      .money {
+        font-size: 40px;
+        font-weight: bold;
+        margin-top: 15px;
+      }
+
+      .withDraw {
+        width: 188px;
+        height: 61px;
+        background: rgba(255, 188, 8, 1);
+        border-radius: 31px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin-right: 30px;
+      }
     }
+  }
 
+  .main2 {
+      width: 100%;
+      height: auto;
+      background: #fff;
+      padding: 0 54px;
+      box-sizing: border-box;
+      .item {
+          width: 100%;
+          height: 100px;
+          font-size: 30px;
+          border-bottom: 1px solid #E2E2E2;
+          .icon1 {
+              width: 33px;
+              height: 41px;
+              margin-right: 24px;
+          }
+          .icon2 {
+            width: 35px;
+            height: 41px;
+            margin-right: 24px;
+        }
+        .icon3 {
+          width: 41px;
+          height: 40px;
+          margin-right: 24px;
+      }
+      .icon4 {
+        width: 41px;
+        height: 35px;
+        margin-right: 24px;
+    }
+          .goto {
+              width: 17px;
+              height: 30px;
+              margin-left: 20px;
+          }
+      }
+  }
+
+  .logout {
+      width: 100%;
+      height: 100px;
+      margin-top: 20px;
+      font-size: 30px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 30px;
+      background: #fff;
+  }
 }

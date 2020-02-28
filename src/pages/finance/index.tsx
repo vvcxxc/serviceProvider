@@ -55,20 +55,25 @@ export default class Finance extends Component {
       params = { date, page: 1 }
     }
     this.setState({ data: params })
-    // Request({
-    //   method: 'get',
-    //   url: 'getBill',
-    //   params
-    // }).then(res => {
-    //   if (res.code == 200) {
-    //     this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
-    //     if (this.state.data.page < res.data.boot.last_page) {
-    //       this.setState({ is_show_loading: true })
-    //     } else {
-    //       this.setState({ is_show_loading: false })
-    //     }
-    //   }
-    // })
+    Request({
+      method: 'get',
+      url: 'getBill',
+      params
+    }).then(res => {
+      if (res.code == 200) {
+        // this.setState({ list: res.data, expenditure: res.data.expenditure, income: res.data.income })
+        // if (this.state.page < res.data.boot.last_page) {
+        //   this.setState({ is_show_loading: true })
+        // } else {
+        //   this.setState({ is_show_loading: false })
+        // }
+        if(res.data.data){
+          this.setState({ list: res.data.data })
+        }else{
+          this.setState({list: []})
+        }
+      }
+    })
   }
   componentDidMount() {
     Request({
@@ -127,14 +132,14 @@ export default class Finance extends Component {
             onLeftClick={() => router.goBack()}
           >账单</NavBar> */}
           <div className={styles.main_box}>
-            <div className={styles.filtrate}>
+            {/* <div className={styles.filtrate}>
               <Filtrate
                 dataList={this.state.dataList}
                 onSearch={this.searchPayload}
                 closeNum={this.state.closeNum}
                 isDate={true}
               />
-            </div>
+            </div> */}
 
             {
               list.length ? (

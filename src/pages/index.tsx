@@ -74,7 +74,7 @@ export default class QrCodePage extends Component {
 
   componentDidMount() {
     
-    this.requestList(true, 'qrCodes', 1, 1, { status: 'layouted'})
+    this.requestList(true, 'qrCodes', 1, 1, { status: 'layouted', orderBy:'today_money'})
     this.dtectNewData()
   }
 
@@ -111,8 +111,8 @@ export default class QrCodePage extends Component {
     let filter = {}
 
     if (!options_index) {
-      filter = filters ? filters :{ ...this.state.filter }
-      
+      filter = filters ? filters : { ...this.state.filter }
+      console.log(11)
     }
 
     Request({

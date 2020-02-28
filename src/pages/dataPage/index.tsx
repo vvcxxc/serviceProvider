@@ -23,8 +23,8 @@ export default class DataPage extends Component {
     },
     closeNum: 1,
     total: 0,
-    box1Show: false,
-    box2Show: false
+    box1Show: true,
+    box2Show: true
   }
   componentWillMount() {
     echarts.registerTheme('theme', echartsTheme);

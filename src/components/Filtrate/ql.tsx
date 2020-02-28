@@ -13,7 +13,7 @@ export default class Filtrate extends Component<Props>{
     dataList: [],
     showIndex: 0,
     title: [
-      { show: '排序',props: 'total_money' },
+      { show: '今日收益', props: 'today_money' },
       { show: '已铺设', props: 'layouted'  }
     ]
   }
@@ -22,7 +22,7 @@ export default class Filtrate extends Component<Props>{
     const { dataList } = this.props
     const { title} = this.state
     this.setState({ dataList })
-    this.props.onChange({ status: 'layouted' })
+    this.props.onChange({ status: 'layouted', orderBy: 'today_money'})
   }
 
   //搜索跳转

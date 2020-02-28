@@ -74,19 +74,34 @@ export default class QrCodePage extends Component {
 
   componentDidMount() {
     
-    this.requestList(true, 'qrCodes', 1, 1)
+    this.requestList(true, 'qrCodes', 1, 1, { status: 'layouted'})
     this.dtectNewData()
   }
 
-  //检测新数据
+  // 每10秒检测 有无新数据
   dtectNewData = () => {
-    let time = setTimeout(() => {
+    const time = setTimeout(() => {
       clearTimeout(time)
-      this.requestList()
-    }, 5000);
+      this.dtectNewData()
+      Request({
+        url: 'qrCodes',
+        method: "GET",
+        params: {
+          page: 1,
+          ...this.state.filter
+        }
+      }).then(res => {
+        const { data, code } = res
+        if (code !== 200) return
+        this.setState({
+          clickMore: Number(data.money_total) != Number(this.state.codeTitle.money) ? true : false
+        })
+      })
+
+    }, 10000);
   }
 
-  requestList = (ban?:boolean,url?: any, page?: number, options?: number) => {
+  requestList = (ban?:boolean,url?: any, page?: number, options?: number,filters?:Object) => {
     const {
       options_index, codePage, packagePage, recordPage, queuePage,
       codeList, packageList, record_list
@@ -97,7 +112,8 @@ export default class QrCodePage extends Component {
     let filter = {}
 
     if (!options_index) {
-      filter = { ...this.state.filter }
+      filter = filters ? filters :{ ...this.state.filter }
+      
     }
 
     Request({
@@ -121,7 +137,7 @@ export default class QrCodePage extends Component {
             },
             codeList: codePage > 1 ? [...codeList, ...data.data] : data.data,
             codeMore: data.data.length ? true : false,
-            clickMore: Number(data.money_total) != Number(this.state.codeTitle.money) ? true : false
+            // clickMore: Number(data.money_total) != Number(this.state.codeTitle.money) ? true : false
           })
           break;
         case 1://码包
@@ -220,7 +236,7 @@ export default class QrCodePage extends Component {
         {
           [
             <ListCode list={codeList} title={codeTitle} have_more={codeMore} getWantMore={this.getWantMore} clickMore={clickMore} onchange={()=>{
-              this.setState({ codePage: 1, codeList: [] }, () => {
+              this.setState({ codePage: 1, codeList: [], clickMore:false }, () => {
                 this.requestList()
               })
             }}/>,

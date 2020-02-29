@@ -9,7 +9,7 @@ import router from 'umi/router';
 import camera from '@/assets/upload_icon/camera.jpg';
 
 class BusinessLicense extends Component {
- 
+  
     state = {
         businessLicenseFiles: [],
         img_url: "",
@@ -18,13 +18,12 @@ class BusinessLicense extends Component {
         registerNum: "",
         saleName: "",
         ownName: "",
-        SaleValidity: "", 
+        SaleValidity: "",
     }
 
-    componentDidMount() { 
+    componentDidMount() {
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
-            // console.log(res)
             let { data } = res.data;
             let oss_data = {
                 policy: data.policy,

@@ -19,7 +19,6 @@ class ChooseId extends Component {
     })
   }
   handleSelectType = (e: any) => {
-    console.log(e.target.value)
     this.setState({
       bussiness_type: e.target.value
     })
@@ -34,7 +33,7 @@ class ChooseId extends Component {
       }
     }).then(res => {
       if (res.code == 200) {
-        Toast.success(res.message, 1, ()=>{
+        Toast.success(res.message, 1, () => {
           router.push('/submitQua/BankCard');
         });
       } else {
@@ -82,9 +81,7 @@ class ChooseId extends Component {
         </div>
 
         <div className={styles.next_step_wrap}>
-          <div className={styles.next_step}>
-            <Button className={styles.next_step_btn} onClick={this.toNext}>下一步</Button>
-          </div>
+          <Button className={styles.next_step_btn} onClick={this.toNext}>下一步</Button>
         </div>
       </div>
     )

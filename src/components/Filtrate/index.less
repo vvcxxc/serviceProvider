@@ -1,72 +1,89 @@
 .filtrate {
-    height: 80px;
-    width: 100vw;
-    background: #fff;
-    position: relative;
-    .filtrate_search_btn {
-      height: 80px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100px;
-      text-align: center;
-      background: #fff;
-      color: #000;
-      line-height: 80px;
-      z-index: 3;
 
-  }
-
-    .filtrate_key {
-        height: 80px;
-        line-height: 80px;
-        padding: 0 20px;
-        color: #666666;
-        font-size: 28px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        float: left;
-        position: relative;
-
-        .filtrate_icon {
-            padding-left: 20px;
-        }
-
-        .filtrate_value_box {
-            position: absolute;
-            left: 0;
-            top: 80px;
-            border: 1px solid #1392ce;
-            background: #fff;
-            height: auto;
-            width: 250px;
-            z-index: 10;
-            .filtrate_value_ul {
-                height: auto;
-                width: auto;
-                padding: 0;
-                list-style: none;
-
-                .filtrate_value_li {
-                    padding: 10px 10px;
-                    line-height: 1;
-                    color: #666666;
-                    font-size: 28px;
-                }
-            }
-        }
+  height: 80px;
+  // width: 630px;
+  border-radius: 10px 10px 0px 0px;
+  background: #fff;
+  padding: 0px 41px;
+  display: flex;
+  .filtrate_search_btn {
+    padding-left: 20px;
+    // padding-top: 20px;
+    display: flex;
+    // justify-content: flex-end;
+    // align-items: center;
+    font-size: 26px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    // width: 100px;
+    color: rgba(153, 153, 153, 1);
+    span {
+      margin-right: 10px;
+    }
+    .my_margin_right {
 
     }
+    .search_btn {
+      display: flex;
+      align-items: center;
+      width: 100px;
+      // justify-content: space-between;
+    }
+  }
+
+  .filtrate_key {
+    height: 80px;
+    line-height: 80px;
+    padding: 0 20px;
+    color: #666666;
+    font-size: 28px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    float: left;
+    position: relative;
+
+    .filtrate_icon {
+      // padding-left: 20px;
+      font-size: 10px;
+    }
+
+    .filtrate_value_box {
+      position: absolute;
+      left: 0;
+      top: 80px;
+      border: 1px solid #1392ce;
+      background: #fff;
+      height: auto;
+      width: 250px;
+      z-index: 10;
+
+      .filtrate_value_ul {
+        height: auto;
+        width: auto;
+        padding: 0;
+        list-style: none;
+
+        .filtrate_value_li {
+          padding: 10px 10px;
+          line-height: 1;
+          color: #666666;
+          font-size: 28px;
+        }
+      }
+    }
+
+  }
 
 
 
 }
+
 .picker {
   position: fixed;
-  background: #fff;
+  background: rgba(0, 0, 0, .6);
   top: 0;
   left: 0;
   width: 100vw;
@@ -74,18 +91,39 @@
   border: 1px solid #1392ce;
   overflow: hidden;
   padding-top: 20px;
-  z-index: 5;
+  z-index: 9999999;
+  .date_box {
+    width: 100%;
+    height: 542px;
+    position: absolute;
+    bottom: 0;
+    background: #fff;
+    border-radius: 10px;
+  }
   .picker_buttons {
     width: 100%;
-    height: 80px;
+    height: 108px;
     padding: 0 20px;
     box-sizing: border-box;
+    font-weight:bold;
+    border-bottom: 1px solid #E2E2E2;
   }
+
   .picker_button {
-    color: blue;
+    color: #547BE7;
   }
+  .picker_button_close {
+    color: #999999;
+  }
+
   .picker_date {
     width: 100%;
-    margin-top: 100px;
+    // margin-top: 30px;
+    :global {
+      .am-picker-col-item-selected {
+        color: #547BE7;
+        font-weight: bold;
+      }
+    }
   }
 }

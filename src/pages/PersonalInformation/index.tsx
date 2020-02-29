@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import router from 'umi/router';
-import { Toast, Icon } from 'antd-mobile';
+import { Toast, Icon, NavBar, Flex } from 'antd-mobile';
 import Request from '@/service/request';
 import Cookies from 'js-cookie';
 export default class PersonalInformation extends Component {
@@ -10,7 +10,9 @@ export default class PersonalInformation extends Component {
         data: {
             is_bank_card: 0,
             phone: '***********',
-            usable_money: 0
+            name:'',
+            usable_money: 0,
+            type:0
         }
     }
 
@@ -37,7 +39,7 @@ export default class PersonalInformation extends Component {
         router.push({ pathname: '/PersonalInformation/changePassword' })
     }
 
-    logOut = (e:any) => {
+    logOut = (e: any) => {
         Toast.loading('');
         Request({
             url: 'auth/logout',
@@ -71,64 +73,74 @@ export default class PersonalInformation extends Component {
     render() {
         return (
             <div className={styles.PersonalInformation} >
-                <div className={styles.balanceBox} >
-                    {/* <div className={styles.BalanceAuditStatus} >认证审核中</div> */}
-
-                    <div className={styles.balanceBox_moneyBox} >
-                        <div className={styles.balanceBox_moneyBox_font} >余额</div>
-                        <div className={styles.balanceBox_moneyBox_num} >{this.state.data.usable_money}</div>
-                        <div className={styles.balanceBox_moneyBox_btn} onClick={this.gotoWithDraw}>提现</div>
+                <div className={styles.main}>
+                    {/* <NavBar
+                        icon={<Icon type="left" size='lg' />}
+                        onLeftClick={() => router.goBack()}
+                    >个人信息</NavBar> */}
+                    <div className={styles.userBox}>
+                        <Flex className={styles.userInfo}>
+                            <img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className={styles.avatar}/>
+                            <div className={styles.name}>{this.state.data.name}</div>
+                        </Flex>
                     </div>
+                    <Flex className={styles.userMoney} justify='between' align='start'>
+                        <div>
+                            <div className={styles.title}>余额</div>
+                            <div className={styles.money}>{this.state.data.usable_money}</div>
+                        </div>
+                        <div className={styles.withDraw} onClick={this.gotoWithDraw}>提现</div>
+                    </Flex>
+
+                </div>
+                <div className={styles.main2}>
+                    <Flex className={styles.item} justify='between' align='center' onClick={this.onChangePassword}>
+                        <Flex>
+                            <img src={require('../../assets/password.png')} className={styles.icon1}/>
+                            修改密码
+                        </Flex>
+                        <Flex>
+                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                        </Flex>
+                    </Flex>
+                    <Flex className={styles.item} justify='between' align='center' onClick={() => router.push('/changePhoneNumber')}>
+                        <Flex>
+                            <img src={require('../../assets/phone.png')} className={styles.icon2}/>
+                            绑定手机
+                        </Flex>
+                        <Flex>
+                            <div style={{color: '#999'}}>{this.state.data.phone}</div>
+                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                        </Flex>
+                    </Flex>
+                    <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
+                        <Flex>
+                            <img src={require('../../assets/my.png')} className={styles.icon3}/>
+                            个人信息
+                        </Flex>
+                        <Flex>
+                            <div style={{color: '#999999'}}>已认证</div>
+                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                        </Flex>
+                    </Flex>
                 </div>
 
-
-                <div className={styles.Personal_information_content} >
-                    {/* <div className={styles.information_box} onClick={this.onChangePassword} >
-                        <div className={styles.information_box_title} >修改密码</div>
-                        <div className={styles.information_msg_box} >
-                            <Icon className={styles.information_icon} type="right" size={'md'} />
-                        </div>
-                    </div> */}
-                    <div className={styles.information_box} onClick={() => router.push('/changePhoneNumber')}>
-                        <div className={styles.information_box_title} >绑定手机</div>
-                        <div className={styles.information_msg_box} >
-                            <div className={styles.information_msg} >{this.state.data.phone}</div>
-                            <Icon className={styles.information_icon} type="right" size={'md'} />
-                        </div>
-                    </div>
-                    {/* <div className={styles.information_box} onClick={this.handleGoIDCard.bind(this)}>
-                        <div className={styles.information_box_title} >身份证信息</div>
-                        <div className={styles.information_msg_box} >
-                            <div className={styles.information_msg} >已验证</div>
-                            <Icon className={styles.information_icon} type="right" size={'md'} />
-                        </div> 
-                    </div> */}
-                     {/* <div className={styles.information_box} onClick={this.handleGoIDCard.bind(this)}>
-                        <div className={styles.information_box_title} >营业执照</div>
-                        <div className={styles.information_msg_box} >
-                            <div className={styles.information_msg} >已验证</div>
-                            <Icon className={styles.information_icon} type="right" size={'md'} />
-                        </div> 
-                    </div> */}
-                    <div className={styles.information_box_highter}></div> 
-                    <div className={styles.information_box} onClick={() => router.push('/PersonalInformation/mybank')}>
-                        <div className={styles.information_box_title}
-                            style={{ color: this.state.data.is_bank_card == 0 ? '#e61616' : ' #000' }}
-                        >我的银行卡</div>
-                        <div className={styles.information_msg_box} >
-                            <div className={styles.information_msg}
-                                style={{ color: this.state.data.is_bank_card == 0 ? '#2189f6' : ' #888888' }}
-                            >{this.state.data.is_bank_card == 0 ? '未绑定' : '已绑定'}</div>
-                            <Icon className={styles.information_icon} type="right" size={'md'} />
-                        </div>
-                    </div>
+                <div className={styles.main2} style={{marginTop: 20}}>
+                    <Flex className={styles.item} justify='between' align='center' onClick={() => router.push('/PersonalInformation/mybank')}>
+                        <Flex>
+                            <img src={require('../../assets/bank.png')} className={styles.icon4}/>
+                            我的银行卡
+                        </Flex>
+                        <Flex>
+                            <div style={{color: this.state.data.is_bank_card == 0 ? '#FF2525' : '#999999'}}>{this.state.data.is_bank_card == 0 ? '未认证' : '已认证'}</div>
+                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                        </Flex>
+                    </Flex>
                 </div>
 
-
-                <div className={styles.logout_button_box} >
-                    <div className={styles.logout_button} onClick={this.logOut.bind(this)}>退出登录</div>
+                <div className={styles.logout} onClick={this.logOut.bind(this)}>
+                    退出登录
                 </div>
-
             </div>
         )
     }

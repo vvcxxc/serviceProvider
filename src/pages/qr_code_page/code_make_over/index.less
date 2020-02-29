@@ -1,0 +1,152 @@
+.main {
+  height: 100vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #F3F3FF;
+
+  .content {
+    padding: 0 35px;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 15px;
+
+    .items1 {
+      height: 100px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      border-bottom: 1px solid #e2e2e2;
+
+      .keyWords {
+        width: 140px;
+        height: 30px;
+        font-size: 30px;
+        line-height: 1;
+        text-align: left;
+      }
+
+      .input1 {
+        width: calc(100% - 140px);
+        height: 80px;
+        padding-left: 25px;
+        box-sizing: border-box;
+        line-height: 1;
+        border: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+      }
+    }
+
+    .items2 {
+      height: 100px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+
+      .keyWords {
+        width: 140px;
+        height: 30px;
+        font-size: 30px;
+        line-height: 1;
+        text-align: left;
+      }
+
+      .input2 {
+        width: 300px;
+        height: 80px;
+        padding-left: 25px;
+        box-sizing: border-box;
+        line-height: 1;
+        border: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .sendButton {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        color: #547be7;
+      }
+    }
+
+  }
+
+  .sure {
+    margin-top: 20px;
+    height: 95px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    background: rgba(84, 123, 231, 1);
+    border-radius: 10px;
+  }
+
+  .rate {
+    padding-top: 19px;
+    text-align: center;
+    font-size: 24px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 37, 37, 1);
+  }
+
+  .protocol {
+    margin-top: 40vh;
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 30px;
+      width: 30px;
+    }
+
+    span {
+      margin-left: 9px;
+      font-size: 28px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      border-bottom: 2px solid rgba(84, 123, 231, 1);
+      color: rgba(84, 123, 231, 1);
+      line-height: 35px;
+    }
+  }
+
+
+}
+
+:global {
+  .am-list {
+    padding-top: 20px;
+  }
+
+  .am-list-body {
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .am-list-item .am-input-label {
+    font-size: 30px;
+  }
+
+  .am-list-item .am-input-control input {
+    font-size: 30px;
+  }
+}

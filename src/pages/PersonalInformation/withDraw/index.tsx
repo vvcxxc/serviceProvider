@@ -37,7 +37,6 @@ export default class WithDraw extends Component {
 
   }
   moneyChange = (v: any) => {
-    // console.log(v)
     if (v * 1 > Number(this.state.all_money)) {
       this.setState({ is_show: false })
     } else {
@@ -55,7 +54,6 @@ export default class WithDraw extends Component {
 
   // 去上传
   goUpload = () => {
-    console.log(2)
   }
 
   // 申请提现
@@ -116,27 +114,28 @@ export default class WithDraw extends Component {
       const { message, code } = res
       switch (code) {
         case 200:
-          Request({
-            url: 'userBankInfo',
-            method: 'get'
-          }).then(res => {
-            const { code, data } = res
-            switch (code) {
-              case 200:
-                this.setState({
-                  is_bind: true,
-                  data,
-                  all_money: data.usable_money
-                })
-                break;
-
-              default:
-                break;
-            }
-          })
+          // Request({
+          //   url: 'userBankInfo',
+          //   method: 'get'
+          // }).then(res => {
+          //   const { code, data } = res
+          //   switch (code) {
+          //     case 200:
+          //       this.setState({
+          //         is_bind: true,
+          //         data,
+          //         all_money: data.usable_money
+          //       })
+          //       break;
+          //     default:
+          //       break;
+          //   }
+          // })
           Toast.success(message, 1)
-
           this.setState({ money: '' })
+          setTimeout(() => {
+            router.goBack()
+          }, 1500)
           break;
 
         default:
@@ -171,7 +170,7 @@ export default class WithDraw extends Component {
         <div className={styles.bank_name}>
           <div className={styles.name}>{data.bank_name}</div>
           <div className={styles.phoneNumber_end}>
-            尾号{data.bankcard_no ? data.bankcard_no.substr(data.bankcard_no.length - 4) : null + '储蓄卡'}
+            **** **** **** {data.bankcard_no ? data.bankcard_no.substr(data.bankcard_no.length - 4) : null + '储蓄卡'}
           </div>
         </div>
 
@@ -210,13 +209,13 @@ export default class WithDraw extends Component {
             {show_tips}
           </div>
         </div>
-        {hint}
-        <WingBlank size='lg' style={{ paddingTop: 100 }}>
-          <Button type='primary' style={{ background: '#1AAD19' }} onClick={this.withDraw}>申请提现</Button>
-        </WingBlank>
-        <WingBlank size='lg' style={{ paddingTop: 100 }}>
+        {/* {hint} */}
+        {/* <WingBlank size='lg' style={{ paddingTop: 133 }}> */}
+        <Button type='primary' style={{ marginTop: 100, background: '#547BE7', fontSize: '.3rem' }} onClick={this.withDraw}>申请提现</Button>
+        {/* </WingBlank> */}
+        {/* <WingBlank size='lg' style={{ paddingTop: 100 }}>
           <Button type='primary' style={{ background: '#1AAD19' }} onClick={this.goWithDrawRecord}>提现记录</Button>
-        </WingBlank>
+        </WingBlank> */}
       </div>
     )
   }

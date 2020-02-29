@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { ImagePicker, Icon, ActionSheet, InputItem, List, Button, Toast } from 'antd-mobile';
+import { ImagePicker, Icon, ActionSheet, InputItem, List, Button, Toast,NavBar } from 'antd-mobile';
 import styles from './index.less';
 import router from 'umi/router';
 import Axios from 'axios';
 import upload from '@/service/oss';
 import Cookies from 'js-cookie';
 import camera from '@/assets/upload_icon/camera.jpg';
+import idFront from '@/assets/upload_icon/id_front.png';
+import idBack from '@/assets/upload_icon/id_back.png';
+import handId from '@/assets/upload_icon/hand_id.png';
 import Request from '@/service/request';
 import qs from 'qs';
-
+// 身份证组件
 class IDCard extends Component {
 
     state = {
@@ -39,7 +42,6 @@ class IDCard extends Component {
     async componentDidMount() {
         // 暂时
         Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
-            // console.log(res)
             let { data } = res.data;
             let oss_data = {
                 policy: data.policy,
@@ -317,111 +319,135 @@ class IDCard extends Component {
 
     render() {
         const { isHaveImgFrontID, img_url_front_id, isHaveImgBehindID, img_url_behind_id, frontFiles, behindFiles, frontBehindFiles, isHaveImgFrontBehindID, isShowModal, img_url_front_behind_id, UserName, IDCardNumber, IDCardValidity } = this.state;
+        const Item = List.Item;
         return (
-            <div className={styles.idcard_wrap}>
-                <div className={styles.idcard_title}>
-                    <span>请拍照上传你的二代身份证</span>
-                </div>
+           <div className={styles.id_page}>
+             <NavBar
+            icon={<Icon type="left" size='lg' />}
+            onLeftClick={() => router.goBack()}
+          >完善资料</NavBar>
+              <div className={styles.idcard_wrap}>
 
-                <div className={styles.idcard_imagepicker}>
-                    {/* 身份证正面照 */}
-                    {
-                        isHaveImgFrontID ?
-                            <div className={styles.preview_wrap}>
-                                <img src={"http://oss.tdianyi.com/" + img_url_front_id} alt="" className={styles.preview_img} />
-                                <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardFront} />
-                            </div>
-                            :
-                            <div className={styles.image_picker}>
-                                <ImagePicker
-                                    files={frontFiles}
-                                    onChange={this.handleIdCardFrontChange}
-                                    onImageClick={(index, fs) => console.log(index, fs)}
-                                    selectable={frontFiles.length < 1}
-                                    length={1}
-                                    className={styles.image_picker_comp}
-                                />
-                                <img src={camera} alt="" />
-                                <div className={styles.image_desc}>身份证正面照</div>
-                            </div>
-                    }
-                    {/* 身份证反面照 */}
-                    {
-                        isHaveImgBehindID ?
-                            <div className={styles.preview_wrap}>
-                                <img src={"http://oss.tdianyi.com/" + img_url_behind_id} alt="" className={styles.preview_img} />
-                                <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardBehind} />
-                            </div>
-                            :
-                            <div className={styles.image_picker}>
-                                <ImagePicker
-                                    files={behindFiles}
-                                    onChange={this.handleIdCardBehindChange}
-                                    onImageClick={(index, fs) => console.log(index, fs)}
-                                    selectable={behindFiles.length < 1}
-                                    length={1}
-                                    className={styles.image_picker_comp}
-                                />
-                                <img src={camera} alt="" />
-                                <div className={styles.image_desc}>身份证反面照</div>
-                            </div>
-                    }
-                    {/* 身份证正反面 */}
-                    {
-                        isHaveImgFrontBehindID ?
-                            <div className={styles.preview_wrap}>
-                                <img src={"http://oss.tdianyi.com/" + img_url_front_behind_id} alt="" className={styles.preview_img} />
-                                <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardFrontBehind} />
-                            </div>
-                            :
-                            (<div className={styles.image_picker} onClick={this.showModal}>
-                                <img src={camera} alt="" />
-                                <div className={styles.image_desc}>手持身份证照</div>
-                            </div>)
-                    }
-                </div>
+             {/* 数据项 */}
+             <div className={styles.user_info}>
+                 <List>
+                     {/* <Item style={{ padding: '15px' }}> */}
+                     <InputItem placeholder='请输入您的真实姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>真实姓名</InputItem>
+                     {/* </Item> */}
+                     {/* <Item style={{ padding: '15px' }}> */}
+                     <InputItem placeholder='请输入您的身份证号' onChange={this.handleIDCardNumberChange.bind(this)} value={IDCardNumber} clear>身份证号</InputItem>
+                     {/* </Item> */}
+                     {/* <Item style={{ padding: '15px' }}> */}
+                     <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
+                     {/* </Item> */}
+                 </List>
+             </div>
+
+             <div className={styles.idcard_upload}>
+                 <div className={styles.idcard_title}>
+                     <span>请拍照上传您的二代身份证</span>
+                 </div>
+
+                 <div className={styles.idcard_imagepicker}>
+                     {/* 身份证正面照 */}
+                     {
+                         isHaveImgFrontID ?
+                             <div className={styles.preview_wrap}>
+                                 <img src={"http://oss.tdianyi.com/" + img_url_front_id} alt="" className={styles.preview_img} />
+                                 <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardFront} />
+                             </div>
+                             :
+                             <div className={styles.image_picker}>
+                                 <ImagePicker
+                                     files={frontFiles}
+                                     onChange={this.handleIdCardFrontChange}
+                                     onImageClick={(index, fs) => console.log(index, fs)}
+                                     selectable={frontFiles.length < 1}
+                                     length={1}
+                                     className={styles.image_picker_comp}
+                                 />
+                                 <img src={idFront} alt="" className={styles.image_bg} />
+                                 <div className={styles.image_desc}>身份证正面照</div>
+                             </div>
+                     }
+                     {/* 身份证反面照 */}
+                     {
+                         isHaveImgBehindID ?
+                             <div className={styles.preview_wrap}>
+                                 <img src={"http://oss.tdianyi.com/" + img_url_behind_id} alt="" className={styles.preview_img} />
+                                 <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardBehind} />
+                             </div>
+                             :
+                             <div className={styles.image_picker}>
+                                 <ImagePicker
+                                     files={behindFiles}
+                                     onChange={this.handleIdCardBehindChange}
+                                     onImageClick={(index, fs) => console.log(index, fs)}
+                                     selectable={behindFiles.length < 1}
+                                     length={1}
+                                     className={styles.image_picker_comp}
+                                 />
+                                 <img src={idBack} alt="" className={styles.image_bg} />
+                                 <div className={styles.image_desc}>身份证反面照</div>
+                             </div>
+                     }
+
+                 </div>
+
+                 <div className={styles.handInIDCard}>
+                     {/* 身份证正反面 */}
+                     {
+                         isHaveImgFrontBehindID ?
+                             <div className={styles.preview_wrap}>
+                                 <img src={"http://oss.tdianyi.com/" + img_url_front_behind_id} alt="" className={styles.preview_img} />
+                                 <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardFrontBehind} />
+                             </div>
+                             :
+                             (<div className={styles.image_picker} onClick={this.showModal}>
+                                 <img src={handId} alt="" className={styles.image_bg} />
+                                 <div className={styles.image_desc}>手持身份证照</div>
+                             </div>)
+                     }
+                 </div>
+             </div>
 
 
-                {/* IDModal */}
-                {
-                    isShowModal ? (<div className={styles.modal_wrap} onClick={this.handleHideModal}>
-                        <div className={styles.modal_container}>
-                            <div className={styles.modal_exeample}>
-                                <div className={styles.modal_title}>证件上传示例</div>
-                                <div className={styles.modal_pic}></div>
-                                <div className={styles.modal_desc}>四角完整，亮度均匀，照片清晰</div>
-                            </div>
-                            <div className={styles.modal_btn_tool}>
-                                <div className={styles.modal_btn}>知道了</div>
-                                <ImagePicker
-                                    onChange={this.handleIdCardFrontBehindChange}
-                                    onImageClick={(index, fs) => console.log(index, fs)}
-                                    selectable={frontBehindFiles.length < 1}
-                                    length={1}
-                                    className={styles.image_picker_front_behind}
-                                />
-                            </div>
-                        </div>
-                    </div>) : null
-                }
+             {/* IDModal */}
+             {
+                 isShowModal ? (<div className={styles.modal_wrap} onClick={this.handleHideModal}>
+                     <div className={styles.modal_container}>
+                         <div className={styles.modal_exeample}>
+                             <div className={styles.modal_title}>证件上传示例</div>
+                             <div className={styles.modal_pic}><img src={require('@/assets/upload_icon/idcard.png')}/></div>
+                             <div className={styles.modal_desc}>四角完整，亮度均匀，照片清晰</div>
+                         </div>
+                         <div className={styles.modal_btn_tool}>
+                             <div className={styles.modal_btn}>知道了</div>
+                             <ImagePicker
+                                 onChange={this.handleIdCardFrontBehindChange}
+                                 onImageClick={(index, fs) => console.log(index, fs)}
+                                 selectable={frontBehindFiles.length < 1}
+                                 length={1}
+                                 className={styles.image_picker_front_behind}
+                             />
+                         </div>
+                     </div>
+                 </div>) : null
+             }
 
 
 
-                {/* 数据项 */}
-                <List>
-                    <InputItem placeholder='请输入姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>姓名</InputItem>
-                    <InputItem placeholder='请输入身份证号' onChange={this.handleIDCardNumberChange.bind(this)} value={IDCardNumber} clear>身份证号</InputItem>
-                    <InputItem placeholder='有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
-                </List>
 
-                <div className={styles.next_step_wrap}>
-                    <div className={styles.next_step} onClick={this.handleNext.bind(this)}>
-                        <Button className={styles.next_step_btn}>下一步</Button>
-                    </div>
-                </div>
 
-                {/* <div className={styles.later_fill}>稍后填写</div> */}
-            </div>
+             <div className={styles.next_step_wrap}>
+                 <div className={styles.next_step} onClick={this.handleNext.bind(this)}>
+                     <Button className={styles.next_step_btn}>下一步</Button>
+                 </div>
+             </div>
+
+             {/* <div className={styles.later_fill}>稍后填写</div> */}
+         </div>
+           </div>
         )
     }
 }

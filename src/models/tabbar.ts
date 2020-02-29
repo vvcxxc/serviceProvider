@@ -29,7 +29,14 @@ const model: Model = {
     //     pages: payload,
     //   };
     // },
+    setTabShow(state,{payload}){
+      return {
+        ...state,
+        show: payload
+      }
+    },
   },
+
   subscriptions: {
     history({ dispatch, history }) {
       let url = location.href;

@@ -17,8 +17,9 @@ body {
 }
 
 :global .am-tab-bar-bar .am-tab-bar-tab-icon img {
-	width: 48px;
-	height: 48px;
+	width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
 }
 
 .am-tab-bar {

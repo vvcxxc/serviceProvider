@@ -36,7 +36,6 @@ export default class Search extends Component {
     }
 
     handleWrite = (e: any) => {
-        console.log(e)
         this.setState({ searchKey: e.target.value, listPage: 1, data: {}, resDataList: [] }, () => {
             this.handleSearch();
         })

@@ -1,23 +1,83 @@
 .InvitationServiceProvider {
-    height: auto;
+    height: 100%;
     padding-bottom: 1rem;
     box-sizing: border-box;
     min-height: calc(100vh - 1rem);//1rem为tabbar高度
     width: 100%;
-    background: #fff;
+    background: #F2F5FC;
 
-    .InvitationServiceProvider_total {
-        height: 60px;
+    .bj {
         width: 100%;
-        padding: 0 20px;
-        box-sizing: border-box;
-        background: #E1E1E1;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 28px;
+        height: 480px;
+        background: linear-gradient(48deg, rgba(50, 94, 214, 1) 0%, rgba(116, 149, 243, 1) 100%);
+        position: absolute;
+        top: 0;
+        z-index: 1;
     }
+    :global .am-navbar {
+        // background:linear-gradient(48deg,rgba(50,94,214,1) 0%,rgba(116,149,243,1) 100%);
+        background: none;
+      }
+    .invited_main {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        .invited_box {
+            height: 100%;
+            box-sizing: border-box;
+            padding: 0 21px;
+
+            .list {
+                width: 100%;
+                height: 100%;
+                background: #fff;
+                border-radius: 10px;
+                padding: 30px 20px;
+                box-sizing: border-box;
+                overflow: hidden;
+                .total {
+                  width: 100%;
+                  height: 53px;
+                  border-radius: 26px;
+                  background: #F2F5FC;
+                  font-size: 25px;
+                  padding: 0 22px;
+                  box-sizing: border-box;
+                }
+                .list_box {
+                    padding: 0 15px;
+                    height: 95%;
+                    overflow: auto;
+                }
+            }
+        }
+    }
+    .no_data {
+        width: 100%;
+        height: 604px;
+        border-radius: 10px;
+        padding: 30px 20px;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: url('../../assets/no-finance.png') no-repeat;
+        background-position: center 155px;
+        background-size: 50%;
+        background-color: #fff;
+        color: #666666;
+        font-size: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .text {
+          padding-top: 36vw;
+        }
+      }
+
+
 
     .InvitationServiceProvider_content {
         background: #fff;
@@ -39,6 +99,10 @@
                 .InvitationServiceProvider_item_name {
                     font-size: 34px;
                     padding-bottom: 10px;
+                    max-width: 430px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 .InvitationServiceProvider_item_date {
@@ -82,17 +146,67 @@
 
 .invitation {
     background: #fff;
-    height: 76px;
-    width: 76px;
-    border-radius: 38px;
-    border: 1px solid #666666;
+    height: 109px;
+    width: 108px;
+    border-radius: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 28px;
     position: fixed;
-    right: 50px;
-    bottom: 200px;
+    right: 30px;
+    bottom: 148px;
     z-index: 2;
+    img {
+      width: 100%;
+      height: 100%;
+    }
 }
 
+.item_box {
+  height: 162px;
+  width: 100%;
+  // background: yellow;
+  padding: 40px 0;
+  box-sizing: border-box;
+  position: relative;
+  border-bottom: 1px solid #ccc;
+
+  .item_text {
+    position: relative;
+    height: 100%;
+    // padding: 15px 0;
+    box-sizing: border-box;
+  }
+
+  .item_name {
+    font-size: 30px;
+    max-width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .item_time {
+    font-size: 26px;
+    color: #ccc;
+  }
+
+  .item_money {
+    font-size: 26px;
+    padding: 0 22px;
+    height: 45px;
+    background:rgba(84,123,231,.1);
+    color: #547BE7;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5px;
+  }
+
+  .valid {
+    position: absolute;
+    right: 40px;
+    top: 0;
+  }
+}

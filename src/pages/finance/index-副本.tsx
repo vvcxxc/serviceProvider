@@ -82,7 +82,6 @@ export default class Finance extends Component {
     }).then(res => {
       if (res.code == 200) {
         this.setState({ list: res.data.boot.data, expenditure: res.data.expenditure, income: res.data.income })
-        console.log(this.state.data.page <= res.data.boot.last_page)
         if (this.state.data.page < res.data.boot.last_page) {
           this.setState({ is_show_loading: true })
         } else {
@@ -93,7 +92,6 @@ export default class Finance extends Component {
   }
   // 触底
   scrollBottom = () => {
-    console.log('触发了')
     if (this.state.is_show_loading) {
       let data = this.state.data;
       data.page += 1;

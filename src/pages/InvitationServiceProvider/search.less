@@ -2,32 +2,34 @@
     height: auto;
     min-height: 100vh;
     width: 100%;
-    background: #fff;
+    background: #F2F5FC;
     border-bottom: 1px solid #fff;
 
     .ServiceProvider {
-        height: 80px;
+        height: 100px;
         width: 100%;
-        border-bottom: 1px solid #666666;
+        // border-bottom: 1px solid #666666;
         background: #fff;
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding-left: 20px;
-        padding-right: 100px;
+        // padding-left: 20px;
+        padding-right: 120px;
         box-sizing: border-box;
         position: relative;
 
         .ServiceProvider_searchBox {
-            height: 50px;
+            height: 74px;
             width: 100%;
-            background: #C3C2C2;
+            background: #F2F5FC;
             position: relative;
+            border-radius: 10px;
+            overflow: hidden;
 
             .ServiceProvider_searchBox_icon {
                 font-size: 28px;
-                color: #0D0D0D;
-                height: 50px;
+                color: #B5B5B5;
+                height: 74px;
                 width: 50px;
                 display: flex;
                 justify-content: center;
@@ -38,12 +40,12 @@
             }
 
             .ServiceProvider_input {
-                height: 50px;
+                height: 74px;
                 width: 100%;
                 font-size: 28px;
-                background: #C3C2C2;
-
-                border-bottom: 1px solid #666666;
+                background: #F2F5FC;
+                border: none;
+                // border-bottom: 1px solid #666666;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -54,8 +56,8 @@
 
         .ServiceProvider_searchBox_cancle {
             font-size: 28px;
-            color: #3F51B5;
-            height: 80px;
+            color: #547BE7;
+            height: 100px;
             width: 100px;
             display: flex;
             justify-content: center;
@@ -67,11 +69,18 @@
     }
 
     .InvitationServiceProvider_content {
-        background: #fff;
         height: auto;
         width: 100%;
-        padding: 0 20px;
+        padding: 20px;
         box-sizing: border-box;
+        box-sizing: border-box;
+
+        .main {
+            background: #fff;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
 
         .InvitationServiceProvider_item {
             height: 150px;
@@ -86,6 +95,10 @@
                 .InvitationServiceProvider_item_name {
                     font-size: 34px;
                     padding-bottom: 10px;
+                    max-width: 430px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 .InvitationServiceProvider_item_date {
@@ -99,6 +112,7 @@
                 text-align: right;
             }
         }
+
         .loadingMore_button_box {
             width: 100%;
             height: 70px;
@@ -112,7 +126,7 @@
     }
 }
 
-.on_list{
+.on_list {
     text-align: center;
     height: 50px;
     line-height: 50px;
@@ -127,17 +141,44 @@
 }
 
 .invitation {
-    background: #fff;
-    height: 76px;
-    width: 76px;
-    border-radius: 38px;
-    border: 1px solid #666666;
+  background: #fff;
+  height: 109px;
+  width: 108px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  position: fixed;
+  right: 30px;
+  bottom: 148px;
+  z-index: 2;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.no_data_box {
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 28px;
-    position: fixed;
-    right: 50px;
-    bottom: 200px;
-    z-index: 2;
+    text-align: center;
+    padding-top: 20vh;
+
+    .no_data {
+        div {
+            margin-top: -100px;
+            font-size: 30px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(102, 102, 102, 1);
+            text-align: center;
+        }
+
+        img {
+            width: 374px;
+            height: 391px;
+        }
+    }
+
 }

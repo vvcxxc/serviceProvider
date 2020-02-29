@@ -1,0 +1,83 @@
+
+
+import React from 'react'
+import router from 'umi/router';
+import styles from './index.less'
+import { routerRedux } from 'dva/router';
+
+export function ListStoreQueue(params: any) {
+  const { list, title, have_more } = params
+  return (
+    <main className={styles.store_queue}>
+      <div className={styles.prompt}>
+        <div>
+          <span>铺码排名:{title.Ranking}</span>
+          <span>预计铺店日期:{title.LayoutDates}</span>
+        </div>
+        <div>
+          <span>预计铺店:{title.NextLayoutNum}</span>
+          <div>
+            <span className={styles.improve_button} onClick={() => router.push({ pathname: 'qr_code_page/rules' })}>提高排名</span>
+            <span className={styles.change_record} onClick={() => router.push({ pathname: 'qr_code_page/change_record' })}>贡献值变更记录</span>
+          </div>
+        </div>
+      </div>
+      <ul className={styles.preview_queue}>
+        <li className={styles.show_title}>
+          <span>顺序</span>
+          <span>姓名</span>
+          <span>下阶段铺店数</span>
+          <span>贡献值</span>
+        </li>
+        {
+          list.map((value: any, index: number) => {
+            return <li key={index} className={styles.list_children} style={{ lineHeight: '1rem' }}>
+              <span>{index + 1}</span>
+              <span className={styles.constrol_place}>{value.FacilitatorName}</span>
+              <span>+{value.next_layout_num}</span>
+              <span>{value.now_score_num}%</span>
+            </li>
+          })
+        }
+      </ul>
+
+      <ul className={styles.preview_queue}>
+        {list.length >= 10 && title.row.length ? <li className={styles.omit}>....</li> : null}
+        {
+          list.length >= 10 && title.row.map((item: any, index_: number) => {
+            return <li className={styles.list_children} style={{ lineHeight: '1rem' }} key={index_}>
+              <span>{item.Ranking}</span>
+              <span className={styles.constrol_place}>{item.FacilitatorName}</span>
+              <span>+{item.next_layout_num}</span>
+              <span>{item.now_score_num}%</span>
+            </li>
+          })
+        }
+      </ul>
+      {/* {
+        have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(2)}>加载更多</div> : <div className={styles.getmore} >暂无更多数据</div>
+      } */}
+
+      <div className={styles.store_help} onClick={() => router.push({ pathname: 'qr_code_page/rules' })}>帮助</div>
+
+      {/* <div className={styles.no_data}>
+        <div className={styles.text}>暂无服务商邀请数据</div>
+      </div> */}
+
+      {/* {
+        have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(2)}>加载更多</div> : null
+      } */}
+
+      {
+        !have_more && list.length ? <div className={styles.getmore} >暂无更多数据</div> : null
+      }
+
+      { //一条数据都无 呈现如下提示
+        !list.length && <div className={styles.no_data}>
+          <div className={styles.text}>暂无数据</div>
+        </div>
+      }
+
+    </main>
+  )
+}

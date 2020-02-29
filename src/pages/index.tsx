@@ -8,7 +8,7 @@ import { ListStoreQueue } from './qr_code_page/component/store_queue'//铺店队
 import { ListStreRecord } from './qr_code_page/component/store_record'//铺店记录
 import Filtrate from '../components/Filtrate/ql';//筛选组件
 import styles from './index.less';
-
+let time: any;
 export default class QrCodePage extends Component {
   state = {
 
@@ -78,9 +78,14 @@ export default class QrCodePage extends Component {
     this.dtectNewData()
   }
 
+  componentWillUnmount() {
+    clearTimeout(time)
+  }
+  
+
   // 每10秒检测 有无新数据
   dtectNewData = () => {
-    const time = setTimeout(() => {
+     time = setTimeout(() => {
       clearTimeout(time)
       this.dtectNewData()
       Request({

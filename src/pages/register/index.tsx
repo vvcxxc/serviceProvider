@@ -244,7 +244,8 @@ export default connect(({ register }: any) => register)(
                             Cookies.set("UserName", "", { expires: 1 });
                             Cookies.set("IDCardNumber", "", { expires: 1 });
                             Cookies.set("IDCardValidity", "", { expires: 1 });
-
+                            
+                            //路由
                             router.push('/chooseid')
                         })
                     } else {

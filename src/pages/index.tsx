@@ -159,7 +159,7 @@ export default class QrCodePage extends Component {
         default://铺店记录
           if (recordPage > 1 && !ban) return
           this.setState({
-            record_list: [...record_list, ...data.data],
+            record_list: recordPage > 1 ? [...record_list, ...data.data] : data.data,
             recordMore: data.data.length ? true : false
           })
           break;

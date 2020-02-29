@@ -81,18 +81,10 @@ export default class QrCodePage extends Component {
   componentWillUnmount() {
     clearTimeout(time)
   }
-<<<<<<< HEAD
 
   // 每10秒检测 有无新数据
   dtectNewData = () => {
     time = setTimeout(() => {
-=======
-  
-
-  // 每10秒检测 有无新数据
-  dtectNewData = () => {
-     time = setTimeout(() => {
->>>>>>> dev
       clearTimeout(time)
       this.dtectNewData()
       Request({

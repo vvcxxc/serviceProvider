@@ -105,12 +105,11 @@ export default class MyBank extends Component {
               )
           }
 
-          <Button className={styles.bindBtn} onClick={this.toChangeBank}>
-            {/* 更改银行卡 */}
+          {/* <Button className={styles.bindBtn} onClick={this.toChangeBank}>
             {
               this.state.is_show ? '更改银行卡' : '添加银行卡'
             }
-          </Button>
+          </Button> */}
         </WingBlank>
       </div>
     )

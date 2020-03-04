@@ -59,6 +59,25 @@ export function ListStoreQueue(params: any) {
       } */}
 
       <div className={styles.store_help} onClick={() => router.push({ pathname: 'qr_code_page/rules' })}>帮助</div>
+
+      {/* <div className={styles.no_data}>
+        <div className={styles.text}>暂无服务商邀请数据</div>
+      </div> */}
+
+      {/* {
+        have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(2)}>加载更多</div> : null
+      } */}
+
+      {
+        !have_more && list.length ? <div className={styles.getmore} >暂无更多数据</div> : null
+      }
+
+      { //一条数据都无 呈现如下提示
+        !list.length && <div className={styles.no_data}>
+          <div className={styles.text}>暂无数据</div>
+        </div>
+      }
+
     </main>
   )
 }

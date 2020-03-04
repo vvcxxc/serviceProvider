@@ -97,7 +97,6 @@ export default connect((tabbar: any) => tabbar)(
         type: 'tabbar/setTabShow',
         payload: false,
       })
-      console.log(this.props)
       // 打开时间选择器
       let tempList = this.state.dataList;
       for (let i = 0; i < tempList.length; i++) {

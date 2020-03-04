@@ -40,9 +40,21 @@ export function ListCode(params: any) {
           </ul>
         })
       }
+
       {
-        have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(0)}>加载更多</div> : <div className={styles.getmore} >暂无更多数据</div>
+        have_more ? <div className={styles.getmore} onClick={() => params.getWantMore(0)}>加载更多</div> : null
       }
+
+      {
+        !have_more && list.length ? <div className={styles.getmore} >暂无更多数据</div>:null
+      }
+
+      { //一条数据都无 呈现如下提示
+        !list.length && <div className={styles.no_data}>
+          <div className={styles.text}>暂无数据</div>
+        </div>
+      }
+      
     </main >
   )
 }

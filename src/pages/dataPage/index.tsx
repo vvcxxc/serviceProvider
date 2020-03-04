@@ -51,12 +51,14 @@ export default class DataPage extends Component {
         value.push(days[key])
       }
       let data = { xAxis, value }
+      console.log(data)
       this.setState({ countStats, data, total })
     })
   }
   getOption() {
     const { data } = this.state
     var endPercent = (6 / data.xAxis.length) * 100;
+    console.log(data,111)
     return {
       tooltip: {
         trigger: 'axis',
@@ -117,7 +119,7 @@ export default class DataPage extends Component {
         radius: '90%',
         data: data.value,
         type: 'line',
-      }]
+      }],
     }
   }
   /**
@@ -280,7 +282,7 @@ export default class DataPage extends Component {
       }
       let total = this.accAdd(countStats.codeStats, countStats.facilitatorStats)
       let data = { xAxis, value }
-      this.setState({ countStats, data, total })
+      this.setState({ countStats, data: data, total })
     })
 
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Icon, InputItem, List, ImagePicker, Toast } from 'antd-mobile';
+import Axios from 'axios';
 import router from 'umi/router';
 import styles from './index.less';
 import Cookies from 'js-cookie';
@@ -9,6 +10,7 @@ import idBack from '@/assets/upload_icon/id_back.png';
 import handId from '@/assets/upload_icon/hand_id.png';
 import bankFront from '@/assets/upload_icon/bank_front.png';
 import bankBack from '@/assets/upload_icon/bank_back.png';
+import request from '@/service/request';
 
 class Register extends Component {
 
@@ -54,9 +56,58 @@ class Register extends Component {
         DoubleDryBehindFilesBank: [],
         double_dry_img_url_behind_bank: "",
         DoubleDryisHaveImgBehindBank: false,
+
+
+        // 账户ID
+        id: 0,
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+
+        // 暂时
+        Axios.get('http://release.api.supplier.tdianyi.com/api/v2/up').then(res => {
+            let { data } = res.data;
+            let oss_data = {
+                policy: data.policy,
+                OSSAccessKeyId: data.accessid,
+                success_action_status: 200, //让服务端返回200,不然，默认会返回204
+                signature: data.signature,
+                callback: data.callback,
+                host: data.host,
+                key: data.dir
+            };
+            window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
+        })
+
+        await request({
+            url: '/sqAccount'
+        }).then(res => {
+            // console.log(res)
+            if (res.code == 200 && res.data != null) {
+                this.setState({
+                    DoubleDryUserName: res.data.identity_name,
+                    DoubleDryIDCardNumber: res.data.identity_no,
+                    DoubleDryIDCardValidity: res.data.identity_valid_time,
+                    DoubleDryIsHaveImgFrontID: true,
+                    double_dry_img_url_front_id: res.data.identity_face_img,
+                    DoubleDryIsHaveImgBehindID: true,
+                    double_dry_img_url_behind_id: res.data.identity_back_img,
+                    DoubleDryIsHaveImgFrontBehindID: true,
+                    double_dry_img_url_front_behind_id: res.data.identity_in_hand_img,
+                    DoubleDryUser: res.data.owner_name,
+                    DoubleDryBankCard: res.data.bankcard_no,
+                    DoubleDryBankName: res.data.bank_name,
+                    DoubleDrySubBranchBank: res.data.branch_address,
+                    DoubleDryisHaveImgFrontBank: true,
+                    double_dry_img_url_front_bank: res.data.bankcard_face_img,
+                    DoubleDryisHaveImgBehindBank: true,
+                    double_dry_img_url_behind_bank: res.data.bankcard_back_img,
+                    id: res.data.id
+                })
+            }
+        })
+
+
         /**
          * 姓名
          */
@@ -167,7 +218,7 @@ class Register extends Component {
             })
         ) : "";
 
-        
+
         /**
          * 正面银行卡
          */
@@ -459,6 +510,54 @@ class Register extends Component {
         Cookies.set("DoubleDryEditImgUrlBehindBank", JSON.stringify(""), { expires: 1 });
     }
 
+    /**
+     * 注册
+     */
+    handleRegister = () => {
+        const {
+            id,
+            DoubleDryUserName,
+            DoubleDryIDCardNumber,
+            DoubleDryIDCardValidity,
+            double_dry_img_url_front_id,
+            double_dry_img_url_behind_id,
+            double_dry_img_url_front_behind_id,
+            DoubleDryUser,
+            DoubleDryBankCard,
+            DoubleDryBankName,
+            DoubleDrySubBranchBank,
+            double_dry_img_url_front_bank,
+            double_dry_img_url_behind_bank
+        } = this.state;
+        request({
+            url: '/sqAccount',
+            method: "POST",
+            data: {
+                account_id: id,
+                identity_name: DoubleDryUserName,
+                identity_no: DoubleDryIDCardNumber,
+                identity_valid_time: DoubleDryIDCardValidity,
+                identity_face_img: double_dry_img_url_front_id,
+                identity_back_img: double_dry_img_url_behind_id,
+                identity_in_hand_img: double_dry_img_url_front_behind_id,
+                owner_name: DoubleDryUser,
+                bankcard_no: DoubleDryBankCard,
+                bank_name: DoubleDryBankName,
+                branch_address: DoubleDrySubBranchBank,
+                bankcard_face_img: double_dry_img_url_front_bank,
+                bankcard_back_img: double_dry_img_url_behind_bank
+            }
+        }).then(res => {
+            if (res.code == 200) {
+                Toast.success(res.message, 1,() => {
+                    router.push('/doubledry/bindcard');
+                });
+            } else {
+                Toast.fail(res.message, 1);
+            }
+        })
+    }
+
     render() {
         const { DoubleDryUserName,
             DoubleDryIDCardNumber,
@@ -485,7 +584,7 @@ class Register extends Component {
             DoubleDryisHaveImgBehindBank,
             double_dry_img_url_behind_bank,
             DoubleDryBehindFilesBank
-         } = this.state;
+        } = this.state;
 
         return (
             <div className={styles.register}>
@@ -672,7 +771,7 @@ class Register extends Component {
                 </div>
 
 
-                <div className={styles.register_btn}>注册</div>
+                <div className={styles.register_btn} onClick={this.handleRegister}>注册</div>
             </div>
         )
     }

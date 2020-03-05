@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { Icon, InputItem, List } from 'antd-mobile';
+import { Icon, InputItem, List, ImagePicker, Toast } from 'antd-mobile';
+import router from 'umi/router';
 import styles from './index.less';
 import Cookies from 'js-cookie';
+import upload from '@/service/oss';
+import idFront from '@/assets/upload_icon/id_front.png';
+import idBack from '@/assets/upload_icon/id_back.png';
+import handId from '@/assets/upload_icon/hand_id.png';
+import bankFront from '@/assets/upload_icon/bank_front.png';
+import bankBack from '@/assets/upload_icon/bank_back.png';
 
 class Register extends Component {
 
@@ -10,6 +17,43 @@ class Register extends Component {
         DoubleDryUserName: "",
         DoubleDryIDCardNumber: "",
         DoubleDryIDCardValidity: "",
+
+
+        // 身份证正面
+        DoubleDryFrontFiles: [],
+        double_dry_img_url_front_id: "",
+        DoubleDryIsHaveImgFrontID: false,
+
+        // 身份证反面
+        DoubleDryBehindFiles: [],
+        double_dry_img_url_behind_id: "",
+        DoubleDryIsHaveImgBehindID: false,
+
+        // 身份证正反面
+        DoubleDryFrontBehindFiles: [],
+        double_dry_img_url_front_behind_id: "",
+        DoubleDryIsHaveImgFrontBehindID: false,
+        isShowModal: false,
+
+        // 基本数据
+        DoubleDryUser: "",
+        DoubleDryBankCard: "",
+        DoubleDryBankName: "",
+        DoubleDrySubBranchBank: "",
+
+        isShowSubBranch: false,
+        subBranchBankArr: [],
+
+
+        // 银行卡正面
+        DoubleDryFrontFilesBank: [],
+        double_dry_img_url_front_bank: "",
+        DoubleDryisHaveImgFrontBank: false,
+
+        // 银行卡反面
+        DoubleDryBehindFilesBank: [],
+        double_dry_img_url_behind_bank: "",
+        DoubleDryisHaveImgBehindBank: false,
     }
 
     componentDidMount() {
@@ -39,6 +83,120 @@ class Register extends Component {
                 DoubleDryIDCardValidity: JSON.parse(Cookies.get("DoubleDryIDCardValidity"))
             })
         ) : "";
+
+        /**
+         * 正面身份证
+         */
+        Cookies.get("DoubleDryEditImgUrlFrontID") && JSON.parse(Cookies.get("DoubleDryEditImgUrlFrontID")) == "" ? (
+            this.setState({
+                double_dry_img_url_front_id: "",
+                DoubleDryIsHaveImgFrontID: false
+            })
+        ) : Cookies.get("DoubleDryEditImgUrlFrontID") ? (
+            this.setState({
+                double_dry_img_url_front_id: JSON.parse(Cookies.get("DoubleDryEditImgUrlFrontID")),
+                DoubleDryIsHaveImgFrontID: true
+            })
+        ) : "";
+
+        /**
+         * 反面身份证
+         */
+        Cookies.get("DoubleDryEditImgUrlBehindID") && JSON.parse(Cookies.get("DoubleDryEditImgUrlBehindID")) == "" ? (
+            this.setState({
+                double_dry_img_url_behind_id: "",
+                DoubleDryIsHaveImgBehindID: false
+            })
+        ) : Cookies.get("DoubleDryEditImgUrlBehindID") ? (
+            this.setState({
+                double_dry_img_url_behind_id: JSON.parse(Cookies.get("DoubleDryEditImgUrlBehindID")),
+                DoubleDryIsHaveImgBehindID: true
+            })
+        ) : "";
+
+        /**
+         * 正反面身份证
+         */
+        Cookies.get("DoubleDryEditImgUrlFrontBehindID") && JSON.parse(Cookies.get("DoubleDryEditImgUrlFrontBehindID")) == "" ? (
+            this.setState({
+                double_dry_img_url_front_behind_id: "",
+                DoubleDryIsHaveImgFrontBehindID: false
+            })
+        ) : Cookies.get("DoubleDryEditImgUrlFrontBehindID") ? (
+            this.setState({
+                double_dry_img_url_front_behind_id: JSON.parse(Cookies.get("DoubleDryEditImgUrlFrontBehindID")),
+                DoubleDryIsHaveImgFrontBehindID: true
+            })
+        ) : "";
+
+        /**
+         * 开户人
+         */
+        Cookies.get("DoubleDryUser") || Cookies.get("DoubleDryUser") == "" ? (
+            this.setState({
+                DoubleDryUser: Cookies.get("DoubleDryUser")
+            })
+        ) : "";
+
+        /**
+         * 银行卡号
+         */
+        Cookies.get("DoubleDryBankCard") || Cookies.get("DoubleDryBankCard") == "" ? (
+            this.setState({
+                DoubleDryBankCard: Cookies.get("DoubleDryBankCard")
+            })
+        ) : "";
+
+
+        /**
+         * 开户银行
+         */
+        Cookies.get("DoubleDryBankName") || Cookies.get("DoubleDryBankName") == "" ? (
+            this.setState({
+                DoubleDryBankName: Cookies.get("DoubleDryBankName")
+            })
+        ) : "";
+
+
+        /**
+         * 支行地址
+         */
+        Cookies.get("DoubleDrySubBranchBank") || Cookies.get("DoubleDrySubBranchBank") == "" ? (
+            this.setState({
+                DoubleDrySubBranchBank: Cookies.get("DoubleDrySubBranchBank")
+            })
+        ) : "";
+
+        
+        /**
+         * 正面银行卡
+         */
+        Cookies.get("DoubleDryEditImgUrlFrontBank") && JSON.parse(Cookies.get("DoubleDryEditImgUrlFrontBank")) == "" ? (
+            this.setState({
+                double_dry_img_url_front_bank: "",
+                DoubleDryisHaveImgFrontBank: false
+            })
+        ) : Cookies.get("DoubleDryEditImgUrlFrontBank") ? (
+            this.setState({
+                double_dry_img_url_front_bank: JSON.parse(Cookies.get("DoubleDryEditImgUrlFrontBank")),
+                DoubleDryisHaveImgFrontBank: true
+            })
+        ) : "";
+
+        /**
+         * 反面银行卡
+         */
+        Cookies.get("DoubleDryEditImgUrlBehindBank") && JSON.parse(Cookies.get("DoubleDryEditImgUrlBehindBank")) == "" ? (
+            this.setState({
+                double_dry_img_url_behind_bank: "",
+                DoubleDryisHaveImgBehindBank: false
+            })
+        ) : Cookies.get("DoubleDryEditImgUrlBehindBank") ? (
+            this.setState({
+                double_dry_img_url_behind_bank: JSON.parse(Cookies.get("DoubleDryEditImgUrlBehindBank")),
+                DoubleDryisHaveImgBehindBank: true
+            })
+        ) : "";
     }
 
     /**
@@ -65,11 +223,269 @@ class Register extends Component {
      * 有效期
      */
     chooseDate = () => {
-        // router.push('/submitQua/chooseDate?type=1')
+        router.push('/doubledry/chooseDate?type=1')
+    }
+
+    /**
+     * 上传身份证正面
+     */
+    handleIdCardFrontChange = (file: any) => {
+        if (file[0]) {
+            let img = file[0].url;
+            Toast.loading('正在上传中');
+            upload(img).then(res => {
+                Toast.hide();
+                Cookies.set("DoubleDryEditImgUrlFrontID", JSON.stringify(res.data.path), { expires: 1 });
+                this.setState({
+                    double_dry_img_url_front_id: res.data.path,
+                    DoubleDryIsHaveImgFrontID: true
+                })
+            })
+        }
+    }
+
+    /**
+     * 删除正面照按钮
+     */
+    handleCloseIdCardFront = () => {
+        this.setState({
+            double_dry_img_url_front_id: "",
+            DoubleDryIsHaveImgFrontID: false
+        })
+        Cookies.set("DoubleDryEditImgUrlFrontID", JSON.stringify(""), { expires: 1 });
+    }
+
+    /**
+     * 上传身份证反面
+     */
+    handleIdCardBehindChange = (file: any) => {
+        if (file[0]) {
+            let img = file[0].url;
+            Toast.loading('正在上传中');
+            upload(img).then(res => {
+                Toast.hide();
+                Cookies.set("DoubleDryEditImgUrlBehindID", JSON.stringify(res.data.path), { expires: 1 });
+                this.setState({
+                    double_dry_img_url_behind_id: res.data.path,
+                    DoubleDryIsHaveImgBehindID: true
+                })
+            })
+        }
+    }
+
+
+    /**
+     * 删除反面照按钮
+     */
+    handleCloseIdCardBehind = () => {
+        this.setState({
+            double_dry_img_url_behind_id: "",
+            DoubleDryIsHaveImgBehindID: false
+        })
+        Cookies.set("DoubleDryEditImgUrlBehindID", JSON.stringify(""), { expires: 1 });
+    }
+
+    /**
+     * 上传身份证正反面
+     */
+    handleIdCardFrontBehindChange = (file: any) => {
+        if (file[0]) {
+            let img = file[0].url;
+            Toast.loading('正在上传中');
+            upload(img).then(res => {
+                Toast.hide();
+                Cookies.set("DoubleDryEditImgUrlFrontBehindID", JSON.stringify(res.data.path), { expires: 1 });
+                this.setState({
+                    double_dry_img_url_front_behind_id: res.data.path,
+                    DoubleDryIsHaveImgFrontBehindID: true,
+                    isShowModal: false
+                })
+            })
+        }
+    }
+
+    /**
+     * 删除正反面照按钮
+     */
+    handleCloseIdCardFrontBehind = () => {
+        this.setState({
+            double_dry_img_url_front_behind_id: "",
+            DoubleDryIsHaveImgFrontBehindID: false
+        })
+        Cookies.set("DoubleDryEditImgUrlFrontBehindID", JSON.stringify(""), { expires: 1 });
+    }
+
+    /**
+     * 展示身份证示例
+     */
+    showModal = () => {
+        this.setState({
+            isShowModal: true
+        })
+    }
+
+    /**
+     * 隐藏身份证示例
+     */
+    handleHideModal = (e: any) => {
+        if (e.target == e.currentTarget) {
+            this.setState({
+                isShowModal: false
+            })
+        }
+    }
+
+
+    /**
+     * IOS失去焦点后回到顶部
+     */
+    hanldeBlurScrollTop = () => {
+        window.scrollTo(0, 0)
+    }
+
+    /**
+     * 支行
+     */
+    hanldeSubBranchBlur = () => {
+        window.scrollTo(0, 0);
+        // this.setState({
+        //     isShowSubBranch: false
+        // })
+    }
+
+    /**
+     * 设置用户人
+     */
+    handleUserChange = (e: any) => {
+        this.setState({
+            DoubleDryUser: e
+        })
+        Cookies.set("DoubleDryUser", e, { expires: 1 });
+    }
+
+    /**
+     * 设置卡号
+     */
+    handleBankCardChange = (e: any) => {
+        this.setState({
+            DoubleDryBankCard: e
+        })
+        Cookies.set("DoubleDryBankCard", e, { expires: 1 });
+    }
+
+    /**
+     * 设置银行
+     */
+    handleBankNameChange = (e: any) => {
+        this.setState({
+            DoubleDryBankName: e
+        })
+        Cookies.set("DoubleDryBankName", e, { expires: 1 });
+    }
+
+    /**
+     * 设置支行
+     */
+    handleSubBranchBankChange = (e: any) => {
+        Cookies.set("DoubleDrySubBranchBank", e, { expires: 1 });
+        this.setState({
+            DoubleDrySubBranchBank: e,
+        })
+        // Axios.get("http://test.api.supplier.tdianyi.com/v3/bankAddress").then(res => {
+        //     if (res.data.date.length != 0) {
+        //         this.setState({
+        //             isShowSubBranch: true,
+        //             subBranchBankArr: res.data.date
+        //         })
+        //     }
+        // })
+    }
+
+    /**
+     * 上传银行卡正面
+     */
+    handleBankCardFrontChange = (file: any) => {
+        if (file[0]) {
+            let img = file[0].url;
+            Toast.loading('正在上传中');
+            upload(img).then(res => {
+                Toast.hide();
+                Cookies.set("DoubleDryEditImgUrlFrontBank", JSON.stringify(res.data.path), { expires: 1 });
+                this.setState({
+                    double_dry_img_url_front_bank: res.data.path,
+                    DoubleDryisHaveImgFrontBank: true
+                })
+            })
+        }
+    }
+
+    /**
+     * 删除正面照按钮
+     */
+    handleCloseBankCardFront = () => {
+        this.setState({
+            double_dry_img_url_front_bank: "",
+            DoubleDryisHaveImgFrontBank: false
+        })
+        Cookies.set("DoubleDryEditImgUrlFrontBank", JSON.stringify(""), { expires: 1 });
+    }
+
+    /**
+     * 上传银行卡反面
+     */
+    handleBankCardBehindChange = (file: any) => {
+        if (file[0]) {
+            let img = file[0].url;
+            Toast.loading('正在上传中');
+            upload(img).then(res => {
+                Toast.hide();
+                Cookies.set("DoubleDryEditImgUrlBehindBank", JSON.stringify(res.data.path), { expires: 1 });
+                this.setState({
+                    double_dry_img_url_behind_bank: res.data.path,
+                    DoubleDryisHaveImgBehindBank: true
+                })
+            })
+        }
+    }
+
+    /**
+     * 删除反面照按钮
+     */
+    handleCloseBankCardBehind = () => {
+        this.setState({
+            double_dry_img_url_behind_bank: "",
+            DoubleDryisHaveImgBehindBank: false
+        })
+        Cookies.set("DoubleDryEditImgUrlBehindBank", JSON.stringify(""), { expires: 1 });
     }
 
     render() {
-        const { DoubleDryUserName, DoubleDryIDCardNumber, DoubleDryIDCardValidity } = this.state;
+        const { DoubleDryUserName,
+            DoubleDryIDCardNumber,
+            DoubleDryIDCardValidity,
+            DoubleDryIsHaveImgFrontID,
+            double_dry_img_url_front_id,
+            DoubleDryFrontFiles,
+            DoubleDryIsHaveImgBehindID,
+            double_dry_img_url_behind_id,
+            DoubleDryBehindFiles,
+            DoubleDryIsHaveImgFrontBehindID,
+            double_dry_img_url_front_behind_id,
+            isShowModal,
+            DoubleDryFrontBehindFiles,
+            DoubleDryUser,
+            DoubleDryBankCard,
+            DoubleDryBankName,
+            DoubleDrySubBranchBank,
+            isShowSubBranch,
+            subBranchBankArr,
+            DoubleDryisHaveImgFrontBank,
+            double_dry_img_url_front_bank,
+            DoubleDryFrontFilesBank,
+            DoubleDryisHaveImgBehindBank,
+            double_dry_img_url_behind_bank,
+            DoubleDryBehindFilesBank
+         } = this.state;
 
         return (
             <div className={styles.register}>
@@ -86,14 +502,177 @@ class Register extends Component {
 
                 <div className={styles.id_card}>
                     {/* 数据项 */}
-                    <div className={styles}>
-                        <List>
-                            <InputItem placeholder='请输入您的真实姓名' onChange={this.handleDoubleDryUserNameChange.bind(this)} value={DoubleDryUserName} clear>真实姓名</InputItem>
-                            <InputItem placeholder='请输入您的身份证号' onChange={this.handleDoubleDryIDCardNumberChange.bind(this)} value={DoubleDryIDCardNumber} clear>身份证号</InputItem>
-                            <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={DoubleDryIDCardValidity}>有效期</InputItem>
-                        </List>
-                    </div>
+
+
+                    <List>
+                        <div className={styles.title}>
+                            <div className={styles.logo}></div>
+                            <div>请输入身份证信息</div>
+                        </div>
+                        <InputItem placeholder='请输入您的真实姓名' onChange={this.handleDoubleDryUserNameChange.bind(this)} value={DoubleDryUserName} clear>真实姓名</InputItem>
+                        <InputItem placeholder='请输入您的身份证号' onChange={this.handleDoubleDryIDCardNumberChange.bind(this)} value={DoubleDryIDCardNumber} clear>身份证号</InputItem>
+                        <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={DoubleDryIDCardValidity}>有效期</InputItem>
+                        <div className={styles.title}>请拍照上传您的二代身份证</div>
+                        <div className={styles.idcard_imagepicker}>
+                            {/* 身份证正面照 */}
+                            {
+                                DoubleDryIsHaveImgFrontID ?
+                                    <div className={styles.preview_wrap}>
+                                        <img src={"http://oss.tdianyi.com/" + double_dry_img_url_front_id} alt="" className={styles.preview_img} />
+                                        <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardFront} />
+                                    </div>
+                                    :
+                                    <div className={styles.image_picker}>
+                                        <ImagePicker
+                                            files={DoubleDryFrontFiles}
+                                            onChange={this.handleIdCardFrontChange}
+                                            onImageClick={(index, fs) => console.log(index, fs)}
+                                            selectable={DoubleDryFrontFiles.length < 1}
+                                            length={1}
+                                            className={styles.image_picker_comp}
+                                        />
+                                        <img src={idFront} alt="" className={styles.image_bg} />
+                                        <div className={styles.image_desc}>请上传身份证正面</div>
+                                    </div>
+                            }
+                            {/* 身份证反面照 */}
+                            {
+                                DoubleDryIsHaveImgBehindID ?
+                                    <div className={styles.preview_wrap}>
+                                        <img src={"http://oss.tdianyi.com/" + double_dry_img_url_behind_id} alt="" className={styles.preview_img} />
+                                        <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardBehind} />
+                                    </div>
+                                    :
+                                    <div className={styles.image_picker}>
+                                        <ImagePicker
+                                            files={DoubleDryBehindFiles}
+                                            onChange={this.handleIdCardBehindChange}
+                                            onImageClick={(index, fs) => console.log(index, fs)}
+                                            selectable={DoubleDryBehindFiles.length < 1}
+                                            length={1}
+                                            className={styles.image_picker_comp}
+                                        />
+                                        <img src={idBack} alt="" className={styles.image_bg} />
+                                        <div className={styles.image_desc}>请上传身份证反面</div>
+                                    </div>
+                            }
+                        </div>
+                        <div className={styles.handInIDCard}>
+                            {/* 身份证正反面 */}
+                            {
+                                DoubleDryIsHaveImgFrontBehindID ?
+                                    <div className={styles.preview_wrap}>
+                                        <img src={"http://oss.tdianyi.com/" + double_dry_img_url_front_behind_id} alt="" className={styles.preview_img} />
+                                        <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseIdCardFrontBehind} />
+                                    </div>
+                                    :
+                                    (<div className={styles.image_picker} onClick={this.showModal}>
+                                        <img src={handId} alt="" className={styles.image_bg} />
+                                        <div className={styles.image_desc}>请上传手持身份证照片</div>
+                                    </div>)
+                            }
+                        </div>
+                    </List>
+
+
+                    {/* IDModal */}
+                    {
+                        isShowModal ? (<div className={styles.modal_wrap} onClick={this.handleHideModal}>
+                            <div className={styles.modal_container}>
+                                <div className={styles.modal_exeample}>
+                                    <div className={styles.modal_title}>证件上传示例</div>
+                                    <div className={styles.modal_pic}><img src={require('@/assets/upload_icon/idcard.png')} /></div>
+                                    <div className={styles.modal_desc}>四角完整，亮度均匀，照片清晰</div>
+                                </div>
+                                <div className={styles.modal_btn_tool}>
+                                    <div className={styles.modal_btn}>知道了</div>
+                                    <ImagePicker
+                                        onChange={this.handleIdCardFrontBehindChange}
+                                        onImageClick={(index, fs) => console.log(index, fs)}
+                                        selectable={DoubleDryFrontBehindFiles.length < 1}
+                                        length={1}
+                                        className={styles.image_picker_front_behind}
+                                    />
+                                </div>
+                            </div>
+                        </div>) : null
+                    }
+
                 </div>
+
+
+                <div className={styles.bank_card}>
+                    {/* 数据项 */}
+                    <List className={styles.inputBox}>
+                        <div className={styles.title}>
+                            <div className={styles.logo}></div>
+                            <div>请输入银行卡信息</div>
+                        </div>
+                        <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleUserChange.bind(this)} value={DoubleDryUser} placeholder='请输入开户人' clear>开户人</InputItem>
+                        <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankCardChange.bind(this)} value={DoubleDryBankCard} placeholder='请输入银行卡号' clear>银行卡号</InputItem>
+                        <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankNameChange.bind(this)} value={DoubleDryBankName} placeholder='请输入开户银行' clear>开户银行</InputItem>
+                        <div className={styles.subbranch_bank}>
+                            <InputItem onBlur={this.hanldeSubBranchBlur.bind(this)} onChange={this.handleSubBranchBankChange.bind(this)} value={DoubleDrySubBranchBank} placeholder='请输入支行地址' clear>支行地址</InputItem>
+                            {
+                                isShowSubBranch ? (
+                                    <div className={styles.search_wrap}>
+                                        <List className={styles.search_result}>
+                                            {
+                                                subBranchBankArr.map(item => (
+                                                    <List.Item key={item.ids}>{item.name}</List.Item>
+                                                ))
+                                            }
+                                        </List>
+                                    </div>
+                                ) : ""
+                            }
+                        </div>
+                        <div className={styles.title}>请绑定持卡人本人的银行卡</div>
+                        <div className={styles.bankcard_imagepicker}>
+                            {/* 银行卡正面 */}
+                            {
+                                DoubleDryisHaveImgFrontBank ?
+                                    <div className={styles.preview_wrap}>
+                                        <img src={"http://oss.tdianyi.com/" + double_dry_img_url_front_bank} alt="" className={styles.preview_img} />
+                                        <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseBankCardFront} />
+                                    </div>
+                                    :
+                                    <div className={styles.image_picker}>
+                                        <ImagePicker
+                                            onChange={this.handleBankCardFrontChange}
+                                            selectable={DoubleDryFrontFilesBank.length < 1}
+                                            length={1}
+                                            className={styles.image_picker_comp}
+                                        />
+                                        <img src={bankFront} alt="" className={styles.image_bg} />
+                                        <div className={styles.image_desc}>拍摄银行卡正面</div>
+                                    </div>
+                            }
+                            {
+                                DoubleDryisHaveImgBehindBank ?
+                                    <div className={styles.preview_wrap}>
+                                        <img src={"http://oss.tdianyi.com/" + double_dry_img_url_behind_bank} alt="" className={styles.preview_img} />
+                                        <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseBankCardBehind} />
+                                    </div>
+                                    :
+                                    <div className={styles.image_picker}>
+                                        <ImagePicker
+                                            onChange={this.handleBankCardBehindChange}
+                                            selectable={DoubleDryBehindFilesBank.length < 1}
+                                            length={1}
+                                            className={styles.image_picker_comp}
+                                        />
+                                        <img src={bankBack} alt="" className={styles.image_bg} />
+                                        <div className={styles.image_desc}>拍摄银行卡反面</div>
+                                    </div>
+                            }
+
+                        </div>
+                    </List>
+                </div>
+
+
+                <div className={styles.register_btn}>注册</div>
             </div>
         )
     }

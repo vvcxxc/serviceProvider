@@ -1,13 +1,26 @@
 /**title: 修改手机号 */
 import React, { Component } from 'react';
 import styles from './index.less'
-import { Toast, WhiteSpace, WingBlank, Button, Flex, Icon } from 'antd-mobile';
+import { Toast, WhiteSpace, WingBlank, Button, Flex, Icon, Modal, Checkbox } from 'antd-mobile';
 import Request from '@/service/request';
 import qs from 'qs';
 import router from 'umi/router';
 import Cookies from 'js-cookie';
 
 let timer = null;
+const AgreeItem = Checkbox.AgreeItem;
+
+function closest(el, selector) {
+    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+    while (el) {
+        if (matchesSelector.call(el, selector)) {
+            return el;
+        }
+        el = el.parentElement;
+    }
+    return null;
+}
+
 
 export default class bindPhoneNumber extends Component {
 
@@ -18,7 +31,10 @@ export default class bindPhoneNumber extends Component {
         code: "",
         is_ok: true,
         wait: "",
-        bank_no: ''
+        bank_no: '',
+        showModal: false,
+
+        isAgree: false
     }
 
     // 销毁定时器
@@ -38,46 +54,89 @@ export default class bindPhoneNumber extends Component {
         })
     }
 
-    handleSendCode = () => {
-        const { phone } = this.state;
-        if (!(/^1[3456789]\d{9}$/.test(phone))) {
-            Toast.fail('请输入11位有效手机号', 1);
+    onWrapTouchStart = (e) => {
+        // fix touch to scroll background page on iOS
+        if (!/iPhone|iPod|iPad/i.test(navigator.userAgent)) {
             return;
         }
-        let wait = 60;
-        if (phone) {
-            let _this = this;
-            function resend() {
-                if (wait == 0) {
-                    _this.setState({ is_ok: true });
-                    clearInterval(timer)
-                } else {
-                    wait--;
-                    _this.setState({ is_ok: false, wait });
-                    clearInterval();
-                }
+        const pNode = closest(e.target, '.am-modal-content');
+        if (!pNode) {
+            e.preventDefault();
+        }
+    }
+
+    onClose = key => () => {
+        this.setState({
+            [key]: false,
+        });
+    }
+
+    handleAfterClose = () => {
+        this.setState({
+            isAgree: false
+        })
+    }
+
+    handleIsAgree = (e) => {
+        this.setState({
+            isAgree: e.target.checked
+        })
+    }
+
+
+    handleSendCodeModal = () => {
+        this.setState({
+            showModal: true
+        })
+    }
+
+    handleSendCode = () => {
+        // console.log(this.state.isAgree)
+        const { isAgree } = this.state;
+        if (isAgree) {
+            const { phone } = this.state;
+            if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                Toast.fail('请输入11位有效手机号', 1);
+                return;
             }
-            resend();
-            timer = setInterval(() => {
-                resend()
-            }, 1000);
-            Request({
-                url: 'verifyCode',
-                method: 'post',
-                data: qs.stringify({
-                    phone
-                })
-            }).then(res => {
-                if (res.code == 200) {
-                    Toast.success('验证码已发送');
-                } else {
-                    _this.setState({ is_ok: true });
-                    clearInterval(timer);
-                    Toast.fail(res.message);
+            let wait = 60;
+            if (phone) {
+                let _this = this;
+                function resend() {
+                    if (wait == 0) {
+                        _this.setState({ is_ok: true });
+                        clearInterval(timer)
+                    } else {
+                        wait--;
+                        _this.setState({ is_ok: false, wait });
+                        clearInterval();
+                    }
                 }
-            })
-        } else {
-            Toast.fail('请输入手机号', 1)
+                resend();
+                timer = setInterval(() => {
+                    resend()
+                }, 1000);
+                Request({
+                    url: 'verifyCode',
+                    method: 'post',
+                    data: qs.stringify({
+                        phone
+                    })
+                }).then(res => {
+                    if (res.code == 200) {
+                        Toast.success('验证码已发送');
+                        this.setState({
+                            isAgree: false
+                        })
+                    } else {
+                        _this.setState({ is_ok: true });
+                        clearInterval(timer);
+                        Toast.fail(res.message);
+                    }
+                })
+            } else {
+                Toast.fail('请输入手机号', 1)
+            }
         }
     }
 
@@ -123,7 +182,7 @@ export default class bindPhoneNumber extends Component {
         return s.slice(0, start) + newStr + s.slice(start);
     }
     render() {
-        const { phone, code, is_ok, wait } = this.state;
+        const { phone, code, is_ok, wait, isAgree } = this.state;
         return (
             <div className={styles.bind_phone}>
                 <div className={styles.register_step}>
@@ -156,7 +215,7 @@ export default class bindPhoneNumber extends Component {
                                 <input className={styles.input2} type="text" placeholder="请输入验证码" onChange={this.handleChangeCode} value={code} />
                                 {
                                     is_ok ? (
-                                        <div className={styles.sendButton} onClick={this.handleSendCode}>发送验证码</div>
+                                        <div className={styles.sendButton} onClick={this.handleSendCodeModal}>发送验证码</div>
                                     ) : (
                                             <div className={styles.sendButton}> {wait}s后重新获取</div>
                                         )
@@ -167,6 +226,41 @@ export default class bindPhoneNumber extends Component {
                     </div>
                     <div id="success"></div>
                 </div>
+
+
+
+
+                <Modal
+                    visible={this.state.showModal}
+                    transparent
+                    closable
+                    maskClosable={false}
+                    // title="绑卡提示"
+                    onClose={this.onClose('showModal')}
+                    // footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('showModal')(); } }]}
+                    wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+                    afterClose={this.handleAfterClose}
+                >
+                    <div className={styles.modal}>
+                        <div className={styles.title}>绑卡提示</div>
+                        <div className={styles.icon}>
+                            <img src={require('@/assets/dingding.png')} alt="" />
+                        </div>
+                        <div className={styles.text_tips}>当前绑定操作银行卡会收到双乾电子账户验证短信，通过验证后，即可完成绑卡</div>
+                        <AgreeItem data-seed="logId" onChange={this.handleIsAgree}>
+                            勾选并同意开通双乾电子账户
+                        </AgreeItem>
+                        <div className={styles.agree}>
+                            <div className={styles.agree_info}>以下协议内容请您务必审慎阅读，并充分理解协议条款内容</div>
+                            <div className={styles.agree_rules}>
+                                <a>《双乾电子账户说明》</a>
+                                <a>《双乾支付客户端及支付服务协议》</a>
+                                <a>《双乾支付隐私协议》</a>
+                            </div>
+                        </div>
+                        <div className={styles.submit_btn} style={isAgree ? { background: '#4486F7' } : { background: '#ADB5BD' }} onClick={this.handleSendCode}>提交</div>
+                    </div>
+                </Modal>
             </div>
         )
     }

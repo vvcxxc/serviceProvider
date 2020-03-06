@@ -80,7 +80,7 @@ class Register extends Component {
         })
 
         await request({
-            url: '/sqAccount'
+            url: 'sqAccount'
         }).then(res => {
             // console.log(res)
             if (res.code == 200 && res.data != null) {
@@ -537,7 +537,7 @@ class Register extends Component {
             double_dry_img_url_behind_bank
         } = this.state;
         request({
-            url: '/sqAccount',
+            url: 'sqAccount',
             method: "POST",
             data: {
                 account_id: id,

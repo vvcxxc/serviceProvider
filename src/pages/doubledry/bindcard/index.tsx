@@ -37,7 +37,10 @@ export default class bindPhoneNumber extends Component {
         isAgree: false,
         showAgree: false,
 
-        agreementDesc: ""
+        agreementDesc: "",
+
+        // 流水号
+        seqNo: "",
     }
 
     // 销毁定时器
@@ -120,7 +123,7 @@ export default class bindPhoneNumber extends Component {
                     resend()
                 }, 1000);
                 Request({
-                    url: 'verifyCode',
+                    url: 'getBindingSqBankCardCode',
                     method: 'post',
                     data: qs.stringify({
                         phone
@@ -130,10 +133,15 @@ export default class bindPhoneNumber extends Component {
                         Toast.success('验证码已发送');
                         this.setState({
                             isAgree: false,
-                            showModal: false
+                            showModal: false,
+                            seqNo: res.data.seqNo
                         })
                     } else {
-                        _this.setState({ is_ok: true });
+                        _this.setState({
+                            is_ok: true,
+                            isAgree: false,
+                            showModal: false
+                        });
                         clearInterval(timer);
                         Toast.fail(res.message);
                     }
@@ -145,7 +153,7 @@ export default class bindPhoneNumber extends Component {
     }
 
     handleNext = () => {
-        const { phone, code } = this.state;
+        const { phone, code, seqNo } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
             return;
@@ -155,19 +163,21 @@ export default class bindPhoneNumber extends Component {
             return;
         }
         Request({
-            url: 'bindBankMobile',
+            url: 'submitBindingSqBankCardCode',
             method: "POST",
             data: qs.stringify({
-                bankcard_no: this.state.bank_no,
-                verify_code: code,
-                mobile: phone
+                // bankcard_no: this.state.bank_no,
+                // verify_code: code,
+                // mobile: phone
+                seqNo: seqNo,
+                smsCode: code
             })
         }).then(res => {
             if (res.code == 200) {
                 //submitType==1绑定成功,2失败
-                router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 1 } })
+                // router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 1 } })
             } else {
-                router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 2 } })
+                // router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 2 } })
             }
         })
 

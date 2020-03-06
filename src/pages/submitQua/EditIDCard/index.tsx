@@ -82,7 +82,7 @@ class IDCard extends Component {
           img_url_front_behind_id: res.data.in_hand_img,
           isHaveImgFrontBehindID: res.data.in_hand_img ? true : false,
 
-          UserName: res.data.name,
+          UserName: res.data.identity_name,
 
           IDCardNumber: res.data.identity_no,
 
@@ -347,7 +347,7 @@ class IDCard extends Component {
         url: "auth/uploadIdentity",
         method: "POST",
         data: qs.stringify({
-          name: UserName,
+          identity_name: UserName,
           identity_no: IDCardNumber,
           identity_valid_time: IDCardValidity,
           in_hand_img: img_url_front_behind_id,
@@ -369,7 +369,7 @@ class IDCard extends Component {
         url: "auth/uploadIdentity",
         method: "POST",
         data: qs.stringify({
-          name: UserName,
+          identity_name: UserName,
           identity_no: IDCardNumber,
           identity_valid_time: IDCardValidity,
           in_hand_img: img_url_front_behind_id,

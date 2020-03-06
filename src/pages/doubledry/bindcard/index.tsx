@@ -126,7 +126,8 @@ export default class bindPhoneNumber extends Component {
                     if (res.code == 200) {
                         Toast.success('验证码已发送');
                         this.setState({
-                            isAgree: false
+                            isAgree: false,
+                            showModal: false
                         })
                     } else {
                         _this.setState({ is_ok: true });

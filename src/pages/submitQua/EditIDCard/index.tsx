@@ -74,13 +74,13 @@ class IDCard extends Component {
       if (res.code == 200 && res.data != null) {
         this.setState({
           img_url_front_id: res.data.identity_face_img,
-          isHaveImgFrontID: true,
+          isHaveImgFrontID: res.data.identity_face_img ? true : false,
 
           img_url_behind_id: res.data.identity_back_img,
-          isHaveImgBehindID: true,
+          isHaveImgBehindID: res.data.identity_back_img ? true : false,
 
           img_url_front_behind_id: res.data.in_hand_img,
-          isHaveImgFrontBehindID: true,
+          isHaveImgFrontBehindID: res.data.in_hand_img ? true : false,
 
           UserName: res.data.name,
 

@@ -88,20 +88,27 @@ class Register extends Component {
                     DoubleDryUserName: res.data.identity_name,
                     DoubleDryIDCardNumber: res.data.identity_no,
                     DoubleDryIDCardValidity: res.data.identity_valid_time,
-                    DoubleDryIsHaveImgFrontID: true,
+
+                    DoubleDryIsHaveImgFrontID: res.data.identity_face_img ? true : false,
                     double_dry_img_url_front_id: res.data.identity_face_img,
-                    DoubleDryIsHaveImgBehindID: true,
+
+                    DoubleDryIsHaveImgBehindID: res.data.identity_back_img ? true : false,
                     double_dry_img_url_behind_id: res.data.identity_back_img,
-                    DoubleDryIsHaveImgFrontBehindID: true,
+
+                    DoubleDryIsHaveImgFrontBehindID: res.data.identity_in_hand_img ? true : false,
                     double_dry_img_url_front_behind_id: res.data.identity_in_hand_img,
+
                     DoubleDryUser: res.data.owner_name,
                     DoubleDryBankCard: res.data.bankcard_no,
                     DoubleDryBankName: res.data.bank_name,
                     DoubleDrySubBranchBank: res.data.branch_address,
-                    DoubleDryisHaveImgFrontBank: true,
+
+                    DoubleDryisHaveImgFrontBank: res.data.bankcard_face_img ? true : false,
                     double_dry_img_url_front_bank: res.data.bankcard_face_img,
-                    DoubleDryisHaveImgBehindBank: true,
+
+                    DoubleDryisHaveImgBehindBank: res.data.bankcard_back_img ? true : false,
                     double_dry_img_url_behind_bank: res.data.bankcard_back_img,
+
                     id: res.data.id
                 })
             }
@@ -549,7 +556,7 @@ class Register extends Component {
             }
         }).then(res => {
             if (res.code == 200) {
-                Toast.success(res.message, 1,() => {
+                Toast.success(res.message, 1, () => {
                     router.push('/doubledry/bindcard');
                 });
             } else {

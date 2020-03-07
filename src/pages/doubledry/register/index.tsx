@@ -60,6 +60,8 @@ class Register extends Component {
 
         // 账户ID
         id: 0,
+
+        payplatform_check_status: 0,
     }
 
     async componentDidMount() {
@@ -85,6 +87,7 @@ class Register extends Component {
             // console.log(res)
             if (res.code == 200 && res.data != null) {
                 this.setState({
+                    payplatform_check_status: res.data.payplatform_check_status,
                     DoubleDryUserName: res.data.identity_name,
                     DoubleDryIDCardNumber: res.data.identity_no,
                     DoubleDryIDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time,
@@ -110,6 +113,10 @@ class Register extends Component {
                     double_dry_img_url_behind_bank: res.data.bankcard_back_img,
 
                     id: res.data.id
+                },() => {
+                    if(this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1) {
+                       router.push('/doubledry/audit');
+                    }
                 })
             }
         })

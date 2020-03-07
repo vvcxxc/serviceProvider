@@ -38,6 +38,7 @@ export default class PersonalInformation extends Component {
         }).catch((err) => {
             Toast.fail('请求失败', 1)
         })
+        
     }
 
     //修改密码

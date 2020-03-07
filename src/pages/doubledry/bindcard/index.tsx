@@ -131,7 +131,7 @@ export default class bindPhoneNumber extends Component {
                 }).then(res => {
                     if (res.code == 200) {
                         Toast.success('验证码已发送');
-                        this.setState({
+                        _this.setState({
                             isAgree: false,
                             showModal: false,
                             seqNo: res.data.seqNo
@@ -206,15 +206,29 @@ export default class bindPhoneNumber extends Component {
 
     componentWillMount() {
         clearInterval(timer);
-        if (this.props.location.query.bankCode) {
-            let occurTime = String(this.props.location.query.bankCode);
-            let code = this.insertStr(this.insertStr(this.insertStr(this.insertStr(this.insertStr(occurTime, 4, " "), 9, " "), 14, " "), 19, " "), 24, " ");
-            this.setState({ bank_no: code })
-        }
+        // if (this.props.location.query.bankCode) {
+        //     let occurTime = String(this.props.location.query.bankCode);
+        //     let code = this.insertStr(this.insertStr(this.insertStr(this.insertStr(this.insertStr(occurTime, 4, " "), 9, " "), 14, " "), 19, " "), 24, " ");
+        //     this.setState({ bank_no: code })
+        // }
+        this.getBankNo();
     }
     insertStr = (s: string, start: number, newStr: string) => {
         return s.slice(0, start) + newStr + s.slice(start);
     }
+
+    getBankNo = () => {
+        Request({
+            url: 'sqAccount'
+        }).then(res => {
+            if (res.code == 200) {
+                let occurTime = String(res.data.bankcard_no);
+                let code = this.insertStr(this.insertStr(this.insertStr(this.insertStr(this.insertStr(occurTime, 4, " "), 9, " "), 14, " "), 19, " "), 24, " ");
+                this.setState({ bank_no: code })
+            }
+        })
+    }
+
     render() {
         const { phone, code, is_ok, wait, isAgree } = this.state;
         return (
@@ -229,14 +243,11 @@ export default class bindPhoneNumber extends Component {
                     <div className={styles.unactive_step}>3</div>
                     <div className={styles.unactive_text}>提现确认</div>
                 </div>
-                {
-                    this.props.location.query.bankCode ? (
-                        <div className={styles.bank_card}>
-                            <span>银行卡号：</span>
-                            <span>{this.state.bank_no}</span>
-                        </div>
-                    ) : ""
-                }
+
+                <div className={styles.bank_card}>
+                    <span>银行卡号：</span>
+                    <span>{this.state.bank_no}</span>
+                </div>
 
                 <div className={styles.phoneNumber}>
                     <div className={styles.passwordBox}>

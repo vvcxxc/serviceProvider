@@ -18,7 +18,9 @@ export default class WithDraw extends Component {
         code: "",
         is_ok: true,
         wait: "",
-        bank_no: ''
+        bank_no: '',
+
+        seqNoForAuto: '',
     }
 
     // 销毁定时器
@@ -62,7 +64,7 @@ export default class WithDraw extends Component {
                 resend()
             }, 1000);
             Request({
-                url: 'verifyCode',
+                url: 'v1/sq/get_auto_fetch_code',
                 method: 'post',
                 data: qs.stringify({
                     phone
@@ -70,8 +72,13 @@ export default class WithDraw extends Component {
             }).then(res => {
                 if (res.code == 200) {
                     Toast.success('验证码已发送');
+                    _this.setState({
+                        seqNoForAuto: res.data.seqNoForAuto
+                    })
                 } else {
-                    _this.setState({ is_ok: true });
+                    _this.setState({
+                        is_ok: true
+                    });
                     clearInterval(timer);
                     Toast.fail(res.message);
                 }
@@ -82,7 +89,7 @@ export default class WithDraw extends Component {
     }
 
     handleNext = () => {
-        const { phone, code } = this.state;
+        const { phone, code, seqNoForAuto } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
             return;
@@ -92,19 +99,20 @@ export default class WithDraw extends Component {
             return;
         }
         Request({
-            url: 'bindBankMobile',
+            url: 'v1/sq/submit_auto_fetch_code',
             method: "POST",
             data: qs.stringify({
-                bankcard_no: this.state.bank_no,
-                verify_code: code,
-                mobile: phone
+                // bankcard_no: this.state.bank_no,
+                // verify_code: code,
+                // mobile: phone
+                seqNoForAuto: seqNoForAuto,
+                smsCode: code
             })
         }).then(res => {
             if (res.code == 200) {
-                //submitType==1绑定成功,2失败
-                router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 1 } })
+              
             } else {
-                router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 2 } })
+                Toast.fail(res.message);
             }
         })
 

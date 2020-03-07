@@ -557,7 +557,8 @@ class Register extends Component {
         }).then(res => {
             if (res.code == 200) {
                 Toast.success(res.message, 1, () => {
-                    router.push(`/doubledry/bindcard?bankCode=${DoubleDryBankCard}`);
+                    // router.push(`/doubledry/bindcard?bankCode=${DoubleDryBankCard}`);
+                    router.push('/doubledry/bindcard');
                 });
             } else {
                 Toast.fail(res.message, 1);

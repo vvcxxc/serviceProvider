@@ -123,7 +123,7 @@ export default class WithDraw extends Component {
           //     case 200:
           //       this.setState({
           //         is_bind: true,
-          //         data,
+          //         data, 
           //         all_money: data.usable_money
           //       })
           //       break;

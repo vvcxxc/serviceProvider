@@ -87,7 +87,7 @@ class Register extends Component {
                 this.setState({
                     DoubleDryUserName: res.data.identity_name,
                     DoubleDryIDCardNumber: res.data.identity_no,
-                    DoubleDryIDCardValidity: res.data.identity_valid_time,
+                    DoubleDryIDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time,
 
                     DoubleDryIsHaveImgFrontID: res.data.identity_face_img ? true : false,
                     double_dry_img_url_front_id: res.data.identity_face_img,
@@ -543,7 +543,8 @@ class Register extends Component {
                 account_id: id,
                 identity_name: DoubleDryUserName,
                 identity_no: DoubleDryIDCardNumber,
-                identity_valid_time: DoubleDryIDCardValidity,
+                identity_valid_time: DoubleDryIDCardValidity == "长期" ? "" : DoubleDryIDCardValidity,
+                identity_is_long_time: DoubleDryIDCardValidity == "长期" ? 1 : 0,
                 identity_face_img: double_dry_img_url_front_id,
                 identity_back_img: double_dry_img_url_behind_id,
                 identity_in_hand_img: double_dry_img_url_front_behind_id,
@@ -558,7 +559,8 @@ class Register extends Component {
             if (res.code == 200) {
                 Toast.success(res.message, 1, () => {
                     // router.push(`/doubledry/bindcard?bankCode=${DoubleDryBankCard}`);
-                    router.push('/doubledry/bindcard');
+                    // router.push('/doubledry/bindcard');
+                    router.push('/doubledry/audit');
                 });
             } else {
                 Toast.fail(res.message, 1);

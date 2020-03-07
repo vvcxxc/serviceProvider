@@ -311,7 +311,7 @@ class BankCard extends Component {
 
     Request({
       method: 'post',
-      url: 'auth/setBankInfo',
+      url: 'setBankInfo',
       params: {
         bank_name: bankName,
         bankcard_no: bankCard,
@@ -323,7 +323,13 @@ class BankCard extends Component {
     }).then(res => {
       if (res.code == 200) {
         Toast.success(res.message, 2, () => {
-          router.push('/login')
+          Cookies.remove("ImgUrlFront");
+          Cookies.remove("ImgUrlBehind");
+          Cookies.remove("User");
+          Cookies.remove("bankCard");
+          Cookies.remove("bankName");
+          Cookies.remove("subBranchBank");
+          router.push('/login');
         });
       } else {
         Toast.fail(res.message, 1);
@@ -371,9 +377,9 @@ class BankCard extends Component {
           </List>
 
           <div className={styles.pickerBox}>
-          <div className={styles.bankcard_title}>
-            <span>请绑定持卡人本人的银行卡</span>
-          </div>
+            <div className={styles.bankcard_title}>
+              <span>请绑定持卡人本人的银行卡</span>
+            </div>
             <div className={styles.bankcard_imagepicker}>
               {/* 银行卡正面 */}
               {
@@ -390,7 +396,7 @@ class BankCard extends Component {
                       length={1}
                       className={styles.image_picker_comp}
                     />
-                    <img src={bankFront} alt="" className={styles.image_bg}/>
+                    <img src={bankFront} alt="" className={styles.image_bg} />
                     <div className={styles.image_desc}>拍摄银行卡正面</div>
                   </div>
               }
@@ -408,7 +414,7 @@ class BankCard extends Component {
                       length={1}
                       className={styles.image_picker_comp}
                     />
-                    <img src={bankBack} alt="" className={styles.image_bg}/>
+                    <img src={bankBack} alt="" className={styles.image_bg} />
                     <div className={styles.image_desc}>拍摄银行卡反面</div>
                   </div>
               }

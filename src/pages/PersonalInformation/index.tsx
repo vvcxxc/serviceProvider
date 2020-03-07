@@ -67,13 +67,22 @@ export default class PersonalInformation extends Component {
         if (data.sq_status) {
             router.push('/PersonalInformation/withDraw')
         } else {
-            if (data.sq_finished_step == 0) {
-                router.push('/doubledry/register')
-            } else if (data.sq_finished_step == 1) {
-                router.push('/doubledry/bindcard')
-            } else if (data.sq_finished_step == 2) {
-                router.push('/doubledry/withdraw')
+            if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
+                if (data.sq_finished_step == 0) {
+                    router.push('/doubledry/register')
+                } else if (data.sq_finished_step == 1) {
+                    router.push('/doubledry/bindcard')
+                } else if (data.sq_finished_step == 2) {
+                    router.push('/doubledry/withdraw')
+                } else {
+                    router.push('/PersonalInformation/withDraw')
+                }
+            } else if (data.identity_finished_step == 0) {
+                router.push('/submitQua/EditIDCard')
+            } else {
+                router.push('/doubledry/audit')
             }
+
 
         }
     }

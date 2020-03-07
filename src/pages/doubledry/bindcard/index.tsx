@@ -123,7 +123,7 @@ export default class bindPhoneNumber extends Component {
                     resend()
                 }, 1000);
                 Request({
-                    url: 'getBindingSqBankCardCode',
+                    url: 'v1/sq/get_bing_code',
                     method: 'post',
                     data: qs.stringify({
                         phone
@@ -163,7 +163,7 @@ export default class bindPhoneNumber extends Component {
             return;
         }
         Request({
-            url: 'submitBindingSqBankCardCode',
+            url: 'v1/sq/submit_bing_code',
             method: "POST",
             data: qs.stringify({
                 // bankcard_no: this.state.bank_no,
@@ -174,10 +174,9 @@ export default class bindPhoneNumber extends Component {
             })
         }).then(res => {
             if (res.code == 200) {
-                //submitType==1绑定成功,2失败
-                // router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 1 } })
+                router.push({ pathname: '/doubledry/withdraw' });
             } else {
-                // router.push({ pathname: '/PersonalInformation/mybank', query: { submitType: 2 } })
+                Toast.fail(res.message);
             }
         })
 
@@ -230,15 +229,20 @@ export default class bindPhoneNumber extends Component {
                     <div className={styles.unactive_step}>3</div>
                     <div className={styles.unactive_text}>提现确认</div>
                 </div>
-                <div className={styles.bank_card}>
-                    <span>银行卡号：</span>
-                    <span>6220212045671234</span>
-                </div>
+                {
+                    this.props.location.query.bankCode ? (
+                        <div className={styles.bank_card}>
+                            <span>银行卡号：</span>
+                            <span>{this.state.bank_no}</span>
+                        </div>
+                    ) : ""
+                }
+
                 <div className={styles.phoneNumber}>
                     <div className={styles.passwordBox}>
-                        {
+                        {/* {
                             this.props.location.query.bankCode ? <div className={styles.bankCardBox} >银行卡号：{this.state.bank_no}</div> : null
-                        }
+                        } */}
 
                         <div className={styles.content}>
                             <div className={styles.items1}>

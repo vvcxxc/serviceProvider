@@ -104,7 +104,7 @@ export default class WithDraw extends Component {
             data: qs.stringify({
                 // bankcard_no: this.state.bank_no,
                 // verify_code: code,
-                // mobile: phone
+                // mobile: phone 
                 seqNoForAuto: seqNoForAuto,
                 smsCode: code
             })

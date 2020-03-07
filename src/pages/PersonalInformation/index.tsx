@@ -76,7 +76,7 @@ export default class PersonalInformation extends Component {
                     router.push('/doubledry/withdraw')
                 } else {
                     router.push('/PersonalInformation/withDraw')
-                }
+                } 
             } else if (data.identity_finished_step == 0) {
                 router.push('/submitQua/EditIDCard')
             } else {

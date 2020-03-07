@@ -329,7 +329,7 @@ class BankCard extends Component {
           Cookies.remove("bankCard");
           Cookies.remove("bankName");
           Cookies.remove("subBranchBank");
-          router.push('/login');
+          router.push('/PersonalInformation');
         });
       } else {
         Toast.fail(res.message, 1);

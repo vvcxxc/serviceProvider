@@ -110,7 +110,7 @@ export default class WithDraw extends Component {
             })
         }).then(res => {
             if (res.code == 200) {
-              
+                router.push('/PersonalInformation/withDraw')
             } else {
                 Toast.fail(res.message);
             }

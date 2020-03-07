@@ -63,7 +63,6 @@ export default class PersonalInformation extends Component {
     }
     gotoWithDraw = () => {
         const { data } = this.state;
-        // console.log(data)
         if (data.sq_status) {
             router.push('/PersonalInformation/withDraw')
         } else {
@@ -78,9 +77,13 @@ export default class PersonalInformation extends Component {
                     router.push('/PersonalInformation/withDraw')
                 } 
             } else if (data.identity_finished_step == 0) {
+                router.push('/submitQua/IDCard')
+            } else if (data.identity_finished_step == 1) {
                 router.push('/submitQua/EditIDCard')
-            } else {
-                router.push('/doubledry/audit')
+            } else if (data.bankcard_finished_step == 0) {
+                router.push('/submitQua/BankCard')
+            } else if (data.bankcard_finished_step == 1) {
+                router.push('/submitQua/EditBankCard')
             }
 
 

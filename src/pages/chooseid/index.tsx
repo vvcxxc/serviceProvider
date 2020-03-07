@@ -98,7 +98,7 @@ class ChooseId extends Component {
           Cookies.set('registerInviterPhone', "", { expires: 1 });
 
           Toast.success(res.message, 1, () => {
-            router.push('/submitQua/BankCard');
+            router.push('/login');
           });
         })
       } else {

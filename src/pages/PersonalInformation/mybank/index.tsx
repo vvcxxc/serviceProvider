@@ -18,7 +18,7 @@ export default class MyBank extends Component {
     if (this.props.location.query.submitType) { this.setState({ maskShow: true }) }
     Request({
       method: 'get',
-      url: 'auth/getBankInfo',
+      url: 'getBankInfo',
     }).then(res => {
       if (res.data) {
         // 存在银行卡

@@ -86,14 +86,18 @@ class IDCard extends Component {
 
           IDCardNumber: res.data.identity_no,
 
-          IDCardValidity: res.data.identity_valid_time
+          IDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time
 
 
+        }, () => {
+          if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
+            Cookies.set("EditIDCardValidity", JSON.stringify(this.state.IDCardValidity), { expires: 1 });
+          }
         })
 
-        if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
-          Cookies.set("EditIDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
-        }
+        // if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
+        //   Cookies.set("EditIDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
+        // }
       } else if (res.code == 200 && res.data == null) {
         this.setState({
           is_edit: false
@@ -344,12 +348,13 @@ class IDCard extends Component {
 
     if (is_edit) {
       Request({
-        url: "auth/uploadIdentity",
+        url: "uploadIdentity",
         method: "POST",
         data: qs.stringify({
           identity_name: UserName,
           identity_no: IDCardNumber,
-          identity_valid_time: IDCardValidity,
+          identity_valid_time: IDCardValidity == "长期" ? "" : IDCardValidity,
+          identity_is_long_time: IDCardValidity == "长期" ? 1 : 0,
           in_hand_img: img_url_front_behind_id,
           identity_face_img: img_url_front_id,
           identity_back_img: img_url_behind_id,
@@ -358,7 +363,13 @@ class IDCard extends Component {
       }).then(res => {
         if (res.code == 200) {
           Toast.success(res.message, 2, () => {
-            router.push('/PersonalInformation')
+            Cookies.remove("EditImgUrlFrontID");
+            Cookies.remove("EditImgUrlBehindID");
+            Cookies.remove("EditImgUrlFrontBehindID");
+            Cookies.remove("EditUserName");
+            Cookies.remove("EditIDCardNumber");
+            Cookies.remove("EditIDCardValidity");
+            router.push('/PersonalInformation');
           });
         } else {
           Toast.fail(res.message, 1);
@@ -366,12 +377,13 @@ class IDCard extends Component {
       })
     } else {
       Request({
-        url: "auth/uploadIdentity",
+        url: "uploadIdentity",
         method: "POST",
         data: qs.stringify({
           identity_name: UserName,
           identity_no: IDCardNumber,
-          identity_valid_time: IDCardValidity,
+          identity_valid_time: IDCardValidity == "长期" ? "" : IDCardValidity,
+          identity_is_long_time: IDCardValidity == "长期" ? 1 : 0,
           in_hand_img: img_url_front_behind_id,
           identity_face_img: img_url_front_id,
           identity_back_img: img_url_behind_id,

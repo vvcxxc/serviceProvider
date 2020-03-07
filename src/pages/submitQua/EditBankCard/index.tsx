@@ -60,7 +60,7 @@ class BankCard extends Component {
         })
 
         await Request({
-            url: 'auth/getBankInfo',
+            url: 'getBankInfo',
             method: 'get'
         }).then(res => {
             const { code, message } = res;
@@ -254,7 +254,7 @@ class BankCard extends Component {
         if (is_edit) {
             Request({
                 method: 'post',
-                url: 'auth/setBankInfo',
+                url: 'setBankInfo',
                 params: {
                     bank_name: bankName,
                     bankcard_no: bankCard,
@@ -276,7 +276,7 @@ class BankCard extends Component {
         }else {
             Request({
                 method: 'post',
-                url: 'auth/setBankInfo',
+                url: 'setBankInfo',
                 params: {
                     bank_name: bankName,
                     bankcard_no: bankCard,

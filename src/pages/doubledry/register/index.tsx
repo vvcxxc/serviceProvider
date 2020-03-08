@@ -139,9 +139,9 @@ class Register extends Component {
                             })
                         }
                     })
-                    // if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1) {
-                    //     router.push('/doubledry/audit');
-                    // }
+                    if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 || this.state.payplatform_check_status == 3) {
+                        router.push('/doubledry/audit');
+                    }
                 })
             }
         })

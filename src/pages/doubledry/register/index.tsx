@@ -66,6 +66,7 @@ class Register extends Component {
 
         // 账户ID
         id: 0,
+        allBank: [],
 
         payplatform_check_status: 0,
     }
@@ -85,6 +86,16 @@ class Register extends Component {
                 key: data.dir
             };
             window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
+        })
+
+        await request({
+            url: 'v1/common/getBankNames'
+        }).then(res => {
+            if (res.code == 200 && res.data.length != 0) {
+                this.setState({
+                    allBank: res.data
+                })
+            }
         })
 
         await request({
@@ -109,7 +120,8 @@ class Register extends Component {
 
                     DoubleDryUser: res.data.owner_name,
                     DoubleDryBankCard: res.data.bankcard_no,
-                    DoubleDryBankName: res.data.bank_name,
+                    DoubleDryBankID: res.data.bank_id,
+                    // DoubleDryBankName: res.data.bank_name,
                     DoubleDrySubBranchBank: res.data.branch_address,
 
                     DoubleDryisHaveImgFrontBank: res.data.bankcard_face_img ? true : false,
@@ -120,9 +132,16 @@ class Register extends Component {
 
                     id: res.data.id
                 }, () => {
-                    if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1) {
-                        router.push('/doubledry/audit');
-                    }
+                    this.state.allBank.forEach(item => {
+                        if (item.bank_id == this.state.DoubleDryBankID) {
+                            this.setState({
+                                DoubleDryBankName: item.bank_name
+                            })
+                        }
+                    })
+                    // if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1) {
+                    //     router.push('/doubledry/audit');
+                    // }
                 })
             }
         })
@@ -230,8 +249,8 @@ class Register extends Component {
 
 
         /**
-     * 银行ID
-     */
+        * 银行ID
+        */
         Cookies.get("DoubleDryBankID") || Cookies.get("DoubleDryBankID") == "" ? (
             this.setState({
                 DoubleDryBankID: Cookies.get("DoubleDryBankID")
@@ -465,8 +484,8 @@ class Register extends Component {
     // }
 
     /**
-   * 银行下拉
-   */
+    * 银行下拉
+    */
     handleSelectBank = (bankName: any) => {
         request({
             url: 'v1/common/getBankNames',
@@ -484,8 +503,8 @@ class Register extends Component {
     }
 
     /**
-   * 搜索银行
-   */
+    * 搜索银行
+    */
     handleSearchBank = (e: any) => {
         // console.log(e);
         this.setState({
@@ -496,8 +515,8 @@ class Register extends Component {
     }
 
     /**
-   * 选择银行
-   */
+    * 选择银行
+    */
     handleSelectBankItem = (item: any) => {
         // console.log(item);
         Cookies.set("DoubleDryBankName", item.bank_name, { expires: 1 });
@@ -631,6 +650,19 @@ class Register extends Component {
                 Toast.success(res.message, 1, () => {
                     // router.push(`/doubledry/bindcard?bankCode=${DoubleDryBankCard}`); 
                     // router.push('/doubledry/bindcard');
+                    Cookies.remove('DoubleDryUserName');
+                    Cookies.remove('DoubleDryIDCardNumber');
+                    Cookies.remove('DoubleDryIDCardValidity');
+                    Cookies.remove('double_dry_img_url_front_id');
+                    Cookies.remove('double_dry_img_url_behind_id');
+                    Cookies.remove('double_dry_img_url_front_behind_id');
+                    Cookies.remove('DoubleDryUser');
+                    Cookies.remove('DoubleDryBankCard');
+                    Cookies.remove('DoubleDryBankName');
+                    Cookies.remove('DoubleDryBankID');
+                    Cookies.remove('DoubleDrySubBranchBank');
+                    Cookies.remove('double_dry_img_url_front_bank');
+                    Cookies.remove('double_dry_img_url_behind_bank');
                     router.push('/doubledry/audit');
                 });
             } else {

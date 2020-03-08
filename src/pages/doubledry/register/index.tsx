@@ -41,7 +41,13 @@ class Register extends Component {
         DoubleDryUser: "",
         DoubleDryBankCard: "",
         DoubleDryBankName: "",
+        DoubleDryBankID: "",
         DoubleDrySubBranchBank: "",
+
+
+        isShowBank: false,
+        BankArr: [],
+        searchBank: "",
 
         isShowSubBranch: false,
         subBranchBankArr: [],
@@ -113,9 +119,9 @@ class Register extends Component {
                     double_dry_img_url_behind_bank: res.data.bankcard_back_img,
 
                     id: res.data.id
-                },() => {
-                    if(this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1) {
-                       router.push('/doubledry/audit');
+                }, () => {
+                    if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1) {
+                        router.push('/doubledry/audit');
                     }
                 })
             }
@@ -219,6 +225,16 @@ class Register extends Component {
         Cookies.get("DoubleDryBankName") || Cookies.get("DoubleDryBankName") == "" ? (
             this.setState({
                 DoubleDryBankName: Cookies.get("DoubleDryBankName")
+            })
+        ) : "";
+
+
+        /**
+     * 银行ID
+     */
+        Cookies.get("DoubleDryBankID") || Cookies.get("DoubleDryBankID") == "" ? (
+            this.setState({
+                DoubleDryBankID: Cookies.get("DoubleDryBankID")
             })
         ) : "";
 
@@ -441,11 +457,57 @@ class Register extends Component {
     /**
      * 设置银行
      */
-    handleBankNameChange = (e: any) => {
-        this.setState({
-            DoubleDryBankName: e
+    // handleBankNameChange = (e: any) => {
+    //     this.setState({
+    //         DoubleDryBankName: e
+    //     })
+    //     Cookies.set("DoubleDryBankName", e, { expires: 1 });
+    // }
+
+    /**
+   * 银行下拉
+   */
+    handleSelectBank = (bankName: any) => {
+        request({
+            url: 'v1/common/getBankNames',
+            params: {
+                bank_name: bankName,
+            }
+        }).then(res => {
+            if (res.data.length != 0) {
+                this.setState({
+                    isShowBank: true,
+                    BankArr: res.data,
+                })
+            }
         })
-        Cookies.set("DoubleDryBankName", e, { expires: 1 });
+    }
+
+    /**
+   * 搜索银行
+   */
+    handleSearchBank = (e: any) => {
+        // console.log(e);
+        this.setState({
+            searchBank: e
+        }, () => {
+            this.handleSelectBank(e);
+        })
+    }
+
+    /**
+   * 选择银行
+   */
+    handleSelectBankItem = (item: any) => {
+        // console.log(item);
+        Cookies.set("DoubleDryBankName", item.bank_name, { expires: 1 });
+        Cookies.set("DoubleDryBankID", item.bank_id, { expires: 1 });
+        this.setState({
+            DoubleDryBankName: item.bank_name,
+            bankID: item.bank_id,
+            isShowBank: false,
+            searchBank: "",
+        })
     }
 
     /**
@@ -539,6 +601,7 @@ class Register extends Component {
             DoubleDryUser,
             DoubleDryBankCard,
             DoubleDryBankName,
+            DoubleDryBankID,
             DoubleDrySubBranchBank,
             double_dry_img_url_front_bank,
             double_dry_img_url_behind_bank
@@ -557,7 +620,8 @@ class Register extends Component {
                 identity_in_hand_img: double_dry_img_url_front_behind_id,
                 owner_name: DoubleDryUser,
                 bankcard_no: DoubleDryBankCard,
-                bank_name: DoubleDryBankName,
+                // bank_name: DoubleDryBankName,
+                bank_id: DoubleDryBankID,
                 branch_address: DoubleDrySubBranchBank,
                 bankcard_face_img: double_dry_img_url_front_bank,
                 bankcard_back_img: double_dry_img_url_behind_bank
@@ -600,7 +664,10 @@ class Register extends Component {
             DoubleDryFrontFilesBank,
             DoubleDryisHaveImgBehindBank,
             double_dry_img_url_behind_bank,
-            DoubleDryBehindFilesBank
+            DoubleDryBehindFilesBank,
+            isShowBank,
+            BankArr,
+            searchBank
         } = this.state;
 
         return (
@@ -726,7 +793,28 @@ class Register extends Component {
                         </div>
                         <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleUserChange.bind(this)} value={DoubleDryUser} placeholder='请输入开户人' clear>开户人</InputItem>
                         <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankCardChange.bind(this)} value={DoubleDryBankCard} placeholder='请输入银行卡号' clear>银行卡号</InputItem>
-                        <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankNameChange.bind(this)} value={DoubleDryBankName} placeholder='请输入开户银行' clear>开户银行</InputItem>
+
+                        <div className={styles.subbranch_bank}>
+                            {/* <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankNameChange.bind(this)} value={DoubleDryBankName} placeholder='请输入开户银行' clear>开户银行</InputItem> */}
+                            <InputItem editable={false} onBlur={this.hanldeBlurScrollTop.bind(this)} onClick={this.handleSelectBank.bind(this, "")} value={DoubleDryBankName} placeholder='请选择开户银行' clear>开户银行</InputItem>
+                        </div>
+                        {
+                            isShowBank ? (
+                                <div className={styles.search_wrap}>
+                                    <List className={styles.search_result}>
+                                        <InputItem value={searchBank} onChange={this.handleSearchBank} placeholder='请搜索银行' clear></InputItem>
+                                        {
+                                            BankArr.map(item => (
+                                                <List.Item key={item.bank_id} onClick={this.handleSelectBankItem.bind(this, item)}>{item.bank_name}</List.Item>
+                                            ))
+                                        }
+                                    </List>
+                                </div>
+                            ) : ""
+                        }
+
+
+
                         <div className={styles.subbranch_bank}>
                             <InputItem onBlur={this.hanldeSubBranchBlur.bind(this)} onChange={this.handleSubBranchBankChange.bind(this)} value={DoubleDrySubBranchBank} placeholder='请输入支行地址' clear>支行地址</InputItem>
                             {

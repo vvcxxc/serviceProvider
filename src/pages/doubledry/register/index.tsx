@@ -652,7 +652,7 @@ class Register extends Component {
                     // router.push('/doubledry/bindcard');
                     Cookies.remove('DoubleDryUserName');
                     Cookies.remove('DoubleDryIDCardNumber');
-                    Cookies.remove('DoubleDryIDCardValidity');
+                    Cookies.remove('DoubleDryIDCardValidity'); 
                     Cookies.remove('double_dry_img_url_front_id');
                     Cookies.remove('double_dry_img_url_behind_id');
                     Cookies.remove('double_dry_img_url_front_behind_id');

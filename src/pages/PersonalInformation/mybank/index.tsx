@@ -90,7 +90,7 @@ export default class MyBank extends Component {
                         <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(12)}</div>
                       )
                     }
-                  </div>
+                  </div> 
                 </div>
                 {/* <div className={styles.bank_box_right}>
                   <div className={styles.bank_box_right_bind} onClick={this.bindPhoneNumber.bind(this)}>去验证</div>

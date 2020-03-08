@@ -137,7 +137,7 @@ class Register extends Component {
                             this.setState({
                                 DoubleDryBankName: item.bank_name
                             })
-                        }
+                        } 
                     })
                     if (this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 || this.state.payplatform_check_status == 3) {
                         router.push('/doubledry/audit');

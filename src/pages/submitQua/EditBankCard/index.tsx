@@ -404,7 +404,7 @@ class BankCard extends Component {
                                                 ))
                                             }
                                         </List>
-                                    </div>
+                                    </div> 
                                 ) : ""
                             }
                         </div>

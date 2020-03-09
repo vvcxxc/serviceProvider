@@ -49,7 +49,9 @@ class IDCard extends Component {
     IDCardNumber: "",
     IDCardValidity: "",
 
-    is_edit: true
+    is_edit: true,
+
+    check_status: null // 1待审核 2通过 3拒绝
   }
 
   async componentDidMount() {
@@ -68,42 +70,7 @@ class IDCard extends Component {
       window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
     })
 
-    await Request({
-      url: 'getFacilitatorIdentity'
-    }).then(res => {
-      if (res.code == 200 && res.data != null) {
-        this.setState({
-          img_url_front_id: res.data.identity_face_img,
-          isHaveImgFrontID: res.data.identity_face_img ? true : false,
-
-          img_url_behind_id: res.data.identity_back_img,
-          isHaveImgBehindID: res.data.identity_back_img ? true : false,
-
-          img_url_front_behind_id: res.data.in_hand_img,
-          isHaveImgFrontBehindID: res.data.in_hand_img ? true : false,
-
-          UserName: res.data.identity_name,
-
-          IDCardNumber: res.data.identity_no,
-
-          IDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time
-
-
-        }, () => {
-          if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
-            Cookies.set("EditIDCardValidity", JSON.stringify(this.state.IDCardValidity), { expires: 1 });
-          }
-        })
-
-        // if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
-        //   Cookies.set("EditIDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
-        // }
-      } else if (res.code == 200 && res.data == null) {
-        this.setState({
-          is_edit: false
-        })
-      }
-    })
+    await this.getData();
 
 
     /**
@@ -181,6 +148,47 @@ class IDCard extends Component {
     ) : "";
 
 
+  }
+
+  getData = () => {
+    Request({
+      url: 'getFacilitatorIdentity'
+    }).then(res => {
+      if (res.code == 200 && res.data != null) {
+        this.setState({
+          img_url_front_id: res.data.identity_face_img,
+          isHaveImgFrontID: res.data.identity_face_img ? true : false,
+
+          img_url_behind_id: res.data.identity_back_img,
+          isHaveImgBehindID: res.data.identity_back_img ? true : false,
+
+          img_url_front_behind_id: res.data.in_hand_img,
+          isHaveImgFrontBehindID: res.data.in_hand_img ? true : false,
+
+          UserName: res.data.identity_name,
+
+          IDCardNumber: res.data.identity_no,
+
+          IDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time,
+
+          check_status: res.data.check_status
+
+
+        }, () => {
+          if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
+            Cookies.set("EditIDCardValidity", JSON.stringify(this.state.IDCardValidity), { expires: 1 });
+          }
+        })
+
+        // if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
+        //   Cookies.set("EditIDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
+        // }
+      } else if (res.code == 200 && res.data == null) {
+        this.setState({
+          is_edit: false
+        })
+      }
+    })
   }
 
   /**
@@ -347,6 +355,12 @@ class IDCard extends Component {
     }
 
     if (is_edit) {
+      // 审核中为1 直接下一步
+      // 审核失败为3 重新提交资料 完成后再请求数据
+      if (this.state.check_status == 1) {
+        router.push('/submitQua/EditBankCard')
+        return;
+      }
       Request({
         url: "uploadIdentity",
         method: "POST",
@@ -369,7 +383,8 @@ class IDCard extends Component {
             Cookies.remove("EditUserName");
             Cookies.remove("EditIDCardNumber");
             Cookies.remove("EditIDCardValidity");
-            router.push('/PersonalInformation');
+            router.push('/submitQua/EditBankCard')
+            // this.getData();
           });
         } else {
           Toast.fail(res.message, 1);
@@ -391,7 +406,8 @@ class IDCard extends Component {
       }).then(res => {
         if (res.code == 200) {
           Toast.success(res.message, 2, () => {
-            router.push('/PersonalInformation')
+            // router.push('/PersonalInformation')
+            router.push('/submitQua/EditBankCard')
           });
         } else {
           Toast.fail(res.message, 1);
@@ -518,7 +534,7 @@ class IDCard extends Component {
         <div className={styles.idcard_wrap}>
 
           {/* 数据项 */}
-          <div className={styles.user_info}>
+          {/* <div className={styles.user_info}> */}
             <List>
               {/* <Item style={{ padding: '15px' }}> */}
               <InputItem placeholder='请输入您的真实姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>真实姓名</InputItem>
@@ -530,7 +546,7 @@ class IDCard extends Component {
               <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
               {/* </Item> */}
             </List>
-          </div>
+          {/* </div> */}
 
           <div className={styles.idcard_upload}>
             <div className={styles.idcard_title}>

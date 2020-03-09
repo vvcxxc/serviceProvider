@@ -66,7 +66,7 @@ export default class PageIndex extends Component {
       Toast.fail('密码不能为空,请重新输入')
       return
     }
-    Toast.loading('登陆中');
+    Toast.loading('登录中');
     Request({
       url: 'auth/login',
       method: 'post',
@@ -128,7 +128,7 @@ export default class PageIndex extends Component {
           {/* <Calendar></Calendar> */}
           <div className={styles.pageTitleBox}>
             <img className={styles.pageTitleImg} src="http://oss.tdianyi.com/front/K34YDEpXBy2HkF2xKFhXWDRJrKfWKbZ3.png" />
-            <div className={styles.titleWords}>欢迎登陆</div>
+            <div className={styles.titleWords}>欢迎登录</div>
           </div>
           <div className={styles.inputBox}>
 

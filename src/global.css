@@ -41,6 +41,6 @@ body {
 .am-list-item.am-input-item {
   padding-right: 30px;
 }
-.am-list-body {
-  padding-bottom: 30px;
-}
+/* .am-list-body {
+  padding: 30px 0;
+} */

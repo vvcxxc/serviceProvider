@@ -99,7 +99,7 @@ class ChooseId extends Component {
 
           router.push('/login');
           // Toast.success(res.message, 1, () => {
-          //   router.push('/login');
+          //   router.push('/login'); 
           // });
         })
       } else {

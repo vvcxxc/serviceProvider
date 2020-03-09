@@ -27,10 +27,18 @@ class BankCard extends Component {
     User: "",
     bankCard: "",
     bankName: "",
+    bankID: "",
     subBranchBank: "",
+
+
+    isShowBank: false,
+    BankArr: [],
+    searchBank: "",
 
     isShowSubBranch: false,
     subBranchBankArr: [],
+
+
 
   }
 
@@ -112,6 +120,16 @@ class BankCard extends Component {
         bankName: Cookies.get("bankName")
       })
     ) : "";
+
+    /**
+     * 银行ID
+     */
+    Cookies.get("bankID") || Cookies.get("bankID") == "" ? (
+      this.setState({
+        bankID: Cookies.get("bankID")
+      })
+    ) : "";
+
 
 
     /**
@@ -241,11 +259,58 @@ class BankCard extends Component {
   /**
    * 设置银行
    */
-  handleBankNameChange = (e: any) => {
-    this.setState({
-      bankName: e
+  // handleBankNameChange = (e: any) => {
+  //   this.setState({
+  //     bankName: e
+  //   })
+  //   Cookies.set("bankName", e, { expires: 1 });
+  // }
+
+
+  /**
+   * 银行下拉
+   */
+  handleSelectBank = (bankName: any) => {
+    Request({
+      url: 'v1/common/getBankNames',
+      params: {
+        bank_name: bankName,
+      }
+    }).then(res => {
+      if (res.data.length != 0) {
+        this.setState({
+          isShowBank: true,
+          BankArr: res.data,
+        })
+      }
     })
-    Cookies.set("bankName", e, { expires: 1 });
+  }
+
+  /**
+   * 搜索银行
+   */
+  handleSearchBank = (e: any) => {
+    // console.log(e);
+    this.setState({
+      searchBank: e
+    }, () => {
+      this.handleSelectBank(e);
+    })
+  }
+
+  /**
+   * 选择银行
+   */
+  handleSelectBankItem = (item: any) => {
+    // console.log(item);
+    Cookies.set("bankName", item.bank_name, { expires: 1 });
+    Cookies.set("bankID", item.bank_id, { expires: 1 });
+    this.setState({
+      bankName: item.bank_name,
+      bankID: item.bank_id,
+      isShowBank: false,
+      searchBank: "",
+    })
   }
 
   /**
@@ -271,9 +336,9 @@ class BankCard extends Component {
    */
   hanldeSubBranchBlur = () => {
     window.scrollTo(0, 0);
-    // this.setState({
-    //     isShowSubBranch: false
-    // })
+    this.setState({
+      isShowSubBranch: false
+    })
   }
 
   /**
@@ -281,7 +346,8 @@ class BankCard extends Component {
    */
 
   handleNextStep = () => {
-    const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName } = this.state;
+    const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, bankID } = this.state;
+    console.log(bankID)
     if (!img_url_front || !img_url_behind) {
       Toast.fail('请上传银行卡正反面信息', 1);
       return;
@@ -298,7 +364,7 @@ class BankCard extends Component {
     }
 
     if (!(/^([0-9a-zA-Z\u4e00-\u9fa5]){1,}$/.test(bankName))) {
-      Toast.fail('请输入正确开户银行名称', 1);
+      Toast.fail('请选择开户银行', 1);
       return;
     }
 
@@ -311,9 +377,9 @@ class BankCard extends Component {
 
     Request({
       method: 'post',
-      url: 'auth/setBankInfo',
+      url: 'setBankInfo',
       params: {
-        bank_name: bankName,
+        bank_id: bankID,
         bankcard_no: bankCard,
         branch_address: subBranchBank,
         owner_name: User,
@@ -323,7 +389,14 @@ class BankCard extends Component {
     }).then(res => {
       if (res.code == 200) {
         Toast.success(res.message, 2, () => {
-          router.push('/login')
+          Cookies.remove("ImgUrlFront");
+          Cookies.remove("ImgUrlBehind");
+          Cookies.remove("User");
+          Cookies.remove("bankCard");
+          Cookies.remove("bankName");
+          Cookies.remove("subBranchBank");
+          Cookies.remove("bankID");
+          router.push('/PersonalInformation');
         });
       } else {
         Toast.fail(res.message, 1);
@@ -333,7 +406,7 @@ class BankCard extends Component {
   }
 
   render() {
-    const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr } = this.state;
+    const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, isShowBank, BankArr, searchBank } = this.state;
     return (
       <div className={styles.bank_page}>
         <NavBar
@@ -351,7 +424,25 @@ class BankCard extends Component {
           <List className={styles.inputBox}>
             <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleUserChange.bind(this)} value={User} placeholder='请输入开户人' clear>开户人</InputItem>
             <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankCardChange.bind(this)} value={bankCard} placeholder='请输入银行卡号' clear>银行卡号</InputItem>
-            <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankNameChange.bind(this)} value={bankName} placeholder='请输入开户银行' clear>开户银行</InputItem>
+            <div className={styles.subbranch_bank}>
+              {/* <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankNameChange.bind(this)} value={bankName} placeholder='请输入开户银行' clear>开户银行</InputItem> */}
+              <InputItem editable={false} onBlur={this.hanldeBlurScrollTop.bind(this)} onClick={this.handleSelectBank.bind(this, "")} value={bankName} placeholder='请选择开户银行' clear>开户银行</InputItem>
+            </div>
+            {
+              isShowBank ? (
+                <div className={styles.search_wrap}>
+                  <List className={styles.search_result}>
+                    <InputItem value={searchBank} onChange={this.handleSearchBank} placeholder='请搜索银行' clear></InputItem>
+                    {
+                      BankArr.map(item => (
+                        <List.Item key={item.bank_id} onClick={this.handleSelectBankItem.bind(this, item)}>{item.bank_name}</List.Item>
+                      ))
+                    }
+                  </List>
+                </div>
+              ) : ""
+            }
+
             <div className={styles.subbranch_bank}>
               <InputItem onBlur={this.hanldeSubBranchBlur.bind(this)} onChange={this.handleSubBranchBankChange.bind(this)} value={subBranchBank} placeholder='请输入支行地址' clear>支行地址</InputItem>
               {
@@ -371,9 +462,9 @@ class BankCard extends Component {
           </List>
 
           <div className={styles.pickerBox}>
-          <div className={styles.bankcard_title}>
-            <span>请绑定持卡人本人的银行卡</span>
-          </div>
+            <div className={styles.bankcard_title}>
+              <span>请绑定持卡人本人的银行卡</span>
+            </div>
             <div className={styles.bankcard_imagepicker}>
               {/* 银行卡正面 */}
               {
@@ -390,7 +481,7 @@ class BankCard extends Component {
                       length={1}
                       className={styles.image_picker_comp}
                     />
-                    <img src={bankFront} alt="" className={styles.image_bg}/>
+                    <img src={bankFront} alt="" className={styles.image_bg} />
                     <div className={styles.image_desc}>拍摄银行卡正面</div>
                   </div>
               }
@@ -408,7 +499,7 @@ class BankCard extends Component {
                       length={1}
                       className={styles.image_picker_comp}
                     />
-                    <img src={bankBack} alt="" className={styles.image_bg}/>
+                    <img src={bankBack} alt="" className={styles.image_bg} />
                     <div className={styles.image_desc}>拍摄银行卡反面</div>
                   </div>
               }

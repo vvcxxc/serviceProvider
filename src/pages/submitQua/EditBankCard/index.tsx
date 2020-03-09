@@ -29,7 +29,12 @@ class BankCard extends Component {
         User: "",
         bankCard: "",
         bankName: "",
+        bankID: "",
         subBranchBank: "",
+
+        isShowBank: false,
+        BankArr: [],
+        searchBank: "",
 
         isShowSubBranch: false,
         subBranchBankArr: [],
@@ -60,7 +65,7 @@ class BankCard extends Component {
         })
 
         await Request({
-            url: 'auth/getBankInfo',
+            url: 'getBankInfo',
             method: 'get'
         }).then(res => {
             const { code, message } = res;
@@ -183,11 +188,59 @@ class BankCard extends Component {
     /**
      * 设置银行
      */
-    handleBankNameChange = (e: any) => {
-        this.setState({
-            bankName: e
+    // handleBankNameChange = (e: any) => {
+    //     this.setState({
+    //         bankName: e
+    //     })
+    //     // Cookies.set("bankName", e, { expires: 1 });
+    // }
+
+
+    /**
+  * 银行下拉
+  */
+    handleSelectBank = (bankName: any) => {
+        Request({
+            url: 'v1/common/getBankNames',
+            params: {
+                bank_name: bankName,
+            }
+        }).then(res => {
+            if (res.data.length != 0) {
+                this.setState({
+                    isShowBank: true,
+                    BankArr: res.data,
+                })
+            }
         })
-        // Cookies.set("bankName", e, { expires: 1 });
+    }
+
+    /**
+   * 搜索银行
+   */
+    handleSearchBank = (e: any) => {
+        // console.log(e);
+        this.setState({
+            searchBank: e
+        }, () => {
+            this.handleSelectBank(e);
+        })
+    }
+
+
+    /**
+   * 选择银行
+   */
+    handleSelectBankItem = (item: any) => {
+        // console.log(item);
+        // Cookies.set("bankName", item.bank_name, { expires: 1 });
+        // Cookies.set("bankID", item.bank_id, { expires: 1 });
+        this.setState({
+            bankName: item.bank_name,
+            bankID: item.bank_id,
+            isShowBank: false,
+            searchBank: "",
+        })
     }
 
     /**
@@ -223,7 +276,7 @@ class BankCard extends Component {
      */
 
     handleNextStep = () => {
-        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit } = this.state;
+        const { bankCard, User, subBranchBank, img_url_behind, img_url_front, bankName, is_edit, bankID } = this.state;
         if (!img_url_front || !img_url_behind) {
             Toast.fail('请上传银行卡正反面信息', 1);
             return;
@@ -254,9 +307,10 @@ class BankCard extends Component {
         if (is_edit) {
             Request({
                 method: 'post',
-                url: 'auth/setBankInfo',
+                url: 'setBankInfo',
                 params: {
-                    bank_name: bankName,
+                    // bank_name: bankName,
+                    bank_id: bankID,
                     bankcard_no: bankCard,
                     branch_address: subBranchBank,
                     owner_name: User,
@@ -273,12 +327,13 @@ class BankCard extends Component {
                     Toast.fail(res.message, 1);
                 }
             })
-        }else {
+        } else {
             Request({
                 method: 'post',
-                url: 'auth/setBankInfo',
+                url: 'setBankInfo',
                 params: {
-                    bank_name: bankName,
+                    // bank_name: bankName,
+                    bank_id: bankID,
                     bankcard_no: bankCard,
                     branch_address: subBranchBank,
                     owner_name: User,
@@ -299,100 +354,119 @@ class BankCard extends Component {
     }
 
     render() {
-        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, checkout_status, checkout_comment } = this.state;
+        const { frontFiles, isHaveImgFront, img_url_front, isHaveImgBehind, img_url_behind, behindFiles, User, bankCard, bankName, subBranchBank, isShowSubBranch, subBranchBankArr, checkout_status, checkout_comment, isShowBank, BankArr, searchBank } = this.state;
         return (
-          <div className={styles.bank_page}>
-          <NavBar
-            icon={<Icon type="left" size='lg' />}
-            onLeftClick={() => router.goBack()}
-          >完善资料</NavBar>
-          <div className={styles.bankcard_wrap}>
-            {/* <div className={styles.bankcard_title}>
+            <div className={styles.bank_page}>
+                <NavBar
+                    icon={<Icon type="left" size='lg' />}
+                    onLeftClick={() => router.goBack()}
+                >完善资料</NavBar>
+                <div className={styles.bankcard_wrap}>
+                    {/* <div className={styles.bankcard_title}>
               <span>请绑定持卡人本人的银行卡</span>
             </div> */}
 
 
 
-            {/* 数据项 */}
-            <List className={styles.inputBox}>
-              <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleUserChange.bind(this)} value={User} placeholder='请输入开户人' clear>开户人</InputItem>
-              <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankCardChange.bind(this)} value={bankCard} placeholder='请输入银行卡号' clear>银行卡号</InputItem>
-              <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankNameChange.bind(this)} value={bankName} placeholder='请输入开户银行' clear>开户银行</InputItem>
-              <div className={styles.subbranch_bank}>
-                <InputItem onBlur={this.hanldeSubBranchBlur.bind(this)} onChange={this.handleSubBranchBankChange.bind(this)} value={subBranchBank} placeholder='请输入支行地址' clear>支行地址</InputItem>
-                {
-                  isShowSubBranch ? (
-                    <div className={styles.search_wrap}>
-                      <List className={styles.search_result}>
+                    {/* 数据项 */}
+                    <List className={styles.inputBox}>
+                        <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleUserChange.bind(this)} value={User} placeholder='请输入开户人' clear>开户人</InputItem>
+                        <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankCardChange.bind(this)} value={bankCard} placeholder='请输入银行卡号' clear>银行卡号</InputItem>
+                        {/* <InputItem onBlur={this.hanldeBlurScrollTop.bind(this)} onChange={this.handleBankNameChange.bind(this)} value={bankName} placeholder='请输入开户银行' clear>开户银行</InputItem> */}
+                        <div className={styles.subbranch_bank}>
+                            <InputItem editable={false} onBlur={this.hanldeBlurScrollTop.bind(this)} onClick={this.handleSelectBank.bind(this, "")} value={bankName} placeholder='请选择开户银行' clear>开户银行</InputItem>
+                        </div>
                         {
-                          subBranchBankArr.map(item => (
-                            <List.Item key={item.ids}>{item.name}</List.Item>
-                          ))
+                            isShowBank ? (
+                                <div className={styles.search_wrap}>
+                                    <List className={styles.search_result}>
+                                        <InputItem value={searchBank} onChange={this.handleSearchBank} placeholder='请搜索银行' clear></InputItem>
+                                        {
+                                            BankArr.map(item => (
+                                                <List.Item key={item.bank_id} onClick={this.handleSelectBankItem.bind(this, item)}>{item.bank_name}</List.Item>
+                                            ))
+                                        }
+                                    </List>
+                                </div>
+                            ) : ""
                         }
-                      </List>
-                    </div>
-                  ) : ""
-                }
-              </div>
-            </List>
 
-            <div className={styles.pickerBox}>
-            <div className={styles.bankcard_title}>
-              <span>请绑定持卡人本人的银行卡</span>
+
+                        <div className={styles.subbranch_bank}>
+                            <InputItem onBlur={this.hanldeSubBranchBlur.bind(this)} onChange={this.handleSubBranchBankChange.bind(this)} value={subBranchBank} placeholder='请输入支行地址' clear>支行地址</InputItem>
+                            {
+                                isShowSubBranch ? (
+                                    <div className={styles.search_wrap}>
+                                        <List className={styles.search_result}>
+                                            {
+                                                subBranchBankArr.map(item => (
+                                                    <List.Item key={item.ids}>{item.name}</List.Item>
+                                                ))
+                                            }
+                                        </List>
+                                    </div> 
+                                ) : ""
+                            }
+                        </div>
+                    </List>
+
+                    <div className={styles.pickerBox}>
+                        <div className={styles.bankcard_title}>
+                            <span>请绑定持卡人本人的银行卡</span>
+                        </div>
+                        <div className={styles.bankcard_imagepicker}>
+                            {/* 银行卡正面 */}
+                            {
+                                isHaveImgFront ?
+                                    <div className={styles.preview_wrap}>
+                                        <img src={"http://oss.tdianyi.com/" + img_url_front} alt="" className={styles.preview_img} />
+                                        <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseBankCardFront} />
+                                    </div>
+                                    :
+                                    <div className={styles.image_picker}>
+                                        <ImagePicker
+                                            onChange={this.handleBankCardFrontChange}
+                                            selectable={frontFiles.length < 1}
+                                            length={1}
+                                            className={styles.image_picker_comp}
+                                        />
+                                        <img src={bankFront} alt="" className={styles.image_bg} />
+                                        <div className={styles.image_desc}>拍摄银行卡正面</div>
+                                    </div>
+                            }
+                            {
+                                isHaveImgBehind ?
+                                    <div className={styles.preview_wrap}>
+                                        <img src={"http://oss.tdianyi.com/" + img_url_behind} alt="" className={styles.preview_img} />
+                                        <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseBankCardBehind} />
+                                    </div>
+                                    :
+                                    <div className={styles.image_picker}>
+                                        <ImagePicker
+                                            onChange={this.handleBankCardBehindChange}
+                                            selectable={behindFiles.length < 1}
+                                            length={1}
+                                            className={styles.image_picker_comp}
+                                        />
+                                        <img src={bankBack} alt="" className={styles.image_bg} />
+                                        <div className={styles.image_desc}>拍摄银行卡反面</div>
+                                    </div>
+                            }
+
+                        </div>
+                    </div>
+
+
+
+                    <div className={styles.next_step_wrap}>
+                        <div className={styles.next_step}>
+                            <Button className={styles.next_step_btn} onClick={this.handleNextStep.bind(this)}>提交</Button>
+                        </div>
+                    </div>
+
+                    {/* <div className={styles.later_fill}>稍后填写</div> */}
+                </div>
             </div>
-              <div className={styles.bankcard_imagepicker}>
-                {/* 银行卡正面 */}
-                {
-                  isHaveImgFront ?
-                    <div className={styles.preview_wrap}>
-                      <img src={"http://oss.tdianyi.com/" + img_url_front} alt="" className={styles.preview_img} />
-                      <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseBankCardFront} />
-                    </div>
-                    :
-                    <div className={styles.image_picker}>
-                      <ImagePicker
-                        onChange={this.handleBankCardFrontChange}
-                        selectable={frontFiles.length < 1}
-                        length={1}
-                        className={styles.image_picker_comp}
-                      />
-                      <img src={bankFront} alt="" className={styles.image_bg}/>
-                      <div className={styles.image_desc}>拍摄银行卡正面</div>
-                    </div>
-                }
-                {
-                  isHaveImgBehind ?
-                    <div className={styles.preview_wrap}>
-                      <img src={"http://oss.tdianyi.com/" + img_url_behind} alt="" className={styles.preview_img} />
-                      <Icon type="cross-circle" className={styles.delete_img} onClick={this.handleCloseBankCardBehind} />
-                    </div>
-                    :
-                    <div className={styles.image_picker}>
-                      <ImagePicker
-                        onChange={this.handleBankCardBehindChange}
-                        selectable={behindFiles.length < 1}
-                        length={1}
-                        className={styles.image_picker_comp}
-                      />
-                      <img src={bankBack} alt="" className={styles.image_bg}/>
-                      <div className={styles.image_desc}>拍摄银行卡反面</div>
-                    </div>
-                }
-
-              </div>
-            </div>
-
-
-
-            <div className={styles.next_step_wrap}>
-              <div className={styles.next_step}>
-                <Button className={styles.next_step_btn} onClick={this.handleNextStep.bind(this)}>提交</Button>
-              </div>
-            </div>
-
-            {/* <div className={styles.later_fill}>稍后填写</div> */}
-          </div>
-        </div>
         )
     }
 }

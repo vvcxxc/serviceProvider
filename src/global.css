@@ -31,3 +31,10 @@ body {
   height: 1rem !important;
   bottom: 0 !important;
 }
+
+.am-modal-transparent{
+  width: 90%;
+}
+.am-checkbox-agree {
+  margin-left: 0;
+}

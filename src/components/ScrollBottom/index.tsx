@@ -24,7 +24,6 @@ export default class ScrollBottom extends Component<Props> {
   }
 
   // componentDidUpdate(newProps: object) {
-  //   console.log(newProps,'newProps');
   //   if (newProps.isShow) {
   //     let box: any = document.querySelector(".box");
 

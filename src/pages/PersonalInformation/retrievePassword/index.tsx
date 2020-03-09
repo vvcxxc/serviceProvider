@@ -78,7 +78,6 @@ export default class Retrieve_password extends Component {
 
   landingData = () => {
     const { code, phoneNumber, newPassword, confirmPassword } = this.state
-    console.log(code, phoneNumber, newPassword, confirmPassword)
     if (newPassword != confirmPassword) {
       Toast.fail('两次输入密码不一致', 1)
       return

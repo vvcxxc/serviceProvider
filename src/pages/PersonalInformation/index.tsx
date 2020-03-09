@@ -10,9 +10,15 @@ export default class PersonalInformation extends Component {
         data: {
             is_bank_card: 0,
             phone: '***********',
-            name:'',
+            name: '',
             usable_money: 0,
-            type:0
+            type: 0,
+
+            // 双乾认证
+            bankcard_finished_step: 0,
+            identity_finished_step: 0,
+            sq_status: false,
+            sq_finished_step: 0,
         }
     }
 
@@ -32,6 +38,7 @@ export default class PersonalInformation extends Component {
         }).catch((err) => {
             Toast.fail('请求失败', 1)
         })
+        
     }
 
     //修改密码
@@ -56,7 +63,32 @@ export default class PersonalInformation extends Component {
         })
     }
     gotoWithDraw = () => {
-        router.push('/PersonalInformation/withDraw')
+        const { data } = this.state;
+        if (data.sq_status) {
+            router.push('/PersonalInformation/withDraw')
+        } else {
+            if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
+                if (data.sq_finished_step == 0) {
+                    router.push('/doubledry/register')
+                } else if (data.sq_finished_step == 1) {
+                    router.push('/doubledry/bindcard')
+                } else if (data.sq_finished_step == 2) {
+                    router.push('/doubledry/withdraw')
+                } else {
+                    router.push('/PersonalInformation/withDraw')
+                } 
+            } else if (data.identity_finished_step == 0) {
+                router.push('/submitQua/IDCard')
+            } else if (data.identity_finished_step == 1) {
+                router.push('/submitQua/EditIDCard')
+            } else if (data.bankcard_finished_step == 0) {
+                router.push('/submitQua/BankCard')
+            } else if (data.bankcard_finished_step == 1) {
+                router.push('/submitQua/EditBankCard')
+            }
+
+
+        }
     }
 
 
@@ -71,6 +103,7 @@ export default class PersonalInformation extends Component {
     }
 
     render() {
+        const { data } = this.state;
         return (
             <div className={styles.PersonalInformation} >
                 <div className={styles.main}>
@@ -80,7 +113,7 @@ export default class PersonalInformation extends Component {
                     >个人信息</NavBar> */}
                     <div className={styles.userBox}>
                         <Flex className={styles.userInfo}>
-                            <img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className={styles.avatar}/>
+                            <img src='http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png' className={styles.avatar} />
                             <div className={styles.name}>{this.state.data.name}</div>
                         </Flex>
                     </div>
@@ -96,44 +129,46 @@ export default class PersonalInformation extends Component {
                 <div className={styles.main2}>
                     <Flex className={styles.item} justify='between' align='center' onClick={this.onChangePassword}>
                         <Flex>
-                            <img src={require('../../assets/password.png')} className={styles.icon1}/>
+                            <img src={require('../../assets/password.png')} className={styles.icon1} />
                             修改密码
                         </Flex>
                         <Flex>
-                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                            <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
                     </Flex>
                     <Flex className={styles.item} justify='between' align='center' onClick={() => router.push('/changePhoneNumber')}>
                         <Flex>
-                            <img src={require('../../assets/phone.png')} className={styles.icon2}/>
+                            <img src={require('../../assets/phone.png')} className={styles.icon2} />
                             绑定手机
                         </Flex>
                         <Flex>
-                            <div style={{color: '#999'}}>{this.state.data.phone}</div>
-                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                            <div style={{ color: '#999' }}>{this.state.data.phone}</div>
+                            <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
                     </Flex>
-                    {/* <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
+                    <Flex className={styles.item} justify='between' align='center' onClick={this.handleGoIDCard.bind(this)}>
                         <Flex>
-                            <img src={require('../../assets/my.png')} className={styles.icon3}/>
+                            <img src={require('../../assets/my.png')} className={styles.icon3} />
                             个人信息
                         </Flex>
                         <Flex>
-                            <div style={{color: '#999999'}}>已认证</div>
-                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                            {/* <div style={{ color: '#999999' }}>已认证</div> */}
+                            <div style={{ color: data.identity_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.identity_finished_step == 0 ? '未添加' : data.identity_finished_step == 1 ? '未通过' : data.identity_finished_step == 2 ? '已通过' : ''}</div>
+                            <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
-                    </Flex> */}
+                    </Flex>
                 </div>
 
-                <div className={styles.main2} style={{marginTop: 20}}>
+                <div className={styles.main2} style={{ marginTop: 20 }}>
                     <Flex className={styles.item} justify='between' align='center' onClick={() => router.push('/PersonalInformation/mybank')}>
                         <Flex>
-                            <img src={require('../../assets/bank.png')} className={styles.icon4}/>
+                            <img src={require('../../assets/bank.png')} className={styles.icon4} />
                             我的银行卡
                         </Flex>
                         <Flex>
-                            <div style={{color: this.state.data.is_bank_card == 0 ? '#FF2525' : '#999999'}}>{this.state.data.is_bank_card == 0 ? '未认证' : '已认证'}</div>
-                            <img src={require('../../assets/right.png')} className={styles.goto}/>
+                            {/* <div style={{ color: this.state.data.is_bank_card == 0 ? '#FF2525' : '#999999' }}>{this.state.data.is_bank_card == 0 ? '未认证' : '已认证'}</div> */}
+                            <div style={{ color: data.bankcard_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.bankcard_finished_step == 0 ? '未添加' : data.bankcard_finished_step == 1 ? '未通过' : data.bankcard_finished_step == 2 ? '已通过' : ''}</div>
+                            <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
                     </Flex>
                 </div>

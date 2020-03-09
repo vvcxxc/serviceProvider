@@ -18,7 +18,7 @@ export default class MyBank extends Component {
     if (this.props.location.query.submitType) { this.setState({ maskShow: true }) }
     Request({
       method: 'get',
-      url: 'auth/getBankInfo',
+      url: 'getBankInfo',
     }).then(res => {
       if (res.data) {
         // 存在银行卡
@@ -90,11 +90,11 @@ export default class MyBank extends Component {
                         <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(12)}</div>
                       )
                     }
-                  </div>
+                  </div> 
                 </div>
-                <div className={styles.bank_box_right}>
+                {/* <div className={styles.bank_box_right}>
                   <div className={styles.bank_box_right_bind} onClick={this.bindPhoneNumber.bind(this)}>去验证</div>
-                </div>
+                </div> */}
               </div>
             ) : (
 
@@ -105,12 +105,16 @@ export default class MyBank extends Component {
               )
           }
 
-          <Button className={styles.bindBtn} onClick={this.toChangeBank}>
-            {/* 更改银行卡 */}
+          {/* <Button className={styles.bindBtn} onClick={this.toChangeBank}>
             {
               this.state.is_show ? '更改银行卡' : '添加银行卡'
             }
-          </Button>
+          </Button> */}
+          {
+            !this.state.is_show ? (
+              <Button className={styles.bindBtn} onClick={() => router.push('/submitQua/BankCard')}>添加银行卡</Button>
+            ) : ""
+          }
         </WingBlank>
       </div>
     )

@@ -8,7 +8,7 @@ import { ListStoreQueue } from './qr_code_page/component/store_queue'//铺店队
 import { ListStreRecord } from './qr_code_page/component/store_record'//铺店记录
 import Filtrate from '../components/Filtrate/ql';//筛选组件
 import styles from './index.less';
-
+let time: any;
 export default class QrCodePage extends Component {
   state = {
 
@@ -73,20 +73,39 @@ export default class QrCodePage extends Component {
   }
 
   componentDidMount() {
-    console.log('构建了？')
-    this.requestList(true, 'qrCodes', 1, 1)
+    
+    this.requestList(true, 'qrCodes', 1, 1, { status: 'layouted', orderBy:'today_money'})
     this.dtectNewData()
   }
 
-  //检测新数据
+  componentWillUnmount() {
+    clearTimeout(time)
+  }
+  
+
+  // 每10秒检测 有无新数据
   dtectNewData = () => {
-    let time = setTimeout(() => {
+     time = setTimeout(() => {
       clearTimeout(time)
-      this.requestList()
-    }, 5000);
+      this.dtectNewData()
+      Request({
+        url: 'qrCodes',
+        method: "GET",
+        params: {
+          page: 1,
+        }
+      }).then(res => {
+        const { data, code } = res
+        if (code !== 200) return
+        this.setState({
+          clickMore: Number(data.money_total) != Number(this.state.codeTitle.money) ? true : false
+        })
+      })
+
+    }, 30000);
   }
 
-  requestList = (ban?:boolean,url?: any, page?: number, options?: number) => {
+  requestList = (ban?:boolean,url?: any, page?: number, options?: number,filters?:Object) => {
     const {
       options_index, codePage, packagePage, recordPage, queuePage,
       codeList, packageList, record_list
@@ -97,7 +116,8 @@ export default class QrCodePage extends Component {
     let filter = {}
 
     if (!options_index) {
-      filter = { ...this.state.filter }
+      filter = filters ? filters : { ...this.state.filter }
+      console.log(11)
     }
 
     Request({
@@ -121,7 +141,7 @@ export default class QrCodePage extends Component {
             },
             codeList: codePage > 1 ? [...codeList, ...data.data] : data.data,
             codeMore: data.data.length ? true : false,
-            clickMore: Number(data.money_total) != Number(this.state.codeTitle.money) ? true : false
+            // clickMore: Number(data.money_total) != Number(this.state.codeTitle.money) ? true : false
           })
           break;
         case 1://码包
@@ -144,7 +164,7 @@ export default class QrCodePage extends Component {
         default://铺店记录
           if (recordPage > 1 && !ban) return
           this.setState({
-            record_list: [...record_list, ...data.data],
+            record_list: recordPage > 1 ? [...record_list, ...data.data] : data.data,
             recordMore: data.data.length ? true : false
           })
           break;
@@ -220,7 +240,7 @@ export default class QrCodePage extends Component {
         {
           [
             <ListCode list={codeList} title={codeTitle} have_more={codeMore} getWantMore={this.getWantMore} clickMore={clickMore} onchange={()=>{
-              this.setState({ codePage: 1, codeList: [] }, () => {
+              this.setState({ codePage: 1, codeList: [], clickMore:false }, () => {
                 this.requestList()
               })
             }}/>,

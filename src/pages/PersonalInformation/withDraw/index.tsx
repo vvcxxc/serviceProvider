@@ -123,7 +123,7 @@ export default class WithDraw extends Component {
           //     case 200:
           //       this.setState({
           //         is_bind: true,
-          //         data,
+          //         data, 
           //         all_money: data.usable_money
           //       })
           //       break;
@@ -134,7 +134,8 @@ export default class WithDraw extends Component {
           Toast.success(message, 1)
           this.setState({ money: '' })
           setTimeout(() => {
-            router.goBack()
+            // router.goBack()
+            router.push('/PersonalInformation')
           }, 1500)
           break;
 

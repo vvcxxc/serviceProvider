@@ -17,7 +17,7 @@ class Audit extends Component {
         Request({
             url: 'sqAccount'
         }).then(res => {
-            if (res.code == 200) {
+            if (res.code == 200 && res.data.length != 0) {
                 this.setState({
                     payplatform_check_status: res.data.payplatform_check_status,
                     payplatform_check_comment: res.data.payplatform_check_comment
@@ -29,7 +29,9 @@ class Audit extends Component {
     render() {
         return (
             // <div>Hello World</div>
+
             <div className={styles.audit}>
+                {/* {console.log(this.state)} */}
                 {
                     this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 || this.state.payplatform_check_status == 3 ? (
                         <div className={styles.audit_logo}>

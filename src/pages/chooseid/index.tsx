@@ -97,9 +97,10 @@ class ChooseId extends Component {
           Cookies.set('registerPassword', "", { expires: 1 });
           Cookies.set('registerInviterPhone', "", { expires: 1 });
 
-          Toast.success(res.message, 1, () => {
-            router.push('/login');
-          });
+          router.push('/login');
+          // Toast.success(res.message, 1, () => {
+          //   router.push('/login');
+          // });
         })
       } else {
         Toast.fail(res.message, 1);

@@ -534,7 +534,7 @@ class IDCard extends Component {
         <div className={styles.idcard_wrap}>
 
           {/* 数据项 */}
-          <div className={styles.user_info}>
+          {/* <div className={styles.user_info}> */}
             <List>
               {/* <Item style={{ padding: '15px' }}> */}
               <InputItem placeholder='请输入您的真实姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>真实姓名</InputItem>
@@ -546,7 +546,7 @@ class IDCard extends Component {
               <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
               {/* </Item> */}
             </List>
-          </div>
+          {/* </div> */}
 
           <div className={styles.idcard_upload}>
             <div className={styles.idcard_title}>

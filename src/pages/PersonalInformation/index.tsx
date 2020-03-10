@@ -93,7 +93,7 @@ export default class PersonalInformation extends Component {
             //     } else {
             //         router.push('/PersonalInformation/withDraw')
             //     }
-            // } 
+            // }  
             else if (data.identity_finished_step == 0) {
                 // router.push('/submitQua/IDCard')
                 router.push('/submitQua/EditIDCard')

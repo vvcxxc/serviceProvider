@@ -13,15 +13,15 @@ import Request from '@/service/request';
 import qs from 'qs';
 
 // 修改页面刷新并不需要做缓存只需要在去有效期页面才需缓存
-window.onunload = function () {
-  Cookies.remove("EditImgUrlFrontID");
-  Cookies.remove("EditImgUrlBehindID");
-  Cookies.remove("EditImgUrlFrontBehindID");
-  Cookies.remove("EditUserName");
-  Cookies.remove("EditIDCardNumber");
-  Cookies.remove("EditIDCardValidity");
-  return;
-}
+// window.onunload = function () {
+//   Cookies.remove("EditImgUrlFrontID");
+//   Cookies.remove("EditImgUrlBehindID");
+//   Cookies.remove("EditImgUrlFrontBehindID");
+//   Cookies.remove("EditUserName");
+//   Cookies.remove("EditIDCardNumber");
+//   Cookies.remove("EditIDCardValidity");
+//   return;
+// }
 
 class IDCard extends Component {
 
@@ -70,7 +70,44 @@ class IDCard extends Component {
       window.localStorage.setItem('oss_data', JSON.stringify(oss_data));
     })
 
-    await this.getData();
+    await Request({
+      url: 'getFacilitatorIdentity'
+    }).then(res => {
+      if (res.code == 200 && res.data != null) {
+        this.setState({
+          img_url_front_id: res.data.identity_face_img,
+          isHaveImgFrontID: res.data.identity_face_img ? true : false,
+
+          img_url_behind_id: res.data.identity_back_img,
+          isHaveImgBehindID: res.data.identity_back_img ? true : false,
+
+          img_url_front_behind_id: res.data.in_hand_img,
+          isHaveImgFrontBehindID: res.data.in_hand_img ? true : false,
+
+          UserName: res.data.identity_name,
+
+          IDCardNumber: res.data.identity_no,
+
+          IDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time,
+
+          check_status: res.data.check_status
+
+
+        }, () => {
+          if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
+            Cookies.set("EditIDCardValidity", JSON.stringify(this.state.IDCardValidity), { expires: 1 });
+          }
+        })
+
+        // if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
+        //   Cookies.set("EditIDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
+        // }
+      } else if (res.code == 200 && res.data == null) {
+        this.setState({
+          is_edit: false
+        })
+      }
+    })
 
 
     /**
@@ -148,47 +185,6 @@ class IDCard extends Component {
     ) : "";
 
 
-  }
-
-  getData = () => {
-    Request({
-      url: 'getFacilitatorIdentity'
-    }).then(res => {
-      if (res.code == 200 && res.data != null) {
-        this.setState({
-          img_url_front_id: res.data.identity_face_img,
-          isHaveImgFrontID: res.data.identity_face_img ? true : false,
-
-          img_url_behind_id: res.data.identity_back_img,
-          isHaveImgBehindID: res.data.identity_back_img ? true : false,
-
-          img_url_front_behind_id: res.data.in_hand_img,
-          isHaveImgFrontBehindID: res.data.in_hand_img ? true : false,
-
-          UserName: res.data.identity_name,
-
-          IDCardNumber: res.data.identity_no,
-
-          IDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time,
-
-          check_status: res.data.check_status
-
-
-        }, () => {
-          if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
-            Cookies.set("EditIDCardValidity", JSON.stringify(this.state.IDCardValidity), { expires: 1 });
-          }
-        })
-
-        // if (typeof (Cookies.get("EditIDCardValidity")) == "undefined") {
-        //   Cookies.set("EditIDCardValidity", JSON.stringify(res.data.identity_valid_time), { expires: 1 });
-        // }
-      } else if (res.code == 200 && res.data == null) {
-        this.setState({
-          is_edit: false
-        })
-      }
-    })
   }
 
   /**
@@ -535,17 +531,17 @@ class IDCard extends Component {
 
           {/* 数据项 */}
           {/* <div className={styles.user_info}> */}
-            <List>
-              {/* <Item style={{ padding: '15px' }}> */}
-              <InputItem placeholder='请输入您的真实姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>真实姓名</InputItem>
-              {/* </Item> */}
-              {/* <Item style={{ padding: '15px' }}> */}
-              <InputItem placeholder='请输入您的身份证号' onChange={this.handleIDCardNumberChange.bind(this)} value={IDCardNumber} clear>身份证号</InputItem>
-              {/* </Item> */}
-              {/* <Item style={{ padding: '15px' }}> */}
-              <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
-              {/* </Item> */}
-            </List>
+          <List>
+            {/* <Item style={{ padding: '15px' }}> */}
+            <InputItem placeholder='请输入您的真实姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>真实姓名</InputItem>
+            {/* </Item> */}
+            {/* <Item style={{ padding: '15px' }}> */}
+            <InputItem placeholder='请输入您的身份证号' onChange={this.handleIDCardNumberChange.bind(this)} value={IDCardNumber} clear>身份证号</InputItem>
+            {/* </Item> */}
+            {/* <Item style={{ padding: '15px' }}> */}
+            <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
+            {/* </Item> */}
+          </List>
           {/* </div> */}
 
           <div className={styles.idcard_upload}>

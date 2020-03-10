@@ -170,7 +170,7 @@ export default class PersonalInformation extends Component {
                         </Flex>
                         <Flex>
                             {/* <div style={{ color: '#999999' }}>已认证</div> */}
-                            <div style={{ color: data.identity_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.identity_finished_step == 0 ? '未添加' : data.identity_finished_step == 1 ? '未通过' : data.identity_finished_step == 2 ? '已通过' : data.identity_finished_step == 3 ? '审核中' : ''}</div>
+                            <div style={{ color: data.identity_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.identity_finished_step == 0 ? '未添加' : data.identity_finished_step == 1 ? '未通过' : data.identity_finished_step == 2 ? '已认证' : data.identity_finished_step == 3 ? '审核中' : ''}</div>
                             <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
                     </Flex>
@@ -184,7 +184,7 @@ export default class PersonalInformation extends Component {
                         </Flex>
                         <Flex>
                             {/* <div style={{ color: this.state.data.is_bank_card == 0 ? '#FF2525' : '#999999' }}>{this.state.data.is_bank_card == 0 ? '未认证' : '已认证'}</div> */}
-                            <div style={{ color: data.bankcard_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.bankcard_finished_step == 0 ? '未添加' : data.bankcard_finished_step == 1 ? '未通过' : data.bankcard_finished_step == 2 ? '已通过' : data.bankcard_finished_step == 3 ? '审核中' : ''}</div>
+                            <div style={{ color: data.bankcard_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.bankcard_finished_step == 0 ? '未添加' : data.bankcard_finished_step == 1 ? '未通过' : data.bankcard_finished_step == 2 ? '已认证' : data.bankcard_finished_step == 3 ? '审核中' : ''}</div>
                             <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
                     </Flex>

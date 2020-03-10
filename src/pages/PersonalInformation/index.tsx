@@ -31,7 +31,19 @@ export default class PersonalInformation extends Component {
         }).then(res => {
             if (res.code == 200) {
                 Toast.hide();
-                this.setState({ data: res.data })
+                this.setState({ data: res.data }, () => {
+                    // console.log(this.state);
+                    if(this.state.data.identity_finished_step == 2) {
+                        Cookies.remove('EditUserName');
+                        Cookies.remove('EditIDCardNumber');
+                        Cookies.remove('EditIDCardValidity');
+                        Cookies.remove('EditImgUrlFrontID');
+                        Cookies.remove('EditImgUrlBehindID');
+                        Cookies.remove('EditImgUrlFrontBehindID');
+                    }else if (this.state.data.bankcard_finished_step == 2) {
+                        
+                    }
+                })
             } else {
                 Toast.fail('请求错误', 1)
             }
@@ -82,7 +94,7 @@ export default class PersonalInformation extends Component {
                 router.push('/submitQua/EditIDCard')
             } else if (data.identity_finished_step == 1) {
                 router.push('/submitQua/EditIDCard')
-            } 
+            }
             else if (data.bankcard_finished_step == 0) {
                 // router.push('/submitQua/BankCard')
                 router.push('/submitQua/EditBankCard')

@@ -319,7 +319,7 @@ class Register extends Component {
         Cookies.set("DoubleDryIDCardNumber", e, { expires: 1 });
     }
 
-    /**
+    /** 
      * 有效期
      */
     chooseDate = () => {

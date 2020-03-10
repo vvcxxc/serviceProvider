@@ -53,6 +53,7 @@ export default connect(({ register }: any) => register)(
                     username: e
                 }
             })
+            Cookies.set('registerUsername', e, { expires: 1 });
         }
 
         /**
@@ -68,6 +69,7 @@ export default connect(({ register }: any) => register)(
                     phone: e
                 }
             })
+            Cookies.set('registerPhone', e, { expires: 1 });
         }
 
         /**
@@ -83,6 +85,7 @@ export default connect(({ register }: any) => register)(
                     code: e
                 }
             })
+            Cookies.set('registerCode', e, { expires: 1 });
         }
 
         /**
@@ -98,6 +101,7 @@ export default connect(({ register }: any) => register)(
                     password: e
                 }
             })
+            Cookies.set('registerPassword', e, { expires: 1 });
         }
 
         /**
@@ -113,6 +117,7 @@ export default connect(({ register }: any) => register)(
                     inviter_phone: e
                 }
             })
+            Cookies.set('registerInviterPhone', e, { expires: 1 });
         }
 
         /**
@@ -187,7 +192,7 @@ export default connect(({ register }: any) => register)(
 
         handleRegister = () => {
             const { username, phone, code, password, inviter_phone } = this.props;
-            let _this=this;
+            let _this = this;
             if (!(/^([a-zA-Z\u4e00-\u9fa5]){1,8}$/.test(username))) {
                 Toast.fail('请输入中文，字母名称且不超过8个字符', 1);
                 return;
@@ -202,63 +207,63 @@ export default connect(({ register }: any) => register)(
             }
 
             if (username && phone && code && password) {
-                let data;
-                if (inviter_phone) {
-                    data = qs.stringify({
-                        name: username,
-                        account: phone,
-                        password,
-                        verify_code: code,
-                        from_phone: inviter_phone
-                    })
-                } else {
-                    data = qs.stringify({
-                        name: username,
-                        account: phone,
-                        password,
-                        verify_code: code
-                    })
-                }
-                Request({
-                    url: 'register',
-                    method: 'post',
-                    data
-                }).then(res => {
-                    let { code, message } = res;
-                    if (code == 200) {
-                        Toast.success('注册成功', 2, () => {
-                            localStorage.setItem('token', res.access_token);
+                router.push('/chooseid');
+                // let data;
+                // if (inviter_phone) {
+                //     data = qs.stringify({
+                //         name: username,
+                //         account: phone,
+                //         password,
+                //         verify_code: code,
+                //         from_phone: inviter_phone
+                //     })
+                // } else {
+                //     data = qs.stringify({
+                //         name: username,
+                //         account: phone,
+                //         password,
+                //         verify_code: code
+                //     })
+                // }
+                // Request({
+                //     url: 'register',
+                //     method: 'post',
+                //     data
+                // }).then(res => {
+                //     let { code, message } = res;
+                //     if (code == 200) {
+                //         Toast.success('注册成功', 2, () => {
+                //             localStorage.setItem('token', res.access_token);
 
-                            Cookies.set("bussiness_type", "", { expires: 1 });
+                //             Cookies.set("bussiness_type", "", { expires: 1 });
 
-                            Cookies.set("ImgUrlFront", "", { expires: 1 });
-                            Cookies.set("ImgUrlBehind", "", { expires: 1 });
-                            Cookies.set("User", "", { expires: 1 });
-                            Cookies.set("bankCard", "", { expires: 1 });
-                            Cookies.set("bankName", "", { expires: 1 });
-                            Cookies.set("subBranchBank", "", { expires: 1 });
+                //             Cookies.set("ImgUrlFront", "", { expires: 1 });
+                //             Cookies.set("ImgUrlBehind", "", { expires: 1 });
+                //             Cookies.set("User", "", { expires: 1 });
+                //             Cookies.set("bankCard", "", { expires: 1 });
+                //             Cookies.set("bankName", "", { expires: 1 });
+                //             Cookies.set("subBranchBank", "", { expires: 1 });
 
-                            Cookies.set("ImgUrlFrontID", "", { expires: 1 });
-                            Cookies.set("ImgUrlBehindID", "", { expires: 1 });
-                            Cookies.set("ImgUrlFrontBehindID", "", { expires: 1 });
-                            Cookies.set("UserName", "", { expires: 1 });
-                            Cookies.set("IDCardNumber", "", { expires: 1 });
-                            Cookies.set("IDCardValidity", "", { expires: 1 });
-                            
-                            //路由
-                            router.push('/chooseid')
-                        })
-                    } else {
-                        Toast.fail(res.message)
-                        _this.setState({ is_ok: true });
-                        _this.props.dispatch({
-                            type: 'register/registered',
-                            payload: {
-                                is_ok: true
-                            }
-                        })
-                    }
-                })
+                //             Cookies.set("ImgUrlFrontID", "", { expires: 1 });
+                //             Cookies.set("ImgUrlBehindID", "", { expires: 1 });
+                //             Cookies.set("ImgUrlFrontBehindID", "", { expires: 1 });
+                //             Cookies.set("UserName", "", { expires: 1 });
+                //             Cookies.set("IDCardNumber", "", { expires: 1 });
+                //             Cookies.set("IDCardValidity", "", { expires: 1 });
+
+                //             router.push('/chooseid')
+                //         })
+                //     } else {
+                //         Toast.fail(res.message)
+                //         _this.setState({ is_ok: true });
+                //         _this.props.dispatch({
+                //             type: 'register/registered',
+                //             payload: {
+                //                 is_ok: true
+                //             }
+                //         })
+                //     }
+                // })
             } else {
                 Toast.fail('请将信息填写完整', 2)
             }
@@ -380,7 +385,7 @@ export default connect(({ register }: any) => register)(
                             </div>
 
                         </div>
-                        <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
+                        <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>下一步</Button>
                         {/* {
                             this.props.username && this.props.phone && this.props.code && this.props.password? <Button className={styles.register_btn} onClick={this.handleRegister.bind(this)}>注册</Button>
                                 : <Button className={styles.register_btn} style={{ background: '#789beb' }}>注册</Button>

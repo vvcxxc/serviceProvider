@@ -84,7 +84,7 @@ export default class PersonalInformation extends Component {
             }
 
             // else if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
-            //     if (data.sq_finished_step == 0) {
+            //     if (data.sq_finished_step == 0) { 
             //         router.push('/doubledry/register')
             //     } else if (data.sq_finished_step == 1) {
             //         router.push('/doubledry/bindcard')

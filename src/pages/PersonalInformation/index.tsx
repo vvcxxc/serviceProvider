@@ -82,7 +82,7 @@ export default class PersonalInformation extends Component {
                 router.push('/submitQua/EditIDCard')
             } else if (data.identity_finished_step == 1) {
                 router.push('/submitQua/EditIDCard')
-            }
+            } 
             else if (data.bankcard_finished_step == 0) {
                 // router.push('/submitQua/BankCard')
                 router.push('/submitQua/EditBankCard')

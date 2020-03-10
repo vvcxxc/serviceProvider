@@ -43,6 +43,18 @@ class Audit extends Component {
         })
     }
 
+    handleNext = () => {
+        if (this.state.identity_finished_step == 2 && this.state.bankcard_finished_step == 2) {
+            if (this.state.sq_finished_step == 0) {
+                router.push('/doubledry/register')
+            } else if (this.state.sq_finished_step == 1) {
+                router.push('/doubledry/bindcard')
+            } else if (this.state.sq_finished_step == 2) {
+                router.push('/doubledry/withdraw')
+            }
+        }
+    }
+
     handleResetSubmit = () => {
         if (this.state.identity_finished_step == 2 && this.state.bankcard_finished_step == 2) {
             if (this.state.sq_finished_step == 0) {
@@ -79,7 +91,7 @@ class Audit extends Component {
                     this.state.payplatform_check_status == 0 || this.state.payplatform_check_status == 1 ? (
                         <div className={styles.audit_btn} onClick={() => router.push('/PersonalInformation')}>知道了</div>
                     ) : this.state.payplatform_check_status == 2 ? (
-                        <div className={styles.audit_btn} onClick={() => router.push('/doubledry/bindcard')}>下一步</div>
+                        <div className={styles.audit_btn} onClick={this.handleNext}>下一步</div>
                     ) : this.state.payplatform_check_status == 3 ? (
                         // <div className={styles.audit_btn} onClick={() => router.push('/doubledry/register')}>重新提交</div>
                         <div className={styles.audit_btn} onClick={this.handleResetSubmit}>重新提交</div>

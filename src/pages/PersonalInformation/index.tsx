@@ -33,15 +33,15 @@ export default class PersonalInformation extends Component {
                 Toast.hide();
                 this.setState({ data: res.data }, () => {
                     // console.log(this.state);
-                    if(this.state.data.identity_finished_step == 2) {
+                    if (this.state.data.identity_finished_step == 2) {
                         Cookies.remove('EditUserName');
                         Cookies.remove('EditIDCardNumber');
                         Cookies.remove('EditIDCardValidity');
                         Cookies.remove('EditImgUrlFrontID');
                         Cookies.remove('EditImgUrlBehindID');
                         Cookies.remove('EditImgUrlFrontBehindID');
-                    }else if (this.state.data.bankcard_finished_step == 2) {
-                        
+                    } else if (this.state.data.bankcard_finished_step == 2) {
+
                     }
                 })
             } else {
@@ -79,17 +79,22 @@ export default class PersonalInformation extends Component {
         if (data.sq_status) {
             router.push('/PersonalInformation/withDraw')
         } else {
-            if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
-                if (data.sq_finished_step == 0) {
-                    router.push('/doubledry/register')
-                } else if (data.sq_finished_step == 1) {
-                    router.push('/doubledry/bindcard')
-                } else if (data.sq_finished_step == 2) {
-                    router.push('/doubledry/withdraw')
-                } else {
-                    router.push('/PersonalInformation/withDraw')
-                }
-            } else if (data.identity_finished_step == 0) {
+            if (data.sq_status == false && data.sq_finished_step == 0 && data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
+                router.push('/doubledry/audit');
+            }
+
+            // else if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
+            //     if (data.sq_finished_step == 0) {
+            //         router.push('/doubledry/register')
+            //     } else if (data.sq_finished_step == 1) {
+            //         router.push('/doubledry/bindcard')
+            //     } else if (data.sq_finished_step == 2) {
+            //         router.push('/doubledry/withdraw')
+            //     } else {
+            //         router.push('/PersonalInformation/withDraw')
+            //     }
+            // } 
+            else if (data.identity_finished_step == 0) {
                 // router.push('/submitQua/IDCard')
                 router.push('/submitQua/EditIDCard')
             } else if (data.identity_finished_step == 1) {

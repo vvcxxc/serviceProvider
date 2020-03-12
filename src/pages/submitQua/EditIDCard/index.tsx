@@ -13,15 +13,15 @@ import Request from '@/service/request';
 import qs from 'qs';
 
 // 修改页面刷新并不需要做缓存只需要在去有效期页面才需缓存
-window.onunload = function () {
-  Cookies.remove("EditImgUrlFrontID");
-  Cookies.remove("EditImgUrlBehindID");
-  Cookies.remove("EditImgUrlFrontBehindID");
-  Cookies.remove("EditUserName");
-  Cookies.remove("EditIDCardNumber");
-  Cookies.remove("EditIDCardValidity");
-  return;
-}
+// window.onunload = function () {
+//   Cookies.remove("EditImgUrlFrontID");
+//   Cookies.remove("EditImgUrlBehindID");
+//   Cookies.remove("EditImgUrlFrontBehindID");
+//   Cookies.remove("EditUserName");
+//   Cookies.remove("EditIDCardNumber");
+//   Cookies.remove("EditIDCardValidity");
+//   return;
+// }
 
 class IDCard extends Component {
 
@@ -49,7 +49,9 @@ class IDCard extends Component {
     IDCardNumber: "",
     IDCardValidity: "",
 
-    is_edit: true
+    is_edit: true,
+
+    check_status: null // 1待审核 2通过 3拒绝
   }
 
   async componentDidMount() {
@@ -86,7 +88,9 @@ class IDCard extends Component {
 
           IDCardNumber: res.data.identity_no,
 
-          IDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time
+          IDCardValidity: res.data.identity_valid_time == "" ? "长期" : res.data.identity_valid_time,
+
+          check_status: res.data.check_status
 
 
         }, () => {
@@ -347,6 +351,12 @@ class IDCard extends Component {
     }
 
     if (is_edit) {
+      // 审核中为1 直接下一步
+      // 审核失败为3 重新提交资料 完成后再请求数据
+      if (this.state.check_status == 1) {
+        router.push('/submitQua/EditBankCard')
+        return;
+      }
       Request({
         url: "uploadIdentity",
         method: "POST",
@@ -369,7 +379,8 @@ class IDCard extends Component {
             Cookies.remove("EditUserName");
             Cookies.remove("EditIDCardNumber");
             Cookies.remove("EditIDCardValidity");
-            router.push('/PersonalInformation');
+            router.push('/submitQua/EditBankCard')
+            // this.getData();
           });
         } else {
           Toast.fail(res.message, 1);
@@ -391,7 +402,8 @@ class IDCard extends Component {
       }).then(res => {
         if (res.code == 200) {
           Toast.success(res.message, 2, () => {
-            router.push('/PersonalInformation')
+            // router.push('/PersonalInformation')
+            router.push('/submitQua/EditBankCard')
           });
         } else {
           Toast.fail(res.message, 1);
@@ -518,19 +530,19 @@ class IDCard extends Component {
         <div className={styles.idcard_wrap}>
 
           {/* 数据项 */}
-          <div className={styles.user_info}>
-            <List>
-              {/* <Item style={{ padding: '15px' }}> */}
-              <InputItem placeholder='请输入您的真实姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>真实姓名</InputItem>
-              {/* </Item> */}
-              {/* <Item style={{ padding: '15px' }}> */}
-              <InputItem placeholder='请输入您的身份证号' onChange={this.handleIDCardNumberChange.bind(this)} value={IDCardNumber} clear>身份证号</InputItem>
-              {/* </Item> */}
-              {/* <Item style={{ padding: '15px' }}> */}
-              <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
-              {/* </Item> */}
-            </List>
-          </div>
+          {/* <div className={styles.user_info}> */}
+          <List>
+            {/* <Item style={{ padding: '15px' }}> */}
+            <InputItem placeholder='请输入您的真实姓名' onChange={this.handleUserNameChange.bind(this)} value={UserName} clear>真实姓名</InputItem>
+            {/* </Item> */}
+            {/* <Item style={{ padding: '15px' }}> */}
+            <InputItem placeholder='请输入您的身份证号' onChange={this.handleIDCardNumberChange.bind(this)} value={IDCardNumber} clear>身份证号</InputItem>
+            {/* </Item> */}
+            {/* <Item style={{ padding: '15px' }}> */}
+            <InputItem placeholder='请输入身份证有效期' editable={false} clear onClick={this.chooseDate.bind(this)} value={IDCardValidity}>有效期</InputItem>
+            {/* </Item> */}
+          </List>
+          {/* </div> */}
 
           <div className={styles.idcard_upload}>
             <div className={styles.idcard_title}>

@@ -30,6 +30,7 @@ class BankCard extends Component {
         bankCard: "",
         bankName: "",
         bankID: "",
+        allBank: [],
         subBranchBank: "",
 
         isShowBank: false,
@@ -46,6 +47,8 @@ class BankCard extends Component {
 
         // 默认为修改
         is_edit: true,
+
+        check_status: null // 1待审核 2通过 3拒绝
     }
 
     async componentDidMount() {
@@ -65,6 +68,31 @@ class BankCard extends Component {
         })
 
         await Request({
+            url: 'v1/common/getBankNames'
+        }).then(res => {
+            if (res.code == 200 && res.data.length != 0) {
+                this.setState({
+                    allBank: res.data
+                })
+            }
+        })
+
+        await this.getData();
+
+
+        // /**
+        //  * 银行ID
+        //  */
+        // Cookies.get("EditBankID") || Cookies.get("EditBankID") == "" ? (
+        //     this.setState({
+        //         bankID: Cookies.get("EditBankID")
+        //     })
+        // ) : "";
+
+    }
+
+    getData = () => {
+        Request({
             url: 'getBankInfo',
             method: 'get'
         }).then(res => {
@@ -84,9 +112,21 @@ class BankCard extends Component {
 
                     bankCard: res.data.userBankinfo.bankcard_no,
 
-                    bankName: res.data.userBankinfo.bank_name,
+                    // bankName: res.data.userBankinfo.bank_name,
 
                     subBranchBank: res.data.userBankinfo.branch_address,
+
+                    check_status: res.data.userBankinfo.check_status,
+
+                    bankID: res.data.userBankinfo.bank_id
+                }, () => {
+                    this.state.allBank.forEach(item => {
+                        if (item.bank_id == this.state.bankID) {
+                            this.setState({
+                                bankName: item.bank_name
+                            })
+                        }
+                    })
                 })
             } else if (code == 403) {
                 this.setState({
@@ -234,7 +274,7 @@ class BankCard extends Component {
     handleSelectBankItem = (item: any) => {
         // console.log(item);
         // Cookies.set("bankName", item.bank_name, { expires: 1 });
-        // Cookies.set("bankID", item.bank_id, { expires: 1 });
+        // Cookies.set("EditBankID", item.bank_id, { expires: 1 });
         this.setState({
             bankName: item.bank_name,
             bankID: item.bank_id,
@@ -305,6 +345,12 @@ class BankCard extends Component {
         Toast.loading("");
 
         if (is_edit) {
+            // 审核中为1 直接下一步
+            // 审核失败为3 重新提交资料 完成后再请求数据
+            if (this.state.check_status == 1) {
+                router.push('/doubledry/audit');
+                return;
+            }
             Request({
                 method: 'post',
                 url: 'setBankInfo',
@@ -321,7 +367,9 @@ class BankCard extends Component {
             }).then(res => {
                 if (res.code == 200) {
                     Toast.success(res.message, 2, () => {
-                        router.push('/PersonalInformation')
+                        router.push('/doubledry/audit');
+                        // router.push('/PersonalInformation')
+                        // this.getData();
                     });
                 } else {
                     Toast.fail(res.message, 1);
@@ -343,7 +391,8 @@ class BankCard extends Component {
             }).then(res => {
                 if (res.code == 200) {
                     Toast.success(res.message, 2, () => {
-                        router.push('/PersonalInformation')
+                        // router.push('/PersonalInformation')
+                        router.push('/doubledry/audit');
                     });
                 } else {
                     Toast.fail(res.message, 1);
@@ -404,7 +453,7 @@ class BankCard extends Component {
                                                 ))
                                             }
                                         </List>
-                                    </div> 
+                                    </div>
                                 ) : ""
                             }
                         </div>

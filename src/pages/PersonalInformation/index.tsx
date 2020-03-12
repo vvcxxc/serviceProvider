@@ -31,14 +31,26 @@ export default class PersonalInformation extends Component {
         }).then(res => {
             if (res.code == 200) {
                 Toast.hide();
-                this.setState({ data: res.data })
+                this.setState({ data: res.data }, () => {
+                    // console.log(this.state);
+                    if (this.state.data.identity_finished_step == 2) {
+                        Cookies.remove('EditUserName');
+                        Cookies.remove('EditIDCardNumber');
+                        Cookies.remove('EditIDCardValidity');
+                        Cookies.remove('EditImgUrlFrontID');
+                        Cookies.remove('EditImgUrlBehindID');
+                        Cookies.remove('EditImgUrlFrontBehindID');
+                    } else if (this.state.data.bankcard_finished_step == 2) {
+
+                    }
+                })
             } else {
                 Toast.fail('请求错误', 1)
             }
         }).catch((err) => {
             Toast.fail('请求失败', 1)
         })
-        
+
     }
 
     //修改密码
@@ -67,24 +79,34 @@ export default class PersonalInformation extends Component {
         if (data.sq_status) {
             router.push('/PersonalInformation/withDraw')
         } else {
-            if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
-                if (data.sq_finished_step == 0) {
-                    router.push('/doubledry/register')
-                } else if (data.sq_finished_step == 1) {
-                    router.push('/doubledry/bindcard')
-                } else if (data.sq_finished_step == 2) {
-                    router.push('/doubledry/withdraw')
-                } else {
-                    router.push('/PersonalInformation/withDraw')
-                } 
-            } else if (data.identity_finished_step == 0) {
-                router.push('/submitQua/IDCard')
+            if (data.sq_status == false && data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
+                router.push('/doubledry/audit');
+            }
+
+            // else if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
+            //     if (data.sq_finished_step == 0) {
+            //         router.push('/doubledry/register')
+            //     } else if (data.sq_finished_step == 1) {
+            //         router.push('/doubledry/bindcard')
+            //     } else if (data.sq_finished_step == 2) {
+            //         router.push('/doubledry/withdraw')
+            //     } else {
+            //         router.push('/PersonalInformation/withDraw')
+            //     }
+            // } 
+            else if (data.identity_finished_step == 0) {
+                // router.push('/submitQua/IDCard')
+                router.push('/submitQua/EditIDCard')
             } else if (data.identity_finished_step == 1) {
                 router.push('/submitQua/EditIDCard')
-            } else if (data.bankcard_finished_step == 0) {
-                router.push('/submitQua/BankCard')
+            }
+            else if (data.bankcard_finished_step == 0) {
+                // router.push('/submitQua/BankCard')
+                router.push('/submitQua/EditBankCard')
             } else if (data.bankcard_finished_step == 1) {
                 router.push('/submitQua/EditBankCard')
+            } else if ((data.identity_finished_step == 3 && data.bankcard_finished_step == 3) || (data.identity_finished_step == 3 && data.bankcard_finished_step == 2) || (data.bankcard_finished_step == 3 && data.identity_finished_step == 2)) {
+                router.push('/doubledry/audit');
             }
 
 
@@ -153,7 +175,7 @@ export default class PersonalInformation extends Component {
                         </Flex>
                         <Flex>
                             {/* <div style={{ color: '#999999' }}>已认证</div> */}
-                            <div style={{ color: data.identity_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.identity_finished_step == 0 ? '未添加' : data.identity_finished_step == 1 ? '未通过' : data.identity_finished_step == 2 ? '已通过' : ''}</div>
+                            <div style={{ color: data.identity_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.identity_finished_step == 0 ? '未添加' : data.identity_finished_step == 1 ? '未通过' : data.identity_finished_step == 2 ? '已认证' : data.identity_finished_step == 3 ? '审核中' : ''}</div>
                             <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
                     </Flex>
@@ -167,7 +189,7 @@ export default class PersonalInformation extends Component {
                         </Flex>
                         <Flex>
                             {/* <div style={{ color: this.state.data.is_bank_card == 0 ? '#FF2525' : '#999999' }}>{this.state.data.is_bank_card == 0 ? '未认证' : '已认证'}</div> */}
-                            <div style={{ color: data.bankcard_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.bankcard_finished_step == 0 ? '未添加' : data.bankcard_finished_step == 1 ? '未通过' : data.bankcard_finished_step == 2 ? '已通过' : ''}</div>
+                            <div style={{ color: data.bankcard_finished_step == 2 ? '#999999' : '#FF2525' }}>{data.bankcard_finished_step == 0 ? '未添加' : data.bankcard_finished_step == 1 ? '未通过' : data.bankcard_finished_step == 2 ? '已认证' : data.bankcard_finished_step == 3 ? '审核中' : ''}</div>
                             <img src={require('../../assets/right.png')} className={styles.goto} />
                         </Flex>
                     </Flex>

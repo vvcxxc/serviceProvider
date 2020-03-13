@@ -89,40 +89,23 @@ export default class PersonalInformation extends Component {
         })
     }
     gotoWithDraw = () => {
+        // identity_finished_step   0 未添加 1 未通过  2 通过  3 审核中
+        // bankcard_finished_step   0 未添加 1 未通过  2 通过  3 审核中
         const { data } = this.state;
         if (data.sq_status) {
             router.push('/PersonalInformation/withDraw')
         } else {
             if (data.sq_status == false && data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
                 router.push('/doubledry/audit');
-            }
-
-            // else if (data.identity_finished_step == 2 && data.bankcard_finished_step == 2) {
-            //     if (data.sq_finished_step == 0) {
-            //         router.push('/doubledry/register')
-            //     } else if (data.sq_finished_step == 1) {
-            //         router.push('/doubledry/bindcard')
-            //     } else if (data.sq_finished_step == 2) {
-            //         router.push('/doubledry/withdraw')
-            //     } else {
-            //         router.push('/PersonalInformation/withDraw')
-            //     }
-            // } 
-            else if (data.identity_finished_step == 0) {
-                // router.push('/submitQua/IDCard')
+            } else if (data.identity_finished_step == 0) {
                 router.push('/submitQua/EditIDCard')
-            } else if (data.identity_finished_step == 1) {
-                router.push('/submitQua/EditIDCard')
-            }
-            else if (data.bankcard_finished_step == 0) {
-                // router.push('/submitQua/BankCard')
+            } else if (data.identity_finished_step == 1 || data.identity_finished_step == 3) {
+                router.push('/doubledry/IDCardAudit')
+            } else if (data.bankcard_finished_step == 0) {
                 router.push('/submitQua/EditBankCard')
-            } else if (data.bankcard_finished_step == 1) {
-                router.push('/submitQua/EditBankCard')
-            } else if ((data.identity_finished_step == 3 && data.bankcard_finished_step == 3) || (data.identity_finished_step == 3 && data.bankcard_finished_step == 2) || (data.bankcard_finished_step == 3 && data.identity_finished_step == 2)) {
-                router.push('/doubledry/audit');
+            } else if (data.bankcard_finished_step == 1 || data.bankcard_finished_step == 3) {
+                router.push('/doubledry/BankCardAudit')
             }
-
 
         }
     }
@@ -135,14 +118,23 @@ export default class PersonalInformation extends Component {
         Cookies.remove('UserName');
         Cookies.remove('IDCardNumber');
         Cookies.remove('IDCardValidity');
-        router.push('/submitQua/EditIDCard');
+        if (this.state.data.identity_finished_step == 1 || this.state.data.identity_finished_step == 3) {
+            router.push('/doubledry/IDCardAudit');
+        } else {
+            router.push('/submitQua/EditIDCard');
+        }
     }
 
     handleBankRoute = () => {
-        if (this.state.bankCheckStatus == 3) {
-            router.push('/submitQua/EditBankCard')
-        } else if (this.state.bankCheckStatus == 0 || this.state.bankCheckStatus == 1) {
-            router.push('/doubledry/audit')
+        // if (this.state.bankCheckStatus == 3) {
+        //     router.push('/submitQua/EditBankCard')
+        // } else if (this.state.bankCheckStatus == 0 || this.state.bankCheckStatus == 1) {
+        //     router.push('/doubledry/audit')
+        // } else {
+        //     router.push('/PersonalInformation/mybank')
+        // }
+        if (this.state.data.bankcard_finished_step == 1 || this.state.data.bankcard_finished_step == 3) {
+            router.push('/doubledry/BankCardAudit');
         } else {
             router.push('/PersonalInformation/mybank')
         }

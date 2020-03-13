@@ -347,8 +347,8 @@ class BankCard extends Component {
         if (is_edit) {
             // 审核中为1 直接下一步
             // 审核失败为3 重新提交资料 完成后再请求数据
-            if (this.state.check_status == 1) {
-                router.push('/doubledry/audit');
+            if (this.state.check_status == 0 || this.state.check_status == 1) {
+                router.push('/doubledry/BankCardAudit');
                 return;
             }
             Request({
@@ -367,7 +367,7 @@ class BankCard extends Component {
             }).then(res => {
                 if (res.code == 200) {
                     Toast.success(res.message, 2, () => {
-                        router.push('/doubledry/audit');
+                        router.push('/doubledry/BankCardAudit');
                         // router.push('/PersonalInformation')
                         // this.getData();
                     });
@@ -392,7 +392,7 @@ class BankCard extends Component {
                 if (res.code == 200) {
                     Toast.success(res.message, 2, () => {
                         // router.push('/PersonalInformation')
-                        router.push('/doubledry/audit');
+                        router.push('/doubledry/BankCardAudit');
                     });
                 } else {
                     Toast.fail(res.message, 1);

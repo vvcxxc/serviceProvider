@@ -112,7 +112,7 @@ export default class MyBank extends Component {
           </Button> */}
           {
             !this.state.is_show ? (
-              <Button className={styles.bindBtn} onClick={() => router.push('/submitQua/BankCard')}>添加银行卡</Button>
+              <Button className={styles.bindBtn} onClick={() => router.push('/submitQua/EditBankCard')}>添加银行卡</Button>
             ) : ""
           }
         </WingBlank>

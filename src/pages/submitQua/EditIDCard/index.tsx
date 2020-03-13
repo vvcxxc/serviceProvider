@@ -354,7 +354,7 @@ class IDCard extends Component {
       // 审核中为1 直接下一步
       // 审核失败为3 重新提交资料 完成后再请求数据
       if (this.state.check_status == 1 || this.state.check_status == 0) {
-        router.push('/submitQua/EditBankCard')
+        router.push('/doubledry/IDCardAudit')
         return;
       }
       Request({
@@ -379,7 +379,7 @@ class IDCard extends Component {
             Cookies.remove("EditUserName");
             Cookies.remove("EditIDCardNumber");
             Cookies.remove("EditIDCardValidity");
-            router.push('/submitQua/EditBankCard')
+            router.push('/doubledry/IDCardAudit')
             // this.getData();
           });
         } else {
@@ -403,7 +403,7 @@ class IDCard extends Component {
         if (res.code == 200) {
           Toast.success(res.message, 2, () => {
             // router.push('/PersonalInformation')
-            router.push('/submitQua/EditBankCard')
+            router.push('/doubledry/IDCardAudit')
           });
         } else {
           Toast.fail(res.message, 1);
@@ -642,7 +642,7 @@ class IDCard extends Component {
 
           <div className={styles.next_step_wrap}>
             <div className={styles.next_step} onClick={this.handleNext.bind(this)}>
-              <Button className={styles.next_step_btn}>下一步</Button>
+              <Button className={styles.next_step_btn}>提交</Button>
             </div>
           </div>
 

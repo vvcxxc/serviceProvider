@@ -34,7 +34,7 @@ class IDCardAudit extends Component {
 
     handleResetSubmit = () => {
         if (this.state.check_status == 3) {
-            router.push('submitQua/EditIDCard');
+            router.push('/submitQua/EditIDCard');
         }
     }
 

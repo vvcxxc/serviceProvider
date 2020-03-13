@@ -34,7 +34,7 @@ class BankCardAudit extends Component {
 
     handleResetSubmit = () => {
         if (this.state.check_status == 3) {
-            router.push('submitQua/EditBankCard');
+            router.push('/submitQua/EditBankCard');
         }
     }
 

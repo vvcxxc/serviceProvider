@@ -11,6 +11,7 @@ class Audit extends Component {
          */
         payplatform_check_status: 0,
 
+
         sq_finished_step: 0
     }
 
@@ -25,6 +26,16 @@ class Audit extends Component {
             }
         })
 
+        Request({
+            url: 'user/info',
+            method: 'get',
+        }).then(res => {
+            if (res.code == 200) {
+                this.setState({
+                    sq_finished_step: res.data.sq_finished_step
+                })
+            }
+        })
     }
 
     handleNext = () => {
@@ -38,13 +49,13 @@ class Audit extends Component {
     }
 
     handleResetSubmit = () => {
-        if (this.state.sq_finished_step == 0) {
-            router.push('/doubledry/register')
-        } else if (this.state.sq_finished_step == 1) {
-            router.push('/doubledry/bindcard')
-        } else if (this.state.sq_finished_step == 2) {
-            router.push('/doubledry/withdraw')
-        }
+            if (this.state.sq_finished_step == 0) {
+                router.push('/doubledry/register')
+            } else if (this.state.sq_finished_step == 1) {
+                router.push('/doubledry/bindcard')
+            } else if (this.state.sq_finished_step == 2) {
+                router.push('/doubledry/withdraw')
+            }
     }
 
     render() {

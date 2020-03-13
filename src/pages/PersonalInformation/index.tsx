@@ -19,7 +19,9 @@ export default class PersonalInformation extends Component {
             identity_finished_step: 0,
             sq_status: false,
             sq_finished_step: 0,
-        }
+
+        },
+        bankCheckStatus: null,
     }
 
 
@@ -49,6 +51,18 @@ export default class PersonalInformation extends Component {
             }
         }).catch((err) => {
             Toast.fail('请求失败', 1)
+        })
+
+
+        Request({
+            url: 'getBankInfo'
+        }).then(res => {
+            // console.log(res)
+            if (res.code == 200) {
+                this.setState({
+                    bankCheckStatus: res.data.userBankinfo.check_status
+                })
+            }
         })
 
     }
@@ -124,6 +138,16 @@ export default class PersonalInformation extends Component {
         router.push('/submitQua/EditIDCard');
     }
 
+    handleBankRoute = () => {
+        if (this.state.bankCheckStatus == 3) {
+            router.push('/submitQua/EditBankCard')
+        } else if (this.state.bankCheckStatus == 0 || this.state.bankCheckStatus == 1) {
+            router.push('/doubledry/audit')
+        } else {
+            router.push('/PersonalInformation/mybank')
+        }
+    }
+
     render() {
         const { data } = this.state;
         return (
@@ -182,7 +206,7 @@ export default class PersonalInformation extends Component {
                 </div>
 
                 <div className={styles.main2} style={{ marginTop: 20 }}>
-                    <Flex className={styles.item} justify='between' align='center' onClick={() => router.push('/PersonalInformation/mybank')}>
+                    <Flex className={styles.item} justify='between' align='center' onClick={this.handleBankRoute}>
                         <Flex>
                             <img src={require('../../assets/bank.png')} className={styles.icon4} />
                             我的银行卡

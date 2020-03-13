@@ -49,7 +49,7 @@ class Audit extends Component {
                 router.push('/doubledry/register')
             } else if (this.state.sq_finished_step == 1) {
                 router.push('/doubledry/bindcard')
-            } else if (this.state.sq_finished_step == 2) {
+            } else if (this.state.sq_finished_step == 2) { 
                 router.push('/doubledry/withdraw')
             }
         }

@@ -11,6 +11,7 @@ export default class MyBank extends Component {
     bank_info: {
       bank_name: '',
       bankcard_no: '',
+      is_update: true  // 是否可以修改银行卡
     },
     maskShow: false
   }
@@ -98,8 +99,13 @@ export default class MyBank extends Component {
                 </div> */}
 
                 </div>
-                <div className={styles.edit_bank_card} onClick={() => router.push('/submitQua/EditBankCard')}>修改银行卡</div>
-              </div> 
+                {
+                  this.state.bank_info.is_update ? (
+                    <div className={styles.edit_bank_card} onClick={() => router.push('/submitQua/EditBankCard')}>修改银行卡</div>
+                  ) : ""
+                }
+
+              </div>
             ) : (
 
                 <div className={styles.no_bank_info_box}>

@@ -245,8 +245,11 @@ export default class bindPhoneNumber extends Component {
                 </div>
 
                 <div className={styles.bank_card}>
-                    <span>银行卡号：</span>
-                    <span>{this.state.bank_no}</span>
+                    <div className={styles.card_info}>
+                        <span>银行卡号：</span>
+                        <span>{this.state.bank_no}</span>
+                    </div>
+                    <div className={styles.edit_card} onClick={() => router.push('/submitQua/EditBankCard')}>修改银行卡</div>
                 </div>
 
                 <div className={styles.phoneNumber}>

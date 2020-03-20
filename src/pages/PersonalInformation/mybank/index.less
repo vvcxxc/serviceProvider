@@ -87,115 +87,127 @@
     }
   }
 
-  .bank_info {
-    width: 100%;
-    height: 225px;
-    border-radius: 18px;
-    overflow: hidden;
-    box-sizing: border-box;
-    background: #fff;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0 50px;
-    background: linear-gradient(-90deg, rgba(48, 101, 194, 1) 0%, rgba(76, 122, 205, 1) 100%);
-
-    .bank_box {
+  .bank_msg {
+    .bank_info {
       width: 100%;
-      height: 100%;
-      position: relative;
-
-      .card_num {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-      }
-    }
-
-    .bank_box_left {
-      flex: 1;
-      height: 100%;
-      position: relative;
-
-      .bank_box_left_img {
-        width: 88px;
-        height: 88px;
-        border-radius: 44px;
-        background: #fff;
-        position: absolute;
-        right: 24px;
-        top: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-
-        .bank_img {
-          width: 60px;
-          height: 60px;
-        }
-      }
-    }
-
-    .bank_box_middle {
-      flex: 4;
-      height: 100%;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      padding-top: 50px;
+      height: 225px;
+      border-radius: 18px;
+      overflow: hidden;
       box-sizing: border-box;
-
-      .bank_name {
-        height: 30px;
-        line-height: 1;
-        font-size: 30px;
-        margin-bottom: 15px;
-      }
-
-      .card_type {
-        height: 25px;
-        line-height: 1;
-        font-size: 25px;
-        margin-bottom: 30px;
-      }
-
-      .card_num {
-        height: 30px;
-        line-height: 1;
-        font-size: 30px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-
-        .card_num_icon {
-          margin-right: 15px;
+      background: #fff;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0 50px;
+      background: linear-gradient(-90deg, rgba(48, 101, 194, 1) 0%, rgba(76, 122, 205, 1) 100%);
+  
+      .bank_box {
+        width: 100%;
+        height: 100%;
+        position: relative;
+  
+        .card_num {
+          position: absolute;
+          bottom: 0;
+          left: 0;
         }
-
-        .card_num_end {
+      }
+  
+      .bank_box_left {
+        flex: 1;
+        height: 100%;
+        position: relative;
+  
+        .bank_box_left_img {
+          width: 88px;
+          height: 88px;
+          border-radius: 44px;
+          background: #fff;
+          position: absolute;
+          right: 24px;
+          top: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+  
+          .bank_img {
+            width: 60px;
+            height: 60px;
+          }
+        }
+      }
+  
+      .bank_box_middle {
+        flex: 4;
+        height: 100%;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: 50px;
+        box-sizing: border-box;
+  
+        .bank_name {
+          height: 30px;
+          line-height: 1;
+          font-size: 30px;
+          margin-bottom: 15px;
+        }
+  
+        .card_type {
+          height: 25px;
+          line-height: 1;
+          font-size: 25px;
+          margin-bottom: 30px;
+        }
+  
+        .card_num {
+          height: 30px;
+          line-height: 1;
+          font-size: 30px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+  
+          .card_num_icon {
+            margin-right: 15px;
+          }
+  
+          .card_num_end {
+            color: #fff;
+          }
+        }
+      }
+  
+      .bank_box_right {
+        flex: 1;
+        height: 100%;
+        position: relative;
+  
+        .bank_box_right_bind {
           color: #fff;
+          position: absolute;
+          width: 100px;
+          text-align: left;
+          left: 0;
+          top: 50px;
+          font-size: 30px;
+          text-decoration: underline
         }
       }
     }
-
-    .bank_box_right {
-      flex: 1;
-      height: 100%;
-      position: relative;
-
-      .bank_box_right_bind {
-        color: #fff;
-        position: absolute;
-        width: 100px;
-        text-align: left;
-        left: 0;
-        top: 50px;
-        font-size: 30px;
-        text-decoration: underline
-      }
+    .edit_bank_card {
+      width: 100%;
+      height: 95px;
+      background: #547BE7;
+      border-radius: 10px;
+      line-height: 95px;
+      text-align: center;
+      color: #fff;
+      margin-top: 100px;
     }
   }
 

@@ -11,6 +11,7 @@ export default class MyBank extends Component {
     bank_info: {
       bank_name: '',
       bankcard_no: '',
+      is_update: true  // 是否可以修改银行卡
     },
     maskShow: false
   }
@@ -67,34 +68,43 @@ export default class MyBank extends Component {
         <WingBlank>
           {
             this.state.is_show ? (
-              <div className={styles.bank_info}>
-                <div className={styles.bank_box_left}>
-                  <div className={styles.bank_box_left_img}>
-                  <img className={styles.bank_img} src="http://oss.tdianyi.com/front/k6Y3K7wrBewssFpGtnT7amz6NcxpM2JB.png" />
+              <div className={styles.bank_msg}>
+                <div className={styles.bank_info}>
+                  <div className={styles.bank_box_left}>
+                    <div className={styles.bank_box_left_img}>
+                      <img className={styles.bank_img} src="http://oss.tdianyi.com/front/k6Y3K7wrBewssFpGtnT7amz6NcxpM2JB.png" />
+                    </div>
                   </div>
-                </div>
-                <div className={styles.bank_box_middle}>
-                  <div className={styles.bank_name}>{bank_info.bank_name}</div>
-                  <div className={styles.card_type}>储蓄卡</div>
-                  <div className={styles.card_num}>
-                    <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
-                    <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
-                    <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
-                    {/* 招商银行16位，交通银行17位，其他银行19位 */}
-                    {
-                      bank_info.bankcard_no.length > 16 ?
-                        <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" /> : null
-                    }
-                    {
-                      bank_info.bankcard_no.length > 16 ? <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(16)}</div> : (
-                        <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(12)}</div>
-                      )
-                    }
-                  </div> 
-                </div>
-                {/* <div className={styles.bank_box_right}>
+                  <div className={styles.bank_box_middle}>
+                    <div className={styles.bank_name}>{bank_info.bank_name}</div>
+                    <div className={styles.card_type}>储蓄卡</div>
+                    <div className={styles.card_num}>
+                      <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
+                      <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
+                      <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" />
+                      {/* 招商银行16位，交通银行17位，其他银行19位 */}
+                      {
+                        bank_info.bankcard_no.length > 16 ?
+                          <img className={styles.card_num_icon} src="http://oss.tdianyi.com/front/WzyjXwbRQGEWFWT76FXSDTJ7Nfnpf5sk.png" /> : null
+                      }
+                      {
+                        bank_info.bankcard_no.length > 16 ? <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(16)}</div> : (
+                          <div className={styles.card_num_end}>{bank_info.bankcard_no.slice(12)}</div>
+                        )
+                      }
+                    </div>
+                  </div>
+                  {/* <div className={styles.bank_box_right}>
                   <div className={styles.bank_box_right_bind} onClick={this.bindPhoneNumber.bind(this)}>去验证</div>
                 </div> */}
+
+                </div>
+                {
+                  this.state.bank_info.is_update ? (
+                    <div className={styles.edit_bank_card} onClick={() => router.push('/submitQua/EditBankCard')}>修改银行卡</div>
+                  ) : ""
+                }
+
               </div>
             ) : (
 

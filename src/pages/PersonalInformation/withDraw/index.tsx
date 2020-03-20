@@ -15,7 +15,20 @@ export default class WithDraw extends Component {
     data: {}
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
+
+    await Request({
+      url: '/v1/user/getSqStatus',
+      method: 'GET'
+    }).then(res => {
+      // console.log(res);
+      if(res.code == 200) {
+        if(!res.data.status) {
+          router.push('/PersonalInformation')
+        }
+      }
+    })
+
     Request({
       url: 'userBankInfo',
       method: 'get'

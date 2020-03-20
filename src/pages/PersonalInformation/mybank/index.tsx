@@ -99,7 +99,7 @@ export default class MyBank extends Component {
 
                 </div>
                 <div className={styles.edit_bank_card} onClick={() => router.push('/submitQua/EditBankCard')}>修改银行卡</div>
-              </div>
+              </div> 
             ) : (
 
                 <div className={styles.no_bank_info_box}>

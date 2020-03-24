@@ -22,7 +22,7 @@ export default class WithDraw extends Component {
 
         seqNoForAuto: '',
 
-        isOkClick: true
+        isOkClick: true 
     }
 
     // 销毁定时器

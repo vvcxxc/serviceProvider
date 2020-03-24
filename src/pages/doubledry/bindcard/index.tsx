@@ -45,7 +45,7 @@ export default class bindPhoneNumber extends Component {
         isOkClick: true
     }
 
-    // 销毁定时器
+    // 销毁定时器 
     componentWillUnmount() {
         clearInterval(timer)
     }

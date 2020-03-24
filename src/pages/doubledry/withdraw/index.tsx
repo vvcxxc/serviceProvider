@@ -21,6 +21,8 @@ export default class WithDraw extends Component {
         bank_no: '',
 
         seqNoForAuto: '',
+
+        isOkClick: true
     }
 
     // 销毁定时器
@@ -88,7 +90,7 @@ export default class WithDraw extends Component {
         }
     }
 
-    handleNext = () => {
+    handleNext = async () => {
         const { phone, code, seqNoForAuto } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
@@ -98,6 +100,7 @@ export default class WithDraw extends Component {
             Toast.fail('请输入验证码', 1);
             return;
         }
+        await this.setState({ isOkClick: false })
         Request({
             url: 'v1/sq/submit_auto_fetch_code',
             method: "POST",
@@ -110,8 +113,10 @@ export default class WithDraw extends Component {
             })
         }).then(res => {
             if (res.code == 200) {
+                this.setState({ isOkClick: true })
                 router.push('/PersonalInformation/withDraw')
             } else {
+                this.setState({ isOkClick: true })
                 Toast.fail(res.message);
             }
         })
@@ -167,7 +172,11 @@ export default class WithDraw extends Component {
                                 }
                             </div>
                         </div>
-                        <div className={styles.footButton} onClick={this.handleNext}>提交</div>
+                        {
+                            this.state.isOkClick ? (
+                                <div className={styles.footButton} onClick={this.handleNext}>提交</div>
+                            ) : <div className={styles.footButton}>提交</div>
+                        }
                     </div>
                     <div id="success"></div>
                 </div>

@@ -41,6 +41,8 @@ export default class bindPhoneNumber extends Component {
 
         // 流水号
         seqNo: "",
+
+        isOkClick: true
     }
 
     // 销毁定时器
@@ -152,7 +154,7 @@ export default class bindPhoneNumber extends Component {
         }
     }
 
-    handleNext = () => {
+    handleNext = async () => {
         const { phone, code, seqNo } = this.state;
         if (!(/^1[3456789]\d{9}$/.test(phone))) {
             Toast.fail('请输入11位有效手机号', 1);
@@ -162,6 +164,7 @@ export default class bindPhoneNumber extends Component {
             Toast.fail('请输入验证码', 1);
             return;
         }
+        await this.setState({ isOkClick: false })
         Request({
             url: 'v1/sq/submit_bing_code',
             method: "POST",
@@ -174,8 +177,10 @@ export default class bindPhoneNumber extends Component {
             })
         }).then(res => {
             if (res.code == 200) {
+                this.setState({ isOkClick: true })
                 router.push({ pathname: '/doubledry/withdraw' });
             } else {
+                this.setState({ isOkClick: true })
                 Toast.fail(res.message);
             }
         })
@@ -275,7 +280,11 @@ export default class bindPhoneNumber extends Component {
                                 }
                             </div>
                         </div>
-                        <div className={styles.footButton} onClick={this.handleNext}>提交</div>
+                        {
+                            this.state.isOkClick ? (
+                                <div className={styles.footButton} onClick={this.handleNext}>提交</div>
+                            ) : <div className={styles.footButton}>提交</div>
+                        }
                     </div>
                     <div id="success"></div>
                 </div>

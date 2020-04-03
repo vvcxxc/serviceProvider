@@ -27,6 +27,10 @@ export default class PageIndex extends Component {
     })
   }
 
+  componentDidMount(){
+    console.log('触发')
+  }
+
   //账号输入
   onChangeText = (e: any) => {
     this.setState({

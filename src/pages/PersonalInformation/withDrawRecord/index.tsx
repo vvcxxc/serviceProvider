@@ -22,7 +22,7 @@ export default class WithDrawRecord extends Component {
     getData = () => {
         const { page, dataList } = this.state;
         Request({
-            url: 'fetchMoneyLog',
+            url: 'withdrawals',
             method: "GET",
             params: {
                 page: page
@@ -67,17 +67,17 @@ export default class WithDrawRecord extends Component {
                             dataList.map((item, index) => (
                                 <div className={styles.withDraw_list} key={index}>
                                     <div className={styles.withdraw_money}>
-                                        <span>余额提现</span>
-                                        <span>{item.fetch_money}</span>
+                                        <span className={styles.title}>余额提现</span>
+                                        <span className={styles.fetch_money}>{item.fetch_money}</span>
                                     </div>
                                     <div className={styles.withdraw_desc}>
-                                        <span>{item.created_at}</span>
+                                        <span className={styles.date}>{item.created_at}</span>
                                         {
                                             item.check_status == 0 ? (
-                                                <span>审核中</span>
+                                                <span style={{'color': '#4CD22C'}}>审核中</span>
                                             ) : item.check_status == 1 ? (
-                                                <span>通过</span>
-                                            ) : <span>拒绝</span>
+                                                <span style={{'color': '#547BE7'}}>通过</span>
+                                            ) : <span style={{'color': '#F81B1B'}}>拒绝</span>
                                         }
                                     </div>
                                     {

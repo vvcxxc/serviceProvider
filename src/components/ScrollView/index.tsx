@@ -42,7 +42,7 @@ export default class ScrollView extends Component<Props> {
                             <Grid data={[{
                                 icon: (<Icon type="loading" />),
                                 text: 'loading...',
-                            }]} columnNum={1} hasLine={false} itemStyle={{ height: '150px' }} />
+                            }]} columnNum={1} hasLine={false} itemStyle={{ height: '150px',background: '#F2F5FC' }} />
                         ) : <div className={styles.no_data}>暂无更多数据</div>
                     ) : ""
                 }

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import router from 'umi/router';
 import { Icon, DatePickerView, Flex } from 'antd-mobile';
 import styles from './ql.less';
+
 interface Props {
-  // list: Array<Object>,
   dataList: Array<Object>,
   searchPath?: any,//路由跳转路径
-  onChange:(value:any)=>void
+  onChange: (value: any, value2: any) => void,
+  showFilter:Array<Object>
 }
 export default class Filtrate extends Component<Props>{
   state = {
@@ -19,10 +20,12 @@ export default class Filtrate extends Component<Props>{
   }
 
   componentDidMount() {
-    const { dataList } = this.props
-    const { title} = this.state
+    const { dataList, showFilter } = this.props
     this.setState({ dataList })
-    this.props.onChange({ status: 'layouted', orderBy: 'today_money'})
+
+    if (showFilter.length) { //如果缓存用户操作，在这里控制筛选组件的显示index
+      this.setState({ title: showFilter })
+    }
   }
 
   //搜索跳转
@@ -46,8 +49,7 @@ export default class Filtrate extends Component<Props>{
     let title = this.state.title
     title[index] = item[_index]
     this.setState({ title })
-    this.props.onChange({ orderBy: title[0].props, status: title[1].props })
-  }
+    this.props.onChange({ orderBy: title[0].props, status: title[1].props }, title)}
 
   render() {
     const { showIndex,title } = this.state

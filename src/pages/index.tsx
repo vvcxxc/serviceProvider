@@ -75,7 +75,7 @@ export default connect((homePage: any) => homePage)(class QrCodePage extends Com
         clearTimeout(time)
         this.dtectNewData()
         Api.getTotalData().then(({ data, code }) => {
-          if (data.money_total == codeTitle.money) {//有更新
+          if (data.money_total != codeTitle.money) {//有更新
             this.setState({ haveUpdate:true })
           } else {
             this.setState({ haveUpdate: false })

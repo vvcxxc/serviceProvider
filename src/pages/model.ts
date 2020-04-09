@@ -11,11 +11,15 @@ const model: Model = {
     showFilter:[],//筛选默认显示
     codeList: [],    //二维码页数据
     codePage: 1,
+    codeMore:true,
     codeTitle: {},
     
     packageList: [], //码包数据
-    packagePage:1,
+    packagePage: 1,
+    packageMore: true,
+    currentPrice:0,//当前页单价
     queueList: [],   //铺店队列
+    queueMore:true,
     queuePage: 1,
     queueTitle: {
       LayoutDates: "",
@@ -24,7 +28,8 @@ const model: Model = {
       row: []
     },
     record_list: [], //铺店记录
-    recordPage:1
+    recordPage: 1,
+    recordMore: true,
 
   },
   reducers: {

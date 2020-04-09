@@ -68,7 +68,6 @@ export const getRecordData = (params:Object) => {
     params
   })
 }
-/*二维码列表搜索  */
 
 /*二维码列表搜索  */
 export const getSearchData = (params: Object) => {

@@ -30,6 +30,18 @@ export default class WithDraw extends Component {
         clearInterval(timer)
     }
 
+    componentDidMount() {
+        Request({
+            url: 'user/info'
+        }).then(res => {
+            if(res.code == 200) {
+                this.setState({
+                    phone: res.data.phone
+                })
+            }
+        })
+    }
+
     handleChangePhone = (e: any) => {
         this.setState({
             phone: e.target.value
@@ -158,7 +170,10 @@ export default class WithDraw extends Component {
                         <div className={styles.content}>
                             <div className={styles.items1}>
                                 <div className={styles.keyWords}>手机号码 </div>
-                                <input className={styles.input1} type="text" placeholder="请输入银行预留手机号" onChange={this.handleChangePhone} value={phone} />
+                                <input className={styles.input1} type="text"
+                                    //  onChange={this.handleChangePhone} 
+                                    disabled
+                                value={phone} />
                             </div>
                             <div className={styles.items2}>
                                 <div className={styles.keyWords}>验证码 </div>

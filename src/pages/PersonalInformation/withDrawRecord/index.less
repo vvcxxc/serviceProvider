@@ -1,22 +1,55 @@
 .withdrawrecord_wrap {
-    padding: 0 30px;
+    padding: 20px;
     box-sizing: border-box;
+    background: #F2F5FC;
     .already_withdraw {
-        padding: 30px;
         border-bottom: 1px solid #bbbbbb;
+        height: 53px;
+        line-height: 53px;
+        width: 100%;
+        background: #fff;
+        box-sizing: border-box;
+        border-radius: 25.5px;
+        padding-left: 23px;
+        margin-bottom: 20px;
     }
     .withDraw_list {
-        padding: 0 30px;
+        padding: 35px 30px;
         border-bottom: 1px solid #bbbbbb;
+        background: #fff;
+        margin-bottom: 20px;
+        border-radius: 10px;
         .withdraw_money,.withdraw_desc {
             display: flex;
             justify-content: space-between;
         }
+        .withdraw_money {
+            margin-bottom: 30px;
+            .title {
+                font-size: 30px;
+            }
+            .fetch_money {
+                width:105px;
+                height:45px;
+                background:rgba(84,123,231,.1);
+                border-radius:10px;
+                color: #547BE7;
+                font-size: 26px;
+                text-align: center;
+                line-height: 45px;
+            }
+        }
+        .withdraw_desc {
+            .date {
+                color: #999;
+            }
+        }
         .withdraw_reject_reason {
-            color: red;
+            color: #F81B1B;
+            margin-top: 30px;
         }
-        div {
-            margin: 30px 0;
-        }
+        // div {
+        //     margin: 30px 0;
+        // }
     }
 }

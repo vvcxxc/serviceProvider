@@ -22,8 +22,8 @@ export default class WithDraw extends Component {
       method: 'GET'
     }).then(res => {
       // console.log(res);
-      if(res.code == 200) {
-        if(!res.data.status) {
+      if (res.code == 200) {
+        if (!res.data.status) {
           router.push('/PersonalInformation')
         }
       }
@@ -224,12 +224,12 @@ export default class WithDraw extends Component {
           </div>
         </div>
         {/* {hint} */}
-        {/* <WingBlank size='lg' style={{ paddingTop: 133 }}> */}
-        <Button type='primary' style={{ marginTop: 100, background: '#547BE7', fontSize: '.3rem' }} onClick={this.withDraw}>申请提现</Button>
-        {/* </WingBlank> */}
-        {/* <WingBlank size='lg' style={{ paddingTop: 100 }}>
+        <WingBlank size='lg' style={{ paddingTop: 133 }}>
+          <Button type='primary' style={{ marginTop: 100, background: '#547BE7', fontSize: '.3rem' }} onClick={this.withDraw}>申请提现</Button>
+        </WingBlank>
+        <WingBlank size='lg' style={{ paddingTop: 100 }}>
           <Button type='primary' style={{ background: '#1AAD19' }} onClick={this.goWithDrawRecord}>提现记录</Button>
-        </WingBlank> */}
+        </WingBlank>
       </div>
     )
   }

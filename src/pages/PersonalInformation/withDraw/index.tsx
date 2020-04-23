@@ -12,7 +12,8 @@ export default class WithDraw extends Component {
     is_bind: false,
     all_money: '',
     is_hint: true,
-    data: {}
+    data: {},
+    eruptCode: ""
   }
 
   componentDidMount = async () => {
@@ -101,63 +102,57 @@ export default class WithDraw extends Component {
   }
 
   destoonFinanceCash = () => {
-    const { all_money, money } = this.state
-    if (Number(all_money) < Number(money) && money) {
-      Toast.fail('金额超过可提现金额', 1)
-      return
-    }
-
-    if (Number(money) < 100) {
-      Toast.fail('单笔提现金额需要大于等于100元', 1)
-      return
-    }
-    if (!money || !Number.isFinite(money - 1)) {
-      Toast.fail('请输入正确金额数字', 1)
-      return
-    }
-    Toast.loading('')
     Request({
-      url: 'fetchMoney',
-      method: 'post',
-      data: qs.stringify({
-        fetch_money: this.state.money
-      })
-    }).then(res => {
-      Toast.hide()
-      const { message, code } = res
-      switch (code) {
-        case 200:
-          // Request({
-          //   url: 'userBankInfo',
-          //   method: 'get'
-          // }).then(res => {
-          //   const { code, data } = res
-          //   switch (code) {
-          //     case 200:
-          //       this.setState({
-          //         is_bind: true,
-          //         data, 
-          //         all_money: data.usable_money
-          //       })
-          //       break;
-          //     default:
-          //       break;
-          //   }
-          // })
-          Toast.success(message, 1)
-          this.setState({ money: '' })
-          setTimeout(() => {
-            // router.goBack()
-            router.push('/PersonalInformation')
-          }, 1500)
-          break;
+      url: "v1/common/eruptCode",
+      method: "GET"
+    }).then(async res => {
+      if (res.code == 200) {
+        await this.setState({
+          eruptCode: res.data.eruptCode
+        })
+        const { all_money, money } = this.state
+        if (Number(all_money) < Number(money) && money) {
+          Toast.fail('金额超过可提现金额', 1)
+          return
+        }
 
-        default:
-          Toast.fail(message, 1)
-          break;
+        if (Number(money) < 100) {
+          Toast.fail('单笔提现金额需要大于等于100元', 1)
+          return
+        }
+        if (!money || !Number.isFinite(money - 1)) {
+          Toast.fail('请输入正确金额数字', 1)
+          return
+        }
+        Toast.loading('')
+        Request({
+          url: 'fetchMoney',
+          method: 'post',
+          data: qs.stringify({
+            fetch_money: this.state.money,
+            eruptCode: res.data.eruptCode
+          })
+        }).then(res => {
+          Toast.hide()
+          const { message, code } = res
+          switch (code) {
+            case 200:
+              Toast.success(message, 1)
+              this.setState({ money: '' })
+              setTimeout(() => {
+                router.push('/PersonalInformation')
+              }, 1500)
+              break;
+
+            default:
+              Toast.fail(message, 1)
+              break;
+          }
+
+        })
       }
-
     })
+
   }
 
   render() {

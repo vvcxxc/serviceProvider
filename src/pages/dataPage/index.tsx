@@ -52,13 +52,13 @@ export default class DataPage extends Component {
       }
       let data = { xAxis, value }
       console.log(data)
-      this.setState({ countStats, data, total })
+      this.setState({ countStats, data, total },() => {console.log(this.state)})
     })
   }
   getOption() {
     const { data } = this.state
     var endPercent = (6 / data.xAxis.length) * 100;
-    console.log(data,111)
+    console.log(data, 111)
     return {
       tooltip: {
         trigger: 'axis',
@@ -346,6 +346,10 @@ export default class DataPage extends Component {
             </div>
             {
               this.state.box2Show ? <div className={styles.dataPage_box2_contentBox}>
+                <div className={styles.data_show}>
+                  <div>服务商分成：<span>￥{this.state.countStats.codeStats}</span></div>
+                  <div>二维码：<span>￥{this.state.countStats.facilitatorStats}</span></div>
+                </div>
                 <ReactEcharts
                   theme="theme"
                   option={this.getOption3()}

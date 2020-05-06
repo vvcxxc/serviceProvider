@@ -22,6 +22,13 @@ export default class WithDraw extends Component {
       method: 'GET'
     }).then(res => {
       // console.log(res);
+      if(res.data.account_status == 2){
+        Toast.fail('账号已禁用，请联系代理商', 2,()=> {
+          router.push('/login');
+          localStorage.removeItem('token')
+        })
+        return
+      }
       if (res.code == 200) {
         if (!res.data.status) {
           router.push('/PersonalInformation')
@@ -136,7 +143,7 @@ export default class WithDraw extends Component {
           //     case 200:
           //       this.setState({
           //         is_bind: true,
-          //         data, 
+          //         data,
           //         all_money: data.usable_money
           //       })
           //       break;

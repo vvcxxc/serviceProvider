@@ -42,7 +42,9 @@ export default class bindPhoneNumber extends Component {
         // 流水号
         seqNo: "",
 
-        isOkClick: true
+        isOkClick: true,
+
+        eruptCode: ""
     }
 
     // 销毁定时器 
@@ -99,91 +101,116 @@ export default class bindPhoneNumber extends Component {
     }
 
     handleSendCode = () => {
-        // console.log(this.state.isAgree)
         const { isAgree } = this.state;
         if (isAgree) {
-            const { phone } = this.state;
-            if (!(/^1[3456789]\d{9}$/.test(phone))) {
-                Toast.fail('请输入11位有效手机号', 1);
-                return;
-            }
-            let wait = 60;
-            if (phone) {
-                let _this = this;
-                function resend() {
-                    if (wait == 0) {
-                        _this.setState({ is_ok: true });
-                        clearInterval(timer)
-                    } else {
-                        wait--;
-                        _this.setState({ is_ok: false, wait });
-                        clearInterval();
-                    }
-                }
-                resend();
-                timer = setInterval(() => {
-                    resend()
-                }, 1000);
-                Request({
-                    url: 'v1/sq/get_bing_code',
-                    method: 'post',
-                    data: qs.stringify({
-                        phone
+            Request({
+                url: "v1/common/eruptCode",
+                method: "GET"
+            }).then(async res => {
+                if (res.code == 200) {
+                    await this.setState({
+                        eruptCode: res.data.eruptCode
                     })
-                }).then(res => {
-                    if (res.code == 200) {
-                        Toast.success('验证码已发送');
-                        _this.setState({
-                            isAgree: false,
-                            showModal: false,
-                            seqNo: res.data.seqNo
+
+                    const { phone, eruptCode } = this.state;
+                    if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                        Toast.fail('请输入11位有效手机号', 1);
+                        return;
+                    }
+                    let wait = 60;
+                    if (phone) {
+                        let _this = this;
+                        function resend() {
+                            if (wait == 0) {
+                                _this.setState({ is_ok: true });
+                                clearInterval(timer)
+                            } else {
+                                wait--;
+                                _this.setState({ is_ok: false, wait });
+                                clearInterval();
+                            }
+                        }
+                        resend();
+                        timer = setInterval(() => {
+                            resend()
+                        }, 1000);
+                        Request({
+                            url: 'v1/sq/get_bing_code',
+                            method: 'post',
+                            data: qs.stringify({
+                                phone,
+                                eruptCode
+                            })
+                        }).then(res => {
+                            if (res.code == 200) {
+                                Toast.success('验证码已发送');
+                                _this.setState({
+                                    isAgree: false,
+                                    showModal: false,
+                                    seqNo: res.data.seqNo
+                                })
+                            } else {
+                                _this.setState({
+                                    is_ok: true,
+                                    isAgree: false,
+                                    showModal: false
+                                });
+                                clearInterval(timer);
+                                Toast.fail(res.message);
+                            }
                         })
                     } else {
-                        _this.setState({
-                            is_ok: true,
-                            isAgree: false,
-                            showModal: false
-                        });
-                        clearInterval(timer);
-                        Toast.fail(res.message);
+                        Toast.fail('请输入手机号', 1)
                     }
-                })
-            } else {
-                Toast.fail('请输入手机号', 1)
-            }
+                }
+            })
+
         }
     }
 
     handleNext = async () => {
-        const { phone, code, seqNo } = this.state;
-        if (!(/^1[3456789]\d{9}$/.test(phone))) {
-            Toast.fail('请输入11位有效手机号', 1);
-            return;
-        }
-        if (!code) {
-            Toast.fail('请输入验证码', 1);
-            return;
-        }
-        await this.setState({ isOkClick: false })
         Request({
-            url: 'v1/sq/submit_bing_code',
-            method: "POST",
-            data: qs.stringify({
-                // bankcard_no: this.state.bank_no,
-                // verify_code: code,
-                // mobile: phone
-                seqNo: seqNo,
-                smsCode: code
-            })
-        }).then(res => {
+            url: "v1/common/eruptCode",
+            method: "GET"
+        }).then(async res => {
             if (res.code == 200) {
-                this.setState({ isOkClick: true })
-                router.push({ pathname: '/doubledry/withdraw' });
-            } else {
-                this.setState({ isOkClick: true })
-                Toast.fail(res.message);
+                await this.setState({
+                    eruptCode: res.data.eruptCode
+                })
+
+                const { phone, code, seqNo, eruptCode } = this.state;
+                if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                    Toast.fail('请输入11位有效手机号', 1);
+                    return;
+                }
+                if (!code) {
+                    Toast.fail('请输入验证码', 1);
+                    return;
+                }
+                await this.setState({ isOkClick: false })
+                Request({
+                    url: 'v1/sq/submit_bing_code',
+                    method: "POST",
+                    data: qs.stringify({
+                        // bankcard_no: this.state.bank_no,
+                        // verify_code: code,
+                        // mobile: phone
+                        seqNo: seqNo,
+                        smsCode: code,
+                        eruptCode
+                    })
+                }).then(res => {
+                    if (res.code == 200) {
+                        this.setState({ isOkClick: true })
+                        router.push({ pathname: '/doubledry/withdraw' });
+                    } else {
+                        this.setState({ isOkClick: true })
+                        Toast.fail(res.message);
+                    }
+                })
             }
         })
+
 
 
     }
